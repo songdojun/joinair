@@ -13,4 +13,3 @@ public class USERS {
     private String User_Phone;
     private int User_Mileage;
 }
-
