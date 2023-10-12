@@ -1,8 +1,12 @@
 package com.example.joinair.dto;
 
-public class USERS {
+import lombok.Getter;
+import lombok.Setter;
+
 @Getter
 @Setter
+public class USERS {
+
     private String User_Id;
     private String User_Name;
     private String User_Email;
