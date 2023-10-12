@@ -8,6 +8,7 @@ class JoinairApplicationTests {
 
 	@Test
 	void contextLoads() {
+		//
 	}
 
 }
