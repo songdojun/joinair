@@ -1,5 +1,14 @@
 package com.example.joinair.dto;
 
 public class USERS {
-    //안녕하세요 소성현입니다
+@Getter
+@Setter
+    private String User_Id;
+    private String User_Name;
+    private String User_Email;
+    private String User_Password;
+    private String User_Address;
+    private String User_Phone;
+    private int User_Mileage;
 }
+
