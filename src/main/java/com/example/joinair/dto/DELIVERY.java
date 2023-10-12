@@ -17,4 +17,3 @@ public class DELIVERY {
     private Date Del_Date;      // 출고날짜 테스트
 
 }
-//테스
