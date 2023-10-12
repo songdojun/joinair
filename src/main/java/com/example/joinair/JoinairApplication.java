@@ -10,4 +10,6 @@ public class JoinairApplication {
 		SpringApplication.run(JoinairApplication.class, args);
 	}
 
+
+
 }
