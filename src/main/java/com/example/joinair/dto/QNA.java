@@ -11,6 +11,6 @@ public class QNA {
     private int Pro_Code;           // 상품코드
     private String User_Id;         // UserID
     private String Qna_Title;       // 문의제목
-    private String Qna_Content;     // 문의내용
+    private String Qna_Content;     // 문의내용 테스트
 
 }
