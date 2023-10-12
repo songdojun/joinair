@@ -13,7 +13,7 @@ public class DRONE {
     private int D_Size;             //크기
     private int D_Weight;           //무게
     private int D_Speed;           //속도
-
+//수정
 
 
 }
