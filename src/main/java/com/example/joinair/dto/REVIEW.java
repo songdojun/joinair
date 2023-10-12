@@ -17,6 +17,9 @@ public class REVIEW {
     private String Rev_Title;       // 리뷰제목
     private String Rev_Content;     // 리뷰내용
     private String Rev_Writer;      // 리뷰작성자
+
     private Date Rev_Date;          // 리뷰작성날짜 테스트
+
+
 
 }
