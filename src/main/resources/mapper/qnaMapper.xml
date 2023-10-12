@@ -1,0 +1,13 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!-- <!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd"> -->
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "mybatis-3-mapper.dtd">
+
+<mapper namespace="mapper.qnaemapper">
+
+    <select id="qnaList" parameterType="java.util.HashMap" resultType="java.util.HashMap">
+        SELECT * FROM qna
+        <if test="keyword != null and keyword != ''">
+            WHERE NOT_TITLE LIKE CONCAT('%', #{keyword}, '%')
+        </if>
+        ORDER BY NOT_NO DESC
+    </select>
