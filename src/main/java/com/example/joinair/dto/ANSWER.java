@@ -8,8 +8,8 @@ import java.sql.Date;
 @Getter
 @Setter
 public class ANSWER {
-    private int ans_No;
-    private int qna_No;
-    private String ans_Content;
-    private Date ans_Date; //
+    private int Ans_No;
+    private int Qna_No;
+    private String Ans_Content;
+    private Date Ans_Date; //
 }
