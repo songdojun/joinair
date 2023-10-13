@@ -3,7 +3,7 @@ package com.example.joinair.dto;
 import lombok.Getter;
 import lombok.Setter;
 
-public class USERS {
+
 @Getter
 @Setter
 public class USERS {
@@ -15,5 +15,5 @@ public class USERS {
     private String User_Address;
     private String User_Phone;
     private int User_Mileage;
-}///
+}
 
