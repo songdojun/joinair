@@ -1,13 +1,38 @@
 <?xml version="1.0" encoding="UTF-8"?>
-<!-- <!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd"> -->
 <!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "mybatis-3-mapper.dtd">
 
-<mapper namespace="mapper.qnaemapper">
+<mapper namespace="qnaemapper">
 
-    <select id="qnaList" parameterType="java.util.HashMap" resultType="java.util.HashMap">
+    <select id="qnaList" resultType="com.example.joinair.dto.QNA">
         SELECT * FROM qna
-        <if test="keyword != null and keyword != ''">
-            WHERE NOT_TITLE LIKE CONCAT('%', #{keyword}, '%')
-        </if>
-        ORDER BY NOT_NO DESC
+        <where>
+            <if test="keyword != null and keyword != ''">
+                AND QNA_TITLE LIKE CONCAT('%', #{keyword}, '%')
+            </if>
+        </where>
+        ORDER BY QNA_NO DESC
     </select>
+
+    <select id="qna" resultType="com.example.joinair.dto.QNA">
+        SELECT * FROM qna WHERE QNA_NO = #{qna_No}
+    </select>
+
+    <update id="qnaupdateView">
+        UPDATE qna SET QNA_VIEWS = QNA_VIEWS + 1 WHERE QNA_NO = #{qna_No}
+    </update>
+
+    <insert id="qnainsert">
+        INSERT INTO qna (QNA_TITLE, QNA_CONTENT) VALUES (#{QNA_TITLE}, #{QNA_CONTENT})
+    </insert>
+
+    <update id="qnaupdate">
+        UPDATE qna
+        SET QNA_TITLE = #{QNA_TITLE},
+        QNA_CONTENT = #{QNA_CONTENT}
+        WHERE QNA_NO = #{QNA_NO}
+    </update>
+
+    <delete id="qnadelete">
+        DELETE FROM qna WHERE QNA_NO = #{QNA_NO}
+    </delete>
+</mapper>
