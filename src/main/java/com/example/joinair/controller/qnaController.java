@@ -19,8 +19,11 @@ public class qnaController {
 
     @GetMapping("/noticeList")
     public ModelAndView qnaList() {
+        System.out.println("test1");
         List<Map<String, Object>> qnaList = qnaService.qnaList();
         ModelAndView mv = new ModelAndView();
+        System.out.println("test2");
+
         mv.setViewName("qna");
         mv.setStatus(HttpStatus.valueOf(200));
         mv.addObject("qna", qnaList);
