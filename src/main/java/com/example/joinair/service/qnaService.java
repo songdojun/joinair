@@ -13,10 +13,12 @@ public class qnaService {
     private qnaMapper qnaMapper;
 
     public List<QNA> qnaList() {
+
         return qnaMapper.qnaList();
     }
 
     public QNA qna(int qna_No) {
+
         return qnaMapper.qna(qna_No);
     }
 

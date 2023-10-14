@@ -1,0 +1,26 @@
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+
+<mapper namespace="com.example.joinair.mapper.cartMapper">
+
+    <select id="CartList" resultType="com.example.joinair.dto.CART">
+        SELECT * FROM CART
+    </select>
+
+    <insert id="addCart" parameterType="com.example.joinair.dto.CART">
+        INSERT INTO CART (CART_CODE, PRO_CODE, USER_ID, CART_QUA, CART_CHECK)
+        VALUES (#{cartCode}, #{proCode}, #{userId}, #{cartQua}, #{cartCheck})
+    </insert>
+
+    <delete id="removeCart" parameterType="int">
+        DELETE FROM CART WHERE CART_CODE = #{cartCode}
+    </delete>
+
+    <update id="updateCart" parameterType="com.example.joinair.dto.CART">
+        UPDATE CART SET CART_QUA = #{cartQua} WHERE CART_CODE = #{cartCode}
+    </update>
+
+    <update id="deleteCart" parameterType="com.example.joinair.dto.CART">
+        UPDATE CART SET CART_CHECK = #{cartCheck} WHERE CART_CODE = #{cartCode}
+    </update>
+
+</mapper>
