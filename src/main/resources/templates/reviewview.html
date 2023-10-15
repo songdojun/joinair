@@ -1,0 +1,15 @@
+<!DOCTYPE html>
+<html lang="en" xmlns:th="http://www.thymeleaf.org">
+<head>
+    <meta charset="UTF-8">
+    <title>게시글 상세 페이지</title>
+</head>
+<body>
+
+<h1 th:if="${Review != null}" th:text="${Review.Rev_Title}">제목입니다.</h1>
+<p th:if="${Review != null}" th:text="${Review.Rev_Content}">내용이 들어갈 부분입니다. </p>
+<a th:if="${Review != null}" th:href="@{/review/delete(Rev_No=${Review.Rev_No})}">글삭제</a>
+<a th:href="@{/review/modify/{id}(id=${Review.Rev_No})}">수정</a>
+
+</body>
+</html>
