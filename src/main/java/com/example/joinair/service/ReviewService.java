@@ -33,9 +33,11 @@ public class ReviewService {
 
     //특정 게시글 불러오기
 
-    public Optional<Review> reviewView(Integer Rev_No){
-        return Optional.of(reviewRepository.findById(Rev_No).get());
+    public Optional<Review> reviewView(Integer Rev_No) {
+        Optional<Review> optionalReview = reviewRepository.findById(Rev_No);
+        return optionalReview;
     }
+
 
 
     //특정 게시글 삭제

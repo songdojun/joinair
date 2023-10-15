@@ -1,0 +1,23 @@
+<!DOCTYPE html>
+<html lang="en" xmlns:th="http://www.thymeleaf.org">
+<head>
+    <meta charset="UTF-8">
+    <title>제목</title>
+</head>
+
+<body>
+
+<script th:inline="javascript">
+    /*<![CDATA[*/
+
+    var 메시지 = /*[[${message}]]*/ null; // 'message'가 Thymeleaf 변수라고 가정합니다.
+    alert(메시지);
+
+    var 검색주소 = /*[[${searchUrl}]]*/ null; // 'searchUrl'이 Thymeleaf 변수라고 가정합니다.
+    location.replace(검색주소);
+
+    /*]]*/
+</script>
+
+</body>
+</html>

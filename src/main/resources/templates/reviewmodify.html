@@ -26,13 +26,16 @@
 </style>
 <body>
 <div class="layout">
-    <form action="/review/writepro" method="post">
-        <input name="Rev_Title" type="text" th:value="${Review.Rev_No}">
-        <textarea name="Rev_Content" th:text="${Review.Rev_Content}"></textarea>
-        <button type="submit">작성</button>
+    <form th:action="@{/review/update/{Rev_No}(Rev_No= ${review.Rev_No})}" method="post">
+        <input name="Rev_Title" type="text" th:if="${review != null}" th:value="${review.Rev_Title}">
+        <textarea name="Rev_Content" th:if="${review != null}" th:text="${review.Rev_Content}"></textarea>
+        <button type="submit" th:if="${review != null}">수정</button>
+
     </form>
-
-
 </div>
+
+
+
+
 </body>
 </html>

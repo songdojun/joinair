@@ -12,6 +12,12 @@
         margin: 0 auto;
         margin-top: 40px;
     }
+
+    .new-post-button {
+        display: block;
+        margin-top: 20px;
+        padding: 10px;
+    }
 </style>
 
 <div class="layout">
@@ -27,11 +33,12 @@
             <td th:text="${review.Rev_No}">1</td>
             <td>
                 <a th:href="@{/review/view(Rev_No=${review.Rev_No})}" th:text="${review.Rev_Title}"></a>
-
             </td>
         </tr>
         </tbody>
     </table>
+
+    <a href="/review/write" class="new-post-button">새 글 작성</a>
 </div>
 
 </body>

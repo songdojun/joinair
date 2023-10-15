@@ -24,11 +24,13 @@ public class ReviewController {
     }
 
     @PostMapping("review/writepro")
-    public String reviewWritePro(Review review) {
+    public String reviewWritePro(Review review, Model model) {
 
         write(review);
 
-        return "redirect:/review/list";
+        model.addAttribute("message", "글 작성이 완료되었습니다.");
+        model.addAttribute("searchUrl", "/review/list");
+        return "message";
 
     }
 
@@ -56,12 +58,37 @@ public class ReviewController {
     }
 
     @GetMapping("/review/modify/{Rev_No}")
-    public String reviewModify(@PathVariable("Rev_No") Integer Rev_No,Model model){
+    public String reviewModify(@PathVariable("Rev_No") Integer Rev_No, Model model){
+        Review review = reviewService.reviewView(Rev_No).orElse(null);
 
-        model.addAttribute("review", reviewService.reviewView(Rev_No));
+        if (review == null) {
+            // Review가 null인 경우에 대한 처리 (예: 에러 페이지로 리다이렉트)
+            return "redirect:/error";
+        }
 
+        model.addAttribute("review", review);
         return "reviewmodify";
     }
+
+    @PostMapping("/review/update/{Rev_No}")
+    public String reviewUpdate(@PathVariable("Rev_No") Integer Rev_No, Review updatedReview, Model model) {
+        // 현재 리뷰 정보를 가져옴
+        Review reviewTemp = reviewService.reviewView(Rev_No).orElse(null);
+
+        if (reviewTemp != null) {
+            // 업데이트할 정보를 새로운 리뷰 정보에 설정
+            reviewTemp.setRev_Title(updatedReview.getRev_Title());
+            reviewTemp.setRev_Content(updatedReview.getRev_Content());
+
+            // 리뷰 정보 저장
+            reviewService.write(reviewTemp);
+        }
+
+        model.addAttribute("message", "수정이 완료되었습니다.");
+        model.addAttribute("searchUrl", "/review/list");
+        return "message";
+    }
+
 
 
 }
