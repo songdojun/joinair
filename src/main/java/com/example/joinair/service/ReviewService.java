@@ -4,9 +4,12 @@ import com.example.joinair.entity.Review;
 import com.example.joinair.repository.ReviewRepository;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
+import org.springframework.web.multipart.MultipartFile;
 
+import java.io.File;
 import java.util.List;
 import java.util.Optional;
+import java.util.UUID;
 
 @Service
 public class ReviewService {
@@ -20,7 +23,19 @@ public class ReviewService {
 
 
     //글 작성 처리
-    public static void write(Review review) {
+    public static void write(Review review, MultipartFile file) throws Exception{
+
+        String projectpath = System.getProperty("user.dir") + "\\src\\main\\resources\\static\\files";
+
+        UUID uuid = UUID.randomUUID();
+
+        String fileName = uuid + "_" + file.getOriginalFilename();
+
+        File saveFile = new File(projectpath, fileName);
+        file.transferTo(saveFile);
+
+        review.setRev_Filename(fileName);
+        review.setRev_Filepath("/files/"+ fileName);
         reviewRepository.save(review);
     }
 

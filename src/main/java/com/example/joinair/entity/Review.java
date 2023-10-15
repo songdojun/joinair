@@ -23,6 +23,31 @@ public class Review {
     private String Rev_Writer;      // 리뷰작성자
     private Date Rev_Date;
 
+    private String Rev_Filepath;
+
+
+    private String Rev_Filename;
+
+    public String getRev_Filename() {
+        return Rev_Filename;
+    }
+
+    public void setRev_Filename(String rev_Filename) {
+        Rev_Filename = rev_Filename;
+    }
+
+
+
+    public String getRev_Filepath() {
+        return Rev_Filepath;
+    }
+
+    public void setRev_Filepath(String rev_Filepath) {
+        Rev_Filepath = rev_Filepath;
+    }
+
+
+
     public String getRev_Title() {
         return Rev_Title;
     }

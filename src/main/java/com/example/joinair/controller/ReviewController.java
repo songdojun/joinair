@@ -9,6 +9,7 @@ import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
+import org.springframework.web.multipart.MultipartFile;
 
 import static com.example.joinair.service.ReviewService.write;
 
@@ -24,9 +25,9 @@ public class ReviewController {
     }
 
     @PostMapping("review/writepro")
-    public String reviewWritePro(Review review, Model model) {
+    public String reviewWritePro(Review review, Model model, MultipartFile file) throws Exception {
 
-        write(review);
+        write(review,file);
 
         model.addAttribute("message", "글 작성이 완료되었습니다.");
         model.addAttribute("searchUrl", "/review/list");
@@ -71,7 +72,7 @@ public class ReviewController {
     }
 
     @PostMapping("/review/update/{Rev_No}")
-    public String reviewUpdate(@PathVariable("Rev_No") Integer Rev_No, Review updatedReview, Model model) {
+    public String reviewUpdate(@PathVariable("Rev_No") Integer Rev_No, Review updatedReview, Model model, MultipartFile file)throws Exception {
         // 현재 리뷰 정보를 가져옴
         Review reviewTemp = reviewService.reviewView(Rev_No).orElse(null);
 
@@ -81,7 +82,7 @@ public class ReviewController {
             reviewTemp.setRev_Content(updatedReview.getRev_Content());
 
             // 리뷰 정보 저장
-            reviewService.write(reviewTemp);
+            reviewService.write(reviewTemp, file);
         }
 
         model.addAttribute("message", "수정이 완료되었습니다.");

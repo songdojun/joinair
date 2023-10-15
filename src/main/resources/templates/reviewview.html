@@ -8,6 +8,9 @@
 
 <h1 th:if="${Review != null}" th:text="${Review.Rev_Title}">제목입니다.</h1>
 <p th:if="${Review != null}" th:text="${Review.Rev_Content}">내용이 들어갈 부분입니다. </p>
+<a th:if="${Review != null}" th:href="@{${Review?.Rev_Filepath}}" download>다운로드</a>
+
+
 <a th:if="${Review != null}" th:href="@{/review/delete(Rev_No=${Review.Rev_No})}">글삭제</a>
 <a th:if="${Review != null}" th:href="@{/review/modify/{Rev_No}(Rev_No=${Review.Rev_No})}">수정</a>
 

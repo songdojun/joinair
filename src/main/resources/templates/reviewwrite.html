@@ -26,9 +26,10 @@
 </style>
 <body>
     <div class="layout">
-        <form action="/review/writepro" method="post">
+        <form action="/review/writepro" method="post" enctype="multipart/form-data">
             <input name="Rev_Title" type="text">
             <textarea name="Rev_Content"></textarea>
+            <input type="file" name="file">
             <button type="submit">작성</button>
         </form>
 
