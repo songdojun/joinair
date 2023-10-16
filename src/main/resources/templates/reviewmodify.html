@@ -26,16 +26,16 @@
 </style>
 <body>
 <div class="layout">
-    <form th:action="@{/review/update/{Rev_No}(Rev_No= ${review.Rev_No})}" method="post">
+    <form th:action="@{/review/update/{Rev_No}(Rev_No= ${review.Rev_No})}" method="post" enctype="multipart/form-data">
         <input name="Rev_Title" type="text" th:if="${review != null}" th:value="${review.Rev_Title}">
-        <textarea name="Rev_Content" th:if="${review != null}" th:text="${review.Rev_Content}"></textarea>
-        <button type="submit" th:if="${review != null}">수정</button>
+        <textarea name="Rev_Content" th:if="${review != null}" th:text="${review.Rev_Content}">
+        </textarea>
 
+        <!-- 파일 업로드 필드 추가 -->
+        <input type="file" name="file" th:if="${review != null}">
+
+        <button type="submit" th:if="${review != null}">수정</button>
     </form>
 </div>
-
-
-
-
 </body>
 </html>
