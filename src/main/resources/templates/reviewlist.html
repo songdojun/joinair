@@ -37,8 +37,13 @@
         </tr>
         </tbody>
     </table>
-
     <a href="/review/write" class="new-post-button">새 글 작성</a>
+
+    <th:block th:each="page : ${#numbers.sequence(startPage, endPage)}">
+        <a th:if="${page != nowPage}" th:href="@{/review/list(page=${page-1})}" th:text="${page}"></a>
+        <strong th:if="${page == nowPage}" th:text="${page}" style="color: red"></strong>
+    </th:block>
+
 </div>
 
 </body>

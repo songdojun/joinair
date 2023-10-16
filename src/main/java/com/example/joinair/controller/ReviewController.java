@@ -41,8 +41,18 @@ public class ReviewController {
 
     @GetMapping("/review/list")
     public String reviewList(Model model, @PageableDefault(page = 0, size = 10, sort = "Rev_No", direction = Sort.Direction.DESC) Pageable pageable) {
-        Page<Review> reviews = reviewService.reviewListWithPagination(pageable);
-        model.addAttribute("list", reviews);
+        Page<Review> list = reviewService.reviewListWithPagination(pageable);
+
+        int nowPage= list.getPageable().getPageNumber()+1;
+        int startPage = Math.max(nowPage -4,1);
+        int endPage= Math.min(nowPage+5,list.getTotalPages());
+
+
+        model.addAttribute("list", list);
+        model.addAttribute("nowPage", nowPage);
+        model.addAttribute("startPage", startPage);
+        model.addAttribute("endPage", endPage);
+
         return "reviewlist";
     }
 
