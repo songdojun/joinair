@@ -6,7 +6,6 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.*;
-
 import org.springframework.web.servlet.ModelAndView;
 
 import java.util.List;
@@ -21,15 +20,15 @@ public class qnaController {
     public ModelAndView qnaList() {
         List<QNA> qnaList = qnaService.qnaList();
         ModelAndView mv = new ModelAndView();
-        mv.setViewName("qna");
+        mv.setViewName("qnaList");
         mv.setStatus(HttpStatus.OK);
-        mv.addObject("qna", qnaList);
+        mv.addObject("qnaList", qnaList);
         return mv;
     }
 
-    @GetMapping("/qnaview")
-    public ModelAndView qnaView(@RequestParam int qna_No) {
-        QNA result = qnaService.qna(qna_No);
+    @GetMapping("/qnadetail/{QNA_NO}")
+    public ModelAndView qnaView(QNA QNA_NO) {
+        QNA result = qnaService.qna(QNA_NO);
 
         ModelAndView mv = new ModelAndView();
         mv.setViewName("qnadetail");
@@ -38,40 +37,53 @@ public class qnaController {
         return mv;
     }
 
-    @GetMapping("/qnainsert-view")
+    @GetMapping("/qnaInsert-view")
     public ModelAndView qnaInsertView() {
         ModelAndView mv = new ModelAndView();
-        mv.setViewName("qnainsert");
+        mv.setViewName("qnaInsert"); // "qnaInsert.mustache" 템플릿을 사용
         mv.setStatus(HttpStatus.OK);
         return mv;
     }
 
-    @ResponseBody
     @PostMapping("/qnainsert")
-    public boolean qnainsert(@RequestBody QNA qna) {
-        return qnaService.qnainsert(qna);
+    public String qnainsert(@ModelAttribute QNA qna) {
+        boolean result = qnaService.qnainsert(qna);
+        if (result) {
+            // 추가 성공 시 qnaList 페이지로
+            return "redirect:/qna/qnaList";
+        } else {
+            return "qnaInsert"; // 실패 시 다시 추가 페이지로 유지
+        }
     }
 
-    @GetMapping("/qnaupdate-view")
-    public ModelAndView qnaUpdateView(@RequestParam int qna_No) {
-        QNA result = qnaService.qna(qna_No);
+    @GetMapping("/qnaUpdate-view/{QNA_NO}")
+    public ModelAndView qnaUpdateView(QNA QNA_NO) {
+        QNA result = qnaService.qna(QNA_NO);
 
         ModelAndView mv = new ModelAndView();
-        mv.setViewName("qnaupdate");
+        mv.setViewName("qnaUpdate");
         mv.setStatus(HttpStatus.OK);
         mv.addObject("qna", result);
+        System.out.println("test1");
         return mv;
+
     }
 
-    @ResponseBody
-    @PutMapping("/qnaupdate")
-    public boolean qnaupdate(@RequestBody QNA qna) {
-        return qnaService.qnaupdate(qna);
+    @PostMapping("/qnaUpdate/{QNA_NO}")
+    public String qnaupdate(QNA qna) {
+        boolean result = qnaService.qnaupdate(qna);
+        if (result) {
+            // 업데이트 성공 시 qnaList 페이지로
+            return "redirect:/qna/qnadetail/{QNA_NO}";
+        } else {
+            return "redirect:/qna/qnaUpdate-view/" + qna.getQNA_NO(); // 실패 시 다시 수정 페이지로 유지
+        }
     }
 
-    @ResponseBody
-    @DeleteMapping("/qnadelete")
-    public boolean qnadelete(@RequestParam int qna_No) {
-        return qnaService.qnadelete(qna_No);
+    @GetMapping("/qnadelete/{QNA_NO}")
+    public String qnadelete(QNA QNA_NO) {
+        qnaService.qnadelete(QNA_NO);
+        return "redirect:/qna/qnaList";
     }
 }
+

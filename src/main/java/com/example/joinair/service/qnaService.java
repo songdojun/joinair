@@ -13,12 +13,10 @@ public class qnaService {
     private qnaMapper qnaMapper;
 
     public List<QNA> qnaList() {
-        System.out.println("test1");
         return qnaMapper.qnaList();
     }
 
-    public QNA qna(int qna_No) {
-
+    public QNA qna(QNA qna_No) {
         return qnaMapper.qna(qna_No);
     }
 
@@ -27,13 +25,12 @@ public class qnaService {
         return cnt > 0;
     }
 
-    public boolean qnaupdate(QNA qna) {
-        int cnt = qnaMapper.qnaupdate(qna);
+    public boolean qnaupdate(QNA qna_No) {
+        int cnt = qnaMapper.qnaupdate(qna_No);
         return cnt > 0;
     }
 
-    public boolean qnadelete(int qna_No) {
-        int cnt = qnaMapper.qnadelete(qna_No);
-        return cnt > 0;
+    public void qnadelete(QNA qna_No) {
+        qnaMapper.qnadelete(qna_No);
     }
 }

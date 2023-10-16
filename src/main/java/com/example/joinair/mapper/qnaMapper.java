@@ -9,11 +9,11 @@ import java.util.List;
 public interface qnaMapper {
     public List<QNA> qnaList();
 
-    QNA qna(int qna_No);
+    QNA qna(QNA QNA_CO);
 
     int qnainsert(QNA qna);
 
     int qnaupdate(QNA qna);
 
-    int qnadelete(int qna_No);
+    void qnadelete(QNA QNA_NO);
 }

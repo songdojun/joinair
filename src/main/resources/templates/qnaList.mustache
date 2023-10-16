@@ -1,0 +1,28 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>QNA 게시판</title>
+</head>
+<body>
+<h1>QNA 게시판</h1>
+<table>
+    <tr>
+        <th>번호</th>
+        <th>상품코드</th>
+        <th>작성자</th>
+        <th>제목</th>
+    </tr>
+    {{#qnaList}}
+        <tr>
+            <td>{{QNA_NO}}</td>
+            <td>{{PRO_CODE}}</td>
+            <td>{{USER_ID}}</td>
+            <td><a href="/qna/qnadetail/{{QNA_NO}}">{{QNA_TITLE}}</a></td>
+        </tr>
+
+    {{/qnaList}}
+</table>
+<a href="/qna/qnaInsert-view">새 질문 작성</a>
+</body>
+</html>
