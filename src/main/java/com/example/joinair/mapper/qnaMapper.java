@@ -7,7 +7,7 @@ import java.util.List;
 
 @Mapper
 public interface qnaMapper {
-    List<QNA> qnaList();
+    public List<QNA> qnaList();
 
     QNA qna(int qna_No);
 

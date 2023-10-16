@@ -13,7 +13,7 @@ public class qnaService {
     private qnaMapper qnaMapper;
 
     public List<QNA> qnaList() {
-
+        System.out.println("test1");
         return qnaMapper.qnaList();
     }
 
