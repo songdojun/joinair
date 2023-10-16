@@ -4,6 +4,10 @@ package com.example.joinair.controller;
 import com.example.joinair.entity.Review;
 import com.example.joinair.service.ReviewService;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.data.domain.Page;
+import org.springframework.data.domain.Pageable;
+import org.springframework.data.domain.Sort;
+import org.springframework.data.web.PageableDefault;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.GetMapping;
@@ -36,12 +40,12 @@ public class ReviewController {
     }
 
     @GetMapping("/review/list")
-    public String reviewList(Model model){
-
-       model.addAttribute("list",reviewService.reviewList());
-        
+    public String reviewList(Model model, @PageableDefault(page = 0, size = 10, sort = "Rev_No", direction = Sort.Direction.DESC) Pageable pageable) {
+        Page<Review> reviews = reviewService.reviewListWithPagination(pageable);
+        model.addAttribute("list", reviews);
         return "reviewlist";
     }
+
 
 
     @GetMapping("/review/view")

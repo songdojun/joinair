@@ -9,23 +9,21 @@ import java.util.Date;
 @Data
 public class Review {
 
+
+
     @Id
     @GeneratedValue(strategy = GenerationType.SEQUENCE, generator = "REVIEW_SEQ")
     @SequenceGenerator(name = "REVIEW_SEQ", sequenceName = "REVIEW_SEQ", allocationSize = 1)
     private Integer Rev_No;
 
-
-    private String User_Id;         // UserID
-    private Integer Pro_Code;           // 상품코드
-    private Integer Pay_No;             // 결제번호
-    private String Rev_Title;       // 리뷰제목
-    private String Rev_Content;     // 리뷰내용
-    private String Rev_Writer;      // 리뷰작성자
+    private String User_Id;
+    private Integer Pro_Code;
+    private Integer Pay_No;
+    private String Rev_Title;
+    private String Rev_Content;
+    private String Rev_Writer;
     private Date Rev_Date;
-
     private String Rev_Filepath;
-
-
     private String Rev_Filename;
 
     public String getRev_Filename() {
@@ -36,8 +34,6 @@ public class Review {
         Rev_Filename = rev_Filename;
     }
 
-
-
     public String getRev_Filepath() {
         return Rev_Filepath;
     }
@@ -45,8 +41,6 @@ public class Review {
     public void setRev_Filepath(String rev_Filepath) {
         Rev_Filepath = rev_Filepath;
     }
-
-
 
     public String getRev_Title() {
         return Rev_Title;
@@ -64,5 +58,51 @@ public class Review {
         Rev_Content = rev_Content;
     }
 
+    public String getUser_Id() {
+        return User_Id;
+    }
 
+    public void setUser_Id(String user_Id) {
+        User_Id = user_Id;
+    }
+
+    public Integer getPro_Code() {
+        return Pro_Code;
+    }
+
+    public void setPro_Code(Integer pro_Code) {
+        Pro_Code = pro_Code;
+    }
+
+    public Integer getPay_No() {
+        return Pay_No;
+    }
+
+    public void setPay_No(Integer pay_No) {
+        Pay_No = pay_No;
+    }
+
+    public String getRev_Writer() {
+        return Rev_Writer;
+    }
+
+    public void setRev_Writer(String rev_Writer) {
+        Rev_Writer = rev_Writer;
+    }
+
+    public Date getRev_Date() {
+        return Rev_Date;
+    }
+
+    public void setRev_Date(Date rev_Date) {
+        Rev_Date = rev_Date;
+    }
+
+    public Integer getRev_No() {
+        return Rev_No;
+    }
+
+    public void setRev_No(Integer rev_No) {
+        Rev_No = rev_No;
+    }
 }

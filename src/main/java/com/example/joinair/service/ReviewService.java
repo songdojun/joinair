@@ -3,6 +3,8 @@ package com.example.joinair.service;
 import com.example.joinair.entity.Review;
 import com.example.joinair.repository.ReviewRepository;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.data.domain.Page;
+import org.springframework.data.domain.Pageable;
 import org.springframework.stereotype.Service;
 import org.springframework.web.multipart.MultipartFile;
 
@@ -61,4 +63,7 @@ public class ReviewService {
         reviewRepository.deleteById(Rev_No);
     }
 
+    public Page<Review> reviewListWithPagination(Pageable pageable) {
+        return reviewRepository.findAllOrderedByRevNoWithPagination(pageable);
+    }
 }
