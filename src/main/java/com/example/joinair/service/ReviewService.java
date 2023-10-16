@@ -48,6 +48,15 @@ public class ReviewService {
         return reviewRepository.findAll();
     }
 
+    public Page<Review> reviewSearchList(String searchKeyword, Pageable pageable) {
+        return reviewRepository.findReviewsByTitleContaining(searchKeyword, pageable);
+    }
+
+
+
+
+
+
     //특정 게시글 불러오기
 
     public Optional<Review> reviewView(Integer Rev_No) {

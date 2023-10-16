@@ -40,8 +40,19 @@ public class ReviewController {
     }
 
     @GetMapping("/review/list")
-    public String reviewList(Model model, @PageableDefault(page = 0, size = 10, sort = "Rev_No", direction = Sort.Direction.DESC) Pageable pageable) {
-        Page<Review> list = reviewService.reviewListWithPagination(pageable);
+    public String reviewList(Model model,
+                             @PageableDefault(page = 0, size = 10, sort = "Rev_No", direction = Sort.Direction.DESC) Pageable pageable,
+                             String searchKeyword) {
+
+        Page<Review> list = null;
+
+        if(searchKeyword ==null){
+             list = reviewService.reviewListWithPagination(pageable);
+        }else{
+             list = reviewService.reviewSearchList(searchKeyword, pageable);
+        }
+
+
 
         int nowPage= list.getPageable().getPageNumber()+1;
         int startPage = Math.max(nowPage -4,1);
