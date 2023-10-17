@@ -26,6 +26,13 @@ public class Review {
     private String Rev_Filepath;
     private String Rev_Filename;
 
+
+    @PrePersist
+    protected void onCreate() {
+        Rev_Date = new Date(); // 엔터티가 저장되기 전에 현재 날짜 및 시간으로 Rev_Date 설정
+    }
+
+
     public String getRev_Filename() {
         return Rev_Filename;
     }

@@ -25,15 +25,24 @@
 
 </style>
 <body>
-    <div class="layout">
-        <form action="/review/writepro" method="post" enctype="multipart/form-data">
-            <input name="Rev_Title" type="text">
-            <textarea name="Rev_Content"></textarea>
-            <input type="file" name="file">
-            <button type="submit">작성</button>
-        </form>
+<div class="layout">
+    <form action="/review/writepro" method="post" enctype="multipart/form-data">
+        <label for="Rev_Title">제목: </label>
+        <input name="Rev_Title" type="text" id="Rev_Title">
+
+        <label for="Rev_Writer">작성자: </label>
+        <input name="Rev_Writer" type="text" id="Rev_Writer"> <!-- 사용자가 직접 입력 -->
+
+        <label for="Rev_Content">내용: </label>
+        <textarea name="Rev_Content" id="Rev_Content"></textarea>
+
+        <label for="file">파일 업로드: </label>
+        <input type="file" name="file" id="file">
+
+        <button type="submit">작성</button>
+    </form>
+</div>
 
 
-    </div>
 </body>
 </html>
