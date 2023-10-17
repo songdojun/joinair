@@ -1,0 +1,51 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>주문 및 배송 정보 입력</title>
+</head>
+<body>
+<h1>주문 및 배송 정보 입력</h1>
+
+<form method="post" action="/orders/add">
+    <!-- 주문자 정보 입력란 -->
+    <h2>주문자 정보</h2>
+    <label for="customerName">주문자 이름:</label>
+    <input type="text" id="customerName" name="customerName" required><br>
+
+    <label for="customerEmail">이메일:</label>
+    <input type="email" id="customerEmail" name="customerEmail" required><br>
+
+    <label for="customerPhone">일반 전화:</label>
+    <input type="tel" id="customerPhone" name="customerPhone" required><br>
+
+    <label for="customerMobile">휴대 전화:</label>
+    <input type="tel" id="customerMobile" name="customerMobile" required><br>
+
+    <br>
+
+    <!-- 배송 정보 입력란 -->
+    <h2>배송 정보</h2>
+    <input type="checkbox" id="sameAsBilling" name="sameAsBilling" value="1">
+    <label for="sameAsBilling">배송지 정보와 동일</label><br>
+
+    <!-- 새로운 배송지 정보 입력란 -->
+    <label for="recipientName">받는 사람:</label>
+    <input type="text" id="recipientName" name="recipientName"><br>
+
+    <label for="shippingAddress">주소:</label>
+    <input type="text" id="shippingAddress" name="shippingAddress"><br>
+
+    <label for="shippingPhone">일반 전화:</label>
+    <input type="tel" id="shippingPhone" name="shippingPhone"><br>
+
+    <label for="shippingMobile">휴대 전화:</label>
+    <input type="tel" id="shippingMobile" name="shippingMobile"><br>
+
+    <label for="specialInstructions">특이 사항:</label>
+    <textarea id="specialInstructions" name="specialInstructions"></textarea><br>
+
+    <input type="submit" value="결제 하기">
+</form>
+</body>
+</html>

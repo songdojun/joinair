@@ -15,13 +15,13 @@ public class cartController {
     @Autowired
     private cartService cartService;
 
-    @GetMapping("/CartList")
+    @GetMapping("/carttest")
     public ModelAndView cartList() {
         List<CART> cartList = cartService.CartList();
         ModelAndView mv = new ModelAndView();
-        mv.setViewName("cart");
+        mv.setViewName("carttest");
         mv.setStatus(HttpStatus.OK);
-        mv.addObject("cart", cartList);
+        mv.addObject("carttest", cartList);
         return mv;
     }
 

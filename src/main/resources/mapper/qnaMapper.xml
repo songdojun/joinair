@@ -1,9 +1,7 @@
 <!DOCTYPE mapper
         PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
         "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
-
 <mapper namespace="com.example.joinair.mapper.qnaMapper">
-
     <select id="qnaList" resultType="com.example.joinair.dto.QNA" >
         SELECT * FROM qna
         <where>
@@ -13,28 +11,22 @@
         </where>
         ORDER BY QNA_NO DESC
     </select>
-
-
     <select id="qna" resultType="com.example.joinair.dto.QNA">
         SELECT * FROM qna WHERE QNA_NO = #{QNA_NO}
     </select>
-
     <update id="qnaupdateView">
-        UPDATE qna SET QNA_VIEWS = QNA_VIEWS + 1 WHERE QNA_NO = #{qna_No}
+        UPDATE qna SET QNA_VIEWS = QNA_VIEWS + 1 WHERE QNA_NO = #{QNA_NO}
     </update>
-
     <insert id="qnainsert">
-        INSERT INTO qna
+        INSERT INTO qna (QNA_NO, PRO_CODE, USER_ID, QNA_TITLE, QNA_CONTENT)
         VALUES (#{QNA_NO}, #{PRO_CODE}, #{USER_ID}, #{QNA_TITLE}, #{QNA_CONTENT})
     </insert>
-
     <update id="qnaupdate">
         UPDATE qna
         SET QNA_TITLE = #{QNA_TITLE},
         QNA_CONTENT = #{QNA_CONTENT}
         WHERE QNA_NO = #{QNA_NO}
     </update>
-
     <delete id="qnadelete">
         DELETE FROM qna WHERE QNA_NO = #{QNA_NO}
     </delete>
