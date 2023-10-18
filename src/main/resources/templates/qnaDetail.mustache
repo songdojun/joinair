@@ -15,5 +15,23 @@
 <a href="/qna/qnaList">뒤로 가기</a>
 <a href="/qna/qnaUpdate-view/{{qna.QNA_NO}}">수정</a>
 <a href="/qna/qnadelete/{{qna.QNA_NO}}">삭제</a>
+<h3>댓글</h3>
+<ul>
+    {{#qna.comments}}
+        <li>
+            <p>내용: {{text}}</p>
+        </li>
+    {{/qna.comments}}
+</ul>
+
+<!-- 댓글 추가 양식 -->
+<h3>댓글</h3>
+<ul>
+    {{#qna.comments}}
+        <li>
+            <p>내용: {{text}}</p>
+        </li>
+    {{/qna.comments}}
+</ul>
 </body>
 </html>

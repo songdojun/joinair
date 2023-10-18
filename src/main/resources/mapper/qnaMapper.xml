@@ -30,4 +30,23 @@
     <delete id="qnadelete">
         DELETE FROM qna WHERE QNA_NO = #{QNA_NO}
     </delete>
+
+    <select id="qnapaging" resultType="com.example.joinair.dto.QNA">
+        <![CDATA[
+    SELECT *
+    FROM (SELECT a.*, ROWNUM rnum
+          FROM (SELECT * FROM qna ORDER BY QNA_NO DESC) a
+          WHERE ROWNUM <= #{offset} + #{pageSize})
+    WHERE rnum > #{offset}
+    ]]>
+    </select>
+    <select id="qnapageNum" resultType="int">//페이징처리
+        SELECT COUNT(*) as totalRecords FROM qna
+    </select>
+
+    <insert id="addComment" parameterType="com.example.joinair.dto.Comment">
+        INSERT INTO comments (QNA_NO, text)
+        VALUES (#{QNA_NO}, #{text})
+    </insert>
+
 </mapper>
