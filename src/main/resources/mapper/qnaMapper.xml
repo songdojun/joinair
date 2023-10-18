@@ -11,6 +11,7 @@
         </where>
         ORDER BY QNA_NO DESC
     </select>
+
     <select id="qna" resultType="com.example.joinair.dto.QNA">
         SELECT * FROM qna WHERE QNA_NO = #{QNA_NO}
     </select>
@@ -40,7 +41,7 @@
     WHERE rnum > #{offset}
     ]]>
     </select>
-    <select id="qnapageNum" resultType="int">//페이징처리
+    <select id="qnapageNum" resultType="int"> <!--페이징처리-->
         SELECT COUNT(*) as totalRecords FROM qna
     </select>
 
