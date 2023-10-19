@@ -8,6 +8,8 @@ import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.*;
 
+import java.util.List;
+
 
 @Controller
 public class UserController {
@@ -51,10 +53,47 @@ public class UserController {
 
     @GetMapping("/adminWelcome")
     public String showAdminWelcomePage(Model model, HttpSession session) {
-        // 관리자 페이지에 필요한 데이터를 가져오는 로직 추가
-        return "adminWelcome"; // 관리자 페이지로 리턴
+        if (session.getAttribute("User_Id") == null) {
+            return "redirect:/signInUp"; // 로그인되지 않았으면 로그인 페이지로 리디렉션
+        }
+
+        List<USERS> users = userService.getAllUsers();
+        model.addAttribute("users", users);
+        return "adminWelcome";
     }
 
+
+    @GetMapping("/adminEditUserList")
+    public String showAdminEditUserListPage(Model model, HttpSession session) {
+        if (session.getAttribute("User_Id") == null) {
+            return "redirect:/signInUp"; // 로그인되지 않았으면 로그인 페이지로 리디렉션
+        }
+        List<USERS> users = userService.getAllUsers();
+        model.addAttribute("users", users);
+        return "adminEditUserList";
+    }
+
+    @GetMapping("/adminEditUserList/{userId}")
+    public String showAdminEditUserListDetailPage(@PathVariable String userId, Model model, HttpSession session) {
+        if (session.getAttribute("User_Id") == null) {
+            return "redirect:/signInUp"; // 로그인되지 않았으면 로그인 페이지로 리디렉션
+        }
+        System.out.println("showAdminEditUserListDetailPage");
+        USERS user = userService.getUserById(userId);
+        model.addAttribute("user", user);
+        return "adminEditUser";
+    }
+
+    @PostMapping("/adminUpdateUser")
+    public String adminUpdateUser(@ModelAttribute("user") USERS user, HttpSession session) {
+        if (session.getAttribute("User_Id") == null) {
+            return "redirect:/signInUp"; // 로그인되지 않았으면 로그인 페이지로 리디렉션
+        }
+        System.out.println("adminUpdateUser 고객정보 수정 성공");
+
+        userService.adminUpdateUser(user);
+        return "redirect:/adminEditUserList";
+    }
 
 
 

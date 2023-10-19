@@ -16,6 +16,4 @@ public class USERS {
 
     private String User_Mode;
 
-
 }
-
