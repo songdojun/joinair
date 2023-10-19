@@ -29,6 +29,8 @@ public class qnaService {
         int cnt = qnaMapper.qnaupdate(qna_No);
         return cnt > 0;
     }
+    public void qnaupdateCommand(QNA qna_No){
+        qnaMapper.qnaupdateCommand(qna_No);}
 
     public void qnadelete(QNA qna_No) {
         qnaMapper.qnadelete(qna_No);

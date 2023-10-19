@@ -18,6 +18,11 @@
     <update id="qnaupdateView">
         UPDATE qna SET QNA_VIEWS = QNA_VIEWS + 1 WHERE QNA_NO = #{QNA_NO}
     </update>
+
+    <update id="qnaupdateCommand">
+        UPDATE qna SET QNA_COMMAND = #{QNA_COMMAND} WHERE QNA_NO = #{QNA_NO}
+    </update>
+
     <insert id="qnainsert">
         INSERT INTO qna (QNA_NO, PRO_CODE, USER_ID, QNA_TITLE, QNA_CONTENT)
         VALUES (#{QNA_NO}, #{PRO_CODE}, #{USER_ID}, #{QNA_TITLE}, #{QNA_CONTENT})

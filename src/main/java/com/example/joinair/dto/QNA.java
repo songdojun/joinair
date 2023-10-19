@@ -11,5 +11,6 @@ public class QNA {
     private String USER_ID;       // UserID
     private String QNA_TITLE;     // 문의제목
     private String QNA_CONTENT;   // 문의내용
-    private String QNA_COMMEND;   // 문의내용
+    private String QNA_COMMAND;   // 댓글내용
+    private Boolean flag;
 }

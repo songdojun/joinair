@@ -15,6 +15,8 @@ public interface qnaMapper {
 
     int qnaupdate(QNA qna);
 
+    void qnaupdateCommand(QNA qna); //댓글
+
     void qnadelete(QNA QNA_NO);
 
     public List<QNA> qnapaging(int offset, int pageSize);

@@ -15,23 +15,29 @@
 <a href="/qna/qnaList">뒤로 가기</a>
 <a href="/qna/qnaUpdate-view/{{qna.QNA_NO}}">수정</a>
 <a href="/qna/qnadelete/{{qna.QNA_NO}}">삭제</a>
-<h3>댓글</h3>
-<ul>
-    {{#qna.comments}}
-        <li>
-            <p>내용: {{text}}</p>
-        </li>
-    {{/qna.comments}}
-</ul>
+
 
 <!-- 댓글 추가 양식 -->
 <h3>댓글</h3>
-<ul>
-    {{#qna.comments}}
-        <li>
-            <p>내용: {{text}}</p>
-        </li>
-    {{/qna.comments}}
+<!-- flag가 true 인 경우에만 댓글 섹션을 표시합니다 -->
+{{#qna.flag}}
+    <!-- flag가 true 인 경우 댓글 내용을 표시합니다 -->
+    <p>댓글 내용: {{qna.QNA_COMMAND}}</p>
+{{/qna.flag}}
+<!-- flag가 false 이거나 정의되지 않은 경우 (flag가 없거나 false 인 경우) 다른 내용을 표시합니다 -->
+{{^qna.flag}}
+    <!-- flag가 false 이거나 정의되지 않은 경우 다른 내용을 표시합니다 -->
+    <p>댓글이 없습니다.</p>
+{{/qna.flag}}
 </ul>
+
+<!-- 댓글 추가 양식 -->
+<h3>댓글 추가</h3>
+<form action="/qna/qnaupdateCommand/{{qna.QNA_NO}}" method="post">
+    <input type="hidden" name="QNA_NO" value="{{qna.QNA_NO}}">
+    <textarea name="text" rows="4" cols="50" placeholder="댓글 내용을 입력하세요" required></textarea>
+    <br>
+    <input type="submit" value="댓글 추가">
+</form>
 </body>
 </html>

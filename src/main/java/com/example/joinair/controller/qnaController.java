@@ -55,11 +55,32 @@ public class qnaController {
     public ModelAndView qnaView(QNA QNA_NO) {
         QNA result = qnaService.qna(QNA_NO);
 
+        if(result.getQNA_COMMAND()==null){
+            result.setQNA_COMMAND("flag");
+        }
+        //if 끝
+
+        if(result.getQNA_COMMAND().equals("flag")){
+            result.setFlag(false);
+        } else {
+            result.setFlag(true);
+        }
+
         ModelAndView mv = new ModelAndView();
         mv.setViewName("qnadetail");
         mv.setStatus(HttpStatus.OK);
         mv.addObject("qna", result);
         return mv;
+    }
+    @PostMapping("/qnaupdateCommand/{QNA_NO}")
+    public String qnaupdateCommand(QNA qna, @RequestParam("text") String text) {
+        // 여기서 text를 댓글로 처리하여 저장
+        qna.setQNA_COMMAND(text);
+
+        //댓글 내용을 qna테이블에 업데이트 실행 sql
+        qnaService.qnaupdateCommand(qna);
+
+        return "redirect:/qna/qnadetail/" + qna.getQNA_NO();
     }
 
     @GetMapping("/qnaInsert-view")
