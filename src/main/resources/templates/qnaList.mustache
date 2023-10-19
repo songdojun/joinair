@@ -1,0 +1,25 @@
+<table>
+    <!-- 테이블 헤더 -->
+    <tr>
+        <th>번호</th>
+        <th>상품코드</th>
+        <th>작성자</th>
+        <th>제목</th>
+    </tr>
+    <!-- 페이징된 항목 출력 -->
+    {{#qnaList}}
+        <tr>
+            <td>{{QNA_NO}}</td>
+            <td>{{PRO_CODE}}</td>
+            <td>{{USER_ID}}</td>
+            <td><a href="/qna/qnadetail/{{QNA_NO}}">{{QNA_TITLE}}</a></td>
+        </tr>
+    {{/qnaList}}
+</table>
+<!-- 페이징 번호 표시 -->
+<div class="pagination">
+    {{#pageNumbers}}
+        <a href="/qna/qnaList?page={{.}}">{{.}}</a>
+    {{/pageNumbers}}
+</div>
+<a href="/qna/qnaInsert-view">새로운 게시글 작성</a>

@@ -1,0 +1,27 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Q&A 수정</title>
+</head>
+<body>
+<h1>Q&A 수정</h1>
+<form method="post" action="/qna/qnaUpdate/{{qna.QNA_NO}}">
+    <input type="hidden" name="QNA_NO" value="{{qna.QNA_NO}}">
+    <label for="QNA_TITLE">문의 제목:</label>
+    <input type="text" name="QNA_TITLE" value="{{qna.QNA_TITLE}}">
+    <br>
+    <label for="QNA_CONTENT">문의 내용:</label>
+    <textarea name="QNA_CONTENT">{{qna.QNA_CONTENT}}</textarea>
+    <br>
+    <label for="USER_ID">작성자:</label>
+    <input type="text" READONLY name="USER_ID" value="{{qna.USER_ID}}">
+    <br>
+    <label for="PRO_CODE">상품 코드:</label>
+    <input type="text" READONLY name="PRO_CODE" value="{{qna.PRO_CODE}}">
+    <br>
+    <input type="submit" value="Q&A 수정">
+</form>
+<a href="/qna/qnaList">뒤로 가기</a>
+</body>
+</html>

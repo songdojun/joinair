@@ -1,11 +1,24 @@
 package com.example.joinair.mapper;
 
+import com.example.joinair.dto.QNA;
 import org.apache.ibatis.annotations.Mapper;
 
 import java.util.List;
-import java.util.Map;
 
 @Mapper
 public interface qnaMapper {
-    List<Map<String, Object>> qnaList();
+    public List<QNA> qnaList();
+
+    QNA qna(QNA QNA_CO);
+
+    int qnainsert(QNA qna);
+
+    int qnaupdate(QNA qna);
+
+    void qnadelete(QNA QNA_NO);
+
+    public List<QNA> qnapaging(int offset, int pageSize);
+
+    int qnapageNum();
+
 }

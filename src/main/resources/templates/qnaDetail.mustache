@@ -1,0 +1,37 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Q&A 상세 정보</title>
+</head>
+<body>
+<h1>Q&A 상세 정보</h1>
+<h2>{{qna.QNA_TITLE}}</h2>
+<p>Q&A 번호: {{qna.QNA_NO}}</p>
+<p>상품 코드: {{qna.PRO_CODE}}</p>
+<p>작성자: {{qna.USER_ID}}</p>
+<p>문의 내용:</p>
+<p>{{qna.QNA_CONTENT}}</p>
+<a href="/qna/qnaList">뒤로 가기</a>
+<a href="/qna/qnaUpdate-view/{{qna.QNA_NO}}">수정</a>
+<a href="/qna/qnadelete/{{qna.QNA_NO}}">삭제</a>
+<h3>댓글</h3>
+<ul>
+    {{#qna.comments}}
+        <li>
+            <p>내용: {{text}}</p>
+        </li>
+    {{/qna.comments}}
+</ul>
+
+<!-- 댓글 추가 양식 -->
+<h3>댓글</h3>
+<ul>
+    {{#qna.comments}}
+        <li>
+            <p>내용: {{text}}</p>
+        </li>
+    {{/qna.comments}}
+</ul>
+</body>
+</html>
