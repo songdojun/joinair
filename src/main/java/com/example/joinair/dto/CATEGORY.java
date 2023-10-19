@@ -7,7 +7,7 @@ import lombok.Setter;
 @Setter
 public class CATEGORY {
 
-    private int cateNo;
-    private String cateName;
+    private int Cate_No;
+    private String Cate_Name;
 
 }

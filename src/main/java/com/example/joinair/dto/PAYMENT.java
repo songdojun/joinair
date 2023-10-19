@@ -8,10 +8,10 @@ import lombok.Setter;
 public class PAYMENT {
 
 
-    private int payNo;
-    private int ordersNum;
-    private int payPrice;
-    private String payMethod;
-    private String payStatus;
-    private String payRefund;
+    private int Pay_No;
+    private int Orders_Num;
+    private int Pay_Price;
+    private String Pay_Method;
+    private String Pay_Status;
+    private String Pay_Refund;
 }

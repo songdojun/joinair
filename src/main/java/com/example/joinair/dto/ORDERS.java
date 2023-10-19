@@ -11,7 +11,7 @@ public class ORDERS {
     private int Pro_Code;           // 상품코드
     private int Orders_Total_Price; // 총 주문금액
     private String Orders_State;     // 상태
-    private int Orders_Total;    // 총주문수량
+    private int Orders_Total;    // 총주문수량111111111111111111111111111111111
 
 
 
