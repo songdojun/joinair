@@ -1,0 +1,38 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+        "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+
+<mapper namespace="com.example.joinair.mapper.UserMapper">
+    <resultMap id="userResultMap" type="com.example.joinair.dto.USERS">
+        <id property="User_Id" column="User_Id"/>
+        <result property="User_Name" column="User_Name"/>
+        <result property="User_Email" column="User_Email"/>
+        <result property="User_Password" column="User_Password"/>
+        <result property="User_Address" column="User_Address"/>
+        <result property="User_Phone" column="User_Phone"/>
+        <result property="User_Mileage" column="User_Mileage"/>
+    </resultMap>
+
+    <select id="getUserById" resultMap="userResultMap">
+        SELECT * FROM USERS WHERE User_Id = #{User_Id}
+    </select>
+
+    <select id="isUserIdExists" resultType="int" parameterType="string">
+        SELECT COUNT(*) FROM USERS WHERE User_Id = #{User_Id}
+    </select>
+
+    <insert id="registerUser" parameterType="com.example.joinair.dto.USERS">
+        INSERT INTO USERS (User_Id, User_Name, User_Email, User_Password, User_Address, User_Phone, User_Mileage)
+        VALUES (#{User_Id}, #{User_Name}, #{User_Email}, #{User_Password}, #{User_Address}, #{User_Phone}, 0)
+    </insert>
+
+    <update id="updateUser" parameterType="com.example.joinair.dto.USERS">
+        UPDATE USERS
+        SET
+        User_Email = #{User_Email},
+        User_Address = #{User_Address},
+        User_Phone = #{User_Phone}
+        WHERE User_Id = #{User_Id}
+    </update>
+
+</mapper>
