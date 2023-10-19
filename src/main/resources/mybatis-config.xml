@@ -39,7 +39,7 @@
     </environments>
 
     <mappers>
-        <mapper resource="com/example/joinair/mapper/UserMapper.xml" />
+        <mapper resource="com/example/joinair/mapper/userMapper.xml" />
 
 
         <!-- 추가 매퍼 파일을 여기에 추가 -->

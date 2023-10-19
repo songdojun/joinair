@@ -17,13 +17,15 @@ public class UserServiceImpl implements UserService {
 
     @Override
     public USERS getUserById(String User_Id) {
+
         return userMapper.getUserById(User_Id);
     }
 
     @Override
-    public void registerUser(USERS user) {
+    public void registerUser(USERS user, String userMode) {
         String combinedAddress = user.getUser_Address() + " " + user.getUser_DetailAddress();
         user.setUser_Address(combinedAddress);
+        user.setUser_Mode(userMode);
         userMapper.registerUser(user);
     }
     @Override

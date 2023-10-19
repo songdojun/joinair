@@ -22,8 +22,8 @@
     </select>
 
     <insert id="registerUser" parameterType="com.example.joinair.dto.USERS">
-        INSERT INTO USERS (User_Id, User_Name, User_Email, User_Password, User_Address, User_Phone, User_Mileage)
-        VALUES (#{User_Id}, #{User_Name}, #{User_Email}, #{User_Password}, #{User_Address}, #{User_Phone}, 0)
+        INSERT INTO USERS (User_Id, User_Name, User_Email, User_Password, User_Address, User_Phone, User_Mileage, User_Mode)
+        VALUES (#{User_Id}, #{User_Name}, #{User_Email}, #{User_Password}, #{User_Address}, #{User_Phone}, 0, 'user')
     </insert>
 
     <update id="updateUser" parameterType="com.example.joinair.dto.USERS">

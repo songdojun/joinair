@@ -25,8 +25,40 @@ public class UserController {
         model.addAttribute("signupUser", new USERS()); // 수정: signup 폼 데이터를 저장할 모델 추가
         return "signInUp";
     }
-
     @PostMapping("/signInUp")
+    public String signInUp(@ModelAttribute("loginUser") USERS loginUser, HttpSession session) {
+        USERS storedUser = userService.getUserById(loginUser.getUser_Id());
+
+        if (storedUser != null && storedUser.getUser_Password().equals(loginUser.getUser_Password())) {
+            String userMode = storedUser.getUser_Mode();
+            if ("user".equals(userMode)) {
+                session.setAttribute("User_Id", storedUser.getUser_Id());
+                System.out.println("사용자 모드로 로그인");
+                return "redirect:/welcome"; // 사용자 모드로 리디렉션
+            } else if ("admin".equals(userMode)) {
+                session.setAttribute("User_Id", storedUser.getUser_Id());
+                System.out.println("관리자 모드로 로그인");
+                return "redirect:/adminWelcome"; // 관리자 모드로 리디렉션
+            }
+        } else {
+            System.out.println("Login Failed!");
+            return "redirect:/signInUp"; // 로그인 실패 시 로그인 페이지로 리디렉션
+        }
+
+        // 이 경우에 대한 기본 반환 값, 필요에 따라 변경할 수 있습니다.
+        return "redirect:/signInUp"; // 또는 다른 기본 리디렉션
+    }
+
+    @GetMapping("/adminWelcome")
+    public String showAdminWelcomePage(Model model, HttpSession session) {
+        // 관리자 페이지에 필요한 데이터를 가져오는 로직 추가
+        return "adminWelcome"; // 관리자 페이지로 리턴
+    }
+
+
+
+
+    /*@PostMapping("/signInUp")
     public String signInUp(@ModelAttribute("loginUser") USERS loginUser, HttpSession session) {
         USERS storedUser = userService.getUserById(loginUser.getUser_Id());
         if (storedUser != null && storedUser.getUser_Password().equals(loginUser.getUser_Password())) {
@@ -37,7 +69,7 @@ public class UserController {
             System.out.println("Login Failed!");
             return "redirect:/signInUp";
         }
-    }
+    }*/
 
 
     @PostMapping("/register")
@@ -46,11 +78,12 @@ public class UserController {
         signupUser.setUser_Address(combinedAddress);
         // 회원가입 처리 로직
         // 여기에 회원가입 로직을 추가
-        userService.registerUser(signupUser);
+        userService.registerUser(signupUser, "user"); // 두 번째 매개변수로 "user"를 전달
         session.setAttribute("User_Id", signupUser.getUser_Id());
         System.out.println("Sign-Up Success!");
         return "redirect:/welcome";
     }
+
 
 
     @PostMapping("/check-duplicate")
