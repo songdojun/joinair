@@ -1,5 +1,6 @@
 package com.example.joinair.entity;
 
+import com.example.joinair.dto.USERS;
 import jakarta.persistence.*;
 import lombok.Data;
 
@@ -7,9 +8,8 @@ import java.util.Date;
 
 @Entity
 @Data
+@Table(name = "REVIEW") // REVIEW 테이블과 매핑
 public class Review {
-
-
 
     @Id
     @GeneratedValue(strategy = GenerationType.SEQUENCE, generator = "REVIEW_SEQ")
