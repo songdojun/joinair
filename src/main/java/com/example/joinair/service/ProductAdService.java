@@ -43,7 +43,7 @@ public class ProductAdService {
     }
 
     public Page<Product> productadSearchList(String searchKeyword, Pageable pageable){
-        return productAdRepository.findProductsByTitleContaining(searchKeyword,pageable);
+        return productAdRepository.findProductsByProNameContaining(searchKeyword,pageable);
     }
 
     //특정 상품 불러오기

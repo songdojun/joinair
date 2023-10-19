@@ -49,8 +49,8 @@
     <a class="download-link" th:href="@{${Product?.Pro_Filepath}}" download>다운로드</a>
 
     <div class="action-links">
-        <a th:href="@{/product/update/{Pro_Code}(Pro_Code=${Product.Pro_Code})}">수정하기</a>
-        <a th:href="@{/product/delete(Pro_Code=${Product.Pro_Code})}">삭제하기</a>
+        <a th:href="@{/productad/modify/{Pro_Code}(Pro_Code=${Product.Pro_Code})}">수정하기</a>
+        <a th:href="@{/productad/delete(Pro_Code=${Product.Pro_Code})}">삭제하기</a>
     </div>
 </div>
 

@@ -16,7 +16,7 @@ import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.multipart.MultipartFile;
 
 import static com.example.joinair.service.ProductAdService.regist;
-import static com.example.joinair.service.ReviewService.write;
+
 
 @Controller
 public class ProductAdController {
@@ -38,7 +38,7 @@ public class ProductAdController {
 
     @GetMapping("/productad/list")
     public String productadList(Model model,
-                                @PageableDefault(page = 0, size = 10, sort = "Pro_Code", direction = Sort.Direction.DESC)Pageable pageable,
+                                @PageableDefault(page = 0, size = 10, sort = "Pro_Code", direction = Sort.Direction.DESC) Pageable pageable,
                                 String searchKeyword){
         Page<Product> list =null;
 
@@ -90,9 +90,13 @@ public class ProductAdController {
 
         if(productTemp !=null){
             productTemp.setPro_Code(updateProduct.getPro_Code());
+            productTemp.setCategory(updateProduct.getCategory());
             productTemp.setPro_Name(updateProduct.getPro_Name());
+            productTemp.setPro_Price(updateProduct.getPro_Price());
+            productTemp.setPro_Inventory(updateProduct.getPro_Inventory());
+            productTemp.setPro_Weight(updateProduct.getPro_Weight());
 
-            productAdService.regist(productTemp,file);
+            regist(productTemp,file);
         }
 
         model.addAttribute("message", "상품 수정이 완료되었습니다.");

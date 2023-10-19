@@ -9,7 +9,7 @@
 <style>
     .layout {
         width: 100%; /* 전체 너비로 확장 */
-        max-width: 800px; /* 최대 너비 설정 */
+        max-width: 1000px; /* 최대 너비 설정 */
         margin: 0 auto;
         margin-top: 40px;
         text-align: center; /* 텍스트 가운데 정렬 */
@@ -31,15 +31,19 @@
     }
 
     .title-column {
-        width: 40%; /* 제목 열 너비 조정 */
+        width: 25%; /* 제목 열 너비 조정 */
     }
 
     .small-column {
-        width: 20%; /* 소수 열 너비 조정 */
+        width: 10%; /* 소수 열 너비 조정 */
+    }
+
+    .category-column {
+        width: 20%; /* 카테고리 열 너비 조정 */
     }
 
     .date-column {
-        width: 25%; /* 작성일자 열 너비 조정 */
+        width: 20%; /* 작성일자 열 너비 조정 */
     }
 </style>
 
@@ -51,7 +55,7 @@
         <tr>
             <th class="small-column">상품코드</th>
             <th class="title-column">상품명</th>
-            <th class="small-column">카테고리식별번호</th>
+            <th class="category-column">카테고리</th>
             <th class="small-column">단가</th>
             <th class="small-column">재고량</th>
             <th class="small-column">무게</th>
@@ -61,8 +65,10 @@
         <tbody>
         <tr th:each="product : ${list}">
             <td class="small-column" th:text="${product.Pro_Code}">상품코드</td>
-            <td class="title-column" th:text="${product.Pro_Name}">상품명</td>
-            <td class="small-column" th:text="${product.Cate_No}">카테고리</td>
+            <td class="title-column">
+                <a th:href="@{/productad/view(Pro_Code=${product.Pro_Code})}" th:text="${product.Pro_Name}">상품명</a>
+            </td>
+            <td class="category-column" th:text="${product.category.Cate_Name}">카테고리</td>
             <td class="small-column" th:text="${product.Pro_Price}">단가</td>
             <td class="small-column" th:text="${product.Pro_Inventory}">재고량</td>
             <td class="small-column" th:text="${product.Pro_Weight}">무게</td>
@@ -74,7 +80,7 @@
 
     <th:block th:each="page : ${#numbers.sequence(startPage, endPage)}">
         <a th:if="${page != nowPage}" th:href="@{/productad/list(page=${page-1}, searchKeyword = ${param.searchKeyword})}" th:text="${page}"></a>
-        <strong th:if="${page == nowPage}" th:text="${page}" style="color: red"></strong>
+        <strong th:if="${page == nowPage}" th:text="${page}" style="color : red"></strong>
     </th:block>
     <form th:action="@{/productad/list}" method="get">
         <input type="text" name="searchKeyword">
