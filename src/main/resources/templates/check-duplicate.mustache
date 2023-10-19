@@ -1,0 +1,17 @@
+<!-- check-duplicate.html -->
+<!DOCTYPE html>
+<html>
+<head>
+    <meta charset="UTF-8">
+    <title>아이디 중복 확인 페이지</title>
+</head>
+<body>
+<h1>아이디 중복 확인 페이지</h1>
+<form name="checkDuplicateForm" method="post" action="/check-duplicate">
+    <input type="text" name="User_Id" placeholder="User ID" required>
+    <input type="submit" value="중복 확인">
+</form>
+<p>{{ message }}</p>
+<a href="/register">회원 가입으로 돌아가기</a>
+</body>
+</html>
