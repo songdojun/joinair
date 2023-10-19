@@ -1,0 +1,93 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>고객 정보 리스트</title>
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+            background-color: #f5f5f5;
+            margin: 0;
+            padding: 0;
+        }
+
+        h1 {
+            background-color: #007bff;
+            color: #fff;
+            padding: 10px;
+            text-align: center;
+        }
+
+        a {
+            color: #007bff;
+            text-decoration: none;
+        }
+
+        a:hover {
+            text-decoration: underline;
+        }
+
+        table {
+            border-collapse: collapse;
+            width: 80%;
+            margin: 20px auto;
+            background-color: #fff;
+        }
+
+        th, td {
+            padding: 10px;
+            text-align: left;
+        }
+
+        th {
+            background-color: #007bff;
+            color: #fff;
+        }
+
+        tr:nth-child(even) {
+            background-color: #f2f2f2;
+        }
+
+        .action-links {
+            display: flex;
+            justify-content: space-around;
+        }
+    </style>
+</head>
+<body>
+<h1>고객 정보 리스트</h1>
+<a href="/logout">Logout</a>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
+<a href="/adminWelcome">Welcome 페이지로 가기</a>
+
+
+<h2 style="text-align: center;">User List</h2>
+<table>
+    <thead>
+    <tr>
+        <th>고객 ID</th>
+        <th>고객 Name</th>
+        <th>고객 E-mail</th>
+        <th>고객 주소</th>
+        <th>고객 전화번호</th>
+        <th>고객 마일리지</th>
+        <th>Actions</th>
+    </tr>
+    </thead>
+    <tbody>
+    {{#users}}
+        <tr>
+            <td>{{User_Id}}</td>
+            <td>{{User_Name}}</td>
+            <td>{{User_Email}}</td>
+            <td>{{User_Address}}</td>
+            <td>{{User_Phone}}</td>
+            <td>{{User_Mileage}}</td>
+            <td class="action-links">
+                <a href="/adminEditUserList/{{User_Id}}">Edit</a>
+            </td>
+        </tr>
+    {{/users}}
+    </tbody>
+</table>
+</body>
+</html>

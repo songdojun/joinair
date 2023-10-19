@@ -14,14 +14,18 @@
     <input type="email" id="userEmail" name="User_Email" value="{{user.User_Email}}" required>
 
     <br>
+    <br>
     <label for="userAddress">Address:</label>
     <input type="text" id="userAddress" name="User_Address" value="{{user.User_Address}}" required>
 
+    <br>
     <br>
     <label for="userPhone">Phone:</label>
     <input type="text" id="userPhone" name="User_Phone" value="{{user.User_Phone}}" required>
 
     <br>
+    <p>보유 마일리지: {{user.User_Mileage}}</p>
+
     <input type="submit" value="Update Profile">
 </form>
 </body>

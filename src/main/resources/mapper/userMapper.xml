@@ -34,5 +34,19 @@
         User_Phone = #{User_Phone}
         WHERE User_Id = #{User_Id}
     </update>
+    <update id="adminUpdateUser" parameterType="com.example.joinair.dto.USERS">
+        UPDATE USERS
+        SET
+        User_Name = #{User_Name},
+        User_Email = #{User_Email},
+        User_Address = #{User_Address},
+        User_Phone = #{User_Phone},
+        User_Mileage = #{User_Mileage}
+        WHERE User_Id = #{User_Id}
+
+    </update>
+    <select id="getAllUsers" resultMap="userResultMap">
+        SELECT * FROM USERS
+    </select>
 
 </mapper>
