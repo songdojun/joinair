@@ -43,7 +43,7 @@
         <p th:text="'상품 가격: ' + ${Product.Pro_Price}"></p>
         <p th:text="'상품 재고량: ' + ${Product.Pro_Inventory}"></p>
         <p th:text="'상품 무게: ' + ${Product.Pro_Weight}"></p>
-        <p th:text="'상품 등록일: ' + ${#dates.format(Product.Pro_Date, 'yyyy-MM-dd HH:mm:ss')}"></p>
+        <p th:text="'상품 등록일: ' + ${#dates.format(Product.Pro_Reg_Date, 'yyyy-MM-dd HH:mm:ss')}"></p>
     </div>
 
     <a class="download-link" th:href="@{${Product?.Pro_Filepath}}" download>다운로드</a>

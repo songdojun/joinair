@@ -90,7 +90,7 @@ public class ProductAdController {
 
         if(productTemp !=null){
             productTemp.setPro_Code(updateProduct.getPro_Code());
-            productTemp.setCategory(updateProduct.getCategory());
+            productTemp.setCate_No(updateProduct.getCate_No());
             productTemp.setPro_Name(updateProduct.getPro_Name());
             productTemp.setPro_Price(updateProduct.getPro_Price());
             productTemp.setPro_Inventory(updateProduct.getPro_Inventory());

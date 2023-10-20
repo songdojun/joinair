@@ -1,6 +1,5 @@
 package com.example.joinair.entity;
 
-
 import jakarta.persistence.*;
 import lombok.Data;
 
@@ -58,12 +57,12 @@ public class Product {
         Pro_Weight = pro_Weight;
     }
 
-    public Date getPro_Date() {
-        return Pro_Date;
+    public Date getPro_Reg_Date() {
+        return Pro_Reg_Date;
     }
 
-    public void setPro_Date(Date pro_Date) {
-        Pro_Date = pro_Date;
+    public void setPro_Reg_Date(Date pro_Reg_Date) {
+        Pro_Reg_Date = pro_Reg_Date;
     }
 
     public String getPro_Filepath() {
@@ -83,37 +82,22 @@ public class Product {
     }
 
     @Id
-
     private Integer Pro_Code;
-
     private Integer Cate_No;
-
     private String Pro_Name;
-
     private Integer Pro_Price;
-
     private Integer Pro_Inventory;
-
     private Integer Pro_Weight;
-
-    private Date Pro_Date;
-
+    private Date Pro_Reg_Date;
     private String Pro_Filepath;
-
     private String Pro_Filename;
 
     @ManyToOne
     @JoinColumn(name = "Cate_No", referencedColumnName = "Cate_No", insertable = false, updatable = false)
     private Category category;
 
-
-
     @PrePersist
     protected  void onCreate(){
-        Pro_Date = new Date();  // 엔티티가 저장되기 전에 현재 날짜 및 시간으로 Pro_Date 설정
+        Pro_Reg_Date = new Date();
     }
-
-
-
-
 }

@@ -2,7 +2,6 @@ package com.example.joinair.repository;
 
 
 import com.example.joinair.entity.Product;
-import org.apache.ibatis.annotations.Param;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
 import org.springframework.data.jpa.repository.JpaRepository;
@@ -17,5 +16,9 @@ public interface ProductAdRepository extends JpaRepository<Product, Integer> {
 
     @Query("SELECT p FROM Product p WHERE p.Pro_Name LIKE %?1% ORDER BY p.Pro_Code DESC")
     Page<Product> findProductsByProNameContaining(String searchKeyword, Pageable pageable);
+
+
+
+
 
 }
