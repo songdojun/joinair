@@ -1,0 +1,86 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>게시글 작성폼</title>
+    <link rel="stylesheet" type="text/css" href="stylesCreate.css">
+</head>
+<style>
+    body {
+        font-family: Arial, sans-serif;
+        background-color: #f4f4f4;
+        margin: 0;
+    }
+
+    header {
+        background-color: #007bff;
+        color: #fff;
+        padding: 20px 0;
+        text-align: center;
+    }
+
+    .layout {
+        width: 800px;
+        margin: 0 auto;
+        padding: 20px;
+        background-color: #fff;
+        box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
+    }
+
+    h1 {
+        font-size: 24px;
+    }
+
+    label {
+        display: block;
+        margin-bottom: 5px;
+    }
+
+    input[type="text"],
+    textarea {
+        width: 100%;
+        padding: 5px;
+        border: 1px solid #ddd;
+        border-radius: 5px;
+        margin-bottom: 10px;
+    }
+
+    input[type="file"] {
+        width: 100%;
+        padding: 5px;
+        margin-bottom: 10px;
+    }
+
+    button {
+        padding: 10px;
+        background-color: #007bff;
+        color: #fff;
+        border: none;
+        border-radius: 5px;
+        cursor: pointer;
+    }
+
+    button:hover {
+        background-color: #0056b3;
+    }
+</style>
+<body>
+<div class="layout">
+    <form action="/notice/createpro" method="post" enctype="multipart/form-data">
+        <label for="Not_Title">제목: </label>
+        <input name="Not_Title" type="text" id="Not_Title">
+
+        <label for="Not_Writer">작성자: </label>
+        <input name="Not_Writer" type="text" id="Not_Writer">
+
+        <label for="Not_Content">내용: </label>
+        <textarea name="Not_Content" id="Not_Content"></textarea>
+
+        <label for="file">파일 업로드: </label>
+        <input type="file" name="file" id="file">
+
+        <button type="submit">작성</button>
+    </form>
+</div>
+</body>
+</html>

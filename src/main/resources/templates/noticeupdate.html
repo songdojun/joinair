@@ -1,0 +1,66 @@
+<!DOCTYPE html>
+<html lang="en" xmlns:th="http://www.thymeleaf.org">
+<head>
+    <meta charset="UTF-8">
+    <title>게시글 수정폼</title>
+</head>
+
+<style>
+    .layout {
+        width: 800px;
+        margin: 0 auto;
+        margin-top: 40px;
+        padding: 20px;
+        background-color: #fff;
+        box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
+    }
+
+    .layout input {
+        width: 100%;
+        padding: 10px;
+        margin-top: 10px;
+        border: 1px solid #ddd;
+        border-radius: 5px;
+    }
+
+    .layout textarea {
+        width: 100%;
+        margin-top: 10px;
+        min-height: 300px;
+        padding: 10px;
+        border: 1px solid #ddd;
+        border-radius: 5px;
+    }
+
+    .layout input[type="file"] {
+        width: 100%;
+        padding: 10px;
+        margin-top: 10px;
+        border: 1px solid #ddd;
+        border-radius: 5px;
+    }
+
+    .layout button {
+        padding: 10px;
+        background-color: #007bff;
+        color: #fff;
+        border: none;
+        border-radius: 5px;
+        cursor: pointer;
+    }
+</style>
+<body>
+<div class="layout">
+    <form th:action="@{/notice/update/{Not_No}(Not_No= ${notice.Not_No})}" method="post" enctype="multipart/form-data">
+        <input name="Not_Title" type="text" th:if="${notice != null}" th:value="${notice.Not_Title}">
+        <textarea name="Not_Content" th:if="${notice != null}" th:text="${notice.Not_Content}">
+        </textarea>
+
+        <!-- 파일 업로드 필드 추가 -->
+        <input type="file" name="file" th:if="${notice != null}">
+
+        <button type="submit" th:if="${notice != null}">수정</button>
+    </form>
+</div>
+</body>
+</html>
