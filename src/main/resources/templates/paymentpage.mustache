@@ -3,45 +3,84 @@
 <head>
     <meta charset="UTF-8">
     <title>결제창</title>
+    <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/4.5.2/css/bootstrap.min.css">
 </head>
 <body>
-<h1>결제창</h1>
+<div class="container mt-5">
+    <h1 class="text-center">결제창</h1>
 
-<!-- 결제 예정금액 및 결제 버튼 -->
-<h2>결제 예정금액</h2>
-<p>총주문금액: $100</p>
-<p>총 할인: $10</p>
-<p>총 부가결제금액: $5</p>
-<p>총 결제예정금액: $95</p>
+    <!-- 결제 예정금액 -->
+    <h2>결제 예정금액</h2>
+    <p>총주문금액: $100</p>
+    <p>총 할인: $10</p>
+    <p>총 부가결제금액: $5</p>
+    <p>총 결제예정금액: $95</p>
 
-<!-- 결제 버튼 -->
-<button onclick="requestPay()">결제 하기</button>
+    <!-- 결제수단 선택 -->
+    <h2>결제수단</h2>
+    <form class="mb-3">
+        <div class="form-check">
+            <input type="radio" id="cardPayment" name="paymentMethod" value="card" class="form-check-input">
+            <label for="cardPayment" class="form-check-label">카드결제</label>
+        </div>
+
+        <div class="form-check">
+            <input type="radio" id="bankTransfer" name="paymentMethod" value="bank" class="form-check-input">
+            <label for="bankTransfer" class="form-check-label">실시간 계좌이체</label>
+        </div>
+
+        <div class="form-check">
+            <input type="radio" id="mobilePayment" name="paymentMethod" value="mobile" class="form-check-input">
+            <label for="mobilePayment" class="form-check-label">휴대폰 결제</label>
+        </div>
+
+        <div class="form-check">
+            <input type="radio" id="bankTransferPayment" name="paymentMethod" value="bankTransfer" class="form-check-input">
+            <label for="bankTransferPayment" class="form-check-label">무통장 입금</label>
+        </div>
+    </form>
+
+    <!-- 결제서비스 동의 -->
+    <h2>결제서비스 동의</h2>
+    <div class="form-check mb-3">
+        <input type="checkbox" id="paymentAgreement" name="paymentAgreement" value="agreed" class="form-check-input">
+        <label for="paymentAgreement" class="form-check-label">결제서비스 이용약관에 동의합니다.</label>
+    </div>
+
+    <!-- 결제 버튼 -->
+    <button onclick="requestPayment()" class="btn btn-primary">결제</button>
+</div>
 
 <script>
-    function requestPay() {
-      IMP.init('iamport'); // 'iamport' 대신 자신의 가맹점 식별코드를 사용하세요
-      IMP.request_pay({
-        pg: "inicis", // PG사 선택 (예: "inicis" 또는 "kakaopay")
-        pay_method: "card", // 결제 수단 선택 (예: "card", "trans", "vbank", "phone")
-        merchant_uid: 'merchant_' + new Date().getTime(), // 고유 주문번호 생성
-        name: '결제테스트', // 상품명
-        amount: 9500, // 결제 금액
-        buyer_email: 'iamport@siot.do', // 구매자 이메일
-        buyer_name: '구매자', // 구매자 이름
-        buyer_tel: '010-1234-5678', // 구매자 전화번호
-        buyer_addr: '서울특별시 강남구 삼성동', // 구매자 주소
-        buyer_postcode: '123-456' // 구매자 우편번호
-      }, function (rsp) {
-          if (rsp.success) {
-            var msg = '결제가 완료되었습니다.';
-            alert(msg);
-            location.href = "결제 완료 후 이동할 페이지 URL";
-          } else {
-            var msg = '결제에 실패하였습니다.';
-            msg += '에러내용 : ' + rsp.error_msg;
-            alert(msg);
-          }
-      });
+    function requestPayment() {
+        var paymentMethod = document.querySelector('input[name="paymentMethod"]:checked').value;
+
+        if (paymentMethod === "card") {
+            // 아임포트 초기화 및 카드결제 요청
+            IMP.init('iamport'); // 'iamport' 대신 자신의 가맹점 식별코드를 사용하세요
+            IMP.request_pay({
+                pg: "inicis", // PG사 선택 (예: "inicis" 또는 "kakaopay")
+                pay_method: "card", // 결제 수단 선택 (예: "card", "trans", "vbank", "phone")
+                merchant_uid: 'merchant_' + new Date().getTime(), // 고유 주문번호 생성
+                name: '결제테스트', // 상품명
+                amount: 9500, // 결제 금액
+                buyer_email: 'iamport@siot.do', // 구매자 이메일
+                buyer_name: '구매자', // 구매자 이름
+                buyer_tel: '010-1234-5678', // 구매자 전화번호
+                buyer_addr: '서울특별시 강남구 삼성동', // 구매자 주소
+                buyer_postcode: '123-456' // 구매자 우편번호
+            }, function (rsp) {
+                if (rsp.success) {
+                    var msg = '결제가 완료되었습니다.';
+                    alert(msg);
+                    location.href = "결제 완료 후 이동할 페이지 URL";
+                } else {
+                    var msg = '결제에 실패하였습니다.';
+                    msg += '에러내용 : ' + rsp.error_msg;
+                    alert(msg);
+                }
+            });
+        }
     }
 </script>
 
