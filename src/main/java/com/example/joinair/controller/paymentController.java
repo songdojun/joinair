@@ -15,10 +15,10 @@ public class paymentController {
     @Autowired
     private paymentService paymentService;
 
-    @PostMapping("/paymenttest")
+    @PostMapping("/paymentpage")
     public ModelAndView showPaymentPage() {
         ModelAndView mv = new ModelAndView();
-        mv.setViewName("paymenttest");
+        mv.setViewName("paymentpage");
         mv.setStatus(HttpStatus.OK);
         return mv;
     }

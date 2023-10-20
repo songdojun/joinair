@@ -9,7 +9,7 @@ import java.util.List;
 public interface qnaMapper {
     public List<QNA> qnaList();
 
-    QNA qna(QNA QNA_CO);
+    QNA qna(QNA QNA_No);
 
     int qnainsert(QNA qna);
 

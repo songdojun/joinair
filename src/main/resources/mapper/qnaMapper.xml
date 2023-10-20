@@ -39,11 +39,11 @@
 
     <select id="qnapaging" resultType="com.example.joinair.dto.QNA">
         <![CDATA[
-    SELECT *
-    FROM (SELECT a.*, ROWNUM rnum
-          FROM (SELECT * FROM qna ORDER BY QNA_NO DESC) a
-          WHERE ROWNUM <= #{offset} + #{pageSize})
-    WHERE rnum > #{offset}
+SELECT *
+FROM (SELECT a.*, ROWNUM rnum
+      FROM (SELECT * FROM qna ORDER BY QNA_NO DESC) a
+      WHERE ROWNUM <= #{offset} + #{pageSize})
+WHERE rnum > #{offset}
     ]]>
     </select>
     <select id="qnapageNum" resultType="int"> <!--페이징처리-->

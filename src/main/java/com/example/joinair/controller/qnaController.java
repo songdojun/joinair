@@ -25,13 +25,16 @@ public class qnaController {
             @RequestParam(name = "pageSize", required = false, defaultValue = "10") int pageSize
     ) {
         // Calculate offset for pagination
+
         int offset = (page - 1) * pageSize;
+        System.out.println(offset);
 
         // Retrieve the list of QNA items for the current page
         List<QNA> qnaList = qnaService.qnapaging(offset, pageSize);
 
         // Get the total number of records
         int totalRecords = qnaService.qnapageNum();
+        System.out.println(totalRecords);
 
         // Calculate total number of pages
         int totalPages = (int) Math.ceil((double) totalRecords / pageSize);
@@ -53,6 +56,7 @@ public class qnaController {
 
     @GetMapping("/qnadetail/{QNA_NO}")
     public ModelAndView qnaView(QNA QNA_NO) {
+        System.out.println(QNA_NO.getQNA_NO());
         QNA result = qnaService.qna(QNA_NO);
 
         if(result.getQNA_COMMAND()==null){
@@ -69,7 +73,7 @@ public class qnaController {
         ModelAndView mv = new ModelAndView();
         mv.setViewName("qnadetail");
         mv.setStatus(HttpStatus.OK);
-        mv.addObject("qna", result);
+        mv.addObject("qna" , result);
         return mv;
     }
     @PostMapping("/qnaupdateCommand/{QNA_NO}")

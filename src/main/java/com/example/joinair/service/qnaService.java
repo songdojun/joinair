@@ -25,8 +25,8 @@ public class qnaService {
         return cnt > 0;
     }
 
-    public boolean qnaupdate(QNA qna_No) {
-        int cnt = qnaMapper.qnaupdate(qna_No);
+    public boolean qnaupdate(QNA qna) {
+        int cnt = qnaMapper.qnaupdate(qna);
         return cnt > 0;
     }
     public void qnaupdateCommand(QNA qna_No){
