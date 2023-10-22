@@ -53,24 +53,25 @@ public class ProductAdService {
 
         // 이전 코드 생략
 
-        public Page<Product> productadSearchList(String searchOption, String searchKeyword, Pageable pageable) {
-            Page<Product> list;
+    public Page<Product> productadSearchList(String searchOption, String searchKeyword, Pageable pageable) {
+        Page<Product> list;
 
-            // Pageable 객체를 적절하게 설정
-            pageable = PageRequest.of(pageable.getPageNumber(), pageable.getPageSize(), Sort.by("Pro_Code").descending());
+        // Pageable 객체를 적절하게 설정
+        pageable = PageRequest.of(pageable.getPageNumber(), pageable.getPageSize(), Sort.by("Pro_Code").descending());
 
-            if ("Pro_Code".equals(searchOption)) {
-                list = productAdRepository.findProductsByProCode(Integer.parseInt(searchKeyword), pageable);
-            } else if ("Pro_Name".equals(searchOption)) {
-                list = productAdRepository.findProductsByProNameContaining(searchKeyword, pageable);
-            } else {
-                list = productAdRepository.findAllOrderedByProCodeWithPagination(pageable);
-            }
-
-            return list;
+        if ("Pro_Code".equals(searchOption)) {
+            list = productAdRepository.findProductsByProCode(Integer.parseInt(searchKeyword), pageable);
+        } else if ("Pro_Name".equals(searchOption)) {
+            list = productAdRepository.findProductsByProNameContaining(searchKeyword, pageable);
+        } else if ("Cate_Name".equals(searchOption)) {
+            // 수정: "Cate_Name" 검색을 위한 쿼리 추가
+            list = productAdRepository.findProductsByCateNameContaining(searchKeyword, pageable);
+        } else {
+            list = productAdRepository.findAllOrderedByProCodeWithPagination(pageable);
         }
 
-        // 이전 코드 생략
+        return list;
+    }
 
 
 

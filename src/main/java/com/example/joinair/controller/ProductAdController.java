@@ -48,14 +48,17 @@ public class ProductAdController {
         int startPage = Math.max(nowPage - 4, 1);
         int endPage = Math.min(nowPage + 5, list.getTotalPages());
 
+        // Add search parameters to the model
         model.addAttribute("list", list);
         model.addAttribute("nowPage", nowPage);
         model.addAttribute("startPage", startPage);
         model.addAttribute("endPage", endPage);
-        model.addAttribute("searchOption", searchOption); // Add searchOption for the view
+        model.addAttribute("searchOption", searchOption);
+        model.addAttribute("searchKeyword", searchKeyword); // Pass search keyword to the view
 
         return "productadlist";
     }
+
 
 
     @GetMapping("/productad/view")
