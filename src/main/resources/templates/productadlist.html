@@ -147,44 +147,6 @@
     <a href="/productad/regist" class="new-post-button">새 상품 등록</a>
 </div>
 
-<script>
-    // 검색 버튼 클릭 시 검색 수행
- document.getElementById("searchButton").addEventListener("click", function () {
-     performSearch();
- });
-
- // Enter 키를 눌렀을 때 검색 수행
- document.getElementById("searchKeyword").addEventListener("keyup", function (event) {
-     if (event.key === "Enter") {
-         performSearch();
-     }
- });
-
- // 검색 함수
-// 검색 함수
-function performSearch(page = 0) {
-    const searchOption = document.getElementById("searchOption").value;
-    const searchKeyword = document.getElementById("searchKeyword").value;
-
-    // Ajax 요청을 통해 검색 결과를 가져옵니다.
-    const url = "/productad/list";
-    const params = new URLSearchParams({
-        "searchOption": searchOption,
-        "searchKeyword": searchKeyword,
-        "page": page  // 페이지 번호를 설정
-    });
-    const fullUrl = url + "?" + params.toString();
-
-    fetch(fullUrl)
-        .then(response => response.text())
-        .then(data => {
-            // 검색 결과를 현재 페이지에 업데이트합니다.
-            document.querySelector(".layout").innerHTML = data;
-        })
-        .catch(error => console.error("검색 오류: ", error));
-}
-
-
-</script>
+<script src="/js/searchProductad.js"></script>
 </body>
 </html>
