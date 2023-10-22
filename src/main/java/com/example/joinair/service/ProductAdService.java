@@ -4,7 +4,9 @@ import com.example.joinair.entity.Product;
 import com.example.joinair.repository.ProductAdRepository;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.domain.Page;
+import org.springframework.data.domain.PageRequest;
 import org.springframework.data.domain.Pageable;
+import org.springframework.data.domain.Sort;
 import org.springframework.stereotype.Service;
 import org.springframework.web.multipart.MultipartFile;
 
@@ -47,9 +49,31 @@ public class ProductAdService {
         return productAdRepository.findAll();
     }
 
-    public Page<Product> productadSearchList(String searchKeyword, Pageable pageable) {
-        return productAdRepository.findProductsByProNameContaining(searchKeyword, pageable);
-    }
+
+
+        // 이전 코드 생략
+
+        public Page<Product> productadSearchList(String searchOption, String searchKeyword, Pageable pageable) {
+            Page<Product> list;
+
+            // Pageable 객체를 적절하게 설정
+            pageable = PageRequest.of(pageable.getPageNumber(), pageable.getPageSize(), Sort.by("Pro_Code").descending());
+
+            if ("Pro_Code".equals(searchOption)) {
+                list = productAdRepository.findProductsByProCode(Integer.parseInt(searchKeyword), pageable);
+            } else if ("Pro_Name".equals(searchOption)) {
+                list = productAdRepository.findProductsByProNameContaining(searchKeyword, pageable);
+            } else {
+                list = productAdRepository.findAllOrderedByProCodeWithPagination(pageable);
+            }
+
+            return list;
+        }
+
+        // 이전 코드 생략
+
+
+
 
 
 

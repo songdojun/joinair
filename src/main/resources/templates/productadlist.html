@@ -3,52 +3,90 @@
 <head>
     <meta charset="UTF-8">
     <title>상품 목록</title>
+    <style>
+        .layout {
+            width: 100%;
+            max-width: 1000px;
+            margin: 0 auto;
+            margin-top: 40px;
+            text-align: center;
+        }
+
+        table {
+            width: 100%;
+            table-layout: fixed;
+            border-collapse: collapse;
+        }
+
+        th, td {
+            border: 1px solid #ddd;
+            padding: 8px;
+            text-align: left;
+            overflow: hidden;
+            text-overflow: ellipsis;
+            white-space: nowrap;
+        }
+
+        .title-column {
+            width: 25%;
+        }
+
+        .small-column {
+            width: 10%;
+        }
+
+        .category-column {
+            width: 20%;
+        }
+
+        .date-column {
+            width: 20%;
+        }
+
+        .pagination {
+            margin-top: 20px;
+        }
+
+        .horizontal-pagination {
+            display: flex;
+            justify-content: center;
+            align-items: center;
+        }
+
+        .horizontal-pagination a {
+            margin: 0 5px;
+            text-decoration: none;
+        }
+
+        .horizontal-pagination a.current-page {
+            color: red;
+        }
+
+        .current-page {
+            font-weight: bold;
+        }
+
+        .no-results {
+            font-weight: bold;
+            font-size: 18px;
+            margin-top: 10px;
+        }
+    </style>
 </head>
 <body>
-
-<style>
-    .layout {
-        width: 100%; /* 전체 너비로 확장 */
-        max-width: 1000px; /* 최대 너비 설정 */
-        margin: 0 auto;
-        margin-top: 40px;
-        text-align: center; /* 텍스트 가운데 정렬 */
-    }
-
-    table {
-        width: 100%;
-        table-layout: fixed;
-        border-collapse: collapse;
-    }
-
-    th, td {
-        border: 1px solid #ddd;
-        padding: 8px;
-        text-align: left;
-        overflow: hidden;
-        text-overflow: ellipsis;
-        white-space: nowrap;
-    }
-
-    .title-column {
-        width: 25%; /* 제목 열 너비 조정 */
-    }
-
-    .small-column {
-        width: 10%; /* 소수 열 너비 조정 */
-    }
-
-    .category-column {
-        width: 20%; /* 카테고리 열 너비 조정 */
-    }
-
-    .date-column {
-        width: 20%; /* 작성일자 열 너비 조정 */
-    }
-</style>
-
 <div class="layout">
-    <h1>관리자 상품 관리 페이지</h1> <!-- 문구 가운데 정렬 -->
+    <h1>관리자 상품 관리 페이지</h1>
+
+    <button id="goBackButton" onclick="goBack()">뒤로 가기</button>
+
+    <div>
+        <select id="searchOption">
+            <option value="Pro_Name">상품명</option>
+            <option value="Pro_Code">상품코드</option>
+        </select>
+        <input type="text" name="searchKeyword" id="searchKeyword" placeholder="검색어 입력">
+        <button id="searchButton">검색</button>
+    </div>
 
     <table>
         <thead>
@@ -76,18 +114,71 @@
         </tr>
         </tbody>
     </table>
+
+    <!-- 페이지네이션 -->
+    <div class="pagination" th:if="${list.totalPages > 1 || list.totalElements == 0}">
+        <div class="horizontal-pagination">
+            <a th:if="${list.number > 0}" th:href="@{|/productad/list?page=0&size=${list.size}&sort=${list.sort}|}" aria-label="First">
+                <span aria-hidden="true">첫 페이지</span>
+            </a>
+            <a th:if="${list.number > 0}" th:href="@{|/productad/list?page=${list.number - 1}&size=${list.size}&sort=${list.sort}|}" aria-label="Previous">
+                <span aria-hidden"true">&laquo; 이전</span>
+            </a>
+            <span th:each="i : ${#numbers.sequence(0, list.totalPages - 1)}">
+                <a th:if="${i == list.number}" th:text="${i + 1}" class="current-page"></a>
+                <a th:unless="${i == list.number}" th:href="@{|/productad/list?page=${i}&size=${list.size}&sort=${list.sort}|}" th:text="${i + 1}"></a>
+            </span>
+            <a th:if="${list.number < list.totalPages - 1}" th:href="@{|/productad/list?page=${list.number + 1}&size=${list.size}&sort=${list.sort}|}" aria-label="Next">
+                <span aria-hidden="true">다음 &raquo;</span>
+            </a>
+            <a th:if="${list.number < list.totalPages - 1}" th:href="@{|/productad/list?page=${list.totalPages - 1}&size=${list.size}&sort=${list.sort}|}" aria-label="Last">
+                <span aria-hidden="true">마지마지막 페이지</span>
+            </a>
+        </div>
+    </div>
+
+    <div th:if="${list.totalPages == 0}" class="no-results">검색 결과가 없습니다.</div>
+
+    <!-- 상품 등록 버튼 -->
     <a href="/productad/regist" class="new-post-button">새 상품 등록</a>
-
-    <th:block th:each="page : ${#numbers.sequence(startPage, endPage)}">
-        <a th:if="${page != nowPage}" th:href="@{/productad/list(page=${page-1}, searchKeyword = ${param.searchKeyword})}" th:text="${page}"></a>
-        <strong th:if="${page == nowPage}" th:text="${page}" style="color : red"></strong>
-    </th:block>
-    <form th:action="@{/productad/list}" method="get">
-        <input type="text" name="searchKeyword">
-        <button type="submit">검색</button>
-    </form>
-
 </div>
 
+<script>
+    // 검색 버튼 클릭 시 검색 수행
+    document.getElementById("searchButton").addEventListener("click", function () {
+        performSearch();
+    });
+
+    // Enter 키를 눌렀을 때 검색 수행
+    document.getElementById("searchKeyword").addEventListener("keyup", function (event) {
+        if (event.key === "Enter") {
+            performSearch();
+        }
+    });
+
+    // 검색 함수
+    function performSearch() {
+        const searchOption = document.getElementById("searchOption").value;
+        const searchKeyword = document.getElementById("searchKeyword").value;
+
+        // Ajax 요청을 통해 검색 결과를 가져옵니다.
+        const url = "/productad/list";
+        const params = new URLSearchParams({ "searchOption": searchOption, "searchKeyword": searchKeyword });
+        const fullUrl = url + "?" + params.toString();
+
+        fetch(fullUrl)
+            .then(response => response.text())
+            .then(data => {
+                // 검색 결과를 현재 페이지에 업데이트합니다.
+                document.querySelector(".layout").innerHTML = data;
+            })
+            .catch(error => console.error("검색 오류: ", error));
+    }
+
+    // 뒤로 가기 버튼 클릭 시 이전 페이지로 이동
+    function goBack() {
+        history.back();
+    }
+</script>
 </body>
 </html>

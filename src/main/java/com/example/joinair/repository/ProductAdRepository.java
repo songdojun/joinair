@@ -17,8 +17,11 @@ public interface ProductAdRepository extends JpaRepository<Product, Integer> {
     @Query("SELECT p FROM Product p WHERE p.Pro_Name LIKE %?1% ORDER BY p.Pro_Code DESC")
     Page<Product> findProductsByProNameContaining(String searchKeyword, Pageable pageable);
 
+    @Query("SELECT p FROM Product p WHERE p.Pro_Code = ?1 ORDER BY p.Pro_Code DESC")
+    Page<Product> findProductsByProCode(Integer searchKeyword, Pageable pageable);
 
-
-
-
+    @Query("SELECT p FROM Product p WHERE p.Pro_Name LIKE %?1% OR p.Pro_Code = ?1 ORDER BY p.Pro_Code DESC")
+    Page<Product> findProductsByProNameOrProCode(String searchKeyword, Pageable pageable);
 }
+
+

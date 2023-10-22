@@ -13,6 +13,7 @@ import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
+import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.multipart.MultipartFile;
 
 import static com.example.joinair.service.ProductAdService.regist;
@@ -39,26 +40,23 @@ public class ProductAdController {
     @GetMapping("/productad/list")
     public String productadList(Model model,
                                 @PageableDefault(page = 0, size = 10, sort = "Pro_Code", direction = Sort.Direction.DESC) Pageable pageable,
-                                String searchKeyword){
-        Page<Product> list =null;
+                                @RequestParam(name = "searchOption", required = false) String searchOption,
+                                @RequestParam(name = "searchKeyword", required = false) String searchKeyword) {
+        Page<Product> list = productAdService.productadSearchList(searchOption, searchKeyword, pageable);
 
-        if(searchKeyword ==null){
-            list = productAdService.productadListWithPagination(pageable);
-        }else {
-            list = productAdService.productadSearchList(searchKeyword, pageable);
-        }
+        int nowPage = list.getPageable().getPageNumber() + 1;
+        int startPage = Math.max(nowPage - 4, 1);
+        int endPage = Math.min(nowPage + 5, list.getTotalPages());
 
-        int nowPage = list.getPageable().getPageNumber()+1;
-        int startPage =Math.max(nowPage-4,1);
-        int endPage = Math.min(nowPage+5, list.getTotalPages());
-
-        model.addAttribute("list",list);
+        model.addAttribute("list", list);
         model.addAttribute("nowPage", nowPage);
         model.addAttribute("startPage", startPage);
-        model.addAttribute("endPage",endPage);
+        model.addAttribute("endPage", endPage);
+        model.addAttribute("searchOption", searchOption); // Add searchOption for the view
 
         return "productadlist";
     }
+
 
     @GetMapping("/productad/view")
     public String productadView(Model model, Integer Pro_Code){
