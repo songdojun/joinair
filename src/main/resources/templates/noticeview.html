@@ -1,0 +1,80 @@
+<!DOCTYPE html>
+<html lang="en" xmlns:th="http://www.thymeleaf.org">
+<head>
+    <meta charset="UTF-8">
+    <title>게시글 상세 페이지</title>
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+            background-color: #f4f4f4;
+            margin: 0;
+            padding: 20px;
+            display: flex;
+            justify-content: center;
+            align-items: flex-start;
+            min-height: 100vh;
+        }
+
+        .container {
+            background-color: #fff;
+            box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
+            padding: 20px;
+            width: 800px;
+        }
+
+        h1, p {
+            margin-bottom: 10px;
+        }
+
+        .meta-info {
+            color: #666;
+            font-size: 14px;
+            margin-bottom: 20px;
+        }
+
+        .download-link {
+            display: block;
+            margin-top: 10px;
+            text-decoration: none;
+            background-color: #007bff;
+            color: #fff;
+            padding: 5px 10px;
+            border-radius: 5px;
+        }
+
+        .action-links a {
+            margin-right: 10px;
+            text-decoration: none;
+        }
+
+        .content-container {
+            margin-top: 20px;
+            border: 1px solid #ddd;
+            padding: 10px;
+            border-radius: 5px;
+        }
+    </style>
+</head>
+<body>
+
+<div th:if="${Notice != null}">
+    <div class="container">
+        <h1 th:text="${Notice.Not_Title}">제목입니다.</h1>
+        <div class="meta-info">
+            <p th:text="'작성자: ' + ${Notice.Not_Writer}"></p>
+            <p th:text="'작성일: ' + ${#dates.format(Notice.Not_Date, 'yyyy-MM-dd HH:mm:ss')}"></p>
+        </div>
+        <div class="content-container">
+            <p th:text="${Notice.Not_Content}">내용이 들어갈 부분입니다.</p>
+        </div>
+        <a class="download-link" th:href="@{${Notice?.Not_Filepath}}" download>다운로드</a>
+
+        <div class="action-links">
+            <a th:href="@{/notice/delete(Not_No=${Notice.Not_No})}">글삭제</a>
+            <a th:href="@{/notice/update/{Not_No}(Not_No=${Notice.Not_No})}">수정</a>
+        </div>
+    </div>
+
+
+</body>
+</html>
