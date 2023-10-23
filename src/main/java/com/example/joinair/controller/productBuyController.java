@@ -61,8 +61,9 @@ public class productBuyController {
     @GetMapping("/productbuy/view")
     public String productbuyView(Model model, Integer Pro_Code){
         model.addAttribute("Product",productBuyService.productbuyView(Pro_Code).orElse(null));
-        return "productbuyview";
+        return "productbuyview2";
     }
+
 
 
     @GetMapping("/productbuy/delete")
