@@ -4,6 +4,8 @@
   text-align: center;
   font-family: "Open Sans", sans-serif;
 }
+
+
 #message {
     display: block !important;
     color: red;
@@ -347,6 +349,15 @@ background text
   border: none;
   color: #757575;
 }
+.cont_form_sign_up > emailDomain {
+  text-align: left;
+  padding: 15px 5px;
+  margin-left: 80px;
+  margin-top: 20px;
+  width: 350px;
+  border: none;
+  color: #757575;
+}
 .address-container {
   display: flex;
   align-items: center; /* 입력 필드와 버튼을 세로 중앙 정렬 */
@@ -402,4 +413,14 @@ text-align: left;
   float: left;
   margin: 10px;
   margin-left: 30px;
+}
+
+.input-field {
+  text-align: left;
+  padding: 15px 5px;
+  margin-left: 80px;
+  margin-top: 20px;
+  width: 350px;
+  border: none;
+  color: #757575;
 }

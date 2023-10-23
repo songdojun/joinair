@@ -57,6 +57,15 @@ public class UserController {
             return "redirect:/signInUp"; // 로그인되지 않았으면 로그인 페이지로 리디렉션
         }
 
+        String userId = (String) session.getAttribute("User_Id");
+        USERS user = userService.getUserById(userId);
+
+        if (user != null && "admin".equals(user.getUser_Mode())) {
+            model.addAttribute("isAdmin", true); // 관리자 역할이면 isAdmin을 true로 설정
+        } else {
+            return "redirect:/signInUp"; // 관리자가 아니면 로그인 페이지로 리디렉션
+        }
+
         List<USERS> users = userService.getAllUsers();
         model.addAttribute("users", users);
         return "adminWelcome";
@@ -68,6 +77,14 @@ public class UserController {
         if (session.getAttribute("User_Id") == null) {
             return "redirect:/signInUp"; // 로그인되지 않았으면 로그인 페이지로 리디렉션
         }
+        String userId = (String) session.getAttribute("User_Id");
+        USERS user = userService.getUserById(userId);
+
+        if (user != null && "admin".equals(user.getUser_Mode())) {
+            model.addAttribute("isAdmin", true); // 관리자 역할이면 isAdmin을 true로 설정
+        } else {
+            return "redirect:/signInUp"; // 관리자가 아니면 로그인 페이지로 리디렉션
+        }
         List<USERS> users = userService.getAllUsers();
         model.addAttribute("users", users);
         return "adminEditUserList";
@@ -78,6 +95,7 @@ public class UserController {
         if (session.getAttribute("User_Id") == null) {
             return "redirect:/signInUp"; // 로그인되지 않았으면 로그인 페이지로 리디렉션
         }
+
         System.out.println("showAdminEditUserListDetailPage");
         USERS user = userService.getUserById(userId);
         model.addAttribute("user", user);

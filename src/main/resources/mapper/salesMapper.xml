@@ -1,0 +1,51 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+        "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+
+<mapper namespace="com.example.joinair.mapper.SalesMapper">
+
+  <!-- 일일 매출 조회 -->
+  <select id="getDailySales" resultType="com.example.joinair.dto.SALES">
+    SELECT SALES_DATE, amount, Pro_Code, User_Id
+    FROM SALES
+  </select>
+
+
+  <!-- 월별 매출 조회 -->
+  <!-- 월별 매출 조회 -->
+  <select id="getMonthlySales" resultType="com.example.joinair.dto.SALES">
+    SELECT FORMATDATETIME(DATE_TRUNC('MONTH', sales_Date), 'yyyy-MM') AS date,
+    SUM(amount) AS amount,
+    Pro_Code,
+    User_Id
+    FROM SALES
+    GROUP BY FORMATDATETIME(DATE_TRUNC('MONTH', sales_Date), 'yyyy-MM'), Pro_Code, User_Id
+  </select>
+
+
+
+  <!-- 연도별 매출 조회 -->
+  <select id="getYearlySales" resultType="com.example.joinair.dto.SALES">
+    SELECT sales_Date, amount, Pro_Code, User_Id
+    FROM SALES
+    WHERE YEAR(sales_Date) = #{year}
+  </select>
+
+  <select id="getCustomSales" resultType="com.example.joinair.dto.SALES">
+    SELECT User_Id, amount, sales_Date, Pro_Code
+    FROM SALES
+    WHERE User_Id = #{user}
+    GROUP BY User_Id, sales_Date, Pro_Code
+    ORDER BY sales_Date DESC
+  </select>
+
+
+  <select id="getMonthlySalesByYearAndMonth" resultType="com.example.joinair.dto.SALES">
+    SELECT sales_Date, amount, Pro_Code, User_Id
+    FROM SALES
+    WHERE YEAR(SALES_DATE) = #{year} AND MONTH(SALES_DATE) = #{month}
+  </select>
+
+
+
+</mapper>
