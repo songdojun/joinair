@@ -55,7 +55,7 @@
             </a>
             <!-- Adjust previous and next links similarly -->
             <a th:if="${list.number > 0}" th:href="@{|/productbuy/list?page=${list.number - 1}&size=${list.size}&sort=${list.sort}&searchOption=${searchOption}&searchKeyword=${searchKeyword}|}" aria-label="Previous">
-                <span aria-hidden"true">&laquo; 이전</span>
+                <span aria-hidden="true">&laquo; 이전</span>
             </a>
             <!-- Add searchOption and searchKeyword to the page number links -->
             <span th:each="i : ${#numbers.sequence(0, list.totalPages - 1)}">

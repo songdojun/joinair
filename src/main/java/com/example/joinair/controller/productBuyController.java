@@ -1,7 +1,6 @@
 package com.example.joinair.controller;
 
 import com.example.joinair.entity.Product;
-import com.example.joinair.service.ProductAdService;
 import com.example.joinair.service.ProductBuyService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.domain.Page;
@@ -55,7 +54,7 @@ public class productBuyController {
         model.addAttribute("searchOption", searchOption);
         model.addAttribute("searchKeyword", searchKeyword); // Pass search keyword to the view
 
-        return "productbuylist";
+        return "productbuylist2";
     }
 
 
