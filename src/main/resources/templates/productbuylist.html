@@ -30,9 +30,7 @@
             <th class="title-column">상품명</th>
             <th class="category-column">카테고리</th>
             <th class="small-column">단가</th>
-            <th class="small-column">재고량</th>
             <th class="small-column">무게</th>
-            <th class="date-column">상품등록일</th>
         </tr>
         </thead>
         <tbody>
@@ -42,10 +40,8 @@
                 <a th:href="@{/productbuy/view(Pro_Code=${product.Pro_Code})}" th:text="${product.Pro_Name}">상품명</a>
             </td>
             <td class="category-column" th:text="${product.category.Cate_Name}">카테고리</td>
-            <td class="small-column" th:text="${product.Pro_Price}">단가</td>
-            <td class="small-column" th:text="${product.Pro_Inventory}">재고량</td>
-            <td class="small-column" th:text="${product.Pro_Weight}">무게</td>
-            <td class="date-column" th:text="${#dates.format(product.Pro_Reg_Date, 'yyyy-MM-dd HH:mm:ss')}">상품등록일</td>
+            <td class="small-column" th:text="${product.Pro_Price}">가격</td>
+            <td class="small-column" th:text="${product.Pro_Weight}">무게(g)</td>
         </tr>
         </tbody>
     </table>
