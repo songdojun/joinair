@@ -8,7 +8,6 @@ import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.*;
 import org.springframework.web.servlet.ModelAndView;
 
-import java.util.ArrayList;
 import java.util.List;
 
 @Controller
@@ -20,34 +19,14 @@ public class qnaController {
     private qnaService qnaService;
 
     @GetMapping("/qnaList")
-    public ModelAndView qnaList(
-            @RequestParam(name = "page", required = false, defaultValue = "1") int page,
-            @RequestParam(name = "pageSize", required = false, defaultValue = "10") int pageSize
-    ) {
-        // Calculate offset for pagination
-
-        int offset = (page - 1) * pageSize;
-
-        // Retrieve the list of QNA items for the current page
-        List<QNA> qnaList = qnaService.qnapaging(offset, pageSize);
-
-        // Get the total number of records
-        int totalRecords = qnaService.qnapageNum();
-
-        // Calculate total number of pages
-        int totalPages = (int) Math.ceil((double) totalRecords / pageSize);
-
-        // Create a list to store page numbers
-        List<Integer> pageNumbers = new ArrayList<>();
-        for (int i = 1; i <= totalPages; i++) {
-            pageNumbers.add(i);
-        }
+    public ModelAndView qnaList() {
+        // QNA 항목 목록을 검색합니다.
+        List<QNA> qnaList = qnaService.qnaList();
 
         ModelAndView mv = new ModelAndView();
         mv.setViewName("qnaList");
         mv.setStatus(HttpStatus.OK);
         mv.addObject("qnaList", qnaList);
-        mv.addObject("pageNumbers", pageNumbers);
 
         return mv;
     }

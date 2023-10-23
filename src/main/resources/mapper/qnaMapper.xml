@@ -2,13 +2,8 @@
         PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
         "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
 <mapper namespace="com.example.joinair.mapper.qnaMapper">
-    <select id="qnaList" resultType="com.example.joinair.dto.QNA" >
+    <select id="qnaList" resultType="com.example.joinair.dto.QNA">
         SELECT * FROM qna
-        <where>
-            <if test="keyword != null and keyword != ''">
-                AND QNA_TITLE LIKE CONCAT('%', #{keyword}, '%')
-            </if>
-        </where>
         ORDER BY QNA_NO DESC
     </select>
 
@@ -40,18 +35,6 @@
         DELETE FROM qna WHERE QNA_NO = #{QNA_NO}
     </delete>
 
-    <select id="qnapaging" resultType="com.example.joinair.dto.QNA">
-        <![CDATA[
-SELECT *
-FROM (SELECT a.*, ROWNUM rnum
-      FROM (SELECT * FROM qna ORDER BY QNA_NO DESC) a
-      WHERE ROWNUM <= #{offset} + #{pageSize})
-WHERE rnum > #{offset}
-    ]]>
-    </select>
-    <select id="qnapageNum" resultType="int"> <!--페이징처리-->
-        SELECT COUNT(*) as totalRecords FROM qna
-    </select>
 
 
 </mapper>

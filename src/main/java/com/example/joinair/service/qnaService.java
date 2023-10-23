@@ -36,13 +36,6 @@ public class qnaService {
         qnaMapper.qnadelete(qna_No);
     }
 
-    public List<QNA> qnapaging(int offset, int pageSize) {
-        return qnaMapper.qnapaging(offset, pageSize);
-    }
-    public int qnapageNum() { //페이징 번호 처리
-        int totalRecords = qnaMapper.qnapageNum(); // qnaMapper에 해당 메서드를 추가하여 레코드 수를 가져옴.
-        return totalRecords;
-    }
 
 
 }

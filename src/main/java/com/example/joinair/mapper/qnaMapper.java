@@ -19,8 +19,4 @@ public interface qnaMapper {
 
     void qnadelete(QNA QNA_NO);
 
-    public List<QNA> qnapaging(int offset, int pageSize);
-
-    int qnapageNum();
-
 }
