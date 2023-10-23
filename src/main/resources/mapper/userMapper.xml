@@ -11,6 +11,7 @@
         <result property="User_Address" column="User_Address"/>
         <result property="User_Phone" column="User_Phone"/>
         <result property="User_Mileage" column="User_Mileage"/>
+        <result property="User_Mode" column="User_Mode"/>
     </resultMap>
 
     <select id="getUserById" resultMap="userResultMap">
@@ -34,6 +35,7 @@
         User_Phone = #{User_Phone}
         WHERE User_Id = #{User_Id}
     </update>
+
     <update id="adminUpdateUser" parameterType="com.example.joinair.dto.USERS">
         UPDATE USERS
         SET
@@ -43,10 +45,9 @@
         User_Phone = #{User_Phone},
         User_Mileage = #{User_Mileage}
         WHERE User_Id = #{User_Id}
-
     </update>
+
     <select id="getAllUsers" resultMap="userResultMap">
         SELECT * FROM USERS
     </select>
-
 </mapper>
