@@ -23,7 +23,10 @@
         UPDATE qna SET QNA_COMMAND = #{QNA_COMMAND} WHERE QNA_NO = #{QNA_NO}
     </update>
 
-    <insert id="qnainsert">
+    <insert id="qnainsert" parameterType="com.example.joinair.dto.QNA">
+        <selectKey keyProperty="QNA_NO" resultType="java.lang.Integer" order="BEFORE">
+            SELECT QNA_SEQ.NEXTVAL AS QNA_NO FROM DUAL
+        </selectKey>
         INSERT INTO qna (QNA_NO, PRO_CODE, USER_ID, QNA_TITLE, QNA_CONTENT)
         VALUES (#{QNA_NO}, #{PRO_CODE}, #{USER_ID}, #{QNA_TITLE}, #{QNA_CONTENT})
     </insert>

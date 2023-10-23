@@ -13,4 +13,5 @@ public class QNA {
     private String QNA_CONTENT;   // 문의내용
     private String QNA_COMMAND;   // 댓글내용
     private Boolean flag;
+    private String keyword;
 }
