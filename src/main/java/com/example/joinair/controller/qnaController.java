@@ -27,14 +27,12 @@ public class qnaController {
         // Calculate offset for pagination
 
         int offset = (page - 1) * pageSize;
-        System.out.println(offset);
 
         // Retrieve the list of QNA items for the current page
         List<QNA> qnaList = qnaService.qnapaging(offset, pageSize);
 
         // Get the total number of records
         int totalRecords = qnaService.qnapageNum();
-        System.out.println(totalRecords);
 
         // Calculate total number of pages
         int totalPages = (int) Math.ceil((double) totalRecords / pageSize);

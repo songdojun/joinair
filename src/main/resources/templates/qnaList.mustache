@@ -1,25 +1,83 @@
-<table>
-    <!-- 테이블 헤더 -->
-    <tr>
-        <th>번호</th>
-        <th>상품코드</th>
-        <th>작성자</th>
-        <th>제목</th>
-    </tr>
-    <!-- 페이징된 항목 출력 -->
-    {{#qnaList}}
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Q&A 목록</title>
+    <!-- Add Bootstrap CSS -->
+    <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/4.5.2/css/bootstrap.min.css">
+</head>
+<body>
+<div class="container">
+    <h1 class="mt-4">Q&A 목록</h1>
+    <!-- 검색 창 (우측 상단) -->
+    <div class="float-right mt-2">
+        <form class="form-inline" id="search-form">
+            <input class="form-control" type="text" id="search-input" placeholder="제목 검색">
+            <button class="btn btn-outline-success" type="submit">검색</button>
+        </form>
+    </div>
+    <table class="table table-striped" id="qna-table">
+        <!-- 테이블 헤더 -->
+        <thead>
         <tr>
-            <td>{{QNA_NO}}</td>
-            <td>{{PRO_CODE}}</td>
-            <td>{{USER_ID}}</td>
-            <td><a href="/qna/qnadetail/{{QNA_NO}}">{{QNA_TITLE}}</a></td>
+            <th>번호</th>
+            <th>상품코드</th>
+            <th>작성자</th>
+            <th>제목</th>
         </tr>
-    {{/qnaList}}
-</table>
-<!-- 페이징 번호 표시 -->
-<div class="pagination">
-    {{#pageNumbers}}
-        <a href="/qna/qnaList?page={{.}}">{{.}}</a>
-    {{/pageNumbers}}
+        </thead>
+        <tbody>
+        <!-- 페이징된 항목 출력 -->
+        {{#qnaList}}
+            <tr>
+                <td>{{QNA_NO}}</td>
+                <td>{{PRO_CODE}}</td>
+                <td>{{USER_ID}}</td>
+                <td><a href="/qna/qnadetail/{{QNA_NO}}">{{QNA_TITLE}}</a></td>
+            </tr>
+        {{/qnaList}}
+        </tbody>
+    </table>
+    <!-- 페이징 번호 표시 (가운데 정렬) -->
+    <nav aria-label="Page navigation">
+        <ul class="pagination justify-content-center">
+            {{#pageNumbers}}
+                <li class="page-item">
+                    <a class="page-link" href="/qna/qnaList?page={{.}}">{{.}}</a>
+                </li>
+            {{/pageNumbers}}
+        </ul>
+    </nav>
+    <a href="/qna/qnaInsert-view" class="btn btn-primary">새로운 게시글 작성</a>
 </div>
-<a href="/qna/qnaInsert-view">새로운 게시글 작성</a>
+
+<!-- Add Bootstrap JavaScript and jQuery -->
+<script src="https://code.jquery.com/jquery-3.5.1.slim.min.js"></script>
+<script src="https://cdn.jsdelivr.net/npm/@popperjs/core@2.9.2/dist/umd/popper.min.js"></script>
+<script src="https://maxcdn.bootstrapcdn.com/bootstrap/4.5.2/js/bootstrap.min.js"></script>
+
+<script>
+    // 검색 기능 구현
+    $(document).ready(function () {
+        $("#search-form").submit(function (e) {
+            e.preventDefault();
+            var searchKeyword = $("#search-input").val().toLowerCase();
+            filterTable(searchKeyword);
+        });
+
+        function filterTable(keyword) {
+            // 모든 행 숨기기
+            $("#qna-table tbody tr").hide();
+
+            // 검색어와 일치하는 행 표시
+            $("#qna-table tbody tr").each(function () {
+                var rowData = $(this).find("td:nth-child(4)").text().toLowerCase();
+                if (rowData.indexOf(keyword) !== -1) {
+                    $(this).show();
+                }
+            });
+        }
+    });
+</script>
+</body>
+</html>
