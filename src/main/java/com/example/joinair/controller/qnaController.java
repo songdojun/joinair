@@ -1,6 +1,7 @@
 package com.example.joinair.controller;
 
 import com.example.joinair.dto.QNA;
+import com.example.joinair.dto.QNAPAGE;
 import com.example.joinair.service.qnaService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
@@ -9,6 +10,8 @@ import org.springframework.web.bind.annotation.*;
 import org.springframework.web.servlet.ModelAndView;
 
 import java.util.List;
+import java.util.stream.Collectors;
+import java.util.stream.IntStream;
 
 @Controller
 @RequestMapping("/qna")
@@ -19,14 +22,42 @@ public class qnaController {
     private qnaService qnaService;
 
     @GetMapping("/qnaList")
-    public ModelAndView qnaList() {
-        // QNA 항목 목록을 검색합니다.
-        List<QNA> qnaList = qnaService.qnaList();
+    public ModelAndView qnaList(@RequestParam(defaultValue = "1") int page, @RequestParam(defaultValue = "10") int pageSize, QNA qnadto) {
+
+        QNAPAGE pagingInfo = new QNAPAGE();
+        pagingInfo.setPage(page);
+        pagingInfo.setPageSize(pageSize);
+
+        //기억안남
+        List<QNA> qnaList = qnaService.qnaList(qnadto);
+
+        //검색어 + 페이징
+        List<QNA> qnaRueslt = qnaService.qnaListWithPaging(pagingInfo, qnadto);
+
+        //총게물 갯수
+        int totalItemCount = qnaService.getTotalItemCount();
+        int totalPageCount = (int) Math.ceil((double) totalItemCount / pageSize);
+
+        List<Integer> pageNumbers = IntStream.rangeClosed(1, totalPageCount)
+                .boxed()
+                .collect(Collectors.toList());
+
+
+        List<String> pagingList = qnaService.pagingList(totalPageCount, page);
+
+
 
         ModelAndView mv = new ModelAndView();
+
+        mv.addObject("pagelist", pagingList);
         mv.setViewName("qnaList");
         mv.setStatus(HttpStatus.OK);
-        mv.addObject("qnaList", qnaList);
+        mv.addObject("qnaList", qnaRueslt);
+        mv.addObject("currentPage", page);
+        mv.addObject("totalPageCount", totalPageCount);
+        mv.addObject("pageNumbers", pageNumbers);
+
+
 
         return mv;
     }

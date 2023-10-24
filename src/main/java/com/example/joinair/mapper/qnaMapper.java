@@ -7,7 +7,7 @@ import java.util.List;
 
 @Mapper
 public interface qnaMapper {
-    public List<QNA> qnaList();
+    public List<QNA> qnaList(QNA dto);
 
     QNA qna(QNA QNA_No);
 
@@ -19,4 +19,8 @@ public interface qnaMapper {
 
     void qnadelete(QNA QNA_NO);
 
+
+    public List<QNA> qnaListWithPaging(int startIndex, int endIndex, String keyword);
+
+    int getTotalItemCount();
 }

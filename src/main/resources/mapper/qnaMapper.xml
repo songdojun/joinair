@@ -4,6 +4,8 @@
 <mapper namespace="com.example.joinair.mapper.qnaMapper">
     <select id="qnaList" resultType="com.example.joinair.dto.QNA">
         SELECT * FROM qna
+
+        WHERE qna_title like '%${keyword}%'
         ORDER BY QNA_NO DESC
     </select>
 
@@ -34,6 +36,32 @@
     <delete id="qnadelete">
         DELETE FROM qna WHERE QNA_NO = #{QNA_NO}
     </delete>
+
+
+    <select id="qnaListWithPaging" resultType="com.example.joinair.dto.QNA">
+        SELECT *
+        FROM (
+        SELECT qna.*, ROWNUM AS rnum
+        FROM (
+        SELECT * FROM qna
+        where qna_title like '%${keyword}%'
+        ORDER BY QNA_NO DESC
+        ) qna
+        )
+        WHERE rnum between #{startIndex} AND #{endIndex}
+
+    </select>
+
+    <select id="getTotalItemCount" resultType="int">
+        SELECT count(QNA_NO) FROM qna
+
+        <if test="keyword != null and keyword != ''">
+        WHERE qna_title like '%${keyword}%'
+        </if>
+
+        ORDER BY QNA_NO DESC
+    </select>
+
 
 
 
