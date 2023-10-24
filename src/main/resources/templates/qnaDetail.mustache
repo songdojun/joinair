@@ -3,35 +3,44 @@
 <head>
     <meta charset="UTF-8">
     <title>Q&A 상세 정보</title>
+    <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/4.5.2/css/bootstrap.min.css">
 </head>
 <body>
-<h1>Q&A 상세 정보</h1>
-<h2>{{qna.QNA_TITLE}}</h2>
-<p>Q&A 번호: {{qna.QNA_NO}}</p>
-<p>상품 코드: {{qna.PRO_CODE}}</p>
-<p>작성자: {{qna.USER_ID}}</p>
-<p>문의 내용:</p>
-<p>{{qna.QNA_CONTENT}}</p>
-<a href="/qna/qnaList">뒤로 가기</a>
-<a href="/qna/qnaUpdate-view/{{qna.QNA_NO}}">수정</a>
-<a href="/qna/qnadelete/{{qna.QNA_NO}}">삭제</a>
-<h3>댓글</h3>
-<ul>
-    {{#qna.comments}}
-        <li>
-            <p>내용: {{text}}</p>
-        </li>
-    {{/qna.comments}}
-</ul>
+<div class="container mt-5">
+    <h1 class="text-center">Q&A 상세 정보</h1>
+    <h2>{{qna.QNA_TITLE}}</h2>
+    <p>Q&A 번호: {{qna.QNA_NO}}</p>
+    <p>상품 코드: {{qna.PRO_CODE}}</p>
+    <p>작성자: {{qna.USER_ID}}</p>
+    <p>문의 내용:</p>
+    <p>{{qna.QNA_CONTENT}}</p>
+    <a href="/qna/qnaList" class="btn btn-primary">뒤로 가기</a>
+    <a href="/qna/qnaUpdate-view/{{qna.QNA_NO}}" class="btn btn-info">수정</a>
+    <a href="/qna/qnadelete/{{qna.QNA_NO}}" class="btn btn-danger">삭제</a>
 
-<!-- 댓글 추가 양식 -->
-<h3>댓글</h3>
-<ul>
-    {{#qna.comments}}
-        <li>
-            <p>내용: {{text}}</p>
-        </li>
-    {{/qna.comments}}
-</ul>
+    <!-- 댓글 추가 양식 -->
+    <h3>댓글</h3>
+    <!-- flag가 true 인 경우에만 댓글 섹션을 표시합니다 -->
+    {{#qna.flag}}
+        <!-- flag가 true 인 경우 댓글 내용을 표시합니다 -->
+        <p>댓글 내용: {{qna.QNA_COMMAND}}</p>
+    {{/qna.flag}}
+    <!-- flag가 false 이거나 정의되지 않은 경우 (flag가 없거나 false 인 경우) 다른 내용을 표시합니다 -->
+    {{^qna.flag}}
+        <!-- flag가 false 이거나 정의되지 않은 경우 다른 내용을 표시합니다 -->
+        <p>댓글이 없습니다.</p>
+    {{/qna.flag}}
+
+    <!-- 댓글 추가 양식 -->
+    <h3>댓글 추가</h3>
+    <form action="/qna/qnaupdateCommand/{{qna.QNA_NO}}" method="post">
+        <input type="hidden" name="QNA_NO" value="{{qna.QNA_NO}}">
+        <div class="form-group">
+            <textarea name="text" rows="4" cols="50" class="form-control" placeholder="댓글 내용을 입력하세요" required></textarea>
+        </div>
+        <br>
+        <button type="submit" class="btn btn-primary">댓글 추가</button>
+    </form>
+</div>
 </body>
 </html>

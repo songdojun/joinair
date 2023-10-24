@@ -3,59 +3,72 @@
 <head>
     <meta charset="UTF-8">
     <title>주문 및 배송 정보 입력</title>
+    <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/4.5.2/css/bootstrap.min.css">
 </head>
 <body>
-<h1>주문 및 배송 정보 입력</h1>
+<div class="container mt-5">
+    <h1 class="text-center mb-4">주문 및 배송 정보 입력</h1>
 
-<form method="post" action="/payment/paymenttest">
-    <!-- 주문자 정보 입력란 -->
-    <h2>주문자 정보</h2>
-    <label for="customerName">주문자 이름:</label>
-    <input type="text" id="customerName" name="customerName" required><br>
+    <form method="post" action="/payment/paymentpage">
+        <!-- 주문자 정보 입력란 -->
+        <h2>주문자 정보</h2>
+        <div class="form-group">
+            <label for="customerName">주문자 이름:</label>
+            <input type="text" id="customerName" name="customerName" class="form-control" required>
+        </div>
 
-    <label for="customerEmail">이메일:</label>
-    <input type="email" id="customerEmail" name="customerEmail" required><br>
+        <div class="form-group">
+            <label for="customerEmail">이메일:</label>
+            <input type="email" id="customerEmail" name="customerEmail" class="form-control" required>
+        </div>
 
-    <label for="customerPhone">일반 전화:</label>
-    <input type="tel" id="customerPhone" name="customerPhone" required><br>
+        <div class="form-group">
+            <label for="customerMobile">휴대 전화:</label>
+            <input type="tel" id="customerMobile" name="customerMobile" class="form-control" required>
+        </div>
 
-    <label for="customerMobile">휴대 전화:</label>
-    <input type="tel" id="customerMobile" name="customerMobile" required><br>
+        <br>
 
-    <br>
+        <!-- 배송 정보 입력란 -->
+        <h2>배송 정보</h2>
+        <div class="form-check">
+            <input type="checkbox" id="sameAsBilling" name="sameAsBilling" value="1" class="form-check-input">
+            <label for="sameAsBilling" class="form-check-label">주문자 정보와 동일</label>
+        </div>
 
-    <!-- 배송 정보 입력란 -->
-    <h2>배송 정보</h2>
-    <input type="checkbox" id="sameAsBilling" name="sameAsBilling" value="1">
-    <label for="sameAsBilling">배송지 정보와 동일</label><br>
+        <!-- 새로운 배송지 정보 입력란 -->
+        <div class="form-group">
+            <label for="recipientName">받는 사람:</label>
+            <input type="text" id="recipientName" name="recipientName" class="form-control">
+        </div>
 
-    <!-- 새로운 배송지 정보 입력란 -->
-    <label for="recipientName">받는 사람:</label>
-    <input type="text" id="recipientName" name="recipientName"><br>
+        <!-- 주소 입력란 -->
+        <div class="form-group">
+            <label for="shippingAddress">주소:</label>
+            <input type="text" id="sample3_postcode" placeholder="우편번호" class="form-control">
+            <input type="button" onclick="sample3_execDaumPostcode()" value="우편번호 찾기" class="btn btn-primary mt-2">
+            <input type="text" id="sample3_address" name="shippingAddress" placeholder="주소" class="form-control mt-2">
+            <input type="text" id="sample3_detailAddress" name="sample3_detailAddress" placeholder="상세주소" class="form-control mt-2">
+            <input type="text" id="sample3_extraAddress" name="sample3_extraAddress" placeholder="참고항목" class="form-control mt-2">
+            <span id="guide" style="color:#999;display:none"></span>
+        </div>
 
-    <!-- 주소 입력란 -->
-    <label for="shippingAddress">주소:</label>
-    <input type="text" id="sample3_postcode" placeholder="우편번호">
-    <input type="button" onclick="sample3_execDaumPostcode()" value="우편번호 찾기"><br>
-    <input type="text" id="sample3_address" name="shippingAddress" placeholder="주소"><br>
-    <input type="text" id="sample3_detailAddress" name="sample3_detailAddress" placeholder="상세주소">
-    <input type="text" id="sample3_extraAddress" name="sample3_extraAddress" placeholder="참고항목"><br>
-    <span id="guide" style="color:#999;display:none"></span>
+        <div class="form-group">
+            <label for="shippingMobile">휴대 전화:</label>
+            <input type="tel" id="shippingMobile" name="shippingMobile" class="form-control">
+        </div>
 
-    <label for="shippingPhone">일반 전화:</label>
-    <input type="tel" id="shippingPhone" name="shippingPhone"><br>
+        <div class="form-group">
+            <label for="specialInstructions">특이 사항:</label>
+            <textarea id="specialInstructions" name="specialInstructions" class="form-control"></textarea>
+        </div>
 
-    <label for="shippingMobile">휴대 전화:</label>
-    <input type="tel" id="shippingMobile" name="shippingMobile"><br>
+        <input type="submit" value="결제 하기" class="btn btn-primary">
+    </form>
 
-    <label for="specialInstructions">특이 사항:</label>
-    <textarea id="specialInstructions" name="specialInstructions"></textarea><br>
-
-    <input type="submit" value="결제 하기">
-</form>
-
-<div id="wrap" style="display:none; border:1px solid; width:500px; height:300px; margin:5px 0; position:relative">
-    <img src="//t1.daumcdn.net/postcode/resource/images/close.png" id="btnFoldWrap" style="cursor:pointer;position:absolute;right:0px;top:-1px;z-index:1" onclick="foldDaumPostcode()" alt="접기 버튼">
+    <div id="wrap" style="display:none; border:1px solid; width:500px; height:300px; margin:5px 0; position:relative">
+        <img src="//t1.daumcdn.net/postcode/resource/images/close.png" id="btnFoldWrap" style="cursor:pointer;position:absolute;right:0px;top:-1px;z-index:1" onclick="foldDaumPostcode()" alt="접기 버튼">
+    </div>
 </div>
 
 <script src="//t1.daumcdn.net/mapjsapi/bundle/postcode/prod/postcode.v2.js"></script>
@@ -106,6 +119,17 @@
         }).embed(element_wrap);
         element_wrap.style.display = 'block';
     }
+
+    // 주문자 정보와 배송 정보 동일 처리
+    document.getElementById('sameAsBilling').addEventListener('change', function () {
+        if (this.checked) {
+            document.getElementById('recipientName').value = document.getElementById('customerName').value;
+            document.getElementById('shippingMobile').value = document.getElementById('customerMobile').value;
+        } else {
+            document.getElementById('recipientName').value = '';
+            document.getElementById('shippingMobile').value = '';
+        }
+    });
 </script>
 </body>
 </html>

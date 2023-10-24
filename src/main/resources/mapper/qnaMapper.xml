@@ -2,13 +2,10 @@
         PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
         "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
 <mapper namespace="com.example.joinair.mapper.qnaMapper">
-    <select id="qnaList" resultType="com.example.joinair.dto.QNA" >
+    <select id="qnaList" resultType="com.example.joinair.dto.QNA">
         SELECT * FROM qna
-        <where>
-            <if test="keyword != null and keyword != ''">
-                AND QNA_TITLE LIKE CONCAT('%', #{keyword}, '%')
-            </if>
-        </where>
+
+        WHERE qna_title like '%${keyword}%'
         ORDER BY QNA_NO DESC
     </select>
 
@@ -18,7 +15,15 @@
     <update id="qnaupdateView">
         UPDATE qna SET QNA_VIEWS = QNA_VIEWS + 1 WHERE QNA_NO = #{QNA_NO}
     </update>
-    <insert id="qnainsert">
+
+    <update id="qnaupdateCommand">
+        UPDATE qna SET QNA_COMMAND = #{QNA_COMMAND} WHERE QNA_NO = #{QNA_NO}
+    </update>
+
+    <insert id="qnainsert" parameterType="com.example.joinair.dto.QNA">
+        <selectKey keyProperty="QNA_NO" resultType="java.lang.Integer" order="BEFORE">
+            SELECT QNA_SEQ.NEXTVAL AS QNA_NO FROM DUAL
+        </selectKey>
         INSERT INTO qna (QNA_NO, PRO_CODE, USER_ID, QNA_TITLE, QNA_CONTENT)
         VALUES (#{QNA_NO}, #{PRO_CODE}, #{USER_ID}, #{QNA_TITLE}, #{QNA_CONTENT})
     </insert>
@@ -32,18 +37,32 @@
         DELETE FROM qna WHERE QNA_NO = #{QNA_NO}
     </delete>
 
-    <select id="qnapaging" resultType="com.example.joinair.dto.QNA">
-        <![CDATA[
-    SELECT *
-    FROM (SELECT a.*, ROWNUM rnum
-          FROM (SELECT * FROM qna ORDER BY QNA_NO DESC) a
-          WHERE ROWNUM <= #{offset} + #{pageSize})
-    WHERE rnum > #{offset}
-    ]]>
+
+    <select id="qnaListWithPaging" resultType="com.example.joinair.dto.QNA">
+        SELECT *
+        FROM (
+        SELECT qna.*, ROWNUM AS rnum
+        FROM (
+        SELECT * FROM qna
+        where qna_title like '%${keyword}%'
+        ORDER BY QNA_NO DESC
+        ) qna
+        )
+        WHERE rnum between #{startIndex} AND #{endIndex}
+
     </select>
-    <select id="qnapageNum" resultType="int"> <!--페이징처리-->
-        SELECT COUNT(*) as totalRecords FROM qna
+
+    <select id="getTotalItemCount" resultType="int">
+        SELECT count(QNA_NO) FROM qna
+
+        <if test="keyword != null and keyword != ''">
+        WHERE qna_title like '%${keyword}%'
+        </if>
+
+        ORDER BY QNA_NO DESC
     </select>
+
+
 
 
 </mapper>

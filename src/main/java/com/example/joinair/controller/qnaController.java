@@ -1,6 +1,7 @@
 package com.example.joinair.controller;
 
 import com.example.joinair.dto.QNA;
+import com.example.joinair.dto.QNAPAGE;
 import com.example.joinair.service.qnaService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
@@ -8,8 +9,9 @@ import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.*;
 import org.springframework.web.servlet.ModelAndView;
 
-import java.util.ArrayList;
 import java.util.List;
+import java.util.stream.Collectors;
+import java.util.stream.IntStream;
 
 @Controller
 @RequestMapping("/qna")
@@ -20,46 +22,77 @@ public class qnaController {
     private qnaService qnaService;
 
     @GetMapping("/qnaList")
-    public ModelAndView qnaList(
-            @RequestParam(name = "page", required = false, defaultValue = "1") int page,
-            @RequestParam(name = "pageSize", required = false, defaultValue = "10") int pageSize
-    ) {
-        // Calculate offset for pagination
-        int offset = (page - 1) * pageSize;
+    public ModelAndView qnaList(@RequestParam(defaultValue = "1") int page, @RequestParam(defaultValue = "10") int pageSize, QNA qnadto) {
 
-        // Retrieve the list of QNA items for the current page
-        List<QNA> qnaList = qnaService.qnapaging(offset, pageSize);
+        QNAPAGE pagingInfo = new QNAPAGE();
+        pagingInfo.setPage(page);
+        pagingInfo.setPageSize(pageSize);
 
-        // Get the total number of records
-        int totalRecords = qnaService.qnapageNum();
+        //기억안남
+        List<QNA> qnaList = qnaService.qnaList(qnadto);
 
-        // Calculate total number of pages
-        int totalPages = (int) Math.ceil((double) totalRecords / pageSize);
+        //검색어 + 페이징
+        List<QNA> qnaRueslt = qnaService.qnaListWithPaging(pagingInfo, qnadto);
 
-        // Create a list to store page numbers
-        List<Integer> pageNumbers = new ArrayList<>();
-        for (int i = 1; i <= totalPages; i++) {
-            pageNumbers.add(i);
-        }
+        //총게물 갯수
+        int totalItemCount = qnaService.getTotalItemCount();
+        int totalPageCount = (int) Math.ceil((double) totalItemCount / pageSize);
+
+        List<Integer> pageNumbers = IntStream.rangeClosed(1, totalPageCount)
+                .boxed()
+                .collect(Collectors.toList());
+
+
+        List<String> pagingList = qnaService.pagingList(totalPageCount, page);
+
+
 
         ModelAndView mv = new ModelAndView();
+
+        mv.addObject("pagelist", pagingList);
         mv.setViewName("qnaList");
         mv.setStatus(HttpStatus.OK);
-        mv.addObject("qnaList", qnaList);
+        mv.addObject("qnaList", qnaRueslt);
+        mv.addObject("currentPage", page);
+        mv.addObject("totalPageCount", totalPageCount);
         mv.addObject("pageNumbers", pageNumbers);
+
+
 
         return mv;
     }
 
     @GetMapping("/qnadetail/{QNA_NO}")
     public ModelAndView qnaView(QNA QNA_NO) {
+        System.out.println(QNA_NO.getQNA_NO());
         QNA result = qnaService.qna(QNA_NO);
+
+        if(result.getQNA_COMMAND()==null){
+            result.setQNA_COMMAND("flag");
+        }
+        //if 끝
+
+        if(result.getQNA_COMMAND().equals("flag")){
+            result.setFlag(false);
+        } else {
+            result.setFlag(true);
+        }
 
         ModelAndView mv = new ModelAndView();
         mv.setViewName("qnadetail");
         mv.setStatus(HttpStatus.OK);
-        mv.addObject("qna", result);
+        mv.addObject("qna" , result);
         return mv;
+    }
+    @PostMapping("/qnaupdateCommand/{QNA_NO}")
+    public String qnaupdateCommand(QNA qna, @RequestParam("text") String text) {
+        // 여기서 text를 댓글로 처리하여 저장
+        qna.setQNA_COMMAND(text);
+
+        //댓글 내용을 qna테이블에 업데이트 실행 sql
+        qnaService.qnaupdateCommand(qna);
+
+        return "redirect:/qna/qnadetail/" + qna.getQNA_NO();
     }
 
     @GetMapping("/qnaInsert-view")

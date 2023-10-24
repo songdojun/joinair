@@ -7,18 +7,20 @@ import java.util.List;
 
 @Mapper
 public interface qnaMapper {
-    public List<QNA> qnaList();
+    public List<QNA> qnaList(QNA dto);
 
-    QNA qna(QNA QNA_CO);
+    QNA qna(QNA QNA_No);
 
     int qnainsert(QNA qna);
 
     int qnaupdate(QNA qna);
 
+    void qnaupdateCommand(QNA qna); //댓글
+
     void qnadelete(QNA QNA_NO);
 
-    public List<QNA> qnapaging(int offset, int pageSize);
 
-    int qnapageNum();
+    public List<QNA> qnaListWithPaging(int startIndex, int endIndex, String keyword);
 
+    int getTotalItemCount();
 }
