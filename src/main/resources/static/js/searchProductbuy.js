@@ -11,6 +11,10 @@ function initializeSearch() {
         }
     });
 }
+// HTML 파일이 로드될 때 초기화 함수 호출
+document.addEventListener("DOMContentLoaded", function () {
+    initializeSearch();
+});
 
 // 검색 함수
 function performSearch(page = 0) {
@@ -39,7 +43,4 @@ function performSearch(page = 0) {
         .catch(error => console.error("검색 오류: ", error));
 }
 
-// HTML 파일이 로드될 때 초기화 함수 호출
-document.addEventListener("DOMContentLoaded", function () {
-    initializeSearch();
-});
+
