@@ -1,22 +1,23 @@
 <!DOCTYPE html>
-<html lang="en" xmlns:th="http://www.thymeleaf.org">
+<html lang="ko" xmlns:th="http://www.thymeleaf.org">
 <head>
-    <title>제품 상세 페이지</title>
+    <title>공지사항 페이지</title>
     <meta charset="utf-8">
     <meta name="viewport" content="width=device-width, initial-scale=1">
+    <link rel="apple-touch-icon" href="assets/img/apple-icon.png">
+    <link rel="shortcut icon" type="image/x-icon" href="assets/img/favicon.ico">
+    <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.5.2/css/bootstrap.min.css">
+    <link rel="stylesheet" href="../boot/assets/css/templatemo.css">
+    <link rel="stylesheet" href="../boot/assets/css/custom.css">
+    <link href="https://fonts.googleapis.com/css2?family=Roboto:wght@100;200;300;400;500;700;900&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/font-awesome/4.7.0/css/font-awesome.min.css">
+    <style>
+        #var-value {
+    background-color: transparent !important;
+    box-shadow: none !important;
+}
 
-    <!-- CSS 스타일 시트들을 연결 -->
-    <link rel="stylesheet" href="assets/css/bootstrap.min.css">
-    <link rel="stylesheet" href="assets/css/templatemo.css">
-    <link rel="stylesheet" href="assets/css/custom.css">
-
-    <!-- Google Fonts와 Font Awesome 아이콘 라이브러리를 연결 -->
-    <link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Roboto:wght@100;200;300;400;500;700;900&display=swap">
-    <link rel="stylesheet" href="assets/css/fontawesome.min.css">
-
-    <!-- Slick 슬라이더 스타일 시트를 연결 -->
-    <link rel="stylesheet" type="text/css" href="assets/css/slick.min.css">
-    <link rel="stylesheet" type="text/css" href="assets/css/slick-theme.css">
+    </style>
 </head>
 
 <body>
@@ -32,12 +33,7 @@
                 <i class="fa fa-phone mx-2"></i>
                 <a class= "navbar-sm-brand text-light text-decoration-none" href="tel:010-1234-5678">010-1234-5678</a>
             </div>
-            <div>
-                <!-- 소셜 미디어 아이콘과 링크를 표시 -->
-                <a class="text-light" href="https://fb.com/templatemo" target="_blank" rel="sponsored"><i class="fab fa-facebook-f fa-sm fa-fw me-2"></i></a>
-                <a class="text-light" href="https://www.instagram.com/" target="_blank"><i class="fab fa-instagram fa-sm fa-fw me-2"></i></a>
-                <a class="text-light" href="https://twitter.com/" target="_blank"><i class="fab fa-twitter fa-sm fa-fw me-2"></i></a>
-            </div>
+
         </div>
     </div>
 </nav>
@@ -115,37 +111,56 @@
 
 <!-- 콘텐츠 시작 -->
 <section class="bg-light">
-    <div class="container pb-5">
+    <div th:if="${Product != null}" class="container">
         <div class="row">
             <div class="col-lg-5 mt-5">
                 <div class="card mb-3">
-                    <!-- 동적 이미지 URL로 변경 -->
-                    <img class="card-img img-fluid" th:src="${product.Pro_Filepath}" alt="Card image cap" id="product-detail">
+                    <img class="card-img img-fluid" th:src="@{${Product?.Pro_Filepath}}" alt="Product Image">
                 </div>
             </div>
             <div class="col-lg-7 mt-5">
                 <div class="card">
                     <div class="card-body">
-                        <!-- 동적 상품 이름 -->
-                        <h1 class="h2" th:text="${product.Pro_Name}">한성)몬스터후랑크바100g</h1>
-                        <!-- 동적 상품 가격 -->
-                        <p class="h3 py-2" th:text="${product.Pro_Price}">가격2,500원</p>
-                        <ul class="list-inline">
-                            <li class="list-inline-item">
-                                <h6>편의점:</h6>
-                            </li>
-                            <!-- 동적 편의점 정보 -->
-                            <li class="list-inline-item">
-                                <p class="text-muted"><strong th:text="${product.Pro_Convenience}">CU편의점</strong></p>
-                            </li>
-                        </ul>
-                        <!-- 나머지 내용 유지 -->
+                        <h1 class="h2" th:text="${Product.Pro_Name}">상품명입니다.</h1>
+                        <p class="h3 py-2" th:text="'가격: ' + ${Product.Pro_Price} + '원'"></p>
+                        <div class="meta-info">
+                            <p th:text="'카테고리: ' + ${Product.Category.Cate_Name}"></p>
+                            <p th:text="'상품 코드: ' + ${Product.Pro_Code}"></p>
+                            <p th:text="'상품 무게: ' + ${Product.Pro_Weight}"></p>
+                        </div>
+                        <a class="download-link" th:href="@{${Product?.Pro_Filepath}}" download>다운로드</a>
+                        <form action="" method="GET">
+                            <input type="hidden" name="product-title" th:value="${Product.Pro_Name}">
+                            <div class="col-auto">
+                                <ul class="list-inline pb-3">
+                                    <li class="list-inline-item text-right">
+                                        수량
+                                        <input type="hidden" name="product-quanity" id="product-quanity" value="1">
+                                    </li>
+                                    <li class="list-inline-item"><span class="btn btn-success" id="btn-minus">-</span></li>
+                                    <li class="list-inline-item"><span class="badge bg-secondary" id="var-value">1</span></li>
+                                    <li class="list-inline-item"><span class="btn btn-success" id="btn-plus">+</span></li>
+                                </ul>
+                            </div>
+
+
+                            <div class="row pb-3">
+                                <div class="col d-grid">
+                                    <button type="submit" class="btn btn-success btn-lg" name="submit" value="buy">Buy</button>
+                                </div>
+                                <div class="col d-grid">
+                                    <button type="submit" class="btn btn-success btn-lg" name="submit" value="addtocart">Add To Cart</button>
+                                </div>
+                            </div>
+                        </form>
                     </div>
                 </div>
             </div>
         </div>
     </div>
 </section>
+
+
 <!-- 콘텐츠 끝 -->
 
 <!-- 푸터 시작 -->
@@ -221,43 +236,47 @@
 <!-- 푸터 끝 -->
 
 <!-- 스크립트 시작 -->
+<!-- Start Script -->
+<!-- 스크립트 시작 -->
 <script src="assets/js/jquery-1.11.0.min.js"></script>
 <script src="assets/js/jquery-migrate-1.2.1.min.js"></script>
 <script src="assets/js/bootstrap.bundle.min.js"></script>
 <script src="assets/js/templatemo.js"></script>
 <script src="assets/js/custom.js"></script>
 <script src="assets/js/slick.min.js"></script>
+
 <script>
-    $('#carousel-related-product').slick({
-        infinite: true,
-        arrows: false,
-        slidesToShow: 4,
-        slidesToScroll: 3,
-        dots: true,
-        responsive: [{
-            breakpoint: 1024,
-            settings: {
-                slidesToShow: 3,
-                slidesToScroll: 3
+    document.addEventListener('DOMContentLoaded', function() {
+        // 수량 조절 버튼 및 수량 표시 요소 가져오기
+        const quantityElement = document.getElementById('var-value');
+        const minusButton = document.getElementById('btn-minus');
+        const plusButton = document.getElementById('btn-plus');
+
+        // 초기 수량 설정
+        let quantity = 1;
+        quantityElement.textContent = quantity;
+
+        // 수량 증가 버튼 클릭 시
+        plusButton.addEventListener('click', function() {
+            quantity++;
+            quantityElement.textContent = quantity;
+        });
+
+        // 수량 감소 버튼 클릭 시 (단, 최소 수량은 1입니다)
+        minusButton.addEventListener('click', function() {
+            if (quantity > 1) {
+                quantity--;
+                quantityElement.textContent = quantity;
             }
-        },
-        {
-            breakpoint: 600,
-            settings: {
-                slidesToShow: 2,
-                slidesToScroll: 3
-            }
-        },
-        {
-            breakpoint: 480,
-            settings: {
-                slidesToShow: 2,
-                slidesToScroll: 3
-            }
-        }
-    ]
+        });
     });
 </script>
+<!-- End Slider Script -->
+
+<!-- Start Slider Script -->
+
+
+<!-- End Slider Script -->
 <!-- 스크립트 끝 -->
 </body>
 </html>
