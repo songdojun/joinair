@@ -1,18 +1,61 @@
 <!DOCTYPE html>
-<html lang="ko">
+<html lang="ko" xmlns:th="http://www.thymeleaf.org">
 <head>
-    <title>문의 페이지</title>
+    <title>공지사항 수정</title>
     <meta charset="utf-8">
     <meta name="viewport" content="width=device-width, initial-scale=1">
-    <link rel="apple-touch-icon" href="assets/img/apple-icon.png">
+
     <link rel="shortcut icon" type="image/x-icon" href="assets/img/favicon.ico">
-    <link rel="stylesheet" href="assets/css/bootstrap.min.css">
+    <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/4.5.2/css/bootstrap.min.css">
     <link rel="stylesheet" href="assets/css/templatemo.css">
     <link rel="stylesheet" href="assets/css/custom.css">
     <link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Roboto:wght@100;200;300;400;500;700;900&display=swap">
     <link rel="stylesheet" href="assets/css/fontawesome.min.css">
     <link rel="stylesheet" href="https://unpkg.com/leaflet@1.7.1/dist/leaflet.css"
           integrity="sha512-xodZBNTC5n17Xt2atTPuE1HxjVMSvLVW9ocqUKLsCC5CXdbqCmblAshOMAS6/keqq/sMZMZ19scR4PsZChSR7A==" crossorigin=""/>
+    <style>
+
+        .container-fluid {
+            padding: 50px 0;
+            text-align: center;
+        }
+
+        .form-container {
+            background-color: #fff;
+            border-radius: 10px;
+            padding: 30px;
+            box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
+        }
+
+        .form-container input[type="text"],
+        .form-container textarea {
+            width: 100%;
+            padding: 10px;
+            margin: 8px 0;
+            border: 1px solid #ccc;
+            border-radius: 4px;
+            box-sizing: border-box;
+        }
+
+        .form-container input[type="file"] {
+            width: 100%;
+            padding: 10px;
+            margin: 8px 0;
+        }
+
+        .form-container button {
+            background-color: #007bff;
+            color: #fff;
+            padding: 10px 20px;
+            border: none;
+            border-radius: 5px;
+            cursor: pointer;
+        }
+
+        .form-container button:hover {
+            background-color: #0056b3;
+        }
+    </style>
 </head>
 <body>
 <nav class="navbar navbar-expand-lg bg-dark navbar-light d-none d-lg-block" id="templatemo_nav_top">
@@ -20,9 +63,9 @@
         <div class="w-100 d-flex justify-content-between">
             <div>
                 <i class="fa fa-envelope mx-2"></i>
-                <a class="navbar-sm-brand text-light text-decoration-none" href="mailto:info@company.com"> Doron delivery@Doron delivery.com </a>
+                <a class="navbar-sm-brand text-light text-decoration-none" href="mailto:info@company.com">Doron delivery@Doron delivery.com</a>
                 <i class="fa fa-phone mx-2"></i>
-                <a class="navbar-sm-brand text-light text-decoration-none" href="tel:010-020-0340"> 010-1234-5678</a>
+                <a class="navbar-sm-brand text-light text-decoration-none" href="tel:010-020-0340">010-1234-5678</a>
             </div>
             <div>
                 <a class="text-light" href="https://fb.com/templatemo" target="_blank" rel="sponsored"><i class="fab fa-facebook-f fa-sm fa-fw me-2"></i></a>
@@ -62,27 +105,7 @@
                     </li>
                 </ul>
             </div>
-            <div class="navbar align-self-center d-flex">
-                <div class="d-lg-none flex-sm-fill mt-3 mb-4 col-7 col-sm-auto pr-3">
-                    <div class="input-group">
-                        <input type="text" class="form-control" id="inputMobileSearch" placeholder="검색">
-                        <div class="input-group-text">
-                            <i class="fa fa-fw fa-search"></i>
-                        </div>
-                    </div>
-                </div>
-                <a class="nav-icon d-none d-lg-inline" href="#" data-bs-toggle="modal" data-bs-target="#templatemo_search">
-                    <i class="fa fa-fw fa-search text-dark mr-2"></i>
-                </a>
-                <a class="nav-icon position-relative text-decoration-none" href="#">
-                    <i class="fa fa-fw fa-cart-arrow-down text-dark mr-1"></i>
-                    <span class="position-absolute top-0 left-100 translate-middle badge rounded-pill bg-light text-dark">1</span>
-                </a>
-                <a class="nav-icon position-relative text-decoration-none" href="#">
-                    <i class="fa fa-fw fa-user text-dark mr-3"></i>
-                    <span class="position-absolute top-0 left-100 translate-middle badge rounded-pill bg-light text-dark">+10</span>
-                </a>
-            </div>
+
         </div>
     </div>
 </nav>
@@ -103,36 +126,24 @@
 </div>
 <div class="container-fluid bg-light py-5">
     <div class="col-md-6 m-auto text-center">
-        <h1 class="h1">문의하기</h1>
-        <p>저희와 연락하려면 아래 양식을 작성해주세요.</p>
+        <div class="form-container">
+            <form th:action="@{/notice/update/{Not_No}(Not_No= ${notice.Not_No})}" method="post" enctype="multipart/form-data">
+                <div class="form-group">
+                    <label for="Not_Title">제목:</label>
+                    <input type="text" id="Not_Title" name="Not_Title" th:if="${notice != null}" th:value="${notice.Not_Title}" class="form-control">
+                </div>
+                <div class="form-group">
+                    <label for="Not_Content">내용:</label>
+                    <textarea id="Not_Content" name="Not_Content" th:if="${notice != null}" th:text="${notice.Not_Content}" class="form-control"></textarea>
+                </div>
+                <div class="form-group">
+                    <label for="file">파일 첨부:</label>
+                    <input type="file" name="file" th:if="${notice != null}" class="form-control">
+                </div>
+                <button type="submit" th:if="${notice != null}" class="btn btn-primary">수정</button>
+            </form>
+        </div>
     </div>
-</div>
-<div class="row py-5">
-    <form class="col-md-9 m-auto" method="post" role="form">
-        <div class="row">
-            <div class="form-group col-md-6 mb-3">
-                <label for="name">이름</label>
-                <input type="text" class="form-control mt-1" id="name" name="name" placeholder="이름">
-            </div>
-            <div class="form-group col-md-6 mb-3">
-                <label for="email">이메일</label>
-                <input type="email" class="form-control mt-1" id="email" name="email" placeholder="이메일">
-            </div>
-        </div>
-        <div class="mb-3">
-            <label for="subject">문의 제목</label>
-            <input type="text" class="form-control mt-1" id="subject" name="subject" placeholder="제목">
-        </div>
-        <div class="mb-3">
-            <label for="message">문의 내용</label>
-            <textarea class="form-control mt-1" id="message" name="message" placeholder="내용" rows="8"></textarea>
-        </div>
-        <div class="row">
-            <div class="col text-end mt-2">
-                <button type="submit" class="btn btn-success btn-lg px-3">문의하기</button>
-            </div>
-        </div>
-    </form>
 </div>
 <footer class="bg-dark" id="tempaltemo_footer">
     <div class="container">
@@ -177,17 +188,7 @@
                 <div class="w-100 my-3 border-top border-light"></div>
             </div>
             <div class="col-auto me-auto">
-                <ul class="list-inline text-left footer-icons">
-                    <li class="list-inline-item border border-light rounded-circle text-center">
-                        <a class="text-light text-decoration-none" target="_blank" href="http://facebook.com/"><i class="fab fa-facebook-f fa-lg fa-fw"></i></a>
-                    </li>
-                    <li class="list-inline-item border border-light rounded-circle text-center">
-                        <a class="text-light text-decoration-none" target="_blank" href="https://www.instagram.com/"><i class="fab fa-instagram fa-lg fa-fw"></i></a>
-                    </li>
-                    <li class="list-inline-item border border-light rounded-circle text-center">
-                        <a class="text-light text-decoration-none" target="_blank" href="https://twitter.com/"><i class="fab fa-twitter fa-lg fa-fw"></i></a>
-                    </li>
-                </ul>
+
             </div>
         </div>
     </div>
