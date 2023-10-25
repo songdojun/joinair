@@ -1,0 +1,58 @@
+<!DOCTYPE html>
+<html lang="en" xmlns:th="http://www.thymeleaf.org">
+<head>
+    <meta charset="UTF-8">
+    <title>상품 상세 페이지</title>
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+            margin: 20px;
+            display: flex;
+            justify-content: center;
+            align-items: flex-start; /* Align items to the top */
+            height: 100vh;
+        }
+
+        h1, p {
+            margin-bottom: 10px;
+        }
+
+        .meta-info {
+            color: #666;
+            font-size: 14px;
+            margin-bottom: 20px;
+        }
+
+        .download-link {
+            display: block;
+            margin-top: 10px;
+        }
+
+        .action-links a {
+            margin-right: 10px;
+            text-decoration: none;
+        }
+    </style>
+</head>
+<body>
+
+<div th:if="${Product != null}">
+    <h1 th:text="${Product.Pro_Name}">상품명입니다.</h1>
+    <div class="meta-info">
+        <p th:text="'카테고리식별번호: ' + ${Product.Cate_No}"></p>
+        <p th:text="'상품 가격: ' + ${Product.Pro_Price}"></p>
+        <p th:text="'상품 재고량: ' + ${Product.Pro_Inventory}"></p>
+        <p th:text="'상품 무게: ' + ${Product.Pro_Weight}"></p>
+        <p th:text="'상품 등록일: ' + ${#dates.format(Product.Pro_Reg_Date, 'yyyy-MM-dd HH:mm:ss')}"></p>
+    </div>
+
+    <a class="download-link" th:href="@{${Product?.Pro_Filepath}}" download>다운로드</a>
+
+    <div class="action-links">
+        <a th:href="@{/productad/modify/{Pro_Code}(Pro_Code=${Product.Pro_Code})}">수정하기</a>
+        <a th:href="@{/productad/delete(Pro_Code=${Product.Pro_Code})}">삭제하기</a>
+    </div>
+</div>
+
+</body>
+</html>

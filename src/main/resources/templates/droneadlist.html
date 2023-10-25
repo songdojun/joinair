@@ -1,0 +1,86 @@
+<!DOCTYPE html>
+<html lang="en" xmlns:th="http://www.thymeleaf.org">
+<head>
+    <meta charset="UTF-8">
+    <title>상품 목록</title>
+    <link rel="stylesheet" href="/css/Productadlist.css">
+</head>
+<body>
+<div class="layout">
+    <h1>
+        <a th:href="@{/productad/list}">관리자 상품 관리 페이지</a>
+    </h1>
+
+
+
+    <div>
+        <select id="searchOption">
+            <option value="Pro_Name" selected>상품명</option>
+            <option value="Pro_Code">상품코드</option>
+            <option value="Cate_Name">카테고리</option>
+        </select>
+        <input type="text" name="searchKeyword" id="searchKeyword" placeholder="검색어 입력">
+        <button id="searchButton">검색</button>
+    </div>
+
+    <table>
+        <thead>
+        <tr>
+            <th class="small-column">상품코드</th>
+            <th class="title-column">상품명</th>
+            <th class="category-column">카테고리</th>
+            <th class="small-column">단가</th>
+            <th class="small-column">재고량</th>
+            <th class="small-column">무게</th>
+            <th class="date-column">상품등록일</th>
+        </tr>
+        </thead>
+        <tbody>
+        <tr th:each="product : ${list}">
+            <td class="small-column" th:text="${product.Pro_Code}">상품코드</td>
+            <td class="title-column">
+                <a th:href="@{/productad/view(Pro_Code=${product.Pro_Code})}" th:text="${product.Pro_Name}">상품명</a>
+            </td>
+            <td class="category-column" th:text="${product.category.Cate_Name}">카테고리</td>
+            <td class="small-column" th:text="${product.Pro_Price}">단가</td>
+            <td class="small-column" th:text="${product.Pro_Inventory}">재고량</td>
+            <td class="small-column" th:text="${product.Pro_Weight}">무게</td>
+            <td class="date-column" th:text="${#dates.format(product.Pro_Reg_Date, 'yyyy-MM-dd HH:mm:ss')}">상품등록일</td>
+        </tr>
+        </tbody>
+    </table>
+
+    <!-- 페이지네이션 -->
+    <div class="pagination" th:if="${list.totalPages > 1 || list.totalElements == 0}">
+        <!-- Adjust pagination links to include search parameters -->
+        <div class="horizontal-pagination">
+            <a th:if="${list.number > 0}" th:href="@{|/productad/list?page=0&size=${list.size}&sort=${list.sort}&searchOption=${searchOption}&searchKeyword=${searchKeyword}|}" aria-label="First">
+                <span aria-hidden="true">첫 페이지</span>
+            </a>
+            <!-- Adjust previous and next links similarly -->
+            <a th:if="${list.number > 0}" th:href="@{|/productad/list?page=${list.number - 1}&size=${list.size}&sort=${list.sort}&searchOption=${searchOption}&searchKeyword=${searchKeyword}|}" aria-label="Previous">
+                <span aria-hidden"true">&laquo; 이전</span>
+            </a>
+            <!-- Add searchOption and searchKeyword to the page number links -->
+            <span th:each="i : ${#numbers.sequence(0, list.totalPages - 1)}">
+            <a th:if="${i == list.number}" th:text="${i + 1}" class="current-page"></a>
+            <a th:unless="${i == list.number}" th:href="@{|/productad/list?page=${i}&size=${list.size}&sort=${list.sort}&searchOption=${searchOption}&searchKeyword=${searchKeyword}|}" th:text="${i + 1}"></a>
+        </span>
+            <a th:if="${list.number < list.totalPages - 1}" th:href="@{|/productad/list?page=${list.number + 1}&size=${list.size}&sort=${list.sort}&searchOption=${searchOption}&searchKeyword=${searchKeyword}|}" aria-label="Next">
+                <span aria-hidden="true">다음 &raquo;</span>
+            </a>
+            <a th:if="${list.number < list.totalPages - 1}" th:href="@{|/productad/list?page=${list.totalPages - 1}&size=${list.size}&sort=${list.sort}&searchOption=${searchOption}&searchKeyword=${searchKeyword}|}" aria-label="Last">
+                <span aria-hidden="true">마지막 페이지</span>
+            </a>
+        </div>
+    </div>
+
+    <div th:if="${list.totalPages == 0}" class="no-results">검색 결과가 없습니다.</div>
+
+    <!-- 상품 등록 버튼 -->
+    <a href="/productad/regist" class="new-post-button">새 상품 등록</a>
+</div>
+
+<script src="/js/searchProductad.js"></script>
+</body>
+</html>
