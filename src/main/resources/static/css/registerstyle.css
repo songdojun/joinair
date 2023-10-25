@@ -348,6 +348,7 @@ background text
   width: 350px;
   border: none;
   color: #757575;
+  height: 40px;
 }
 .cont_form_sign_up > emailDomain {
   text-align: left;
@@ -357,6 +358,7 @@ background text
   width: 350px;
   border: none;
   color: #757575;
+  height: 40px;
 }
 .address-container {
   display: flex;
@@ -371,6 +373,7 @@ text-align: left;
   width: 350px;
   border: none;
   color: #757575;
+  height: 40px;
   flex: 1; /* 자동으로 남은 공간을 차지하도록 설정 */
 }
 
@@ -417,10 +420,11 @@ text-align: left;
 
 .input-field {
   text-align: left;
-  padding: 15px 5px;
+  padding: 5px 5px;
   margin-left: 80px;
   margin-top: 20px;
   width: 350px;
   border: none;
   color: #757575;
+  height : 40px;
 }

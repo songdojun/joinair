@@ -68,6 +68,7 @@
 </head>
 <body>
 <h1>매출 보고서</h1>
+<div id="salesReportContainer">
 <form action="/admin/sales/reportData" method="get" id="reportForm">
     <label for="reportType">보고서 유형 선택:</label>
     <select name="reportType" id="reportType">
@@ -106,6 +107,7 @@
             <th>금액</th>
             <th>제품 코드</th>
             <th>사용자 ID</th>
+            <th>주문 번호</th> <!-- ORDERS_NUM 추가 -->
         </tr>
         {{#salesData}}
             <tr>
@@ -113,6 +115,7 @@
                 <td>{{amount}}</td>
                 <td>{{Pro_Code}}</td>
                 <td>{{User_Id}}</td>
+                <td>{{ORDERS_NUM}}</td> <!-- ORDERS_NUM 추가 -->
             </tr>
         {{/salesData}}
     </table>
@@ -149,6 +152,50 @@
             userInput.disabled = true; // 다른 옵션 선택 시 모든 입력 창 비활성화
         }
     });
+</script>
+<script>
+    // 페이지가 로드될 때 테이블 초기화
+    function initializeTable() {
+        var table = document.querySelector("table");
+        var rows = table.querySelectorAll("tr");
+        for (var i = 1; i < rows.length; i++) { // 첫 번째 행은 헤더
+            rows[i].style.display = ""; // 모든 행을 표시
+        }
+    }
+
+    // 키워드로 테이블 필터링
+    function filterTable() {
+        var input = document.getElementById("searchInput");
+        var filter = input.value.toUpperCase();
+        var table = document.querySelector("table");
+        var rows = table.querySelectorAll("tr");
+
+        for (var i = 1; i < rows.length; i++) { // 첫 번째 행은 헤더
+            var columns = rows[i].querySelectorAll("td");
+            var found = false;
+
+            for (var j = 0; j < columns.length; j++) {
+                var cell = columns[j];
+                if (cell) {
+                    var txtValue = cell.textContent || cell.innerText;
+                    if (txtValue.toUpperCase().indexOf(filter) > -1) {
+                        found = true;
+                        break;
+                    }
+                }
+            }
+
+            if (found) {
+                rows[i].style.display = ""; // 키워드를 포함하는 행을 표시
+            } else {
+                rows[i].style.display = "none"; // 키워드를 포함하지 않는 행을 숨김
+            }
+        }
+    }
+
+    window.onload = function() {
+        initializeTable(); // 페이지 로드 시 테이블 초기화
+    }
 </script>
 </body>
 </html>

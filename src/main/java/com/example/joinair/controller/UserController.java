@@ -35,10 +35,23 @@ public class UserController {
             String userMode = storedUser.getUser_Mode();
             if ("user".equals(userMode)) {
                 session.setAttribute("User_Id", storedUser.getUser_Id());
+
+                // 로그 확인
+                System.out.println("storedUser: " + storedUser);
+                System.out.println("loginUser: " + loginUser);
+                System.out.println("User_mode: " + storedUser.getUser_Mode());
+
+
                 System.out.println("사용자 모드로 로그인");
                 return "redirect:/welcome"; // 사용자 모드로 리디렉션
             } else if ("admin".equals(userMode)) {
                 session.setAttribute("User_Id", storedUser.getUser_Id());
+
+                // 로그 확인
+                System.out.println("storedUser: " + storedUser);
+                System.out.println("loginUser: " + loginUser);
+                System.out.println("User_mode: " + storedUser.getUser_Mode());
+
                 System.out.println("관리자 모드로 로그인");
                 return "redirect:/adminWelcome"; // 관리자 모드로 리디렉션
             }
@@ -61,16 +74,16 @@ public class UserController {
         USERS user = userService.getUserById(userId);
 
         if (user != null && "admin".equals(user.getUser_Mode())) {
-            model.addAttribute("isAdmin", true); // 관리자 역할이면 isAdmin을 true로 설정
+            model.addAttribute("isAdmin", true);
+            List<USERS> users = userService.getAllUsers();
+            model.addAttribute("users", users);
+
+
+            return "adminWelcome";// 관리자 역할이면 isAdmin을 true로 설정
         } else {
             return "redirect:/signInUp"; // 관리자가 아니면 로그인 페이지로 리디렉션
         }
-
-        List<USERS> users = userService.getAllUsers();
-        model.addAttribute("users", users);
-        return "adminWelcome";
     }
-
 
     @GetMapping("/adminEditUserList")
     public String showAdminEditUserListPage(Model model, HttpSession session) {
@@ -113,22 +126,6 @@ public class UserController {
         return "redirect:/adminEditUserList";
     }
 
-
-
-    /*@PostMapping("/signInUp")
-    public String signInUp(@ModelAttribute("loginUser") USERS loginUser, HttpSession session) {
-        USERS storedUser = userService.getUserById(loginUser.getUser_Id());
-        if (storedUser != null && storedUser.getUser_Password().equals(loginUser.getUser_Password())) {
-            session.setAttribute("User_Id", storedUser.getUser_Id());
-            System.out.println("Login Success!!");
-            return "redirect:/welcome";
-        } else {
-            System.out.println("Login Failed!");
-            return "redirect:/signInUp";
-        }
-    }*/
-
-
     @PostMapping("/register")
     public String register(@ModelAttribute("signupUser") USERS signupUser, HttpSession session) {
         String combinedAddress = signupUser.getUser_Address() + " " + signupUser.getUser_DetailAddress();
@@ -137,7 +134,7 @@ public class UserController {
         // 여기에 회원가입 로직을 추가
         userService.registerUser(signupUser, "user"); // 두 번째 매개변수로 "user"를 전달
         session.setAttribute("User_Id", signupUser.getUser_Id());
-        System.out.println("Sign-Up Success!");
+        System.out.println("Sign-Up User Register Success!!");
         return "redirect:/welcome";
     }
 
@@ -174,6 +171,8 @@ public class UserController {
     public String logout(HttpSession session) {
         // 세션에서 사용자 ID를 제거하여 로그아웃 상태로 만듭니다.
         session.removeAttribute("User_Id");
+        System.out.println("Log-out!!!");
+
         return "redirect:/signInUp";
     }
 
