@@ -18,7 +18,6 @@
             <th>가격</th>
             <th>수량</th>
             <th>합계</th>
-            <th>동작</th>
         </tr>
         </thead>
         <tbody>
@@ -26,24 +25,32 @@
         <tr>
             <td>상품1</td>
             <td>10000원</td>
-            <td>2</td>
-            <td>20000원</td>
             <td>
-                <button class="btn btn-primary" onclick="redirectToOrderPage()">구매</button>
+                <button class="btn btn-sm btn-primary" onclick="incrementQuantity(this)">+</button>
+                <span class="quantity">2</span>
+                <button class="btn btn-sm btn-danger" onclick="decrementQuantity(this)">-</button>
             </td>
+            <td>20000원</td>
         </tr>
         <tr>
             <td>상품2</td>
             <td>15000원</td>
-            <td>1</td>
-            <td>15000원</td>
             <td>
-                <button class="btn btn-primary" onclick="redirectToOrderPage()">구매</button>
+                <button class="btn btn-sm btn-primary" onclick="incrementQuantity(this)">+</button>
+                <span class="quantity">1</span>
+                <button class="btn btn-sm btn-danger" onclick="decrementQuantity(this)">-</button>
             </td>
+            <td>15000원</td>
         </tr>
         <!-- 다른 장바구니 항목들을 추가할 수 있습니다. -->
         </tbody>
     </table>
+
+    <!-- 전체 합계 표시 -->
+    <div class="text-right">
+        <strong>전체 합계: <span id="totalPrice">0원</span></strong>
+    </div>
+    <button class="btn btn-primary" onclick="redirectToOrderPage()">구매</button>
 </div>
 
 <script>
@@ -51,6 +58,52 @@
         // 클릭 시 주문 정보 입력 페이지로 이동
         window.location.href = '/orders/orderMain'; // 주문 정보 입력 페이지의 URL로 변경
     }
+
+    // 수량 증가 함수
+    function incrementQuantity(button) {
+        const quantitySpan = button.nextElementSibling;
+        let quantity = parseInt(quantitySpan.textContent);
+        quantity++;
+        quantitySpan.textContent = quantity;
+        updateTotalPrice();
+    }
+
+    // 수량 감소 함수
+    function decrementQuantity(button) {
+        const quantitySpan = button.nextElementSibling;
+        let quantity = parseInt(quantitySpan.textContent);
+        if (quantity > 1) {
+            quantity--;
+            quantitySpan.textContent = quantity;
+            updateTotalPrice();
+        }
+    }
+
+    // 장바구니 항목의 합계를 계산하고 전체 합계를 업데이트
+    function updateTotalPrice() {
+        const rows = document.querySelectorAll('tbody tr');
+        let totalPrice = 0;
+
+        rows.forEach(row => {
+            const priceCell = row.querySelector('td:nth-child(2)');
+            const quantityCell = row.querySelector('.quantity');
+            const totalPriceCell = row.querySelector('td:nth-child(4)');
+
+            const price = parseInt(priceCell.textContent);
+            const quantity = parseInt(quantityCell.textContent);
+            const itemTotal = price * quantity;
+
+            totalPrice += itemTotal;
+            totalPriceCell.textContent = itemTotal + '원';
+        });
+
+        // 전체 합계 업데이트
+        document.getElementById('totalPrice').textContent = totalPrice + '원';
+    }
+
+    // 페이지 로드 시 전체 합계 계산
+    updateTotalPrice();
 </script>
+
 </body>
 </html>
