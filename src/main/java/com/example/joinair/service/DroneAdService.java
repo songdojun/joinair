@@ -14,6 +14,7 @@ import org.springframework.stereotype.Service;
 import org.springframework.web.multipart.MultipartFile;
 
 import java.io.File;
+import java.io.IOException;
 import java.util.Date;
 import java.util.List;
 import java.util.Optional;
@@ -29,24 +30,34 @@ public class DroneAdService {
         this.droneAdRepository = droneAdRepository;
     }
 
-    public static void registDrone(Drone drone, MultipartFile file) throws Exception {
-        String projectpath = System.getProperty("user.dir") + "\\src\\main\\resources\\static\\files";
+    public void registDrone(Drone drone, MultipartFile file) throws Exception {
+        // 이미지를 저장할 경로
+        String projectPath = System.getProperty("user.dir") + "\\src\\main\\resources\\static\\files";
 
-        UUID uuid = UUID.randomUUID();
+        // 파일 이름을 유일하게 만듭니다.
+        String fileName = UUID.randomUUID() + "_" + file.getOriginalFilename();
 
-        String fileName = uuid + "_" + file.getOriginalFilename();
+        // 저장할 파일 객체 생성
+        File saveFile = new File(projectPath, fileName);
 
-        File saveFile = new File(projectpath, fileName);
-        file.transferTo(saveFile);
+        // 이미지 파일을 저장
+        try {
+            file.transferTo(saveFile);
+        } catch (IOException e) {
+            throw new Exception("이미지 업로드 중 오류 발생: " + e.getMessage());
+        }
 
+        // 드론 엔티티에 파일 정보 설정
         drone.setD_Filename(fileName);
         drone.setD_Filepath("/files/" + fileName);
 
-        // 현재 날짜와 시간으로 D_Reg_Date 설정  => (작성일자 나타났다 사라지는 문제 발생하여 만들었음)
+        // 현재 날짜와 시간으로 D_Reg_Date 설정
         drone.setD_Reg_Date(new Date());
 
+        // 드론 정보를 저장
         droneAdRepository.save(drone);
     }
+
 
     public List<Drone> droneadList() {
         return droneAdRepository.findAll();

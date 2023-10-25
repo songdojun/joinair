@@ -18,7 +18,7 @@ import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.multipart.MultipartFile;
 
-import static com.example.joinair.service.DroneAdService.registDrone;
+
 
 
 @Controller
@@ -31,11 +31,16 @@ public class DroneAdController {
     public String droneadRegistForm(){return "droneadregist";}
 
     @PostMapping("/dronead/registpro")
-    public String droneadRegistPro(Drone drone, Model model, MultipartFile file)throws Exception{
-        registDrone(drone,file);
+    public String droneadRegistPro(Drone drone, Model model, @RequestParam("file") MultipartFile file) throws Exception {
+        try {
+            // 파일 업로드 처리와 드론 등록을 service에서 처리
+            droneAdService.registDrone(drone, file);
+            model.addAttribute("message", "드론 기체 등록이 완료되었습니다.");
+        } catch (Exception e) {
+            model.addAttribute("message", "드론 기체 등록 중 오류 발생: " + e.getMessage());
+        }
 
-        model.addAttribute("message", "드론 기체 등록이 완료되었습니다.");
-        model.addAttribute("searchUrl","/dronead/list");
+        model.addAttribute("searchUrl", "/dronead/list");
         return "message";
     }
 
@@ -99,7 +104,7 @@ public class DroneAdController {
             droneTemp.setD_Weight(updateDrone.getD_Weight());
             droneTemp.setD_Speed(updateDrone.getD_Speed());
 
-            registDrone(droneTemp,file);
+            droneAdService.registDrone(droneTemp,file);
         }
 
         model.addAttribute("message", "드론 기체 수정이 완료되었습니다.");

@@ -76,3 +76,8 @@ a {
 a.current-page {
     text-decoration: none; /* 링크에 있는 밑줄 제거 */
 }
+
+td.small-column img {
+    max-width: 100px; /* 원하는 최대 가로폭 설정 */
+    max-height: 100px; /* 원하는 최대 높이 설정 */
+}

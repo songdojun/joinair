@@ -26,6 +26,7 @@
     <table>
         <thead>
         <tr>
+            <th class="small-column">이미지</th>
             <th class="small-column">드론 코드</th>
             <th class="small-column">드론명</th>
             <th class="small-column">페이로드 용량</th>
@@ -40,6 +41,9 @@
         </thead>
         <tbody>
         <tr th:each="drone : ${list}">
+            <td class="small-column">
+                <img th:src="${drone != null} ? ${drone.D_Filepath} : ''"  alt="Drone Image"/> //이미지 삽입시 경로 이렇게 (첨부파일) 이렇게 해야 에러 안남
+            </td>
             <td class="small-column" th:text="${drone.D_Code}">드론 코드</td>
             <td class="small-column" >
                 <a th:href="@{/dronead/view(D_Code=${drone.D_Code})}" th:text="${drone.D_Name}"></a></td>
