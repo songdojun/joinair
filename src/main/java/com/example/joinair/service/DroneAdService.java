@@ -1,7 +1,10 @@
 package com.example.joinair.service;
 
+
+
+import com.example.joinair.entity.Drone;
 import com.example.joinair.entity.Product;
-import com.example.joinair.repository.ProductAdRepository;
+import com.example.joinair.repository.DroneAdRepository;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.PageRequest;
@@ -19,14 +22,14 @@ import java.util.UUID;
 @Service
 public class DroneAdService {
 
-    private static ProductAdRepository productAdRepository;
+    private static DroneAdRepository droneAdRepository;
 
     @Autowired
-    public DroneAdService(ProductAdRepository productAdRepository) {
-        this.productAdRepository = productAdRepository;
+    public DroneAdService(DroneAdRepository droneAdRepository) {
+        this.droneAdRepository = droneAdRepository;
     }
 
-    public static void regist(Product product, MultipartFile file) throws Exception {
+    public static void registDrone(Drone drone, MultipartFile file) throws Exception {
         String projectpath = System.getProperty("user.dir") + "\\src\\main\\resources\\static\\files";
 
         UUID uuid = UUID.randomUUID();
@@ -36,62 +39,50 @@ public class DroneAdService {
         File saveFile = new File(projectpath, fileName);
         file.transferTo(saveFile);
 
-        product.setPro_Filename(fileName);
-        product.setPro_Filepath("/files/" + fileName);
+        drone.setD_Filename(fileName);
+        drone.setD_Filepath("/files/" + fileName);
 
-        // 현재 날짜와 시간으로 Pro_Reg_Date 설정  => (작성일자 나타났다 사라지는 문제 발생하여 만들었음)
-        product.setPro_Reg_Date(new Date());
+        // 현재 날짜와 시간으로 D_Reg_Date 설정  => (작성일자 나타났다 사라지는 문제 발생하여 만들었음)
+        drone.setD_Reg_Date(new Date());
 
-        productAdRepository.save(product);
+        droneAdRepository.save(drone);
     }
 
-    public List<Product> productadList() {
-        return productAdRepository.findAll();
+    public List<Drone> droneadList() {
+        return droneAdRepository.findAll();
     }
-
 
 
         // 이전 코드 생략
 
-    public Page<Product> productadSearchList(String searchOption, String searchKeyword, Pageable pageable) {
-        Page<Product> list;
+    public Page<Drone> droneadSearchList(String searchOption, String searchKeyword, Pageable pageable) {
+        Page<Drone> list;
 
         // Pageable 객체를 적절하게 설정
-        pageable = PageRequest.of(pageable.getPageNumber(), pageable.getPageSize(), Sort.by("Pro_Code").descending());
+        pageable = PageRequest.of(pageable.getPageNumber(), pageable.getPageSize(), Sort.by("D_Code").descending());
 
-        if ("Pro_Code".equals(searchOption)) {
-            list = productAdRepository.findProductsByProCode(Integer.parseInt(searchKeyword), pageable);
-        } else if ("Pro_Name".equals(searchOption)) {
-            list = productAdRepository.findProductsByProNameContaining(searchKeyword, pageable);
-        } else if ("Cate_Name".equals(searchOption)) {
-            // 수정: "Cate_Name" 검색을 위한 쿼리 추가
-            list = productAdRepository.findProductsByCateNameContaining(searchKeyword, pageable);
-        } else {
-            list = productAdRepository.findAllOrderedByProCodeWithPagination(pageable);
+        if ("D_Code".equals(searchOption)) {
+            list = droneAdRepository.findDronesByDCode(Integer.parseInt(searchKeyword), pageable);
+        } else if ("D_Name".equals(searchOption)) {
+            list = droneAdRepository.findDronesByDNameContaining(searchKeyword, pageable);
+        }else {
+            list = droneAdRepository.findAllOrderedByDCodeWithPagination(pageable);
         }
-
         return list;
     }
 
 
 
-
-
-
-
-
-
-
-    public Optional<Product> productadView(Integer Pro_Code) {
-        Optional<Product> optionalProduct = productAdRepository.findById(Pro_Code);
-        return optionalProduct;
+    public Optional<Drone> droneadView(Integer D_Code) {
+        Optional<Drone> optionalDrone = droneAdRepository.findById(D_Code);
+        return optionalDrone;
     }
 
-    public void productadDelete(Integer Pro_Code) {
-        productAdRepository.deleteById(Pro_Code);
+    public void droneadDelete(Integer D_Code) {
+        droneAdRepository.deleteById(D_Code);
     }
 
-    public Page<Product> productadListWithPagination(Pageable pageable) {
-        return productAdRepository.findAllOrderedByProCodeWithPagination(pageable);
+    public Page<Drone> droneadListWithPagination(Pageable pageable) {
+        return droneAdRepository.findAllOrderedByDCodeWithPagination(pageable);
     }
 }

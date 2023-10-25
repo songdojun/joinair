@@ -1,8 +1,10 @@
 package com.example.joinair.controller;
 
 
+
+import com.example.joinair.entity.Drone;
 import com.example.joinair.entity.Product;
-import com.example.joinair.service.ProductAdService;
+import com.example.joinair.service.DroneAdService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
@@ -16,33 +18,34 @@ import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.multipart.MultipartFile;
 
-import static com.example.joinair.service.ProductAdService.regist;
+import static com.example.joinair.service.DroneAdService.registDrone;
 
 
 @Controller
 public class DroneAdController {
 
     @Autowired
-    private ProductAdService productAdService;
+    private DroneAdService droneAdService;
 
-    @GetMapping("/productad/regist")
-    public String productadRegistForm(){return "productadregist";}
+    @GetMapping("/dronead/regist")
+    public String droneadRegistForm(){return "droneadregist";}
 
-    @PostMapping("/productad/registpro")
-    public String productadRegistPro(Product product, Model model, MultipartFile file)throws Exception{
-        regist(product,file);
+    @PostMapping("/dronead/registpro")
+    public String droneadRegistPro(Drone drone, Model model, MultipartFile file)throws Exception{
+        registDrone(drone,file);
 
-        model.addAttribute("message", "파일 등록이 완료되었습니다.");
-        model.addAttribute("searchUrl","/productad/list");
+        model.addAttribute("message", "드론 기체 등록이 완료되었습니다.");
+        model.addAttribute("searchUrl","/dronead/list");
         return "message";
     }
 
-    @GetMapping("/productad/list")
-    public String productadList(Model model,
-                                @PageableDefault(page = 0, size = 10, sort = "Pro_Code", direction = Sort.Direction.DESC) Pageable pageable,
+    @GetMapping("/dronead/list")
+    public String droneadList(Model model,
+                                @PageableDefault(page = 0, size = 10, sort = "D_Code", direction = Sort.Direction.DESC) Pageable pageable,
                                 @RequestParam(name = "searchOption", required = false) String searchOption,
                                 @RequestParam(name = "searchKeyword", required = false) String searchKeyword) {
-        Page<Product> list = productAdService.productadSearchList(searchOption, searchKeyword, pageable);
+        Page<Drone> list = droneAdService.droneadSearchList(searchOption, searchKeyword, pageable);
+
 
         int nowPage = list.getPageable().getPageNumber() + 1;
         int startPage = Math.max(nowPage - 4, 1);
@@ -53,55 +56,54 @@ public class DroneAdController {
         model.addAttribute("nowPage", nowPage);
         model.addAttribute("startPage", startPage);
         model.addAttribute("endPage", endPage);
-        model.addAttribute("searchOption", searchOption);
         model.addAttribute("searchKeyword", searchKeyword); // Pass search keyword to the view
 
-        return "productadlist";
+        return "droneadlist";
     }
 
 
 
-    @GetMapping("/productad/view")
-    public String productadView(Model model, Integer Pro_Code){
-        model.addAttribute("Product",productAdService.productadView(Pro_Code).orElse(null));
-        return "productadview";
+    @GetMapping("/dronead/view")
+    public String droneadView(Model model, Integer D_Code){
+        model.addAttribute("Drone",droneAdService.droneadView(D_Code).orElse(null));
+        return "droneadview";
     }
 
-    @GetMapping("/productad/delete")
-    public String productadDelete(Integer Pro_Code){
-        productAdService.productadDelete(Pro_Code);
+    @GetMapping("/dronead/delete")
+    public String droneadDelete(Integer D_Code){
+        droneAdService.droneadDelete(D_Code);
 
-        return "redirect:/productad/list";
+        return "redirect:/dronead/list";
     }
 
-    @GetMapping("/productad/modify/{Pro_No}")
-    public String productadModify(@PathVariable("Pro_No") Integer Pro_Code, Model model){
-        Product product = productAdService.productadView(Pro_Code).orElse(null);
+    @GetMapping("/dronead/modify/{D_Code}")
+    public String droneadModify(@PathVariable("D_Code") Integer D_Code, Model model){
+        Drone drone = droneAdService.droneadView(D_Code).orElse(null);
 
-        if(product==null){
+        if(drone==null){
             return "redirect:/error";
         }
-        model.addAttribute("product", product);
-        return "productadmodify";
+        model.addAttribute("drone", drone);
+        return "droneadmodify";
     }
 
-    @PostMapping("/productad/update/{Pro_Code}")
-    public String productadUpdate(@PathVariable("Pro_Code")Integer Pro_Code, Product updateProduct, Model model, MultipartFile file) throws Exception{
-        Product productTemp = productAdService.productadView(Pro_Code).orElse(null);
+    @PostMapping("/dronead/update/{D_Code}")
+    public String droneadUpdate(@PathVariable("D_Code")Integer D_Code, Drone updateDrone, Model model, MultipartFile file) throws Exception{
+        Drone droneTemp = droneAdService.droneadView(D_Code).orElse(null);
 
-        if(productTemp !=null){
-            productTemp.setPro_Code(updateProduct.getPro_Code());
-            productTemp.setCate_No(updateProduct.getCate_No());
-            productTemp.setPro_Name(updateProduct.getPro_Name());
-            productTemp.setPro_Price(updateProduct.getPro_Price());
-            productTemp.setPro_Inventory(updateProduct.getPro_Inventory());
-            productTemp.setPro_Weight(updateProduct.getPro_Weight());
+        if(droneTemp !=null){
+            droneTemp.setD_Name(updateDrone.getD_Name());
+            droneTemp.setD_Payload(updateDrone.getD_Payload());
+            droneTemp.setD_Count(updateDrone.getD_Count());
+            droneTemp.setD_Size(updateDrone.getD_Size());
+            droneTemp.setD_Weight(updateDrone.getD_Weight());
+            droneTemp.setD_Speed(updateDrone.getD_Speed());
 
-            regist(productTemp,file);
+            registDrone(droneTemp,file);
         }
 
-        model.addAttribute("message", "상품 수정이 완료되었습니다.");
-        model.addAttribute("searchUrl", "/productad/list");
+        model.addAttribute("message", "드론 기체 수정이 완료되었습니다.");
+        model.addAttribute("searchUrl", "/dronead/list");
         return  "message";
     }
 

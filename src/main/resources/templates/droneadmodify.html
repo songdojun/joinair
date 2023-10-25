@@ -2,7 +2,7 @@
 <html lang="en" xmlns:th="http://www.thymeleaf.org">
 <head>
     <meta charset="UTF-8">
-    <title>상품 수정폼</title>
+    <title>드론 수정폼</title>
 </head>
 
 <style>
@@ -27,26 +27,34 @@
 </style>
 <body>
 <div class="layout">
-    <form th:action="@{/productad/update/{Pro_Code}(Pro_Code=${product.Pro_Code})}" method="post" enctype="multipart/form-data">
+    <form th:action="@{/dronead/update/{D_Code}(D_Code=${drone.D_Code})}" method="post" enctype="multipart/form-data">
         <!-- 상품 정보를 수정할 수 있는 입력 필드 추가 -->
-        <label for="Cate_No">카테고리식별번호:</label>
-        <input name="Cate_No" type="text" id="Cate_No" th:value="${product.Cate_No}">
+        <label for="D_Code">드론 코드:</label>
+        <input name="D_Code" type="text" id="D_Code" th:value="${drone.D_Code}" th:readonly="true">
 
-        <label for="Pro_Name">상품 이름:</label>
-        <input name="Pro_Name" type="text" id="Pro_Name" th:value="${product.Pro_Name}">
 
-        <label for="Pro_Price">가격:</label>
-        <input name="Pro_Price" type="text" id="Pro_Price" th:value="${product.Pro_Price}">
+        <label for="D_Name">드론 명:</label>
+        <input name="D_Name" type="text" id="D_Name" th:value="${drone.D_Name}">
 
-        <label for="Pro_Inventory">재고량:</label>
-        <input name="Pro_Inventory" type="text" id="Pro_Inventory" th:value="${product.Pro_Inventory}">
+        <label for="D_Payload">페이로드 용량:</label>
+        <input name="D_Payload" type="text" id="D_Payload" th:value="${drone.D_Payload}">
 
-        <label for="Pro_Weight">무게:</label>
-        <input name="Pro_Weight" type="text" id="Pro_Weight" th:value="${product.Pro_Weight}">
+        <label for="D_Count">수량:</label>
+        <input name="D_Count" type="text" id="D_Count" th:value="${drone.D_Count}">
 
-        <input type="file" name="file" th:if="${product != null}">
+        <label for="D_Size">크기:</label>
+        <input name="D_Size" type="text" id="D_Size" th:value="${drone.D_Size}">
 
-        <button type="submit" th:if="${product != null}">수정</button>
+        <label for="D_Weight">무게:</label>
+        <input name="D_Weight" type="text" id="D_Weight" th:value="${drone.D_Weight}">
+
+        <label for="D_Speed">속도:</label>
+        <input name="D_Speed" type="text" id="D_Speed" th:value="${drone.D_Speed}">
+
+
+        <input type="file" name="file" th:if="${drone != null}">
+
+        <button type="submit" th:if="${drone != null}">수정</button>
     </form>
 
 </div>

@@ -2,6 +2,10 @@ package com.example.joinair.entity;
 
 import jakarta.persistence.*;
 
+import java.util.Date;
+
+
+
 
 @Entity
 public class Drone {
@@ -58,11 +62,54 @@ public class Drone {
     @GeneratedValue(strategy = GenerationType.SEQUENCE, generator = "DRONE_SEQ")
     @SequenceGenerator(name = "DRONE_SEQ", sequenceName = "DRONE_SEQ", allocationSize = 1)
     private Integer D_Code;      // 드론식별코드
+    private String D_Name;        //드론 이름
     private Integer D_Payload;   // 페이로드 용량
     private Integer D_Count;     // 수량
     private Integer D_Size;      // 크기
     private Integer D_Weight;    // 무게
     private Integer D_Speed;     // 속도
+    private Date D_Reg_Date;    //드론 등록일자
+    private String D_Filepath;  //드론 파일 경로
+    private String D_Filename;  //드론 파일 명
+
+    @PrePersist
+    protected  void onCreate(){
+        D_Reg_Date = new Date();
+    }
+
+
+    public Date getD_Reg_Date() {
+        return D_Reg_Date;
+    }
+
+    public void setD_Reg_Date(Date d_Reg_Date) {
+        D_Reg_Date = d_Reg_Date;
+    }
+
+    public String getD_Filepath() {
+        return D_Filepath;
+    }
+
+    public void setD_Filepath(String d_Filepath) {
+        D_Filepath = d_Filepath;
+    }
+
+    public String getD_Filename() {
+        return D_Filename;
+    }
+
+    public void setD_Filename(String d_Filename) {
+        D_Filename = d_Filename;
+    }
+
+
+    public String getD_Name() {
+        return D_Name;
+    }
+
+    public void setD_Name(String d_Name) {
+        D_Name = d_Name;
+    }
 
     // 생성자, 게터, 세터, 기타 메서드 등을 추가할 수 있습니다.
 

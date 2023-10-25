@@ -1,0 +1,55 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>드론 등록폼</title>
+</head>
+<style>
+    .layout{
+          width : 500px;
+          margin : 0 auto;
+          margin-top : 40px;
+      }
+
+      .layout input {
+          width: 100%;
+          box-sizing: border-box;
+          margin-top: 10px;
+      }
+
+      .layout textarea {
+          width: 100%;
+          box-sizing: border-box;
+          margin-top: 10px;
+          min-height: 300px;
+      }
+</style>
+<body>
+<div class="layout">
+    <form action="/dronead/registpro" method="post" enctype="multipart/form-data">
+        <label for="D_Name">드론 명:</label>
+        <input name="D_Name" type="text" id="D_Name">
+
+        <label for="D_Payload">페이로드 용량:</label>
+        <input name="D_Payload" type="text" id="D_Payload">
+
+        <label for="D_Count">수량:</label>
+        <input name="D_Count" type="text" id="D_Count">
+
+        <label for="D_Size">크기:</label>
+        <input name="D_Size" type="text" id="D_Size">
+
+        <label for="D_Weight">무게:</label>
+        <input name="D_Weight" type="text" id="D_Weight">
+
+        <label for="D_Speed">속도:</label>
+        <input name="D_Speed" type="text" id="D_Speed">
+
+        <label for="file">드론 파일 업로드:</label>
+        <input type="file" name="file" id="file">
+
+        <button type="submit">등록</button>
+    </form>
+</div>
+</body>
+</html>
