@@ -149,7 +149,7 @@
                                     <button type="submit" class="btn btn-success btn-lg" name="submit" value="buy">Buy</button>
                                 </div>
                                 <div class="col d-grid">
-                                    <button type="submit" class="btn btn-success btn-lg" name="submit" value="addtocart">Add To Cart</button>
+                                    <button type="button" class="btn btn-success btn-lg" name="submit" value="addtocart" onclick="redirectToCartMain()">Add To Cart</button>
                                 </div>
                             </div>
                         </form>
@@ -270,6 +270,11 @@
             }
         });
     });
+
+     function redirectToCartMain() {
+        // "Add to Cart" 버튼을 누르면 "http://localhost:8080/cart/cartmain" 페이지로 이동
+        window.location.href = 'http://localhost:8080/cart/cartmain';
+    }
 </script>
 <!-- End Slider Script -->
 
