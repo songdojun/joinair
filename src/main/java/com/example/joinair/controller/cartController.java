@@ -11,7 +11,7 @@ import org.springframework.web.servlet.ModelAndView;
 import java.util.List;
 
 @Controller
-@RequestMapping("/cart")
+@RequestMapping("/cart") //시도
 public class cartController {
     @Autowired
     private cartService cartService;
