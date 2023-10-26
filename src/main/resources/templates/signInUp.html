@@ -18,14 +18,14 @@
                 <div class="col_md_login">
                     <div class="cont_ba_opcitiy">
                         <h2>LOGIN</h2>
-                        <p>Lorem ipsum dolor sit amet, consectetur adipiscing elit.</p>
+                        <p>기존에 가입하신 아이디와 패스워드를 입력하여 로그인 해주세요</p>
                         <button class="btn_login" onclick="change_to_login()">LOGIN</button>
                     </div>
                 </div>
                 <div class="col_md_sign_up">
                     <div class="cont_ba_opcitiy">
                         <h2>SIGN UP</h2>
-                        <p>Lorem ipsum dolor sit amet, consectetur adipiscing elit.</p>
+                        <p>처음 오신 분은 회원가입 해주세요💌</p>
                         <button class="btn_sign_up" onclick="change_to_sign_up()">SIGN UP</button>
                     </div>
                 </div>
@@ -39,16 +39,18 @@
                 <div class="cont_img_back_">
                     <img src="https://images.unsplash.com/42/U7Fc1sy5SCUDIu4tlJY3_NY_by_PhilippHenzler_philmotion.de.jpg?ixlib=rb-0.3.5&q=50&fm=jpg&crop=entropy&s=7686972873678f32efaf2cd79671673d" alt="" />
                 </div>
-                <form name="loginForm" method="post" action="/signInUp">
+                <form name="loginForm" method="post" action="/signInUp" autocomplete="off">
                     <div class="cont_form_login">
                         <a href="#" onclick="hidden_login_and_sign_up()"><i class="material-icons">&#xE5C4;</i></a>
                         <h2>LOGIN</h2>
                         <input type="text" name="User_Id" placeholder="User ID" required><br>
                         <input type="password" name="User_Password" placeholder="Password" required><br>
+
+
                         <button class="btn_login" type="submit" onclick="window.location.href='/signInUp'">로그인</button>
                     </div>
                 </form>
-                <form name="SignupForm" method="post" action="/register">
+                <form name="SignupForm" method="post" action="/register" autocomplete="off">
                     <div class="cont_form_sign_up">
                         <a href="#" onclick="hidden_login_and_sign_up()"><i class="material-icons">&#xE5C4;</i></a>
                         <h2>SIGN UP</h2>
@@ -57,7 +59,20 @@
                             <span id="message"></span>
                         </div>
                         <input type="text" id="userName" name="User_Name" placeholder="User_Name" required/>
-                        <input type="email" id="userEmail" name="User_Email" placeholder="E-mail" required/>
+
+
+                            <input type="text" id="userEmail" name="User_Email" placeholder="이메일 주소 앞부분을 입력해 주세요" required class="input-field"/>
+                            <div id="emailDomainDropdown">
+                                <select id="emailDomain" name="emailDomain" onchange="updateEmail()" class="input-field">
+                                    <option value="" selected disabled>도메인 선택</option>
+                                    <option value="gmail.com">gmail.com</option>
+                                    <option value="naver.com">naver.com</option>
+                                    <option value="example.com">example.com</option>
+                                    <!-- 다른 도메인을 필요에 따라 추가하세요 -->
+                                </select>
+                            </div>
+
+
                         <input type="password" id="userPassword" name="User_Password" placeholder="Password" required/><br>
                         <input type="password" id="userPasswordCheck" name="User_Password_Check" placeholder="Password확인" required/><br>
                         <div>
@@ -78,6 +93,16 @@
         </div>
     </div>
 </div>
+<script>
+    function updateEmail() {
+    var userEmail = document.getElementById("userEmail");
+    var emailDomain = document.getElementById("emailDomain");
+
+    if (emailDomain.value) {
+        userEmail.value = userEmail.value + "@" + emailDomain.value;
+    }
+}
+</script>
 <script>
     function mergeAddressesAndSubmit() {
     var postcode = document.getElementById('sample2_postcode').value;

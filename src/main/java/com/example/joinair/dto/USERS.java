@@ -16,6 +16,6 @@ public class USERS {
     private int User_Mileage;
     private String User_DetailAddress; // 추가: 상세 주소 필드
 
+    private String User_Mode;
 
 }
-

@@ -1,0 +1,68 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+        "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+
+<mapper namespace="com.example.joinair.mapper.AdminMapper">
+
+  <!-- 일일 매출 조회 -->
+  <select id="getDailySales" resultType="com.example.joinair.dto.SALES">
+    SELECT ORDERS_NUM, SALES_DATE, amount, Pro_Code, User_Id, ORDERS_NUM
+    FROM SALES
+  </select>
+
+
+  <!-- 월별 매출 조회 -->
+  <select id="getMonthlySales" resultType="com.example.joinair.dto.SALES">
+    SELECT ORDERS_NUM, TO_CHAR(sales_Date, 'YYYY-MM') AS date,
+    SUM(amount) AS amount,
+    Pro_Code,
+    User_Id
+    FROM SALES
+    GROUP BY TO_CHAR(sales_Date, 'YYYY-MM'), Pro_Code, User_Id
+  </select>
+
+
+  <!-- 연도별 매출 조회 -->
+  <select id="getYearlySales" resultType="com.example.joinair.dto.SALES">
+    SELECT sales_Date, ORDERS_NUM, SUM(amount) AS amount, Pro_Code, User_Id
+    FROM SALES
+    WHERE EXTRACT(YEAR FROM sales_Date) = #{year}
+    GROUP BY sales_Date, Pro_Code, User_Id, ORDERS_NUM
+  </select>
+
+  <!-- 사용자별 매출 조회 -->
+  <select id="getCustomSales" resultType="com.example.joinair.dto.SALES">
+    SELECT User_Id, ORDERS_NUM, amount, sales_Date, Pro_Code
+    FROM SALES
+    WHERE User_Id LIKE '%' || #{user} || '%'
+    ORDER BY sales_Date DESC
+  </select>
+
+
+  <!-- 월 선택하여 매출 조회 -->
+  <select id="getMonthlySalesByYearAndMonth" resultType="com.example.joinair.dto.SALES">
+    SELECT sales_Date, ORDERS_NUM, amount, Pro_Code, User_Id
+    FROM SALES
+    WHERE EXTRACT(YEAR FROM SALES_DATE) = #{year}
+    AND EXTRACT(MONTH FROM SALES_DATE) = #{month}
+  </select>
+
+  <!-- 사용자 검색 -->
+  <select id="searchUsers" resultType="com.example.joinair.dto.USERS">
+    SELECT User_Id, User_Name, User_Email, User_Address, User_Phone, User_Mileage
+    FROM USERS
+    WHERE
+    <choose>
+      <when test="searchCategory == 'User_Id'">
+        User_Id LIKE '%' || #{searchInput} || '%'
+      </when>
+      <when test="searchCategory == 'User_Name'">
+        User_Name LIKE '%' || #{searchInput} || '%'
+      </when>
+      <when test="searchCategory == 'User_Phone'">
+        User_Phone LIKE '%' || #{searchInput} || '%'
+      </when>
+    </choose>
+  </select>
+
+</mapper>
