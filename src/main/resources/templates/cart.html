@@ -1,18 +1,100 @@
 <!DOCTYPE html>
-<html lang="ko">
+<html lang="ko" xmlns:th="http://www.thymeleaf.org">
 <head>
-    <title>문의 페이지</title>
+    <title>장바구니</title>
     <meta charset="utf-8">
     <meta name="viewport" content="width=device-width, initial-scale=1">
     <link rel="apple-touch-icon" href="assets/img/apple-icon.png">
     <link rel="shortcut icon" type="image/x-icon" href="assets/img/favicon.ico">
-    <link rel="stylesheet" href="assets/css/bootstrap.min.css">
-    <link rel="stylesheet" href="assets/css/templatemo.css">
-    <link rel="stylesheet" href="assets/css/custom.css">
-    <link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Roboto:wght@100;200;300;400;500;700;900&display=swap">
-    <link rel="stylesheet" href="assets/css/fontawesome.min.css">
-    <link rel="stylesheet" href="https://unpkg.com/leaflet@1.7.1/dist/leaflet.css"
-          integrity="sha512-xodZBNTC5n17Xt2atTPuE1HxjVMSvLVW9ocqUKLsCC5CXdbqCmblAshOMAS6/keqq/sMZMZ19scR4PsZChSR7A==" crossorigin=""/>
+    <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.5.2/css/bootstrap.min.css">
+    <link rel="stylesheet" href="../boot/assets/css/templatemo.css">
+    <link rel="stylesheet" href="../boot/assets/css/custom.css">
+    <link href="https://fonts.googleapis.com/css2?family=Roboto:wght@100;200;300;400;500;700;900&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/font-awesome/4.7.0/css/font-awesome.min.css">
+    <style>
+        body {
+            margin: 0;
+            padding: 0;
+        }
+
+        nav {
+            background-color: white;
+            color: #343a40;
+        }
+
+        .navbar-sm-brand {
+            font-weight: bold;
+        }
+
+        .navbar-sm-brand:hover {
+            text-decoration: none;
+        }
+
+        .navbar-toggler-icon {
+            background-color: #343a40;
+        }
+
+        .navbar-nav {
+            margin-left: auto;
+        }
+
+        .nav-link {
+            color: #343a40;
+        }
+
+        .nav-link:hover {
+            text-decoration: none;
+        }
+
+        #main_in {
+            background-color: #f8f9fa;
+            min-height: calc(100vh - 56px);
+            text-align: center;
+            padding: 20px;
+        }
+
+        h2 {
+            margin-top: 20px;
+        }
+
+        table {
+            background-color: white;
+        }
+
+        /* 상품들 사이의 분할선 스타일 변경 */
+        table tbody tr:not(:last-child) {
+            border-bottom: 1px solid #e0e0e0;
+        }
+
+        #tempaltemo_footer {
+            background-color: #343a40;
+            color: white;
+            text-align: center;
+            padding: 20px 0;
+        }
+
+        .list-unstyled li {
+            margin-bottom: 10px;
+        }
+
+        .footer-icons .fa {
+            font-size: 24px;
+            margin: 0 10px;
+        }
+
+        /* 결제하기 버튼 스타일 */
+        #payment-button {
+            background-color: #343a40;
+            color: white;
+            padding: 10px 20px;
+            border: none;
+            cursor: pointer;
+        }
+
+        #payment-button:hover {
+            background-color: #1c1f22;
+        }
+    </style>
 </head>
 <body>
 <nav class="navbar navbar-expand-lg bg-dark navbar-light d-none d-lg-block" id="templatemo_nav_top">
@@ -23,11 +105,6 @@
                 <a class="navbar-sm-brand text-light text-decoration-none" href="mailto:info@company.com"> Doron delivery@Doron delivery.com </a>
                 <i class="fa fa-phone mx-2"></i>
                 <a class="navbar-sm-brand text-light text-decoration-none" href="tel:010-020-0340"> 010-1234-5678</a>
-            </div>
-            <div>
-                <a class="text-light" href="https://fb.com/templatemo" target="_blank" rel="sponsored"><i class="fab fa-facebook-f fa-sm fa-fw me-2"></i></a>
-                <a class="text-light" href="https://www.instagram.com/" target="_blank"><i class="fab fa-instagram fa-sm fa-fw me-2"></i></a>
-                <a class="text-light" href="https://twitter.com/" target="_blank"><i class="fab fa-twitter fa-sm fa-fw me-2"></i></a>
             </div>
         </div>
     </div>
@@ -43,16 +120,16 @@
             <div class="flex-fill">
                 <ul class="nav navbar-nav d-flex justify-content-between mx-lg-auto">
                     <li class="nav-item">
-                        <a class="nav-link" href="index.html">홈</a>
+                        <a class="nav-link" href="../boot/index.html">홈</a>
                     </li>
                     <li class="nav-item">
-                        <a class="nav-link" href="about.html">회사 소개</a>
+                        <a class="nav-link" href="../boot/about.html">회사 소개</a>
                     </li>
                     <li class="nav-item">
-                        <a class="nav-link" href="shop.html">상품</a>
+                        <a class="nav-link" href="../boot/shop.html">상품</a>
                     </li>
                     <li class="nav-item">
-                        <a class="nav-link" href="contact.html">문의</a>
+                        <a class="nav-link" href="../boot/contact.html">문의</a>
                     </li>
                     <li class="nav-item">
                         <a class="nav-link" href="http://localhost:8080/notice/list">공지사항</a>
@@ -86,54 +163,51 @@
         </div>
     </div>
 </nav>
-<div class="modal fade bg-white" id="templatemo_search" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel" aria-hidden="true">
-    <div class="modal-dialog modal-lg" role="document">
-        <div class="w-100 pt-1 mb-5 text-right">
-            <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+<div id="bg1"></div>
+<div id="main_in">
+    <div id="menu">
+        <div id="search_ser">
         </div>
-        <form action="" method="get" class="modal-content modal-body border-0 p-0">
-            <div class="input-group mb-2">
-                <input type="text" class="form-control" id="inputModalSearch" name="q" placeholder="검색">
-                <button type="submit" class="input-group-text bg-success text-light">
-                    <i class="fa fa-fw fa-search text-white"></i>
-                </button>
-            </div>
-        </form>
+    </div>
+    <div class="container">
+        <h2 class="mt-5 mb-3">장바구니</h2>
+        <table class="table">
+            <thead>
+            <tr>
+                <th scope="col">상품코드</th>
+                <th scope="col">카테고리명</th>
+                <th scope="col">상품이름</th>
+                <th scope="col">상품가격</th>
+                <th scope="col">상품무게</th>
+            </tr>
+            </thead>
+            <tbody>
+            <!-- 장바구니 내용 -->
+            <tr>
+                <td>123456</td>
+                <td>생활용품</td>
+                <td>비비안)패딩목도리</td>
+                <td>가격19,900원</td>
+                <td>250g</td>
+            </tr>
+            <!-- 상품들 끼리 나누는 줄 -->
+            <tr>
+                <td colspan="5" style="border-top: 2px solid #343a40;"></td>
+            </tr>
+            <tr>
+                <td>12345</td>
+                <td>식품</td>
+                <td>핫바</td>
+                <td>가격: 1,500원</td>
+                <td>300g</td>
+            </tr>
+            </tbody>
+        </table>
+        <!-- 주문하기 버튼 -->
+            <button id="payment-button">주문하기</button>
     </div>
 </div>
-<div class="container-fluid bg-light py-5">
-    <div class="col-md-6 m-auto text-center">
-        <h1 class="h1">문의하기</h1>
-        <p>저희와 연락하려면 아래 양식을 작성해주세요.</p>
-    </div>
-</div>
-<div class="row py-5">
-    <form class="col-md-9 m-auto" method="post" role="form">
-        <div class="row">
-            <div class="form-group col-md-6 mb-3">
-                <label for="name">이름</label>
-                <input type="text" class="form-control mt-1" id="name" name="name" placeholder="이름">
-            </div>
-            <div class="form-group col-md-6 mb-3">
-                <label for="email">이메일</label>
-                <input type="email" class="form-control mt-1" id="email" name="email" placeholder="이메일">
-            </div>
-        </div>
-        <div class="mb-3">
-            <label for="subject">문의 제목</label>
-            <input type="text" class="form-control mt-1" id="subject" name="subject" placeholder="제목">
-        </div>
-        <div class="mb-3">
-            <label for="message">문의 내용</label>
-            <textarea class="form-control mt-1" id="message" name="message" placeholder="내용" rows="8"></textarea>
-        </div>
-        <div class="row">
-            <div class="col text-end mt-2">
-                <button type="submit" class="btn btn-success btn-lg px-3">문의하기</button>
-            </div>
-        </div>
-    </form>
-</div>
+
 <footer class="bg-dark" id="tempaltemo_footer">
     <div class="container">
         <div class="row">
@@ -176,19 +250,6 @@
             <div class="col-12 mb-3">
                 <div class="w-100 my-3 border-top border-light"></div>
             </div>
-            <div class="col-auto me-auto">
-                <ul class="list-inline text-left footer-icons">
-                    <li class="list-inline-item border border-light rounded-circle text-center">
-                        <a class="text-light text-decoration-none" target="_blank" href="http://facebook.com/"><i class="fab fa-facebook-f fa-lg fa-fw"></i></a>
-                    </li>
-                    <li class="list-inline-item border border-light rounded-circle text-center">
-                        <a class="text-light text-decoration-none" target="_blank" href="https://www.instagram.com/"><i class="fab fa-instagram fa-lg fa-fw"></i></a>
-                    </li>
-                    <li class="list-inline-item border border-light rounded-circle text-center">
-                        <a class="text-light text-decoration-none" target="_blank" href="https://twitter.com/"><i class="fab fa-twitter fa-lg fa-fw"></i></a>
-                    </li>
-                </ul>
-            </div>
         </div>
     </div>
     <div class="w-100 bg-black py-3">
@@ -205,7 +266,7 @@
 </footer>
 <script src="assets/js/jquery-1.11.0.min.js"></script>
 <script src="assets/js/jquery-migrate-1.2.1.min.js"></script>
-<script src="assets/js/bootstrap.bundle.min.js"></script>
+<script src="https://cdn.jsdelivr.net/npm/bootstrap@5.5.2/dist/js/bootstrap.bundle.min.js"></script>
 <script src="assets/js/templatemo.js"></script>
 <script src="assets/js/custom.js"></script>
 </body>

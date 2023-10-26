@@ -21,7 +21,7 @@ public class NoticeController {
 
     @GetMapping("/notice/create")    // url :localhost:8080/notice/create
     public String noticeWriteForm() {
-        return "noticecreate";
+        return "noticecreate2";
     }
 
     @PostMapping("notice/createpro")
@@ -56,14 +56,14 @@ public class NoticeController {
         model.addAttribute("startPage", startPage);
         model.addAttribute("endPage", endPage);
 
-        return "noticelist";
+        return "/noticelist2";
     }
 
 
-    @GetMapping("/notice/view")  // localhost:8080/notice/view
+    @GetMapping("notice/view")  // localhost:8080/notice/view
     public String noticeview(Model model, Integer Not_No) {
         model.addAttribute("Notice", noticeService.noticeview(Not_No).orElse(null));
-        return "noticeview";
+        return "noticeview2";
     }
 
 
@@ -74,17 +74,17 @@ public class NoticeController {
         return "redirect:/notice/list";
     }
 
-    @GetMapping("/notice/update/{Not_No}")
+    @GetMapping("/notice/modify/{Not_No}")
     public String noticeupdate(@PathVariable("Not_No") Integer Not_No, Model model){
         Notice notice = NoticeService.noticeview(Not_No).orElse(null);
 
         if (notice == null) {
-            // Review가 null인 경우에 대한 처리 (예: 에러 페이지로 리다이렉트)
+
             return "redirect:/error";
         }
 
         model.addAttribute("notice", notice);
-        return "noticeupdate";
+        return "noticeupdate2";
     }
 
     @PostMapping("/notice/update/{Not_No}")
