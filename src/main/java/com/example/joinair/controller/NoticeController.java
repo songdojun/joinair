@@ -21,7 +21,7 @@ public class NoticeController {
 
     @GetMapping("/notice/create")    // url :localhost:8080/notice/create
     public String noticeWriteForm() {
-        return "noticecreate2";
+        return "noticecreate";
     }
 
     @PostMapping("notice/createpro")
@@ -63,7 +63,7 @@ public class NoticeController {
     @GetMapping("notice/view")  // localhost:8080/notice/view
     public String noticeview(Model model, Integer Not_No) {
         model.addAttribute("Notice", noticeService.noticeview(Not_No).orElse(null));
-        return "noticeview2";
+        return "noticeview";
     }
 
 
@@ -84,7 +84,7 @@ public class NoticeController {
         }
 
         model.addAttribute("notice", notice);
-        return "noticeupdate2";
+        return "noticeupdate";
     }
 
     @PostMapping("/notice/update/{Not_No}")

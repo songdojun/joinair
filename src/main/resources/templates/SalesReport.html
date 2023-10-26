@@ -1,0 +1,413 @@
+<!DOCTYPE html>
+<html lang="ko" xmlns:th="http://www.thymeleaf.org">
+<head>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <title>매출조회 뷰 페이지</title>
+    <link rel="apple-touch-icon" href="assets/img/apple-icon.png">
+    <link rel="shortcut icon" type="image/x-icon" href="assets/img/favicon.ico">
+    <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/4.5.2/css/bootstrap.min.css">
+    <link rel="stylesheet" href="assets/css/templatemo.css">
+    <link rel="stylesheet" href="assets/css/custom.css">
+    <link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Roboto:wght@100;200;300;400;500;700;900&display=swap">
+    <link rel="stylesheet" href="assets/css/fontawesome.min.css">
+    <link rel="stylesheet" href="https://unpkg.com/leaflet@1.7.1/dist/leaflet.css"
+          integrity="sha512-xodZBNTC5n17Xt2atTPuE1HxjVMSvLVW9ocqUKLsCC5CXdbqCmblAshOMAS6/keqq/sMZMZ19scR4PsZChSR7A==" crossorigin=""/>
+    <style>
+        .custom-button {
+            background-color: #4CAF50;
+            color: white;
+            padding: 10px 20px;
+            border: none;
+            border-radius: 5px;
+            cursor: pointer;
+        }
+
+        .custom-button:hover {
+            background-color: #45a049;
+        }
+
+        .cotn_principal {
+            background: rgba(255, 255, 255, 0.9);
+            border-radius: 5px;
+            padding: 20px;
+            max-width: 400px;
+            width: 100%;
+        }
+
+        /* Updated styles for the navigation bar */
+        .navbar {
+
+        }
+
+        .navbar a.navbar-brand {
+            color: #fff;
+        }
+
+        .navbar .navbar-nav .nav-item .nav-link {
+            color: #fff;
+        }
+
+        .navbar .navbar-toggler-icon {
+            background-color: #fff;
+        }
+
+        /* Updated styles for the report form and table */
+        #salesReportContainer {
+            padding: 20px;
+            margin: 20px auto;
+            max-width: 800px;
+            background-color: #f8f9fa;
+            border-radius: 5px;
+        }
+
+        #reportForm {
+            margin-bottom: 20px;
+        }
+
+        #reportForm label {
+            font-weight: bold;
+        }
+
+        #reportForm select,
+        #reportForm input[type="number"] {
+            margin: 5px;
+            padding: 5px;
+            border: 1px solid #ced4da;
+            border-radius: 3px;
+        }
+
+        #reportForm button {
+            background-color: #4CAF50;
+            color: white;
+            padding: 10px 20px;
+            border: none;
+            border-radius: 5px;
+            cursor: pointer;
+        }
+
+        #reportForm button:hover {
+            background-color: #45a049;
+        }
+
+        table {
+            width: 100%;
+            border-collapse: collapse;
+        }
+
+        table, th, td {
+            border: 1px solid #ddd;
+        }
+
+        th, td {
+            padding: 8px;
+            text-align: left;
+        }
+
+        th {
+            background-color: #4CAF50;
+            color: white;
+        }
+
+        tr:nth-child(even) {
+            background-color: #f2f2f2;
+        }
+
+        tr:hover {
+            background-color: #ddd;
+        }
+
+        /* Updated styles for the footer */
+        #tempaltemo_footer {
+            background-color: #333;
+            color: #fff;
+            padding: 60px 0;
+        }
+
+        #tempaltemo_footer .logo {
+            color: #4CAF50;
+            font-size: 32px;
+            margin-bottom: 20px;
+        }
+
+        #tempaltemo_footer .footer-link-list li {
+            list-style: none;
+            margin-bottom: 15px;
+        }
+
+        #tempaltemo_footer .footer-link-list a {
+            text-decoration: none;
+            color: #fff;
+        }
+    </style>
+</head>
+<body>
+<nav class="navbar navbar-expand-lg bg-dark navbar-light d-none d-lg-block" id="templatemo_nav_top">
+    <div class="container text-light">
+        <div class="w-100 d-flex justify-content-between">
+            <div>
+                <i class="fa fa-envelope mx-2"></i>
+                <a class="navbar-sm-brand text-light text-decoration-none" href="mailto:info@company.com">Doron delivery@Doron delivery.com</a>
+                <i class="fa fa-phone mx-2"></i>
+                <a class a navbar-sm-brand text-light text-decoration-none href="tel:010-1234-5678">010-1234-5678</a>
+            </div>
+            <div>
+                <a class="text-light" href="https://fb.com/templatemo" target="_blank" rel="sponsored"><i class="fab fa-facebook-f fa-sm fa-fw me-2"></i></a>
+                <a class="text-light" href="https://www.instagram.com/" target="_blank"><i class="fab fa-instagram fa-sm fa-fw me-2"></i></a>
+                <a class="text-light" href="https://twitter.com/" target="_blank"><i class="fab fa-twitter fa-sm fa-fw me-2"></i></a>
+            </div>
+        </div>
+    </div>
+</nav>
+<nav class="navbar navbar-expand-lg navbar-light shadow">
+    <div class="container d-flex justify-content-between align-items-center">
+        <a class="navbar-brand text-success logo h1 align-self-center" href="index.html">Join Air🪂</a>
+        <button class="navbar-toggler border-0" type="button" data-bs-toggle="collapse" data-bs-target="#templatemo_main_nav"
+                aria-controls="templatemo_main_nav" aria-expanded="false" aria-label="Toggle navigation">
+            <span class="navbar-toggler-icon"></span>
+        </button>
+        <div class="align-self-center collapse navbar-collapse flex-fill d-lg-flex justify-content-lg-between" id="templatemo_main_nav">
+            <div class="flex-fill">
+                <ul class="nav navbar-nav d-flex justify-content-between mx-lg-auto">
+                    <li class="nav-item">
+                        <a class="nav-link" href="index.html">홈</a>
+                    </li>
+                    <li class="nav-item">
+                        <a class="nav-link" href="about.html">회사 소개</a>
+                    </li>
+                    <li class="nav-item">
+                        <a class="nav-link" href="shop.html">상품</a>
+                    </li>
+                    <li class="nav-item">
+                        <a class "nav-link" href="contact.html">문의</a>
+                    </li>
+                    <li class="nav-item">
+                        <a class="nav-link" href="http://localhost:8080/notice/list">공지사항</a>
+                    </li>
+                    <li class="nav-item">
+                        <a class="nav-link" href="#">로그인</a>
+                    </li>
+                    <li class="nav-item">
+                        <a class="nav-link" href="#">회원가입</a>
+                    </li>
+                </ul>
+            </div>
+            <div class="navbar align-self-center d-flex">
+                <div class="d-lg-none flex-sm-fill mt-3 mb-4 col-7 col-sm-auto pr-3">
+                    <div class="input-group">
+                        <input type="text" class="form-control" id="inputMobileSearch" placeholder="검색">
+                        <div class="input-group-text">
+                            <i class="fa fa-fw fa-search"></i>
+                        </div>
+                    </div>
+                </div>
+                <a class="nav-icon d-none d-lg-inline" href="#" data-bs-toggle="modal" data-bs-target="#templatemo_search">
+                    <i class="fa fa-fw fa-search text-dark mr-2"></i>
+                </a>
+            </div>
+        </div>
+    </div>
+</nav>
+
+<!-- 매출 보고서 부분 -->
+<div id="salesReportContainer">
+    <form action="/admin/sales/reportData" method="get" id="reportForm">
+        <label for="reportType">보고서 유형 선택:</label>
+        <select name="reportType" id="reportType">
+            <option value="daily">일일</option>
+            <option value="monthly">월간</option>
+            <option value="yearly">연간</option>
+            <option value="custom">사용자 지정</option>
+        </select>
+        <label for="year">연도:</label>
+        <input type="number" name="year" id="year" value="2023">
+        <label for="month">월:</label>
+        <select name="month" id="month">
+            <option value="01">1월</option>
+            <option value="02">2월</option>
+            <option value="03">3월</option>
+            <option value="04">4월</option>
+            <option value="05">5월</option>
+            <option value="06">6월</option>
+            <option value="07">7월</option>
+            <option value="08">8월</option>
+            <option value="09">9월</option>
+            <option value="10">10월</option>
+            <option value="11">11월</option>
+            <option value="12">12월</option>
+        </select>
+        <label for="user">사용자 ID:</label>
+        <input type="text" name="user" id="user" disabled> <!-- 초기에 비활성화 -->
+        <button type="submit" class="btn btn-success custom-button">보고서 생성</button>
+    </form>
+
+    <br>
+
+    <div>
+        <table class="table table-striped">
+            <thead>
+            <tr>
+                <th>날짜</th>
+                <th>금액</th>
+                <th>제품 코드</th>
+                <th>사용자 ID</th>
+                <th>주문 번호</th> <!-- ORDERS_NUM 추가 -->
+            </tr>
+            </thead>
+            <tbody>
+            {{#salesData}}
+            <tr>
+                <td>{{sales_Date}}</td>
+                <td>{{amount}}</td>
+                <td>{{Pro_Code}}</td>
+                <td>{{User_Id}}</td>
+                <td>{{ORDERS_NUM}}</td> <!-- ORDERS_NUM 추가 -->
+            </tr>
+            {{/salesData}}
+            </tbody>
+        </table>
+    </div>
+</div>
+    <script>
+        var reportTypeSelect = document.getElementById("reportType");
+        var monthSelect = document.getElementById("month");
+        var yearInput = document.getElementById("year");
+        var userInput = document.getElementById("user");
+
+        // 초기 설정
+        monthSelect.disabled = true;
+        yearInput.disabled = true;
+        userInput.disabled = true;
+
+        reportTypeSelect.addEventListener("change", function() {
+            // 선택한 보고서 유형에 따라 선택창을 표시하거나 숨깁니다.
+            if (this.value === "monthly") {
+                monthSelect.disabled = false;
+                yearInput.disabled = false;
+                userInput.disabled = true; // 월별 선택 시 사용자 ID 입력 창 비활성화
+            } else if (this.value === "yearly") {
+                monthSelect.disabled = true;
+                yearInput.disabled = false;
+                userInput.disabled = true; // 연간 선택 시 사용자 ID 입력 창 비활성화
+            } else if (this.value === "custom") {
+                monthSelect.disabled = true;
+                yearInput.disabled = true;
+                userInput.disabled = false; // 사용자 정의 선택 시 사용자 ID 입력 창 활성화
+            } else {
+                monthSelect.disabled = true;
+                yearInput.disabled = true;
+                userInput.disabled = true; // 다른 옵션 선택 시 모든 입력 창 비활성화
+            }
+        });
+    </script>
+
+    <script>
+        // 페이지가 로드될 때 테이블 초기화
+        function initializeTable() {
+            var table = document.querySelector("table");
+            var rows = table.querySelectorAll("tr");
+            for (var i = 1; i < rows.length; i++) { // 첫 번째 행은 헤더
+                rows[i].style.display = ""; // 모든 행을 표시
+            }
+        }
+
+        // 키워드로 테이블 필터링
+        function filterTable() {
+            var input = document.getElementById("searchInput");
+            var filter = input.value.toUpperCase();
+            var table = document.querySelector("table");
+            var rows = table.querySelectorAll("tr");
+
+            for (var i = 1; i < rows.length; i++) { // 첫 번째 행은 헤더
+                var columns = rows[i].querySelectorAll("td");
+                var found = false;
+
+                for (var j = 0; j < columns.length; j++) {
+                    var cell = columns[j];
+                    if (cell) {
+                        var txtValue = cell.textContent || cell.innerText;
+                        if (txtValue.toUpperCase().indexOf(filter) > -1) {
+                            found = true;
+                            break;
+                        }
+                    }
+                }
+
+                if (found) {
+                    rows[i].style.display = ""; // 키워드를 포함하는 행을 표시
+                } else {
+                    rows[i].style.display = "none"; // 키워드를 포함하지 않는 행을 숨김
+                }
+            }
+        }
+
+        window.onload = function() {
+            initializeTable(); // 페이지 로드 시 테이블 초기화
+        }
+    </script>
+</div>
+<footer class="bg-dark" id="tempaltemo_footer">
+    <div class="container">
+        <div class="row">
+            <div class="col-md-4 pt-5">
+                <h2 class="h2 text-success border-bottom pb-3 border-light logo">Join Air🪂</h2>
+                <ul class="list-unstyled text-light footer-link-list">
+                    <li>
+                        <i class="fas fa-map-marker-alt fa-fw"></i>
+                        한국직업전문학교 11층 강의실02 항공4기 2조
+                    </li>
+                    <li>
+                        <i class="fa fa-phone fa-fw"></i>
+                        <a class="text-decoration-none" href="tel:010-1234-5678">010-1234-5678</a>
+                    </li>
+                    <li>
+                        <i class="fa fa-envelope fa-fw"></i>
+                        <a class="text-decoration-none" href="mailto:info@dronefood.com">drone@dronedelivery.com</a>
+                    </li>
+                </ul>
+            </div>
+            <div class="col-md-4 pt-5">
+                <h2 class="h2 text-light border-bottom pb-3 border-light">메뉴</h2>
+                <ul class="list-unstyled text-light footer-link-list">
+                    <li><a class="text-decoration-none" href="#">주문 하기</a></li>
+                    <li><a class="text-decoration-none" href="#">배달 정보</a></li>
+                    <li><a class="text-decoration-none" href="#">고객 지원</a></li>
+                    <li><a class="text-decoration-none" href="#">드론 정보</a></li>
+                </ul>
+            </div>
+            <div class="col-md-4 pt-5">
+                <h2 class="h2 text-light border-bottom pb-3 border-light">정보</h2>
+                <ul class="list-unstyled text-light footer-link-list">
+                    <li><a class="text-decoration-none" href="http://localhost:63342/joinair/src/main/resources/boot/index.html">홈</a></li>
+                    <li><a class="text-decoration-none" href="http://localhost:63342/joinair/src/main/resources/boot/about.html">회사/소개</a></li>
+                    <li><a class="text-decoration-none" href="http://localhost:63342/joinair/src/main/resources/boot/contact.html">문의</a></li>
+                </ul>
+            </div>
+        </div>
+        <div class="row text-light mb-4">
+            <div class="col-12 mb-3">
+                <div class="w-100 my-3 border-top border-light"></div>
+            </div>
+            <div class="col-auto me-auto">
+            </div>
+        </div>
+    </div>
+    <div class="w-100 bg-black py-3">
+        <div class="container">
+            <div class="row pt-2">
+                <div class="col-12">
+                    <p class="text-left text-light">
+                        저작권 © 2023 Join Air
+                    </p>
+                </div>
+            </div>
+        </div>
+    </div>
+</footer>
+<script src="assets/js/jquery-1.11.0.min.js"></script>
+<script src="assets/js/jquery-migrate-1.2.1.min.js"></script>
+<script src="assets/js/bootstrap.bundle.min.js"></script>
+<script src="assets/js/templatemo.js"></script>
+<script src="assets/js/custom.js"></script>
+</body>
+</html>

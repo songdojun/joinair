@@ -1,66 +1,213 @@
 <!DOCTYPE html>
-<html lang="en" xmlns:th="http://www.thymeleaf.org">
+<html lang="ko" xmlns:th="http://www.thymeleaf.org">
 <head>
-    <meta charset="UTF-8">
-    <title>게시글 수정폼</title>
+    <title>공지사항 수정</title>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+
+    <link rel="shortcut icon" type="image/x-icon" href="assets/img/favicon.ico">
+    <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/4.5.2/css/bootstrap.min.css">
+    <link rel="stylesheet" href="assets/css/templatemo.css">
+    <link rel="stylesheet" href="assets/css/custom.css">
+    <link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Roboto:wght@100;200;300;400;500;700;900&display=swap">
+    <link rel="stylesheet" href="assets/css/fontawesome.min.css">
+    <link rel="stylesheet" href="https://unpkg.com/leaflet@1.7.1/dist/leaflet.css"
+          integrity="sha512-xodZBNTC5n17Xt2atTPuE1HxjVMSvLVW9ocqUKLsCC5CXdbqCmblAshOMAS6/keqq/sMZMZ19scR4PsZChSR7A==" crossorigin=""/>
+    <style>
+
+        .container-fluid {
+            padding: 50px 0;
+            text-align: center;
+        }
+
+        .form-container {
+            background-color: #fff;
+            border-radius: 10px;
+            padding: 30px;
+            box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
+        }
+
+        .form-container input[type="text"],
+        .form-container textarea {
+            width: 100%;
+            padding: 10px;
+            margin: 8px 0;
+            border: 1px solid #ccc;
+            border-radius: 4px;
+            box-sizing: border-box;
+        }
+
+        .form-container input[type="file"] {
+            width: 100%;
+            padding: 10px;
+            margin: 8px 0;
+        }
+
+        .form-container button {
+            background-color: #007bff;
+            color: #fff;
+            padding: 10px 20px;
+            border: none;
+            border-radius: 5px;
+            cursor: pointer;
+        }
+
+        .form-container button:hover {
+            background-color: #0056b3;
+        }
+    </style>
 </head>
-
-<style>
-    .layout {
-        width: 800px;
-        margin: 0 auto;
-        margin-top: 40px;
-        padding: 20px;
-        background-color: #fff;
-        box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
-    }
-
-    .layout input {
-        width: 100%;
-        padding: 10px;
-        margin-top: 10px;
-        border: 1px solid #ddd;
-        border-radius: 5px;
-    }
-
-    .layout textarea {
-        width: 100%;
-        margin-top: 10px;
-        min-height: 300px;
-        padding: 10px;
-        border: 1px solid #ddd;
-        border-radius: 5px;
-    }
-
-    .layout input[type="file"] {
-        width: 100%;
-        padding: 10px;
-        margin-top: 10px;
-        border: 1px solid #ddd;
-        border-radius: 5px;
-    }
-
-    .layout button {
-        padding: 10px;
-        background-color: #007bff;
-        color: #fff;
-        border: none;
-        border-radius: 5px;
-        cursor: pointer;
-    }
-</style>
 <body>
-<div class="layout">
-    <form th:action="@{/notice/update/{Not_No}(Not_No= ${notice.Not_No})}" method="post" enctype="multipart/form-data">
-        <input name="Not_Title" type="text" th:if="${notice != null}" th:value="${notice.Not_Title}">
-        <textarea name="Not_Content" th:if="${notice != null}" th:text="${notice.Not_Content}">
-        </textarea>
+<nav class="navbar navbar-expand-lg bg-dark navbar-light d-none d-lg-block" id="templatemo_nav_top">
+    <div class="container text-light">
+        <div class="w-100 d-flex justify-content-between">
+            <div>
+                <i class="fa fa-envelope mx-2"></i>
+                <a class="navbar-sm-brand text-light text-decoration-none" href="mailto:info@company.com">Doron delivery@Doron delivery.com</a>
+                <i class="fa fa-phone mx-2"></i>
+                <a class="navbar-sm-brand text-light text-decoration-none" href="tel:010-020-0340">010-1234-5678</a>
+            </div>
+            <div>
+                <a class="text-light" href="https://fb.com/templatemo" target="_blank" rel="sponsored"><i class="fab fa-facebook-f fa-sm fa-fw me-2"></i></a>
+                <a class="text-light" href="https://www.instagram.com/" target="_blank"><i class="fab fa-instagram fa-sm fa-fw me-2"></i></a>
+                <a class="text-light" href="https://twitter.com/" target="_blank"><i class="fab fa-twitter fa-sm fa-fw me-2"></i></a>
+            </div>
+        </div>
+    </div>
+</nav>
+<nav class="navbar navbar-expand-lg navbar-light shadow">
+    <div class="container d-flex justify-content-between align-items-center">
+        <a class="navbar-brand text-success logo h1 align-self-center" href="index.html">Join Air🪂</a>
+        <button class="navbar-toggler border-0" type="button" data-bs-toggle="collapse" data-bs-target="#templatemo_main_nav"
+                aria-controls="templatemo_main_nav" aria-expanded="false" aria-label="Toggle navigation">
+            <span class="navbar-toggler-icon"></span>
+        </button>
+        <div class="align-self-center collapse navbar-collapse flex-fill d-lg-flex justify-content-lg-between" id="templatemo_main_nav">
+            <div class="flex-fill">
+                <ul class="nav navbar-nav d-flex justify-content-between mx-lg-auto">
+                    <li class="nav-item">
+                        <a class="nav-link" href="index.html">홈</a>
+                    </li>
+                    <li class="nav-item">
+                        <a class="nav-link" href="about.html">회사 소개</a>
+                    </li>
+                    <li class="nav-item">
+                        <a class="nav-link" href="shop.html">상품</a>
+                    </li>
+                    <li class="nav-item">
+                        <a class="nav-link" href="contact.html">문의</a>
+                    </li>
+                    <li class="nav-item">
+                        <a class="nav-link" href="http://localhost:8080/notice/list">공지사항</a>
+                    </li>
+                    <li class="nav-item">
+                        <a class="nav-link" href="#">로그인</a>
+                    </li>
+                </ul>
+            </div>
 
-        <!-- 파일 업로드 필드 추가 -->
-        <input type="file" name="file" th:if="${notice != null}">
-
-        <button type="submit" th:if="${notice != null}">수정</button>
-    </form>
+        </div>
+    </div>
+</nav>
+<div class="modal fade bg-white" id="templatemo_search" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel" aria-hidden="true">
+    <div class="modal-dialog modal-lg" role="document">
+        <div class="w-100 pt-1 mb-5 text-right">
+            <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+        </div>
+        <form action="" method="get" class="modal-content modal-body border-0 p-0">
+            <div class="input-group mb-2">
+                <input type="text" class="form-control" id="inputModalSearch" name="q" placeholder="검색">
+                <button type="submit" class="input-group-text bg-success text-light">
+                    <i class="fa fa-fw fa-search text-white"></i>
+                </button>
+            </div>
+        </form>
+    </div>
 </div>
+<div class="container-fluid bg-light py-5">
+    <div class="col-md-6 m-auto text-center">
+        <div class="form-container">
+            <form th:action="@{/notice/update/{Not_No}(Not_No= ${notice.Not_No})}" method="post" enctype="multipart/form-data">
+                <div class="form-group">
+                    <label for="Not_Title">제목:</label>
+                    <input type="text" id="Not_Title" name="Not_Title" th:if="${notice != null}" th:value="${notice.Not_Title}" class="form-control">
+                </div>
+                <div class="form-group">
+                    <label for="Not_Content">내용:</label>
+                    <textarea id="Not_Content" name="Not_Content" th:if="${notice != null}" th:text="${notice.Not_Content}" class="form-control"></textarea>
+                </div>
+                <div class="form-group">
+                    <label for="file">파일 첨부:</label>
+                    <input type="file" name="file" th:if="${notice != null}" class="form-control">
+                </div>
+                <button type="submit" th:if="${notice != null}" class="btn btn-primary">수정</button>
+            </form>
+        </div>
+    </div>
+</div>
+<footer class="bg-dark" id="tempaltemo_footer">
+    <div class="container">
+        <div class="row">
+            <div class="col-md-4 pt-5">
+                <h2 class="h2 text-success border-bottom pb-3 border-light logo">Join Air🪂</h2>
+                <ul class="list-unstyled text-light footer-link-list">
+                    <li>
+                        <i class="fas fa-map-marker-alt fa-fw"></i>
+                        한국직업전문학교 11층 강의실02 항공4기 2조
+                    </li>
+                    <li>
+                        <i class="fa fa-phone fa-fw"></i>
+                        <a class="text-decoration-none" href="tel:010-1234-5678">010-1234-5678</a>
+                    </li>
+                    <li>
+                        <i class="fa fa-envelope fa-fw"></i>
+                        <a class="text-decoration-none" href="mailto:info@dronefood.com">drone@dronedelivery.com</a>
+                    </li>
+                </ul>
+            </div>
+            <div class="col-md-4 pt-5">
+                <h2 class="h2 text-light border-bottom pb-3 border-light">메뉴</h2>
+                <ul class="list-unstyled text-light footer-link-list">
+                    <li><a class="text-decoration-none" href="#">주문 하기</a></li>
+                    <li><a class="text-decoration-none" href="#">배달 정보</a></li>
+                    <li><a class="text-decoration-none" href="#">고객 지원</a></li>
+                    <li><a class="text-decoration-none" href="#">드론 정보</a></li>
+                </ul>
+            </div>
+            <div class="col-md-4 pt-5">
+                <h2 class="h2 text-light border-bottom pb-3 border-light">정보</h2>
+                <ul class="list-unstyled text-light footer-link-list">
+                    <li><a class="text-decoration-none" href="http://localhost:63342/joinair/src/main/resources/boot/index.html">홈</a></li>
+                    <li><a class="text-decoration-none" href="http://localhost:63342/joinair/src/main/resources/boot/about.html">회사/소개</a></li>
+                    <li><a class="text-decoration-none" href="http://localhost:63342/joinair/src/main/resources/boot/contact.html">문의</a></li>
+                </ul>
+            </div>
+        </div>
+        <div class="row text-light mb-4">
+            <div class="col-12 mb-3">
+                <div class="w-100 my-3 border-top border-light"></div>
+            </div>
+            <div class="col-auto me-auto">
+
+            </div>
+        </div>
+    </div>
+    <div class="w-100 bg-black py-3">
+        <div class="container">
+            <div class="row pt-2">
+                <div class="col-12">
+                    <p class="text-left text-light">
+                        저작권 © 2023 Join Air
+                    </p>
+                </div>
+            </div>
+        </div>
+    </div>
+</footer>
+<script src="assets/js/jquery-1.11.0.min.js"></script>
+<script src="assets/js/jquery-migrate-1.2.1.min.js"></script>
+<script src="assets/js/bootstrap.bundle.min.js"></script>
+<script src="assets/js/templatemo.js"></script>
+<script src="assets/js/custom.js"></script>
 </body>
 </html>
