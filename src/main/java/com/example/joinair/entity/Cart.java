@@ -32,8 +32,13 @@ public class Cart {
     @OneToMany(mappedBy = "cart")
     private List<CartItem> cartItems = new ArrayList<>();
 
-
-
+    public Integer getCart_Item_Qua() {
+        int totalQua = 0;
+        for (CartItem cartItem : cartItems) {
+            totalQua += cartItem.getCart_Item_Qua();
+        }
+        return totalQua;
+    }
 
     public static Cart createCart(Users User_Id) {
         Cart cart = new Cart();

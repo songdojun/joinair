@@ -1,9 +1,8 @@
 package com.example.joinair.controller;
 
 import com.example.joinair.entity.Cart;
-import com.example.joinair.entity.Product;
+import com.example.joinair.entity.CartItem;
 import com.example.joinair.service.CartService;
-import com.example.joinair.service.ProductBuyService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
@@ -87,24 +86,34 @@ public class CartController {
     }
 
     @PostMapping("/cart/update/{Cart_Code}")
-    public String cartUpdate(@PathVariable("Cart_Code")Integer Cart_Code, Cart updateCart, Model model, MultipartFile file) throws Exception{
-        Cart productTemp = productBuyService.productbuyView(Pro_Code).orElse(null);
+    public String cartUpdate(@PathVariable("Cart_Code") Integer Cart_Code, Cart updateCart, Model model, MultipartFile file) throws Exception {
+        Cart cartTemp = cartService.cartView(Cart_Code).orElse(null);
 
-        if(productTemp !=null){
-            productTemp.setPro_Code(updateProduct.getPro_Code());
-            productTemp.setCate_No(updateProduct.getCate_No());
-            productTemp.setPro_Name(updateProduct.getPro_Name());
-            productTemp.setPro_Price(updateProduct.getPro_Price());
-            productTemp.setPro_Inventory(updateProduct.getPro_Inventory());
-            productTemp.setPro_Weight(updateProduct.getPro_Weight());
+        if (cartTemp != null) {
+            // 기존의 Cart에 변경 사항을 업데이트합니다.
+            cartTemp.setCart_Code(updateCart.getCart_Code()); // 카트 코드
+            cartTemp.setUser_Id(updateCart.getUser_Id()); // 유저 아이디
+            cartTemp.setCart_Qua(updateCart.getCart_Qua()); // 카트에 담긴 총 금액
+            cartTemp.setCartItems(updateCart.getCartItems()); // 카트에 담긴 아이템들(List)
 
-            regist(productTemp,file);
+            // 여기서 CartItem 엔티티의 값을 업데이트합니다.
+            for (CartItem cartItem : cartTemp.getCartItems()) {
+                // 여기에서 각 CartItem의 값을 업데이트합니다.
+                // updateCart에서 필요한 값을 가져와서 각 CartItem에 설정합니다.
+                 cartItem.setCart_Item_Qua(updateCart.getCart_Item_Qua());
+            }
+
+            // Cart 엔티티를 다시 저장합니다.
+            cartService.saveCart(cartTemp);
+            model.addAttribute("message", "상품 수정이 완료되었습니다.");
+            model.addAttribute("searchUrl", "/cart/list");
+            return "message";
+        } else {
+            // 처리 실패나 오류 처리
+            return "error";
         }
-
-        model.addAttribute("message", "상품 수정이 완료되었습니다.");
-        model.addAttribute("searchUrl", "/productbuy/list");
-        return  "message";
     }
+
 
 
 
