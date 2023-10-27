@@ -149,7 +149,9 @@
                                     <button type="submit" class="btn btn-success btn-lg" name="submit" value="buy">Buy</button>
                                 </div>
                                 <div class="col d-grid">
-                                    <button type="button" class="btn btn-success btn-lg" name="submit" value="addtocart" onclick="redirectToCartMain()">Add To Cart</button>
+                                    <button type="button" class="btn btn-success btn-lg" name="submit" value="addtocart" onclick="addToCart()">
+                                        Add To Cart
+                                    </button>
                                 </div>
                             </div>
                         </form>
@@ -271,11 +273,19 @@
         });
     });
 
-     function redirectToCartMain() {
-        // "Add to Cart" 버튼을 누르면 "http://localhost:8080/cart/cartmain" 페이지로 이동
-        window.location.href = 'http://localhost:8080/cart/cartmain';
+
+    function addToCart() {
+        const productName = getPro_Name();
+        const productPrice = getPro_Price();
+        const productQuantity = document.getElementById('product-quanity').value;
+
+        // URL에 제품 정보 및 수량을 파라미터로 전달
+        const url = `/cart/cartmain?productName=${productName}&productPrice=${productPrice}&productQuantity=${productQuantity}`;
+        window.location.href = url;
     }
+
 </script>
+
 <!-- End Slider Script -->
 
 <!-- Start Slider Script -->

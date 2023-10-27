@@ -6,8 +6,10 @@ import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
 import org.springframework.data.jpa.repository.JpaRepository;
 import org.springframework.data.jpa.repository.Query;
+import org.springframework.data.repository.query.Param;
 import org.springframework.stereotype.Repository;
 
+import java.util.Optional;
 
 
 @Repository
@@ -28,7 +30,14 @@ public interface ProductAdRepository extends JpaRepository<Product, Integer> {
     // 수정: "Cate_Name" 검색을 위한 쿼리 추가
     @Query("SELECT p FROM Product p WHERE p.category.Cate_Name LIKE %?1% ORDER BY p.Pro_Code DESC")
     Page<Product> findProductsByCateNameContaining(String searchKeyword, Pageable pageable);
+
+
+
+
 }
+
+
+
 
 
 

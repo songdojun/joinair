@@ -1,120 +1,100 @@
 package com.example.joinair.controller;
 
+
 import com.example.joinair.entity.Cart;
-import com.example.joinair.entity.CartItem;
+import com.example.joinair.entity.Product;
+import com.example.joinair.entity.ProductSet;
+import com.example.joinair.entity.Users;
 import com.example.joinair.service.CartService;
+import com.example.joinair.service.ProductAdService;
+import jakarta.servlet.http.HttpSession;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.data.domain.Page;
-import org.springframework.data.domain.Pageable;
-import org.springframework.data.domain.Sort;
-import org.springframework.data.web.PageableDefault;
 import org.springframework.stereotype.Controller;
-import org.springframework.ui.Model;
-import org.springframework.web.bind.annotation.GetMapping;
-import org.springframework.web.bind.annotation.PathVariable;
-import org.springframework.web.bind.annotation.PostMapping;
-import org.springframework.web.bind.annotation.RequestParam;
-import org.springframework.web.multipart.MultipartFile;
-
-import static com.example.joinair.service.ProductAdService.regist;
-
+import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.servlet.ModelAndView;
 
 @Controller
+@RequestMapping("cart")
 public class CartController {
     @Autowired
     private CartService cartService;
 
-    @GetMapping("/cart/regist")
-    public String cartRegistForm(){return "cartregist";}
+    @Autowired
+    private ProductAdService productAdService; // ProductAdService를 주입
 
-    @PostMapping("/cart/registpro")
-    public String cartRegistPro(Cart cart, Model model, MultipartFile file)throws Exception{
-        regist(cart,file);
+    @RequestMapping("cartAdd")
+    public ModelAndView add(Integer Pro_Code, Integer quantity, HttpSession session) {
+        // 장바구니 정보를 session에 등록함
+        ModelAndView mav = new ModelAndView("cart/cart");
 
-        model.addAttribute("message", "파일 등록이 완료되었습니다.");
-        model.addAttribute("searchUrl","/cart/list");
-        return "message";
-    }
+        // 1. Pro_Code에 해당하는 상품 조회
+        Product product = productAdService.productadView(Pro_Code).orElse(null);
 
-    @GetMapping("/cart/list")
-    public String cartList(Model model,
-                                @PageableDefault(page = 0, size = 10, sort = "Cart_Code", direction = Sort.Direction.DESC) Pageable pageable,
-                                @RequestParam(name = "searchOption", required = false) String searchOption,
-                                @RequestParam(name = "searchKeyword", required = false) String searchKeyword) {
-        Page<Cart> list = cartService.cartSearchList(searchOption, searchKeyword, pageable);
-
-        int nowPage = list.getPageable().getPageNumber() + 1;
-        int startPage = Math.max(nowPage - 4, 1);
-        int endPage = Math.min(nowPage + 5, list.getTotalPages());
-
-        // Add search parameters to the model
-        model.addAttribute("list", list);
-        model.addAttribute("nowPage", nowPage);
-        model.addAttribute("startPage", startPage);
-        model.addAttribute("endPage", endPage);
-        model.addAttribute("searchOption", searchOption);
-        model.addAttribute("searchKeyword", searchKeyword); // Pass search keyword to the view
-
-        return "cartlist";
-    }
-
-
-    @GetMapping("/cart/view")
-    public String cartView(Model model, Integer Cart_Code){
-        model.addAttribute("Cart",cartService.cartView(Cart_Code).orElse(null));
-        return "cartview";
-    }
-
-
-
-    @GetMapping("/cart/delete")
-    public String cartDelete(Integer Cart_Code){
-        cartService.cartDelete(Cart_Code);
-
-        return "redirect:/cart/list";
-    }
-
-    @GetMapping("/cart/modify/{Cart_Code}")
-    public String cartModify(@PathVariable("Cart_Code") Integer Cart_Code, Model model){
-        Cart cart = cartService.cartView(Cart_Code).orElse(null);
-
-        if(cart==null){
-            return "redirect:/error";
+        if (product == null) {
+            // 상품이 존재하지 않는 경우에 대한 예외 처리 (원하는 방법으로 처리할 수 있음)
+            mav.addObject("message", "상품이 존재하지 않습니다.");
+            return mav;
         }
-        model.addAttribute("cart", cart);
-        return "cartmodify";
-    }
 
-    @PostMapping("/cart/update/{Cart_Code}")
-    public String cartUpdate(@PathVariable("Cart_Code") Integer Cart_Code, Cart updateCart, Model model, MultipartFile file) throws Exception {
-        Cart cartTemp = cartService.cartView(Cart_Code).orElse(null);
-
-        if (cartTemp != null) {
-            // 기존의 Cart에 변경 사항을 업데이트합니다.
-            cartTemp.setCart_Code(updateCart.getCart_Code()); // 카트 코드
-            cartTemp.setUser_Id(updateCart.getUser_Id()); // 유저 아이디
-            cartTemp.setCart_Qua(updateCart.getCart_Qua()); // 카트에 담긴 총 금액
-            cartTemp.setCartItems(updateCart.getCartItems()); // 카트에 담긴 아이템들(List)
-
-            // 여기서 CartItem 엔티티의 값을 업데이트합니다.
-            for (CartItem cartItem : cartTemp.getCartItems()) {
-                // 여기에서 각 CartItem의 값을 업데이트합니다.
-                // updateCart에서 필요한 값을 가져와서 각 CartItem에 설정합니다.
-                 cartItem.setCart_Item_Qua(updateCart.getCart_Item_Qua());
-            }
-
-            // Cart 엔티티를 다시 저장합니다.
-            cartService.saveCart(cartTemp);
-            model.addAttribute("message", "상품 수정이 완료되었습니다.");
-            model.addAttribute("searchUrl", "/cart/list");
-            return "message";
-        } else {
-            // 처리 실패나 오류 처리
-            return "error";
+        // session에 등록된 Cart객체 조회
+        Cart cart = (Cart) session.getAttribute("CART");
+        if (cart == null) {
+            cart = new Cart();
+            session.setAttribute("CART", cart);
         }
+
+        // 장바구니 추가 로직을 CartService를 통해 호출
+        cartService.addToCart(cart, product, quantity);
+
+        mav.addObject("cart", cart);
+        mav.addObject("message", "장바구니에 상품이 추가되었습니다.");
+        return mav;
+    }
+    /*
+        index 파라미터 : cart, productSetList 객체의 순서
+     */
+    @RequestMapping("cartDelete")
+    public ModelAndView delete(int index, HttpSession session){
+        ModelAndView mav = new ModelAndView("cart/cart");
+        Cart cart = (Cart)session.getAttribute("CART");
+        //delSet : index에 해당하는 삭제된 객체
+        ProductSet delSet = cart.getProductSetList().remove(index);
+        mav.addObject("cart",cart);
+        mav.addObject("meeage", delSet.getProduct().getPro_Name()+"이(가) 장바구니에서 삭제");
+        return mav;
     }
 
+    @RequestMapping("cartView")
+    public ModelAndView view(HttpSession session){
+        ModelAndView mav = new ModelAndView("cart/cart");
+        Cart cart = (Cart)session.getAttribute("CART");
+        mav.addObject("cart",cart);
+        return mav;
+    }
+    //로그인이 되어야 실행 가능하도록 AOP부분 추가하기
+    //장바구니에 주문상품이 없는 경우 실행 불가 AOP 부분 추가하기
+    @RequestMapping("checkout")
+    public String checkout(HttpSession session){
+        return null;
+    }
 
+    /*주문 확정
+    1.로그인, 장바구니 검증 필요 =>AOP로 설정
+    2.장바구니 상품을 saleitem 테이블에 저장하기
+    3. 로그인 정보로 주문정보 (saleitem)테이블에 저장하기
+    4. 장바구니 상품 제거
+    5. 주문 정보 end.jsp
+     */
 
-
+//    @RequestMapping("end")
+//    public ModelAndView checkend(HttpSession session){
+//        ModelAndView mav = new ModelAndView();
+//        Cart cart = (Cart)session.getAttribute("CART");
+//        Users users = (Users)session.getAttribute("users");
+//        Sale sale = service.checkend(users,cart);
+//        session.removeAttribute("CART");
+//        cart.getProductSetList().clear(); // 장바구니 상품 제거
+//        mav.addObject("sale",sale);
+//        return mav;
+//    }
 }
