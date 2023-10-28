@@ -2,8 +2,8 @@
 <html lang="ko" xmlns:th="http://www.thymeleaf.org">
 <head>
     <meta charset="utf-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1">
-    <title>매출조회 뷰 페이지</title>
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>고객정보수정 (관리자)</title>
     <link rel="apple-touch-icon" href="assets/img/apple-icon.png">
     <link rel="shortcut icon" type="image/x-icon" href="assets/img/favicon.ico">
     <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/4.5.2/css/bootstrap.min.css">
@@ -46,6 +46,8 @@
 
         #reportForm {
             margin-bottom: 20px;
+            display: flex;
+            align-items: center;
         }
 
         #reportForm label {
@@ -60,16 +62,15 @@
             border-radius: 3px;
         }
 
-        #reportForm button {
+        #searchButton {
             background-color: #4CAF50;
             color: white;
-            padding: 10px 20px;
             border: none;
-            border-radius: 5px;
+            border-radius: 3px;
             cursor: pointer;
         }
 
-        #reportForm button:hover {
+        #searchButton:hover {
             background-color: #45a049;
         }
 
@@ -102,6 +103,7 @@
     </style>
 </head>
 <body>
+<!-- 네비게이션 바 -->
 <nav class="navbar navbar-expand-lg navbar-light shadow">
     <div class="container d-flex justify-content-between align-items-center">
         <a class="navbar-brand text-success logo h1 align-self-center" href="index.html">Join Air🪂</a>
@@ -126,6 +128,10 @@
                     </li>
                     <li class="nav-item">
                         <a class="nav-link" href="http://localhost:8080/notice/list">공지사항</a>
+
+                    </li>
+                    <a class="btn btn-success" th:href="@{/logout}">Logout</a>
+                    <a class="btn btn-info" th:href="@{/adminWelcome}">홈 페이지로 가기</a>
                 </ul>
             </div>
             <div class="navbar align-self-center d-flex">
@@ -145,158 +151,62 @@
     </div>
 </nav>
 
-<!-- 매출 보고서 부분 -->
-<div id="salesReportContainer">
-    <h2 class="text-center font-weight-bold"> 보고서 작성</h2>
-    <form action="/admin/sales/reportData" method="get" id="reportForm">
-        <div class="form-group">
-            <label for="reportType">보고서 유형 선택:</label>
-            <select class="form-control" name="reportType" id="reportType">
-                <option value="select" disabled selected>선택</option>
-                <option value="daily">일일</option>
-                <option value="monthly">월간</option>
-                <option value="yearly">연간</option>
-                <option value="custom">사용자 지정</option>
-            </select>
+<!-- isAdmin 변수가 true일 때만 아래의 코드를 표시합니다. -->
+<div th:if="${isAdmin}">
+    <div class="container mt-5">
+        <h1 class="text-center font-weight-bold">고객 정보 수정</h1>
+
+
+
+        <h2 class="text-center">User List</h2>
+        <div class="text-center">
+            <div id="reportForm">
+                <label for="searchCategory">카테고리 검색</label>
+                <select class="form-select" name="searchCategory">
+                    <option value="User_Id">고객 ID</option>
+                    <option value="User_Name">고객 Name</option>
+                    <option value="User_Phone">고객 전화번호</option>
+                </select>
+                <input class="form-control" type="text" id="searchInput" placeholder="검색어 입력">
+                <button class="btn btn-primary" id="searchButton">검색</button>
+            </div>
         </div>
-
-        <div class="form-group">
-            <label for="year">연도:</label>
-            <input type="number" class="form-control" name="year" id="year" value="2023">
-        </div>
-
-        <div class="form-group">
-            <label for="month">월:</label>
-            <select class="form-control" name="month" id="month">
-                <option value="01">1월</option>
-                <option value="02">2월</option>
-                <option value="03">3월</option>
-                <option value="04">4월</option>
-                <option value="05">5월</option>
-                <option value="06">6월</option>
-                <option value="07">7월</option>
-                <option value="08">8월</option>
-                <option value="09">9월</option>
-                <option value="10">10월</option>
-                <option value="11">11월</option>
-                <option value="12">12월</option>
-            </select>
-        </div>
-
-        <div class="form-group">
-            <label for="user">사용자 ID:</label>
-            <input type="text" class="form-control" name="user" id="user" disabled> <!-- 초기에 비활성화 -->
-        </div>
-
-        <button type="submit" class="btn btn-success custom-button">보고서 생성</button>
-    </form>
-
-
-    <br>
-
-    <div>
         <table class="table table-striped">
             <thead>
             <tr>
-                <th>날짜</th>
-                <th>금액</th>
-                <th>제품 코드</th>
-                <th>사용자 ID</th>
-                <th>주문 번호</th> <!-- ORDERS_NUM 추가 -->
+                <th>고객 ID</th>
+                <th>고객 Name</th>
+                <th>고객 E-mail</th>
+                <th>고객 주소</th>
+                <th>고객 전화번호</th>
+                <th>고객 마일리지</th>
+                <th>Actions</th>
             </tr>
             </thead>
             <tbody>
-            {{#salesData}}
-            <tr>
-                <td>{{sales_Date}}</td>
-                <td>{{amount}}</td>
-                <td>{{Pro_Code}}</td>
-                <td>{{User_Id}}</td>
-                <td>{{ORDERS_NUM}}</td> <!-- ORDERS_NUM 추가 -->
+            <tr th:each="user : ${users}">
+                <td data-category="User_Id" th:text="${user.User_Id}"></td>
+                <td data-category="User_Name" th:text="${user.User_Name}"></td>
+                <td th:text="${user.User_Email}"></td>
+                <td th:text="${user.User_Address}"></td>
+                <td data-category="User_Phone" th:text="${user.User_Phone}"></td>
+                <td th:text="${user.User_Mileage}"></td>
+                <td class="action-links">
+
+                </td>
             </tr>
-            {{/salesData}}
             </tbody>
         </table>
+        <div class="text-center mx-auto">
+            <a class="btn btn-warning font-weight-bold" th:href="@{'/adminEditUser/' + ${user.User_Id}}">수정</a>
+        </div>
+
+
+
+        </form>
     </div>
-    <script>
-        var reportTypeSelect = document.getElementById("reportType");
-        var monthSelect = document.getElementById("month");
-        var yearInput = document.getElementById("year");
-        var userInput = document.getElementById("user");
-
-        // 초기 설정
-        monthSelect.disabled = true;
-        yearInput.disabled = true;
-        userInput.disabled = true;
-
-        reportTypeSelect.addEventListener("change", function() {
-            // 선택한 보고서 유형에 따라 선택창을 표시하거나 숨깁니다.
-            if (this.value === "monthly") {
-                monthSelect.disabled = false;
-                yearInput.disabled = false;
-                userInput.disabled = true; // 월별 선택 시 사용자 ID 입력 창 비활성화
-            } else if (this.value === "yearly") {
-                monthSelect.disabled = true;
-                yearInput.disabled = false;
-                userInput.disabled = true; // 연간 선택 시 사용자 ID 입력 창 비활성화
-            } else if (this.value === "custom") {
-                monthSelect.disabled = true;
-                yearInput.disabled = true;
-                userInput.disabled = false; // 사용자 정의 선택 시 사용자 ID 입력 창 활성화
-            } else {
-                monthSelect.disabled = true;
-                yearInput.disabled = true;
-                userInput.disabled = true; // 다른 옵션 선택 시 모든 입력 창 비활성화
-            }
-        });
-    </script>
-
-    <script>
-        // 페이지가 로드될 때 테이블 초기화
-        function initializeTable() {
-            var table = document.querySelector("table");
-            var rows = table.querySelectorAll("tr");
-            for (var i = 1; i < rows.length; i++) { // 첫 번째 행은 헤더
-                rows[i].style.display = ""; // 모든 행을 표시
-            }
-        }
-
-        // 키워드로 테이블 필터링
-        function filterTable() {
-            var input = document.getElementById("searchInput");
-            var filter = input.value.toUpperCase();
-            var table = document.querySelector("table");
-            var rows = table.querySelectorAll("tr");
-
-            for (var i = 1; i < rows.length; i++) { // 첫 번째 행은 헤더
-                var columns = rows[i].querySelectorAll("td");
-                var found = false;
-
-                for (var j = 0; j < columns.length; j++) {
-                    var cell = columns[j];
-                    if (cell) {
-                        var txtValue = cell.textContent || cell.innerText;
-                        if (txtValue.toUpperCase().indexOf(filter) > -1) {
-                            found = true;
-                            break;
-                        }
-                    }
-                }
-
-                if (found) {
-                    rows[i].style.display = ""; // 키워드를 포함하는 행을 표시
-                } else {
-                    rows[i].style.display = "none"; // 키워드를 포함하지 않는 행을 숨김
-                }
-            }
-        }
-
-        window.onload = function() {
-            initializeTable(); // 페이지 로드 시 테이블 초기화
-        }
-    </script>
 </div>
-<footer class="bg-dark" id="tempaltemo_footer">
+<footer class="bg-dark" id="templatemo_footer">
     <div class="container">
         <div class="row">
             <div class="col-md-4 pt-5">
@@ -328,9 +238,9 @@
             <div class="col-md-4 pt-5">
                 <h2 class="h2 text-light border-bottom pb-3 border-light">정보</h2>
                 <ul class="list-unstyled text-light footer-link-list">
-                    <li><a class="text-decoration-none" href="http://localhost:63342/joinair/src/main/resources/boot/index.html">홈</a></li>
-                    <li><a class="text-decoration-none" href="http://localhost:63342/joinair/src/main/resources/boot/about.html">회사/소개</a></li>
-                    <li><a class="text-decoration-none" href="http://localhost:63342/joinair/src/main/resources/boot/contact.html">문의</a></li>
+                    <li><a class="text-decoration-none" href="#">홈</a></li>
+                    <li><a class="text-decoration-none" href="#">회사/소개</a></li>
+                    <li><a class="text-decoration-none" href="#">문의</a></li>
                 </ul>
             </div>
         </div>
@@ -342,20 +252,8 @@
             </div>
         </div>
     </div>
-    <div class="w-100 bg-black py-3">
-        <div class="container">
-            <div class="row pt-2">
-                <div class="col-12">
-                    <p class="text-left text-light">
-                        저작권 © 2023 Join Air
-                    </p>
-                </div>
-            </div>
-        </div>
-    </div>
 </footer>
-<script src="assets/js/jquery-1.11.0.min.js"></script>
-<script src="assets/js/jquery-migrate-1.2.1.min.js"></script>
+<script src="assets/js/jquery-3.6.0.min.js"></script>
 <script src="assets/js/bootstrap.bundle.min.js"></script>
 <script src="assets/js/templatemo.js"></script>
 <script src="assets/js/custom.js"></script>

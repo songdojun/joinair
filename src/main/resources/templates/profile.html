@@ -3,7 +3,7 @@
 <head>
     <meta charset="utf-8">
     <meta name="viewport" content="width=device-width, initial-scale=1">
-    <title>매출조회 뷰 페이지</title>
+    <title>회원정보 수정 페이지</title>
     <link rel="apple-touch-icon" href="assets/img/apple-icon.png">
     <link rel="shortcut icon" type="image/x-icon" href="assets/img/favicon.ico">
     <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/4.5.2/css/bootstrap.min.css">
@@ -146,156 +146,48 @@
 </nav>
 
 <!-- 매출 보고서 부분 -->
-<div id="salesReportContainer">
-    <h2 class="text-center font-weight-bold"> 보고서 작성</h2>
-    <form action="/admin/sales/reportData" method="get" id="reportForm">
+<div class="container">
+    <h1 class="text-center font-weight-bold">고객 정보 수정 페이지</h1>
+    <form action="/update-profile" method="post" class="mt-4">
         <div class="form-group">
-            <label for="reportType">보고서 유형 선택:</label>
-            <select class="form-control" name="reportType" id="reportType">
-                <option value="select" disabled selected>선택</option>
-                <option value="daily">일일</option>
-                <option value="monthly">월간</option>
-                <option value="yearly">연간</option>
-                <option value="custom">사용자 지정</option>
-            </select>
+            <label for="User_Id">고객 ID</label>
+            <input type="text" name="User_Id" id="User_Id" value="{{user.User_Id}}" readonly class="form-control">
+        </div>
+        <div class="form-group">
+            <label for="User_Name">고객 이름</label>
+            <input type="text" name="User_Name" id="User_Name" value="{{user.User_Name}}" readonly class="form-control">
+        </div>
+        <div class="form-group">
+            <label for="User_Email">고객 Email</label>
+            <input type="text" name="User_Email" id="User_Email" value="{{user.User_Email}}" class="form-control">
         </div>
 
         <div class="form-group">
-            <label for="year">연도:</label>
-            <input type="number" class="form-control" name="year" id="year" value="2023">
-        </div>
+            <label for="User_Address">고객 주소</label>
+            <input type="text" name="User_Address" id="User_Address" value="{{user.User_Address}}" class="form-control">
+            <input type="button" onclick="sample4_execDaumPostcode()" value="주소검색" class="btn btn-primary" style="color: white; text-align: center; margin: 0 auto; display: block; margin-top: 10px;">
 
+        </div>
         <div class="form-group">
-            <label for="month">월:</label>
-            <select class="form-control" name="month" id="month">
-                <option value="01">1월</option>
-                <option value="02">2월</option>
-                <option value="03">3월</option>
-                <option value="04">4월</option>
-                <option value="05">5월</option>
-                <option value="06">6월</option>
-                <option value="07">7월</option>
-                <option value="08">8월</option>
-                <option value="09">9월</option>
-                <option value="10">10월</option>
-                <option value="11">11월</option>
-                <option value="12">12월</option>
-            </select>
+            <label for="User_Phone">고객 전화번호</label>
+            <input type="text" name="User_Phone" id="User_Phone" value="{{user.User_Phone}}" class="form-control">
         </div>
-
+<!--        오류있습니다 수정해야합니다 -->
         <div class="form-group">
-            <label for="user">사용자 ID:</label>
-            <input type="text" class="form-control" name="user" id="user" disabled> <!-- 초기에 비활성화 -->
+            <label for="User_Mileage">고객 마일리지</label>
+            <div class="alert alert-success text-center" role="alert" style="background-color: #4CAF50; color: white;">
+                <p style="font-size: 24px; color: white; margin: 0;">{{user.User_Mileage}}</p>
+            </div>
         </div>
 
-        <button type="submit" class="btn btn-success custom-button">보고서 생성</button>
+        <div class="text-center">
+            <a href="#" type="submit" class="btn btn-primary mt-3">수정하기</a>
+        </div>
     </form>
-
-
-    <br>
-
-    <div>
-        <table class="table table-striped">
-            <thead>
-            <tr>
-                <th>날짜</th>
-                <th>금액</th>
-                <th>제품 코드</th>
-                <th>사용자 ID</th>
-                <th>주문 번호</th> <!-- ORDERS_NUM 추가 -->
-            </tr>
-            </thead>
-            <tbody>
-            {{#salesData}}
-            <tr>
-                <td>{{sales_Date}}</td>
-                <td>{{amount}}</td>
-                <td>{{Pro_Code}}</td>
-                <td>{{User_Id}}</td>
-                <td>{{ORDERS_NUM}}</td> <!-- ORDERS_NUM 추가 -->
-            </tr>
-            {{/salesData}}
-            </tbody>
-        </table>
-    </div>
-    <script>
-        var reportTypeSelect = document.getElementById("reportType");
-        var monthSelect = document.getElementById("month");
-        var yearInput = document.getElementById("year");
-        var userInput = document.getElementById("user");
-
-        // 초기 설정
-        monthSelect.disabled = true;
-        yearInput.disabled = true;
-        userInput.disabled = true;
-
-        reportTypeSelect.addEventListener("change", function() {
-            // 선택한 보고서 유형에 따라 선택창을 표시하거나 숨깁니다.
-            if (this.value === "monthly") {
-                monthSelect.disabled = false;
-                yearInput.disabled = false;
-                userInput.disabled = true; // 월별 선택 시 사용자 ID 입력 창 비활성화
-            } else if (this.value === "yearly") {
-                monthSelect.disabled = true;
-                yearInput.disabled = false;
-                userInput.disabled = true; // 연간 선택 시 사용자 ID 입력 창 비활성화
-            } else if (this.value === "custom") {
-                monthSelect.disabled = true;
-                yearInput.disabled = true;
-                userInput.disabled = false; // 사용자 정의 선택 시 사용자 ID 입력 창 활성화
-            } else {
-                monthSelect.disabled = true;
-                yearInput.disabled = true;
-                userInput.disabled = true; // 다른 옵션 선택 시 모든 입력 창 비활성화
-            }
-        });
-    </script>
-
-    <script>
-        // 페이지가 로드될 때 테이블 초기화
-        function initializeTable() {
-            var table = document.querySelector("table");
-            var rows = table.querySelectorAll("tr");
-            for (var i = 1; i < rows.length; i++) { // 첫 번째 행은 헤더
-                rows[i].style.display = ""; // 모든 행을 표시
-            }
-        }
-
-        // 키워드로 테이블 필터링
-        function filterTable() {
-            var input = document.getElementById("searchInput");
-            var filter = input.value.toUpperCase();
-            var table = document.querySelector("table");
-            var rows = table.querySelectorAll("tr");
-
-            for (var i = 1; i < rows.length; i++) { // 첫 번째 행은 헤더
-                var columns = rows[i].querySelectorAll("td");
-                var found = false;
-
-                for (var j = 0; j < columns.length; j++) {
-                    var cell = columns[j];
-                    if (cell) {
-                        var txtValue = cell.textContent || cell.innerText;
-                        if (txtValue.toUpperCase().indexOf(filter) > -1) {
-                            found = true;
-                            break;
-                        }
-                    }
-                }
-
-                if (found) {
-                    rows[i].style.display = ""; // 키워드를 포함하는 행을 표시
-                } else {
-                    rows[i].style.display = "none"; // 키워드를 포함하지 않는 행을 숨김
-                }
-            }
-        }
-
-        window.onload = function() {
-            initializeTable(); // 페이지 로드 시 테이블 초기화
-        }
-    </script>
 </div>
+>
+
+
 <footer class="bg-dark" id="tempaltemo_footer">
     <div class="container">
         <div class="row">
@@ -354,6 +246,76 @@
         </div>
     </div>
 </footer>
+<script>
+
+
+    function sample4_execDaumPostcode() {
+        new daum.Postcode({
+            oncomplete: function(data) {
+                // 팝업에서 검색결과 항목을 클릭했을때 실행할 코드를 작성하는 부분.
+
+                // 도로명 주소의 노출 규칙에 따라 주소를 표시한다.
+                // 내려오는 변수가 값이 없는 경우엔 공백('')값을 가지므로, 이를 참고하여 분기 한다.
+                var roadAddr = data.roadAddress; // 도로명 주소 변수
+                var extraRoadAddr = ''; // 참고 항목 변수
+
+                // 법정동명이 있을 경우 추가한다.
+                // 법정동의 경우 마지막 문자가 "동/로/가"로 끝난다.
+                if(data.bname !== '' && /[동|로|가]$/g.test(data.bname)){
+                    extraRoadAddr += data.bname;
+                }
+                // 건물명이 있고, 공동주택일 경우 추가한다.
+                if(data.buildingName !== '' && data.apartment === 'Y'){
+                   extraRoadAddr += (extraRoadAddr !== '' ? ', ' + data.buildingName : data.buildingName);
+                }
+                // 표시할 참고항목이 있을 경우, 괄호까지 추가한 최종 문자열을 만든다.
+                if(extraRoadAddr !== ''){
+                    extraRoadAddr = ' (' + extraRoadAddr + ')';
+                }
+
+                // 우편번호와 주소 정보를 해당 필드에 넣는다.
+                document.getElementById('sample4_postcode').value = data.zonecode;
+                document.getElementById("sample4_roadAddress").value = roadAddr;
+                document.getElementById("sample4_jibunAddress").value = data.jibunAddress;
+
+                document.getElementById("sample4_engAddress").value = data.addressEnglish;
+
+                // 참고항목 문자열이 있을 경우 해당 필드에 넣는다.
+                if(roadAddr !== ''){
+                    document.getElementById("sample4_extraAddress").value = extraRoadAddr;
+                } else {
+                    document.getElementById("sample4_extraAddress").value = '';
+                }
+
+                var guideTextBox = document.getElementById("guide");
+                // 사용자가 '선택 안함'을 클릭한 경우, 예상 주소라는 표시를 해준다.
+                if(data.autoRoadAddress) {
+                    var expRoadAddr = data.autoRoadAddress + extraRoadAddr;
+                    guideTextBox.innerHTML = '(예상 도로명 주소 : ' + expRoadAddr + ')';
+                    guideTextBox.style.display = 'block';
+
+                } else if(data.autoJibunAddress) {
+                    var expJibunAddr = data.autoJibunAddress;
+                    guideTextBox.innerHTML = '(예상 지번 주소 : ' + expJibunAddr + ')';
+                    guideTextBox.style.display = 'block';
+                } else {
+                    guideTextBox.innerHTML = '';
+                    guideTextBox.style.display = 'none';
+                }
+            }
+        }).open();
+    }
+<!-- 고객 주소 input창에 주소 검색했을떄 고객주소 창에 데이터 삽입-->
+function sample4_execDaumPostcode() {
+    new daum.Postcode({
+        oncomplete: function(data) {
+            // 주소 검색 결과에서 사용자가 선택한 주소를 가져와 고객 주소 입력란에 설정
+            document.getElementById("User_Address").value = data.jibunAddress;
+        }
+    }).open();
+}
+</script>
+<script src="https://spi.maps.daum.net/imap/map_js_init/postcode.v2.js"></script>
 <script src="assets/js/jquery-1.11.0.min.js"></script>
 <script src="assets/js/jquery-migrate-1.2.1.min.js"></script>
 <script src="assets/js/bootstrap.bundle.min.js"></script>
