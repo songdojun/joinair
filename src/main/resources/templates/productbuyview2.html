@@ -149,7 +149,7 @@
                                     <button type="submit" class="btn btn-success btn-lg" name="submit" value="buy">Buy</button>
                                 </div>
                                 <div class="col d-grid">
-                                    <button type="button" class="btn btn-success btn-lg" name="submit" value="addtocart" onclick="addToCart()">
+                                    <button type="button" class="btn btn-success btn-lg" name="submit" onclick="addToCart()">
                                         Add To Cart
                                     </button>
                                 </div>
@@ -273,16 +273,16 @@
         });
     });
 
-
     function addToCart() {
-        const productName = getPro_Name();
-        const productPrice = getPro_Price();
-        const productQuantity = document.getElementById('product-quanity').value;
+        var productCode = [[${Product.Pro_Code}]];
 
-        // URL에 제품 정보 및 수량을 파라미터로 전달
-        const url = `/cart/cartmain?productName=${productName}&productPrice=${productPrice}&productQuantity=${productQuantity}`;
-        window.location.href = url;
+        if (productCode) {
+            window.location.href = "/cart/buy/" + productCode;
+        } else {
+            console.error("Product code is not available.");
+        }
     }
+
 
 </script>
 
