@@ -5,17 +5,25 @@
     <title>Cart Info</title>
 </head>
 <body>
-<h3>Product List</h3>
+<h3>장바구니</h3>
+<form method="post" th:action="${'/cart/update'}">
 <table border="1">
     <tr>
+        <th>옵션</th>
         <th>상품코드</th>
         <th>상품명</th>
         <th>이미지</th>
         <th>가격</th>
-        <th>양</th>
+        <th>
+            수량
+            <input type="submit" value="Update"/>
+        </th>
         <th>소계</th>
     </tr>
     <tr th:each="item: ${session.cart}">
+        <td align="center">
+            <a th:href="${'/cart/remove/' + item.product.Pro_Code}">X</a>
+        </td>
         <td th:text="${item.product.Pro_Code}"></td>
         <td th:text="${item.product.Pro_Name}"></td>
         <td>
@@ -23,10 +31,18 @@
             <img th:src="${item.product != null} ? ${item.product.Pro_Filepath} : ''" alt="Product Image" style="width: 120px;"/>
         </td>
         <td th:text="${item.product.Pro_Price}"></td>
-        <td th:text="${item.quantity}"></td>
+        <td>
+            <input type="number" th:value="${item.quantity}"
+                   name="quantity" style="width:50px;"/>
+        </td>
         <td th:text="${item.product.Pro_Price * item.quantity}"></td>
     </tr>
+    <tr>
+        <td colspan="6">Total</td>
+        <td th:text="${total}"></td>
+    </tr>
 </table>
+</form>
 <br/>
 <a th:href="${'/product'}">Continue Shopping</a>
 </body>

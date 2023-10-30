@@ -2,6 +2,7 @@ package com.example.joinair.controller;
 
 import com.example.joinair.entity.Item;
 import com.example.joinair.service.ProductService;
+import jakarta.servlet.http.HttpServletRequest;
 import jakarta.servlet.http.HttpSession;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
@@ -21,9 +22,8 @@ public class CartController {
     private ProductService productService;
 
     @RequestMapping(method = RequestMethod.GET)
-    public String index(HttpSession session, ModelMap modelMap) {
-        List<Item> cart = (List<Item>) session.getAttribute("cart");
-        modelMap.put("cart", cart);
+    public String index(ModelMap modelMap, HttpSession session) {
+        modelMap.put("total", total(session));
         return "cart/index";
     }
 
@@ -48,6 +48,31 @@ public class CartController {
         return "redirect:../../cart";
     }
 
+    @RequestMapping(value = "remove/{Pro_Code}", method = RequestMethod.GET)
+    public String remove(@PathVariable("Pro_Code") Integer Pro_Code,
+                      HttpSession session) {
+        List<Item> cart = (List<Item>) session.getAttribute("cart");
+        int index = isExists(Pro_Code, cart);
+        cart.remove(index);
+        session.setAttribute("cart",cart);
+        return "redirect:../../cart";
+    }
+
+    @RequestMapping(value = "update", method = RequestMethod.POST)
+    public String update(
+            HttpServletRequest request,
+            HttpSession session) {
+            String[] quantities = request.getParameterValues("quantity");
+        List<Item> cart = (List<Item>) session.getAttribute("cart");
+        for(int i=0; i<cart.size(); i++){
+            cart.get(i).setQuantity(Integer.parseInt(quantities[i]));
+        }
+        session.setAttribute("cart",cart);
+        return "redirect:../../cart";
+    }
+
+
+
     private int isExists(Integer Pro_Code, List<Item> cart) {
         for (int i = 0; i < cart.size(); i++) {
             if (cart.get(i).getProduct().getPro_Code() == Pro_Code) {
@@ -55,6 +80,16 @@ public class CartController {
             }
         }
         return -1;
+    }
+
+    private double total(HttpSession session){
+        List<Item> cart = (List<Item>) session.getAttribute("cart");
+        double s =0;
+        for(Item item : cart){
+            s += item.getQuantity()
+                    * item.getProduct().getPro_Price().doubleValue();
+        }
+        return s;
     }
 
 }
