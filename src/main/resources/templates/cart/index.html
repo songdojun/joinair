@@ -16,7 +16,7 @@
         <th>가격</th>
         <th>
             수량
-            <input type="submit" value="Update"/>
+            <input type="submit" value="Update" name="updateBtn"/>
         </th>
         <th>소계</th>
     </tr>
@@ -24,23 +24,24 @@
         <td align="center">
             <a th:href="${'/cart/remove/' + item.product.Pro_Code}">X</a>
         </td>
-        <td th:text="${item.product.Pro_Code}"></td>
-        <td th:text="${item.product.Pro_Name}"></td>
+        <td th:text="${item.product.Pro_Code != null ? item.product.Pro_Code : ''}"></td>
+        <td th:text="${item.product.Pro_Name != null ? item.product.Pro_Name : ''}"></td>
         <td>
             <!-- 이미지 폭을 120으로 설정 -->
-            <img th:src="${item.product != null} ? ${item.product.Pro_Filepath} : ''" alt="Product Image" style="width: 120px;"/>
+            <img th:src="${item.product != null ? item.product.Pro_Filepath : ''}" alt="Product Image" style="width: 120px;"/>
         </td>
-        <td th:text="${item.product.Pro_Price}"></td>
+        <td th:text="${item.product.Pro_Price != null ? item.product.Pro_Price : ''}"></td>
         <td>
-            <input type="number" th:value="${item.quantity}"
-                   name="quantity" style="width:50px;"/>
+            <input type="number" th:value="${item.quantity}" name="quantity" style="width:50px;"/>
         </td>
-        <td th:text="${item.product.Pro_Price * item.quantity}"></td>
+        <td th:text="${item.product.Pro_Price != null && item.quantity != null ? item.product.Pro_Price * item.quantity : ''}"></td>
     </tr>
     <tr>
         <td colspan="6">Total</td>
-        <td th:text="${total}"></td>
+        <!-- 여기서 total 속성을 session에서 참조하도록 변경 -->
+        <td th:text="${session.total != null ? session.total : ''}"></td>
     </tr>
+
 </table>
 </form>
 <br/>
