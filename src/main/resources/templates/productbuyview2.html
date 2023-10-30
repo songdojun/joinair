@@ -273,15 +273,22 @@
         });
     });
 
-    function addToCart() {
-        var productCode = [[${Product.Pro_Code}]];
+function addToCart() {
+    // 제품 코드 가져오기
+    var productCode = [[${Product.Pro_Code}]];
 
-        if (productCode) {
-            window.location.href = "/cart/buy/" + productCode;
-        } else {
-            console.error("Product code is not available.");
-        }
+    // 수량 입력 필드에서 값을 가져오기
+    var quantityInput = document.getElementById('var-value');
+    var quantity = quantityInput.textContent;
+
+    if (productCode && quantity) {
+        // 수량과 함께 컨트롤러로 리디렉션
+        window.location.href = "/cart/buy/" + productCode + "?quantity=" + quantity;
+    } else {
+        console.error("제품 코드 또는 수량이 없습니다.");
     }
+}
+
 
 
 </script>

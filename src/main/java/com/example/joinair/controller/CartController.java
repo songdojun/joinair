@@ -10,6 +10,7 @@ import org.springframework.ui.ModelMap;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
+import org.springframework.web.bind.annotation.RequestParam;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -29,24 +30,26 @@ public class CartController {
 
     @RequestMapping(value = "buy/{Pro_Code}", method = RequestMethod.GET)
     public String buy(@PathVariable("Pro_Code") Integer Pro_Code,
+                      @RequestParam(name = "quantity", defaultValue = "1") Integer quantity,
                       HttpSession session) {
         if (session.getAttribute("cart") == null) {
             List<Item> cart = new ArrayList<Item>();
-            cart.add(new Item(productService.findOne(Pro_Code), 1));
+            cart.add(new Item(productService.findOne(Pro_Code), quantity));
             session.setAttribute("cart", cart);
         } else {
             List<Item> cart = (List<Item>) session.getAttribute("cart");
             int index = isExists(Pro_Code, cart);
             if (index == -1) {
-                cart.add(new Item(productService.findOne(Pro_Code), 1));
+                cart.add(new Item(productService.findOne(Pro_Code), quantity));
             } else {
-                int quantity = cart.get(index).getQuantity() + 1;
-                cart.get(index).setQuantity(quantity);
+                int updatedQuantity = cart.get(index).getQuantity() + quantity;
+                cart.get(index).setQuantity(updatedQuantity);
             }
             session.setAttribute("cart", cart);
         }
         return "redirect:../../cart";
     }
+
 
     @RequestMapping(value = "remove/{Pro_Code}", method = RequestMethod.GET)
     public String remove(@PathVariable("Pro_Code") Integer Pro_Code,
