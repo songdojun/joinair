@@ -1,0 +1,33 @@
+<!DOCTYPE html>
+<html lang="en" xmlns:th="http://www.thymeleaf.org">
+<head>
+    <meta charset="UTF-8">
+    <title>Cart Info</title>
+</head>
+<body>
+<h3>Product List</h3>
+<table border="1">
+    <tr>
+        <th>상품코드</th>
+        <th>상품명</th>
+        <th>이미지</th>
+        <th>가격</th>
+        <th>양</th>
+        <th>소계</th>
+    </tr>
+    <tr th:each="item: ${session.cart}">
+        <td th:text="${item.product.Pro_Code}"></td>
+        <td th:text="${item.product.Pro_Name}"></td>
+        <td>
+            <!-- 이미지 폭을 120으로 설정 -->
+            <img th:src="${item.product != null} ? ${item.product.Pro_Filepath} : ''" alt="Product Image" style="width: 120px;"/>
+        </td>
+        <td th:text="${item.product.Pro_Price}"></td>
+        <td th:text="${item.quantity}"></td>
+        <td th:text="${item.product.Pro_Price * item.quantity}"></td>
+    </tr>
+</table>
+<br/>
+<a th:href="${'/product'}">Continue Shopping</a>
+</body>
+</html>
