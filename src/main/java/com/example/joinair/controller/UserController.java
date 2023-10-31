@@ -110,7 +110,7 @@ public class UserController {
         return "../templates/adminEditUserList";
     }
 
-    @RequestMapping(value = "/adminEditUserList/{userId}", method = RequestMethod.GET)
+    @GetMapping("/adminEditUserList/{userId}")
     public String showAdminEditUserListDetailPage(@PathVariable String userId, Model model, HttpSession session) {
         if (session.getAttribute("User_Id") == null) {
             return "redirect:/login";
@@ -122,7 +122,7 @@ public class UserController {
             model.addAttribute("isAdmin", true);
             USERS user = userService.getUserById(userId);
             model.addAttribute("user", user); // 사용자 정보를 모델에 추가
-            return "adminEditUser";
+            return "adminEditUser"; // adminEditUser.html 템플릿 반환
         } else {
             return "redirect:/login";
         }

@@ -244,7 +244,7 @@
                 <td data-category="User_Phone" th:text="${user.User_Phone}"></td>
                 <td th:text="${user.User_Mileage}"></td>
                 <td class="action-links">
-
+                    <a class="btn btn-primary" th:href="@{'/adminEditUserList/' + ${user.User_Id}}" style="background-color: #007BFF; border-color: #007BFF;">수정</a>
                 </td>
             </tr>
             </tbody>

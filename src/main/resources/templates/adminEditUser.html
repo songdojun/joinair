@@ -199,16 +199,16 @@
 
 
     <h2 class="text-center">User List Edit</h2>
-    <div>
+   <!-- <div>
         <label for="searchCategory">검색 카테고리:</label>
-        <select name="searchCategory">
+        <select name="searchCategory" id="searchCategory">
             <option value="User_Id">고객 ID</option>
             <option value="User_Name">고객 Name</option>
             <option value="User_Phone">고객 전화번호</option>
         </select>
         <input type="text" id="searchInput" placeholder="검색어 입력">
         <button class="btn" id="searchButton">검색</button>
-    </div>
+    </div>-->
     <table>
         <thead>
         <tr>
@@ -222,20 +222,32 @@
         </tr>
         </thead>
         <tbody>
-        <tr th:each="user : ${users}">
-            <td data-category="User_Id" th:text="${user.User_Id}"></td>
-            <td data-category="User_Name" th:text="${user.User_Name}"></td>
-            <td th:text="${user.User_Email}"></td>
-            <td th:text="${user.User_Address}"></td>
-            <td data-category="User_Phone" th:text="${user.User_Phone}"></td>
-            <td th:text="${user.User_Mileage}"></td>
+        <form method="post" th:action="@{/adminUpdateUser}" th:object="${user}">
+
+
+                    <td><input type="text" th:field="*{User_Id}"/></td>
+
+
+
+                    <td><input type="text" th:field="*{User_Name}"/></td>
+
+                <!-- 다른 사용자 정보 속성도 추가 -->
+
+
+                    <td><input type="text" th:field="*{User_Email}"/></td>
+
+
+
+                    <td><input type="text" th:field="*{User_Address}"/></td>
+
+                    <td><input type="text" th:field="*{User_Phone}"/></td>
+
+                    <td><input type="text" th:field="*{User_Mileage}"/></td>
             <td class="action-links">
-                <a class="btn btn-primary" th:href="@{'/adminEditUserList/' + ${user.User_Id}}" style="background-color: #007BFF; border-color: #007BFF;">수정</a>
-
-
-
+                <button type="submit" class="btn btn-primary" style="background-color: #007BFF; border-color: #007BFF;">수정</button>
             </td>
-        </tr>
+            <button type="submit" class="btn btn-primary">저장</button>
+        </form>
         </tbody>
     </table>
 </div>
