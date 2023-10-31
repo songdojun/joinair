@@ -14,4 +14,6 @@ public interface UserMapper {
     void adminUpdateUser(USERS user);
     boolean isUserIdExists(String User_Id);
     List<USERS> getAllUsers();
+
+
 }

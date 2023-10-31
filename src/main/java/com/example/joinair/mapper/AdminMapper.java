@@ -1,7 +1,6 @@
 package com.example.joinair.mapper;
 
 import com.example.joinair.dto.SALES;
-import com.example.joinair.dto.USERS;
 import org.apache.ibatis.annotations.Mapper;
 import org.apache.ibatis.annotations.Param;
 import org.springframework.stereotype.Repository;
@@ -17,9 +16,11 @@ public interface AdminMapper {
 
     List<SALES> getYearlySales(@Param("year") int year);
 
-    List<SALES> getCustomSales(@Param("user") String user);
+    List<SALES> getCustomSales(@Param("searchInput") String user);
 
     List<SALES> getMonthlySalesByYearAndMonth(@Param("year") Integer year, @Param("month") Integer month);
 
-    List<USERS> searchUsers(@Param("searchCategory") String searchCategory, @Param("searchInput") String searchInput);
+    List<SALES> searchUsers(@Param("searchCategory") String searchCategory, @Param("searchInput") String searchInput);
+
 }
+

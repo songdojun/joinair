@@ -20,15 +20,21 @@ public class UserController {
         this.userService = userService;
     }
 
-    @GetMapping("/signInUp")
+    @GetMapping("/login")
     public String showSignInUpPage(Model model) {
-        System.out.println("Show Sign-In/Up Page");
+        System.out.println("Show Login Page");
         model.addAttribute("loginUser", new USERS()); // 수정: login 폼 데이터를 저장할 모델 추가
-        model.addAttribute("signupUser", new USERS()); // 수정: signup 폼 데이터를 저장할 모델 추가
-        return "signInUp";
+        return "login";
     }
-    @PostMapping("/signInUp")
-    public String signInUp(@ModelAttribute("loginUser") USERS loginUser, HttpSession session) {
+
+    @GetMapping("/membership")
+    public String showMembershipPage(Model model) {
+        System.out.println("Show Membership Page");
+        model.addAttribute("signupUser", new USERS()); // 수정: signup 폼 데이터를 저장할 모델 추가
+        return "membership";
+    }
+    @PostMapping("/login")
+    public String loginPost(@ModelAttribute("loginUser") USERS loginUser, HttpSession session) {
         USERS storedUser = userService.getUserById(loginUser.getUser_Id());
 
         if (storedUser != null && storedUser.getUser_Password().equals(loginUser.getUser_Password())) {
@@ -57,17 +63,17 @@ public class UserController {
             }
         } else {
             System.out.println("Login Failed!");
-            return "redirect:/signInUp"; // 로그인 실패 시 로그인 페이지로 리디렉션
+            return "redirect:/login"; // 로그인 실패 시 로그인 페이지로 리디렉션
         }
 
         // 이 경우에 대한 기본 반환 값, 필요에 따라 변경할 수 있습니다.
-        return "redirect:/signInUp"; // 또는 다른 기본 리디렉션
+        return "redirect:/login"; // 또는 다른 기본 리디렉션
     }
 
     @GetMapping("/adminWelcome")
     public String showAdminWelcomePage(Model model, HttpSession session) {
         if (session.getAttribute("User_Id") == null) {
-            return "redirect:/signInUp"; // 로그인되지 않았으면 로그인 페이지로 리디렉션
+            return "redirect:/login"; // 로그인되지 않았으면 로그인 페이지로 리디렉션
         }
 
         String userId = (String) session.getAttribute("User_Id");
@@ -81,14 +87,15 @@ public class UserController {
 
             return "adminWelcome";// 관리자 역할이면 isAdmin을 true로 설정
         } else {
-            return "redirect:/signInUp"; // 관리자가 아니면 로그인 페이지로 리디렉션
+            return "redirect:/login"; // 관리자가 아니면 로그인 페이지로 리디렉션
         }
     }
+
 
     @GetMapping("/adminEditUserList")
     public String showAdminEditUserListPage(Model model, HttpSession session) {
         if (session.getAttribute("User_Id") == null) {
-            return "redirect:/signInUp"; // 로그인되지 않았으면 로그인 페이지로 리디렉션
+            return "redirect:/login"; // 로그인되지 않았으면 로그인 페이지로 리디렉션
         }
         String userId = (String) session.getAttribute("User_Id");
         USERS user = userService.getUserById(userId);
@@ -96,29 +103,37 @@ public class UserController {
         if (user != null && "admin".equals(user.getUser_Mode())) {
             model.addAttribute("isAdmin", true); // 관리자 역할이면 isAdmin을 true로 설정
         } else {
-            return "redirect:/signInUp"; // 관리자가 아니면 로그인 페이지로 리디렉션
+            return "redirect:/login"; // 관리자가 아니면 로그인 페이지로 리디렉션
         }
         List<USERS> users = userService.getAllUsers();
         model.addAttribute("users", users);
-        return "adminEditUserList";
+        return "../templates/adminEditUserList";
     }
 
-    @GetMapping("/adminEditUserList/{userId}")
+    @RequestMapping(value = "/adminEditUserList/{userId}", method = RequestMethod.GET)
     public String showAdminEditUserListDetailPage(@PathVariable String userId, Model model, HttpSession session) {
         if (session.getAttribute("User_Id") == null) {
-            return "redirect:/signInUp"; // 로그인되지 않았으면 로그인 페이지로 리디렉션
+            return "redirect:/login";
         }
+        String adminUserId = (String) session.getAttribute("User_Id");
+        USERS adminUser = userService.getUserById(adminUserId);
 
-        System.out.println("showAdminEditUserListDetailPage");
-        USERS user = userService.getUserById(userId);
-        model.addAttribute("user", user);
-        return "adminEditUser";
+        if (adminUser != null && "admin".equals(adminUser.getUser_Mode())) {
+            model.addAttribute("isAdmin", true);
+            USERS user = userService.getUserById(userId);
+            model.addAttribute("user", user); // 사용자 정보를 모델에 추가
+            return "adminEditUser";
+        } else {
+            return "redirect:/login";
+        }
     }
+
+
 
     @PostMapping("/adminUpdateUser")
     public String adminUpdateUser(@ModelAttribute("user") USERS user, HttpSession session) {
         if (session.getAttribute("User_Id") == null) {
-            return "redirect:/signInUp"; // 로그인되지 않았으면 로그인 페이지로 리디렉션
+            return "redirect:/login"; // 로그인되지 않았으면 로그인 페이지로 리디렉션
         }
         System.out.println("adminUpdateUser 고객정보 수정 성공");
 
@@ -126,7 +141,7 @@ public class UserController {
         return "redirect:/adminEditUserList";
     }
 
-    @PostMapping("/register")
+    @PostMapping("/membership")
     public String register(@ModelAttribute("signupUser") USERS signupUser, HttpSession session) {
         String combinedAddress = signupUser.getUser_Address() + " " + signupUser.getUser_DetailAddress();
         signupUser.setUser_Address(combinedAddress);
@@ -173,7 +188,7 @@ public class UserController {
         session.removeAttribute("User_Id");
         System.out.println("Log-out!!!");
 
-        return "redirect:/signInUp";
+        return "redirect:/login";
     }
 
 
@@ -184,7 +199,7 @@ public class UserController {
         System.out.println("Personal Profile Update page Show!!");
         String userId = (String) session.getAttribute("User_Id");
         if (userId == null) {
-            return "redirect:/signInUp"; // 사용자 ID가 없으면 로그인 페이지로 리디렉션
+            return "redirect:/login"; // 사용자 ID가 없으면 로그인 페이지로 리디렉션
         }
 
         // 사용자 정보를 가져와 모델에 추가
@@ -200,7 +215,7 @@ public class UserController {
 
         String userId = (String) session.getAttribute("User_Id");
         if (userId == null) {
-            return "redirect:/signInUp"; // 사용자 ID가 없으면 로그인 페이지로 리디렉션
+            return "redirect:/login"; // 사용자 ID가 없으면 로그인 페이지로 리디렉션
         }
 
         // 사용자 정보 업데이트

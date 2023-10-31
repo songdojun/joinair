@@ -1,7 +1,6 @@
 package com.example.joinair.service;
 
 import com.example.joinair.dto.SALES;
-import com.example.joinair.dto.USERS;
 import com.example.joinair.mapper.AdminMapper;
 import org.apache.ibatis.annotations.Param;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -30,12 +29,13 @@ public class AdminServiceImpl implements AdminService {
         return adminMapper.getMonthlySales();
     }
 
+
     @Override
     public List<SALES> getYearlySales(int year) {
         return adminMapper.getYearlySales(year);
     }
     @Override
-    public List<SALES> getCustomSales(@Param("user") String user) {
+    public List<SALES> getCustomSales(@Param("searchInput") String user) {
         return adminMapper.getCustomSales(user);
     }
     @Override
@@ -43,7 +43,9 @@ public class AdminServiceImpl implements AdminService {
         return adminMapper.getMonthlySalesByYearAndMonth(year, month);
     }
     @Override
-    public List<USERS> searchUsers(String searchCategory, String searchInput) {
+    public List<SALES> searchUsers(String searchCategory, String searchInput) {
         return adminMapper.searchUsers(searchCategory, searchInput);
     }
+
+
 }
