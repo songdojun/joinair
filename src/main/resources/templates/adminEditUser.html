@@ -3,7 +3,9 @@
 <head>
     <meta charset="utf-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>결제 정보 확인</title>
+    <title>고객정보수정 (관리자)</title>
+    <link rel="apple-touch-icon" href="assets/img/apple-icon.png">
+    <link rel="shortcut icon" type="image/x-icon" href="assets/img/favicon.ico">
     <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/4.5.2/css/bootstrap.min.css">
     <link rel="stylesheet" href="assets/css/templatemo.css">
     <link rel="stylesheet" href="assets/css/custom.css">
@@ -11,28 +13,159 @@
     <link rel="stylesheet" href="assets/css/fontawesome.min.css">
     <link rel="stylesheet" href="https://unpkg.com/leaflet@1.7.1/dist/leaflet.css"
           integrity="sha512-xodZBNTC5n17Xt2atTPuE1HxjVMSvLVW9ocqUKLsCC5CXdbqCmblAshOMAS6/keqq/sMZMZ19scR4PsZChSR7A==" crossorigin=""/>
+    <style>
+        .custom-button {
+            background-color: #4CAF50;
+            color: white;
+            padding: 10px 20px;
+            border: none;
+            border-radius: 5px;
+            cursor: pointer;
+        }
+
+        .custom-button:hover {
+            background-color: #45a049;
+        }
+
+        .cotn_principal {
+            background: rgba(255, 255, 255, 0.9);
+            border-radius: 5px;
+            padding: 20px;
+            max-width: 400px;
+            width: 100%;
+        }
+
+        /* Updated styles for the report form and table */
+        #salesReportContainer {
+            padding: 20px;
+            margin: 20px auto;
+            max-width: 800px;
+            background-color: #f8f9fa;
+            border-radius: 5px;
+        }
+
+        #reportForm {
+            margin-bottom: 20px;
+            display: flex;
+            align-items: center;
+        }
+
+        #reportForm label {
+            font-weight: bold;
+        }
+
+        #reportForm select,
+        #reportForm input[type="number"] {
+            margin: 5px;
+            padding: 5px;
+            border: 1px solid #ced4da;
+            border-radius: 3px;
+        }
+
+        #searchButton {
+            background-color: #4CAF50;
+            color: white;
+            border: none;
+            border-radius: 3px;
+            cursor: pointer;
+        }
+
+        #searchButton:hover {
+            background-color: #45a049;
+        }
+
+        table {
+            width: 100%;
+            border-collapse: collapse;
+        }
+
+        table, th, td {
+            border: 1px solid #ddd;
+        }
+
+        th, td {
+            padding: 8px;
+            text-align: left;
+        }
+
+        th {
+            background-color: #4CAF50;
+            color: white;
+        }
+
+        tr:nth-child(even) {
+            background-color: #f2f2f2;
+        }
+
+        tr:hover {
+            background-color: #ddd;
+        }
+           body {
+            font-family: 'Roboto', sans-serif;
+            background-color: #f8f9fa;
+        }
+
+        .container {
+            max-width: 1200px;
+            margin: 0 auto;
+            padding: 20px;
+        }
+
+        h1 {
+            text-align: center;
+            margin: 20px 0;
+        }
+
+        .text-center {
+            text-align: center;
+        }
+
+        .btn {
+            display: inline-block;
+            padding: 10px 20px;
+            background-color: #4CAF50;
+            color: white;
+            border: none;
+            border-radius: 5px;
+            text-decoration: none;
+            margin-right: 20px;
+        }
+
+        .btn:hover {
+            background-color: #45a049;
+        }
+
+        table {
+            width: 100%;
+            border-collapse: collapse;
+            background-color: white;
+        }
+
+        th, td {
+            padding: 10px;
+            text-align: left;
+            border: 1px solid #ddd;
+        }
+
+        th {
+            background-color: #4CAF50;
+            color: white;
+        }
+
+        tr:nth-child(even) {
+            background-color: #f2f2f2;
+        }
+
+        tr:hover {
+            background-color: #ddd;
+        }
+    </style>
 </head>
 <body>
-<nav class="navbar navbar-expand-lg bg-dark navbar-light d-none d-lg-block" id="templatemo_nav_top">
-    <div class="container text-light">
-        <div class="w-100 d-flex justify-content-between">
-            <div>
-                <i class="fa fa-envelope mx-2"></i>
-                <a class="navbar-sm-brand text-light text-decoration-none" href="mailto:info@company.com">Doron delivery@Doron delivery.com</a>
-                <i class="fa fa-phone mx-2"></i>
-                <a class="navbar-sm-brand text-light text-decoration-none" href="tel:010-020-0340">010-1234-5678</a>
-            </div>
-            <div>
-                <a class="text-light" href="https://fb.com/templatemo" target="_blank" rel="sponsored"><i class="fab fa-facebook-f fa-sm fa-fw me-2"></i></a>
-                <a class="text-light" href="https://www.instagram.com/" target="_blank"><i class="fab fa-instagram fa-sm fa-fw me-2"></i></a>
-                <a class="text-light" href="https://twitter.com/" target="_blank"><i class="fab fa-twitter fa-sm fa-fw me-2"></i></a>
-            </div>
-        </div>
-    </div>
-</nav>
+<!-- 네비게이션 바 -->
 <nav class="navbar navbar-expand-lg navbar-light shadow">
     <div class="container d-flex justify-content-between align-items-center">
-        <a class="navbar-brand text-success logo h1 align-self-center" href="cart/index.html">Join Air🪂</a>
+        <a class="navbar-brand text-success logo h1 align-self-center" href="index.html">Join Air🪂</a>
         <button class="navbar-toggler border-0" type="button" data-bs-toggle="collapse" data-bs-target="#templatemo_main_nav"
                 aria-controls="templatemo_main_nav" aria-expanded="false" aria-label="Toggle navigation">
             <span class="navbar-toggler-icon"></span>
@@ -41,7 +174,7 @@
             <div class="flex-fill">
                 <ul class="nav navbar-nav d-flex justify-content-between mx-lg-auto">
                     <li class="nav-item">
-                        <a class="nav-link" href="cart/index.html">홈</a>
+                        <a class="nav-link" href="index.html">홈</a>
                     </li>
                     <li class="nav-item">
                         <a class="nav-link" href="about.html">회사 소개</a>
@@ -54,10 +187,10 @@
                     </li>
                     <li class="nav-item">
                         <a class="nav-link" href="http://localhost:8080/notice/list">공지사항</a>
-                    </li>
-                    <li class="nav-item">
 
                     </li>
+                    <a class="btn btn-success" th:href="@{/logout}">Logout</a>
+                    <a class="btn btn-info" th:href="@{/adminWelcome}">홈 페이지로 가기</a>
                 </ul>
             </div>
             <div class="navbar align-self-center d-flex">
@@ -72,52 +205,59 @@
                 <a class="nav-icon d-none d-lg-inline" href="#" data-bs-toggle="modal" data-bs-target="#templatemo_search">
                     <i class="fa fa-fw fa-search text-dark mr-2"></i>
                 </a>
-
-
             </div>
         </div>
     </div>
 </nav>
-<div class="modal fade bg-white" id="templatemo_search" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel" aria-hidden="true">
-    <div class="modal-dialog modal-lg" role="document">
-        <div class="w-100 pt-1 mb-5 text-right">
-            <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
-        </div>
-        <form action="" method="get" class="modal-content modal-body border-0 p-0">
-            <div class="input-group mb-2">
-                <input type="text" class="form-control" id="inputModalSearch" name="q" placeholder="검색">
-                <button type="submit" class="input-group-text bg-success text-light">
-                    <i class="fa fa-fw fa-search text-white"></i>
-                </button>
-            </div>
-        </form>
+
+<div class="container">
+    <h1 class="text-center font-weight-bold">고객 정보 상세보기</h1>
+
+
+    <h2 class="text-center">User List Edit</h2>
+    <div>
+        <label for="searchCategory">검색 카테고리:</label>
+        <select name="searchCategory">
+            <option value="User_Id">고객 ID</option>
+            <option value="User_Name">고객 Name</option>
+            <option value="User_Phone">고객 전화번호</option>
+        </select>
+        <input type="text" id="searchInput" placeholder="검색어 입력">
+        <button class="btn" id="searchButton">검색</button>
     </div>
+    <table>
+        <thead>
+        <tr>
+            <th>고객 ID</th>
+            <th>고객 Name</th>
+            <th>고객 E-mail</th>
+            <th>고객 주소</th>
+            <th>고객 전화번호</th>
+            <th>고객 마일리지</th>
+            <th>Actions</th>
+        </tr>
+        </thead>
+        <tbody>
+        <tr th:each="user : ${users}">
+            <td data-category="User_Id" th:text="${user.User_Id}"></td>
+            <td data-category="User_Name" th:text="${user.User_Name}"></td>
+            <td th:text="${user.User_Email}"></td>
+            <td th:text="${user.User_Address}"></td>
+            <td data-category="User_Phone" th:text="${user.User_Phone}"></td>
+            <td th:text="${user.User_Mileage}"></td>
+            <td class="action-links">
+                <a class="btn btn-primary" th:href="@{'/adminEditUserList/' + ${user.User_Id}}" style="background-color: #007BFF; border-color: #007BFF;">수정</a>
+
+
+
+            </td>
+        </tr>
+        </tbody>
+    </table>
 </div>
-<main class="container-fluid bg-light py-5">
-    <div class="col-md-6 m-auto text-center">
-        <div class="container">
-            <h1>결제 정보 확인</h1>
-
-            <form>
-                <div class="form-group">
-                    <label for="accountHolder">예금주</label>
-                    <input type="text" class="form-control" id="accountHolder" name="accountHolder" disabled>
-                </div>
 
 
-
-                <div class="form-group">
-                    <label for="bankName">은행 선택</label>
-                    <input type="text" class="form-control" id="bankName" name="bankName" disabled>
-                </div>
-
-                <button type="button" class="btn btn-primary" onclick="window.history.back();">뒤로 가기</button>
-                <button type="button" class="btn btn-primary" onclick="window.history.nest();">진행하기</button>
-            </form>
-        </div>
-    </div>
-</main>
-<footer class="bg-dark" id="tempaltemo_footer">
+<footer class="bg-dark" id="templatemo_footer">
     <div class="container">
         <div class="row">
             <div class="col-md-4 pt-5">
@@ -160,13 +300,11 @@
                 <div class="w-100 my-3 border-top border-light"></div>
             </div>
             <div class="col-auto me-auto">
-
             </div>
         </div>
     </div>
 </footer>
-<script src="assets/js/jquery-1.11.0.min.js"></script>
-<script src="assets/js/jquery-migrate-1.2.1.min.js"></script>
+<script src="assets/js/jquery-3.6.0.min.js"></script>
 <script src="assets/js/bootstrap.bundle.min.js"></script>
 <script src="assets/js/templatemo.js"></script>
 <script src="assets/js/custom.js"></script>

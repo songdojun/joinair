@@ -1,0 +1,458 @@
+<!DOCTYPE html>
+<html lang="ko">
+<head>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <title>회원가입 페이지</title>
+    <link rel="apple-touch-icon" href="assets/img/apple-icon.png">
+    <link rel="shortcut icon" type="image/x-icon" href="assets/img/favicon.ico">
+    <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/4.5.2/css/bootstrap.min.css">
+    <link rel="stylesheet" href="assets/css/templatemo.css">
+    <link rel="stylesheet" href="assets/css/custom.css">
+    <link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Roboto:wght@100;200;300;400;500;700;900&display=swap">
+    <link rel="stylesheet" href="assets/css/fontawesome.min.css">
+    <link rel="stylesheet" href="https://unpkg.com/leaflet@1.7.1/dist/leaflet.css"
+          integrity="sha512-xodZBNTC5n17Xt2atTPuE1HxjVMSvLVW9ocqUKLsCC5CXdbqCmblAshOMAS6/keqq/sMZMZ19scR4PsZChSR7A==" crossorigin=""/>
+    <style>
+
+        .custom-button {
+            background-color: #4CAF50;
+            color: white;
+            padding: 10px 20px;
+            border: none;
+            border-radius: 5px;
+            cursor: pointer;
+        }
+
+
+        .custom-button:hover {
+            background-color: #45a049;
+        }
+
+        /* 로그인 폼 스타일 */
+        .cotn_principal {
+            background: rgba(255, 255, 255, 0.9);
+            border-radius: 5px;
+            padding: 20px;
+            max-width: 400px;
+            width: 100%;
+        }
+    </style>
+</head>
+<body>
+
+</script>
+
+
+<nav class="navbar navbar-expand-lg bg-dark navbar-light d-none d-lg-block" id="templatemo_nav_top">
+    <div class="container text-light">
+        <div class="w-100 d-flex justify-content-between">
+            <div>
+                <i class="fa fa-envelope mx-2"></i>
+                <a class="navbar-sm-brand text-light text-decoration-none" href="mailto:info@company.com">Doron delivery@Doron delivery.com</a>
+                <i class="fa fa-phone mx-2"></i>
+                <a class="navbar-sm-brand text-light text-decoration-none" href="tel:010-1234-5678">010-1234-5678</a>
+            </div>
+            <div>
+                <a class="text-light" href="https://fb.com/templatemo" target="_blank" rel="sponsored"><i class="fab fa-facebook-f fa-sm fa-fw me-2"></i></a>
+                <a class="text-light" href="https://www.instagram.com/" target="_blank"><i class="fab fa-instagram fa-sm fa-fw me-2"></i></a>
+                <a class="text-light" href="https://twitter.com/" target="_blank"><i class="fab fa-twitter fa-sm fa-fw me-2"></i></a>
+            </div>
+        </div>
+    </div>
+</nav>
+<nav class="navbar navbar-expand-lg navbar-light shadow">
+    <div class="container d-flex justify-content between align-items-center">
+        <a class="navbar-brand text-success logo h1 align-self-center" href="index.html">Join Air🪂</a>
+        <button class="navbar-toggler border-0" type="button" data-bs-toggle="collapse" data-bs-target="#templatemo_main_nav"
+                aria-controls="templatemo_main_nav" aria-expanded="false" aria-label="Toggle navigation">
+            <span class="navbar-toggler-icon"></span>
+        </button>
+        <div class="align-self-center collapse navbar-collapse flex-fill d-lg-flex justify-content-lg-between" id="templatemo_main_nav">
+            <div class="flex-fill">
+                <ul class="nav navbar-nav d-flex justify-content-between mx-lg-auto">
+                    <li class="nav-item">
+                        <a class="nav-link" href="index.html">홈</a>
+                    </li>
+                    <li class="nav-item">
+                        <a class="nav-link" href="about.html">회사 소개</a>
+                    </li>
+                    <li class="nav-item">
+                        <a class="nav-link" href="shop.html">상품</a>
+                    </li>
+                    <li class="nav-item">
+                        <a class="nav-link" href="contact.html">문의</a>
+                    </li>
+                    <li class="nav-item">
+                        <a class="nav-link" href="http://localhost:8080/notice/list">공지사항</a>
+                    </li>
+
+
+                </ul>
+            </div>
+            <div class="navbar align-self-center d-flex">
+                <div class="d-lg-none flex-sm-fill mt-3 mb-4 col-7 col-sm-auto pr-3">
+                    <div class="input-group">
+                        <input type="text" class="form-control" id="inputMobileSearch" placeholder="검색">
+                        <div class="input-group-text">
+                            <i class="fa fa-fw fa-search"></i>
+                        </div>
+                    </div>
+                </div>
+                <a class="nav-icon d-none d-lg-inline" href="#" data-bs-toggle="modal" data-bs-target="#templatemo_search">
+                    <i class="fa fa-fw fa-search text-dark mr-2"></i>
+                </a>
+
+            </div>
+        </div>
+    </div>
+</nav>
+<form onsubmit="return join_user();">
+    <br>
+    <div class="container">
+        <h2 class="text-center font-weight-bold">회원 가입</h2>
+        <div class="form-container">
+            <div class="form-group">
+                <input type="text" id="userid" class="form-control" placeholder="아이디" required>
+            </div>
+            <div class="form-group">
+                <input type="text" id="usernm" class="form-control" placeholder="이름" required>
+            </div>
+            <div class="form-group">
+                <div class="input-group">
+                    <input type="text" id="useremail" class="form-control" placeholder="이메일 주소" required>
+<!--                    <select class="custom-select" id="emailDomainDropdown" onchange="updateEmail()">-->
+<!--                        <option value="" selected disabled>도메인 선택</option>-->
+<!--                        <option value="@gmail.com">gmail.com</option>-->
+<!--                        <option value="@naver.com">naver.com</option>-->
+<!--                        <option value="@nate.com">nate.com</option>-->
+<!--                    </select>-->
+                </div>
+            </div>
+
+            <div class="form-group">
+                <input type="password" id="userpw" class="form-control" placeholder="비밀번호" required>
+            </div>
+            <div class="form-group">
+                <input type="password" id="userpw2" class="form-control" placeholder="비밀번호 확인" required>
+                <input type="text" id="userPhone" class="form-control" placeholder="전화번호" required>
+            </div>
+            <div class="form-group">
+                <div class="address-container">
+                    <input type="button" onclick="sample4_execDaumPostcode()" value="주소검색" class="btn btn-primary" style="color: white; text-align: center; margin: 0 auto; display: block; margin-top: 10px;">
+                    <div class="form-group">
+                        <input type="text" id="sample4_postcode" class="form-control" placeholder="우편번호">
+                    </div>
+                    <div class="form-group">
+                        <input type="text" id="sample4_roadAddress" class="form-control" placeholder="도로명주소" size="60">
+                    </div>
+                    <div class="form-group">
+                        <input type="text" id="sample4_jibunAddress" class="form-control" placeholder="지번주소" size="60">
+                    </div>
+                    <div class="form-group">
+                        <span id="guide" style="color: #999; display: none;"></span>
+                    </div>
+                    <div class="form-group">
+                        <input type="text" id="sample4_detailAddress" class="form-control" placeholder="상세주소" size="60">
+                    </div>
+                </div>
+            </div>
+            <button type="submit" class="btn btn-primary custom-button">가입하기</button>
+        </div>
+    </div>
+</form>
+
+<!-- 스크립트 -->
+<script type="text/javascript">
+    function join_user() {
+        var userid = document.getElementById("userid");
+        var usernm = document.getElementById("usernm");
+        var userpw = document.getElementById("userpw");
+        var userpw2 = document.getElementById("userpw2");
+        var useraddr = document.getElementById("sample4_postcode");
+        var useremail = document.getElementById("useremail");
+
+        if (userid.value === "") {
+            alert("아이디를 입력하세요.");
+            userid.focus();
+            return false;
+        }
+
+        if (userpw.value === "") {
+            alert("비밀번호를 입력하세요.");
+            userpw.focus();
+            return false;
+        }
+
+        if (userpw2.value === "") {
+            alert("비밀번호 확인을 입력하세요.");
+            userpw2.focus();
+            return false;
+        }
+
+        if (userpw.value !== userpw2.value) {
+            alert("비밀번호와 비밀번호 확인이 일치하지 않습니다.");
+            userpw.focus();
+            return false;
+        }
+
+        if (useraddr.value === "") {
+            alert("주소를 입력하세요.");
+            useraddr.focus();
+            return false;
+        }
+
+        var validEmailPattern = /^[A-Za-z0-9_\.\-]+@[A-Za-z0-9\-]+\.[A-Za-z0-9\-]+/;
+        if (!validEmailPattern.test(useremail.value)) {
+            alert("올바른 이메일 주소 형식이 아닙니다.");
+            useremail.focus();
+            return false;
+        }
+
+        alert("가입이 완료되었습니다!");
+        // 가입 완료 시 index.html로 리디렉션
+        window.location.href = "index.html";
+        return false;
+    }
+
+   function updateEmail() {
+    var domainDropdown = document.getElementById("emailDomainDropdown");
+    var selectedDomain = domainDropdown.options[domainDropdown.selectedIndex].value;
+    var emailInput = document.getElementById("useremail");
+
+    if (selectedDomain === "") {
+        emailInput.value = "";
+    } else {
+        emailInput.value = emailInput.value.replace(/@.*$/, "") + selectedDomain;
+    }
+}
+
+    function sample4_execDaumPostcode() {
+        // 주소 검색 팝업 실행
+        new daum.Postcode({
+            oncomplete: function(data) {
+                var postcode = data.zonecode;
+                var roadAddress = data.roadAddress;
+                var jibunAddress = data.jibunAddress;
+
+                // 결과를 입력 필드에 설정
+                document.getElementById("sample4_postcode").value = postcode;
+                document.getElementById("sample4_roadAddress").value = roadAddress;
+                document.getElementById("sample4_jibunAddress").value = jibunAddress;
+
+                var guide = document.getElementById("guide");
+                guide.innerHTML = "";
+                guide.style.display = "none";
+            }
+        }).open();
+    }
+</script>
+
+<footer class="bg-dark" id="tempaltemo_footer">
+    <div class="container">
+        <div class="row">
+            <div class="col-md-4 pt-5">
+                <h2 class="h2 text-success border-bottom pb-3 border-light logo">Join Air🪂</h2>
+                <ul class="list-unstyled text-light footer-link-list">
+                    <li>
+                        <i class="fas fa-map-marker-alt fa-fw"></i>
+                        한국직업전문학교 11층 강의실02 항공4기 2조
+                    </li>
+                    <li>
+                        <i class="fa fa-phone fa-fw"></i>
+                        <a class="text-decoration-none" href="tel:010-1234-5678">010-1234-5678</a>
+                    </li>
+                    <li>
+                        <i class="fa fa-envelope fa-fw"></i>
+                        <a class="text-decoration-none" href="mailto:info@dronefood.com">drone@dronedelivery.com</a>
+                    </li>
+                </ul>
+            </div>
+            <div class="col-md-4 pt-5">
+                <h2 class="h2 text-light border-bottom pb-3 border-light">메뉴</h2>
+                <ul class="list-unstyled text-light footer-link-list">
+                    <li><a class="text-decoration-none" href="#">주문 하기</a></li>
+                    <li><a class="text-decoration-none" href="#">배달 정보</a></li>
+                    <li><a class="text-decoration-none" href="#">고객 지원</a></li>
+                    <li><a class="text-decoration-none" href="#">드론 정보</a></li>
+                </ul>
+            </div>
+            <div class="col-md-4 pt-5">
+                <h2 class="h2 text-light border-bottom pb-3 border-light">정보</h2>
+                <ul class="list-unstyled text-light footer-link-list">
+                    <li><a class="text-decoration-none" href="http://localhost:63342/joinair/src/main/resources/boot/index.html">홈</a></li>
+                    <li><a class="text-decoration-none" href="http://localhost:63342/joinair/src/main/resources/boot/about.html">회사/소개</a></li>
+                    <li><a class="text-decoration-none" href="http://localhost:63342/joinair/src/main/resources/boot/contact.html">문의</a></li>
+                </ul>
+            </div>
+        </div>
+        <div class="row text-light mb-4">
+            <div class="col-12 mb-3">
+                <div class="w-100 my-3 border-top border-light"></div>
+            </div>
+            <div class="col-auto me-auto">
+
+            </div>
+        </div>
+    </div>
+    <div class="w-100 bg-black py-3">
+        <div class="container">
+            <div class="row pt-2">
+                <div class="col-12">
+                    <p class="text-left text-light">
+                        저작권 © 2023 Join Air
+                    </p>
+                </div>
+            </div>
+        </div>
+    </div>
+</footer>
+
+<!--  다음 카카오 API 카카오맵 자바스크립트문-->
+<script src="http://dmaps.daum.net/map_js_init/postcode.v2.js"></script>
+<script>
+
+
+    function sample4_execDaumPostcode() {
+        new daum.Postcode({
+            oncomplete: function(data) {
+                // 팝업에서 검색결과 항목을 클릭했을때 실행할 코드를 작성하는 부분.
+
+                // 도로명 주소의 노출 규칙에 따라 주소를 표시한다.
+                // 내려오는 변수가 값이 없는 경우엔 공백('')값을 가지므로, 이를 참고하여 분기 한다.
+                var roadAddr = data.roadAddress; // 도로명 주소 변수
+                var extraRoadAddr = ''; // 참고 항목 변수
+
+                // 법정동명이 있을 경우 추가한다. (법정리는 제외)
+                // 법정동의 경우 마지막 문자가 "동/로/가"로 끝난다.
+                if(data.bname !== '' && /[동|로|가]$/g.test(data.bname)){
+                    extraRoadAddr += data.bname;
+                }
+                // 건물명이 있고, 공동주택일 경우 추가한다.
+                if(data.buildingName !== '' && data.apartment === 'Y'){
+                   extraRoadAddr += (extraRoadAddr !== '' ? ', ' + data.buildingName : data.buildingName);
+                }
+                // 표시할 참고항목이 있을 경우, 괄호까지 추가한 최종 문자열을 만든다.
+                if(extraRoadAddr !== ''){
+                    extraRoadAddr = ' (' + extraRoadAddr + ')';
+                }
+
+                // 우편번호와 주소 정보를 해당 필드에 넣는다.
+                document.getElementById('sample4_postcode').value = data.zonecode;
+                document.getElementById("sample4_roadAddress").value = roadAddr;
+                document.getElementById("sample4_jibunAddress").value = data.jibunAddress;
+
+                document.getElementById("sample4_engAddress").value = data.addressEnglish;
+
+                // 참고항목 문자열이 있을 경우 해당 필드에 넣는다.
+                if(roadAddr !== ''){
+                    document.getElementById("sample4_extraAddress").value = extraRoadAddr;
+                } else {
+                    document.getElementById("sample4_extraAddress").value = '';
+                }
+
+                var guideTextBox = document.getElementById("guide");
+                // 사용자가 '선택 안함'을 클릭한 경우, 예상 주소라는 표시를 해준다.
+                if(data.autoRoadAddress) {
+                    var expRoadAddr = data.autoRoadAddress + extraRoadAddr;
+                    guideTextBox.innerHTML = '(예상 도로명 주소 : ' + expRoadAddr + ')';
+                    guideTextBox.style.display = 'block';
+
+                } else if(data.autoJibunAddress) {
+                    var expJibunAddr = data.autoJibunAddress;
+                    guideTextBox.innerHTML = '(예상 지번 주소 : ' + expJibunAddr + ')';
+                    guideTextBox.style.display = 'block';
+                } else {
+                    guideTextBox.innerHTML = '';
+                    guideTextBox.style.display = 'none';
+                }
+            }
+        }).open();
+
+    }
+
+</script>
+<!--다음카카오 API 주소검색 select 아후 API 자동 창 닫히기-->
+<script>
+    // 팝업이 열려있는지 확인하는 변수
+    var addressPopupOpened = false;
+
+    // 주소 검색 팝업을 실행하는 함수
+    function sample4_execDaumPostcode() {
+        // 이미 팝업이 열려 있는 경우 중복 호출 방지
+        if (addressPopupOpened) {
+            return; // 함수를 빠져나감
+        }
+
+        // 팝업을 열었음을 표시
+        addressPopupOpened = true;
+
+        // 다음 카카오 주소 검색 팝업을 생성
+        new daum.Postcode({
+            // 검색이 완료된 경우 실행되는 콜백 함수
+            oncomplete: function(data) {
+                // 검색 결과에서 우편번호, 도로명주소, 지번주소를 가져옴
+                var postcode = data.zonecode;
+                var roadAddress = data.roadAddress;
+                var jibunAddress = data.jibunAddress;
+
+                // 결과를 입력 필드에 설정
+                document.getElementById("sample4_postcode").value = postcode;
+                document.getElementById("sample4_roadAddress").value = roadAddress;
+                document.getElementById("sample4_jibunAddress").value = jibunAddress;
+
+                // 안내 메시지를 초기화하고 숨김
+                var guide = document.getElementById("guide");
+                guide.innerHTML = "";
+                guide.style.display = "none";
+
+                // 주소 선택 후 팝업 닫기
+                addressPopupOpened = false; // 팝업이 닫힌 상태로 설정
+                closeAddressPopup(); // 팝업을 닫는 함수 호출
+            }
+        }).open();
+    }
+
+    // 주소 검색 팝업을 닫는 함수
+    function closeAddressPopup() {
+        try {
+            // 부모 문서에서 주소 검색 팝업 iframe을 찾음
+            var iframe = parent.document.getElementById("daum_popup");
+            // iframe을 제거하여 팝업을 닫음
+            iframe.parentNode.removeChild(iframe);
+        } catch (e) {
+            console.error(e);
+        }
+    }
+</script>
+
+
+
+
+<!--<script>-->
+<!--    // updateEmail 함수 정의-->
+<!--   function updateEmail() {-->
+<!--       // 이메일 도메인 선택 드롭다운 요소를 가져와 domainDropdown 변수에 할당-->
+<!--       var domainDropdown = document.getElementById("emailDomainDropdown");-->
+
+<!--       // 사용자가 선택한 도메인을 가져오기 위해 현재 선택된 옵션의 값을 selectedDomain 변수에 할당-->
+<!--       var selectedDomain = domainDropdown.options[domainDropdown.selectedIndex].value;-->
+
+<!--       // 이메일 도메인 입력 필드 요소를 가져와 emailDomainInput 변수에 할당-->
+<!--       var emailDomainInput = document.getElementById("emailDomain");-->
+
+<!--       // 사용자가 선택한 도메인(selectedDomain)을 이메일 도메인 입력 필드(emailDomainInput)의 값으로 설정-->
+<!--       emailDomainInput.value = selectedDomain;-->
+<!--   }-->
+
+<!--</script>-->
+
+
+<script src="assets/js/jquery-1.11.0.min.js"></script>
+<script src="assets/js/jquery-migrate-1.2.1.min.js"></script>
+<script src="assets/js/bootstrap.bundle.min.js"></script>
+<script src="assets/js/templatemo.js"></script>
+<script src="assets/js/custom.js"></script>
+<script src="assets/js/membership.js"></script>
+</body>
+</html>

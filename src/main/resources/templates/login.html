@@ -1,10 +1,10 @@
 <!DOCTYPE html>
 <html lang="ko" xmlns:th="http://www.thymeleaf.org">
 <head>
-    <title>공지사항 수정</title>
     <meta charset="utf-8">
     <meta name="viewport" content="width=device-width, initial-scale=1">
-
+    <title>로그인 페이지</title>
+    <link rel="apple-touch-icon" href="assets/img/apple-icon.png">
     <link rel="shortcut icon" type="image/x-icon" href="assets/img/favicon.ico">
     <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/4.5.2/css/bootstrap.min.css">
     <link rel="stylesheet" href="assets/css/templatemo.css">
@@ -15,45 +15,27 @@
           integrity="sha512-xodZBNTC5n17Xt2atTPuE1HxjVMSvLVW9ocqUKLsCC5CXdbqCmblAshOMAS6/keqq/sMZMZ19scR4PsZChSR7A==" crossorigin=""/>
     <style>
 
-        .container-fluid {
-            padding: 50px 0;
-            text-align: center;
-        }
-
-        .form-container {
-            background-color: #fff;
-            border-radius: 10px;
-            padding: 30px;
-            box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
-        }
-
-        .form-container input[type="text"],
-        .form-container textarea {
-            width: 100%;
-            padding: 10px;
-            margin: 8px 0;
-            border: 1px solid #ccc;
-            border-radius: 4px;
-            box-sizing: border-box;
-        }
-
-        .form-container input[type="file"] {
-            width: 100%;
-            padding: 10px;
-            margin: 8px 0;
-        }
-
-        .form-container button {
-            background-color: #007bff;
-            color: #fff;
+        .custom-button {
+            background-color: #4CAF50;
+            color: white;
             padding: 10px 20px;
             border: none;
             border-radius: 5px;
             cursor: pointer;
         }
 
-        .form-container button:hover {
-            background-color: #0056b3;
+        /* 추가 스타일 예시 */
+        .custom-button:hover {
+            background-color: #45a049;
+        }
+
+        /* 로그인 폼 스타일 */
+        .cotn_principal {
+            background: rgba(255, 255, 255, 0.9);
+            border-radius: 5px;
+            padding: 20px;
+            max-width: 400px;
+            width: 100%;
         }
     </style>
 </head>
@@ -65,7 +47,7 @@
                 <i class="fa fa-envelope mx-2"></i>
                 <a class="navbar-sm-brand text-light text-decoration-none" href="mailto:info@company.com">Doron delivery@Doron delivery.com</a>
                 <i class="fa fa-phone mx-2"></i>
-                <a class="navbar-sm-brand text-light text-decoration-none" href="tel:010-020-0340">010-1234-5678</a>
+                <a class="navbar-sm-brand text-light text-decoration-none" href="tel:010-1234-5678">010-1234-5678</a>
             </div>
             <div>
                 <a class="text-light" href="https://fb.com/templatemo" target="_blank" rel="sponsored"><i class="fab fa-facebook-f fa-sm fa-fw me-2"></i></a>
@@ -76,8 +58,8 @@
     </div>
 </nav>
 <nav class="navbar navbar-expand-lg navbar-light shadow">
-    <div class="container d-flex justify-content-between align-items-center">
-        <a class="navbar-brand text-success logo h1 align-self-center" href="cart/index.html">Join Air🪂</a>
+    <div class="container d-flex justify-content between align-items-center">
+        <a class="navbar-brand text-success logo h1 align-self-center" href="index.html">Join Air🪂</a>
         <button class="navbar-toggler border-0" type="button" data-bs-toggle="collapse" data-bs-target="#templatemo_main_nav"
                 aria-controls="templatemo_main_nav" aria-expanded="false" aria-label="Toggle navigation">
             <span class="navbar-toggler-icon"></span>
@@ -86,7 +68,7 @@
             <div class="flex-fill">
                 <ul class="nav navbar-nav d-flex justify-content-between mx-lg-auto">
                     <li class="nav-item">
-                        <a class="nav-link" href="cart/index.html">홈</a>
+                        <a class="nav-link" href="index.html">홈</a>
                     </li>
                     <li class="nav-item">
                         <a class="nav-link" href="about.html">회사 소개</a>
@@ -103,9 +85,25 @@
                     <li class="nav-item">
                         <a class="nav-link" href="#">로그인</a>
                     </li>
+                    <li class="nav-item">
+                        <a class="nav-link" href="#">회원가입</a>
+                    </li>
                 </ul>
             </div>
+            <div class="navbar align-self-center d-flex">
+                <div class="d-lg-none flex-sm-fill mt-3 mb-4 col-7 col-sm-auto pr-3">
+                    <div class="input-group">
+                        <input type="text" class="form-control" id="inputMobileSearch" placeholder="검색">
+                        <div class="input-group-text">
+                            <i class="fa fa-fw fa-search"></i>
+                        </div>
+                    </div>
+                </div>
+                <a class="nav-icon d-none d-lg-inline" href="#" data-bs-toggle="modal" data-bs-target="#templatemo_search">
+                    <i class="fa fa-fw fa-search text-dark mr-2"></i>
+                </a>
 
+            </div>
         </div>
     </div>
 </nav>
@@ -124,27 +122,35 @@
         </form>
     </div>
 </div>
-<div class="container-fluid bg-light py-5">
-    <div class="col-md-6 m-auto text-center">
-        <div class="form-container">
-            <form th:action="@{/notice/update/{Not_No}(Not_No= ${notice.Not_No})}" method="post" enctype="multipart/form-data">
-                <div class="form-group">
-                    <label for="Not_Title">제목:</label>
-                    <input type="text" id="Not_Title" name="Not_Title" th:if="${notice != null}" th:value="${notice.Not_Title}" class="form-control">
+<div class="cotn_principal mx-auto my-5">
+    <div class="cont_centrar">
+        <div class="cont_login">
+            <div class="cont_info_log_sign_up">
+                <div class="col_md_login">
+                    <form name="loginForm" method="post" action="/signInUp" autocomplete="off">
+                        <div class="cont_form_login">
+                            <h2 class="text-center font-weight-bold">로그인</h2>
+                            <div class="form-group">
+                                <input type="text" name="User_Id" class="form-control" placeholder="User ID" required>
+                            </div>
+                            <div class="form-group">
+                                <input type="password" name="User_Password" class="form-control" placeholder="Password" required>
+                            </div>
+                            <button class="btn btn-primary btn-block" type="submit" onclick="window.location.href='/signInUp'">로그인</button>
+                            <a href="membership.html" class="nav-link custom-button-register">회원가입</a>
+                            <div class="text-center mt-2">
+                                <a href="#" class="custom-link" style="color: black;">아이디 찾기</a>
+                                <span class="mx-2 text-dark">|</span>
+                                <a href="#" class="custom-link" style="color: black;">비밀번호 찾기</a>
+                            </div>
+                        </div>
+                    </form>
                 </div>
-                <div class="form-group">
-                    <label for="Not_Content">내용:</label>
-                    <textarea id="Not_Content" name="Not_Content" th:if="${notice != null}" th:text="${notice.Not_Content}" class="form-control"></textarea>
-                </div>
-                <div class="form-group">
-                    <label for="file">파일 첨부:</label>
-                    <input type="file" name="file" th:if="${notice != null}" class="form-control">
-                </div>
-                <button type="submit" th:if="${notice != null}" class="btn btn-primary">수정</button>
-            </form>
+            </div>
         </div>
     </div>
 </div>
+
 <footer class="bg-dark" id="tempaltemo_footer">
     <div class="container">
         <div class="row">

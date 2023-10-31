@@ -1,0 +1,237 @@
+
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>회원 가입 로그인 페이지</title>
+    <link rel="stylesheet" type="text/css" href="/css/registerstyle.css">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/twitter-bootstrap/4.5.0/css/bootstrap.min.css">
+    <script src="https://unicons.iconscout.com/release/v2.1.9/css/unicons.css"></script>
+    <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
+    <script src="//t1.daumcdn.net/mapjsapi/bundle/postcode/prod/postcode.v2.js"></script>
+</head>
+
+<body>
+<div class="cotn_principal">
+    <div class="cont_centrar">
+        <div class="cont_login">
+            <div class="cont_info_log_sign_up">
+                <div class="col_md_login">
+                    <div class="cont_ba_opcitiy">
+                        <h2>LOGIN</h2>
+                        <p>기존에 가입하신 아이디와 패스워드를 입력하여 로그인 해주세요</p>
+                        <button class="btn_login" onclick="change_to_login()">LOGIN</button>
+                    </div>
+                </div>
+                <div class="col_md_sign_up">
+                    <div class="cont_ba_opcitiy">
+                        <h2>SIGN UP</h2>
+                        <p>처음 오신 분은 회원가입 해주세요💌</p>
+                        <button class="btn_sign_up" onclick="change_to_sign_up()">SIGN UP</button>
+                    </div>
+                </div>
+            </div>
+            <div class="cont_back_info">
+                <div class="cont_img_back_grey">
+                    <img src="https://images.unsplash.com/42/U7Fc1sy5SCUDIu4tlJY3_NY_by_PhilippHenzler_philmotion.de.jpg?ixlib=rb-0.3.5&q=50&fm=jpg&crop=entropy&s=7686972873678f32efaf2cd79671673d" alt="" />
+                </div>
+            </div>
+            <div class="cont_forms">
+                <div class="cont_img_back_">
+                    <img src="https://images.unsplash.com/42/U7Fc1sy5SCUDIu4tlJY3_NY_by_PhilippHenzler_philmotion.de.jpg?ixlib=rb-0.3.5&q=50&fm=jpg&crop=entropy&s=7686972873678f32efaf2cd79671673d" alt="" />
+                </div>
+                <form name="loginForm" method="post" action="/signInUp" autocomplete="off">
+                    <div class="cont_form_login">
+                        <a href="#" onclick="hidden_login_and_sign_up()"><i class="material-icons">&#xE5C4;</i></a>
+                        <h2>LOGIN</h2>
+                        <input type="text" name="User_Id" placeholder="User ID" required><br>
+                        <input type="password" name="User_Password" placeholder="Password" required><br>
+
+
+                        <button class="btn_login" type="submit" onclick="window.location.href='/signInUp'">로그인</button>
+                    </div>
+                </form>
+                <form name="SignupForm" method="post" action="/register" autocomplete="off">
+                    <div class="cont_form_sign_up">
+                        <a href="#" onclick="hidden_login_and_sign_up()"><i class="material-icons">&#xE5C4;</i></a>
+                        <h2>SIGN UP</h2>
+                        <input type="text" id="userId" name="User_Id" placeholder="User_Id" required/>
+                        <div>
+                            <span id="message"></span>
+                        </div>
+                        <input type="text" id="userName" name="User_Name" placeholder="User_Name" required/>
+
+
+                        <input type="text" id="userEmail" name="User_Email" placeholder="이메일 주소 앞부분을 입력해 주세요" required class="input-field"/>
+                        <div id="emailDomainDropdown">
+                            <select id="emailDomain" name="emailDomain" onchange="updateEmail()" class="input-field">
+                                <option value="" selected disabled>도메인 선택</option>
+                                <option value="gmail.com">gmail.com</option>
+                                <option value="naver.com">naver.com</option>
+                                <option value="example.com">example.com</option>
+                                <!-- 다른 도메인을 필요에 따라 추가하세요 -->
+                            </select>
+                        </div>
+
+
+                        <input type="password" id="userPassword" name="User_Password" placeholder="Password" required/><br>
+                        <input type="password" id="userPasswordCheck" name="User_Password_Check" placeholder="Password확인" required/><br>
+                        <div>
+                            <span id="passmessage"></span>
+                        </div>
+                        <input type="text" id="sample2_postcode" name="User_Address" placeholder="주소 검색 버튼으로 검색해 주세요" readonly="readonly"/>
+                        <div class="address-container">
+                            <input type="text" id="sample2_detailAddress" name="User_DetailAddress" placeholder="상세 주소" required />
+                            <input type="button" value="주소 검색" onclick="sample2_execDaumPostcode()" />
+                        </div>
+
+
+                        <input type="text" id="userPhone" name="User_Phone" placeholder="Phone Number" required/><br>
+                        <button type="submit" class="btn_sign_up" onclick="mergeAddressesAndSubmit()">회원 가입</button>
+                    </div>
+                </form>
+            </div>
+        </div>
+    </div>
+</div>
+<script>
+    function updateEmail() {
+    var userEmail = document.getElementById("userEmail");
+    var emailDomain = document.getElementById("emailDomain");
+
+    if (emailDomain.value) {
+        userEmail.value = userEmail.value + "@" + emailDomain.value;
+    }
+}
+</script>
+<script>
+    function mergeAddressesAndSubmit() {
+    var postcode = document.getElementById('sample2_postcode').value;
+    var detailAddress = document.getElementById('sample2_detailAddress').value;
+
+    // 주소와 상세 주소를 합친 값을 `User_DetailAddress`에 넣음
+    document.SignupForm.User_DetailAddress.value = postcode + ' ' + detailAddress;
+
+    // `User_Address` 필드에 빈 문자열 또는 다른 값으로 초기화
+    document.SignupForm.User_Address.value = ''; // 또는 다른 초기화 값
+
+    document.SignupForm.submit();
+}
+</script>
+
+<script>
+    var detailAddressSet = false;  // 변수 추가
+
+    function sample2_execDaumPostcode() {
+        new daum.Postcode({
+            oncomplete: function(data) {
+                var userAddress = data.roadAddress;
+                var detailAddress = document.getElementById('sample2_detailAddress').value;
+
+                if (detailAddress && !detailAddressSet) {
+                    userAddress += ' ' + detailAddress;
+                    detailAddressSet = true;  // 상세 주소가 설정되었음을 표시
+                }
+
+                document.getElementById('sample2_postcode').value = userAddress;
+            },
+            width: '100%',
+            height: '100%',
+            maxSuggestItems: 5
+        }).open();
+    }
+</script>
+
+<script>
+    $(document).ready(function() {
+        $("#userPassword, #userPasswordCheck").on("input", function() {
+            var password = $("#userPassword").val();
+            var passwordCheck = $("#userPasswordCheck").val();
+
+            var passmessage = $("#passmessage");
+
+            if (password === passwordCheck) {
+                passmessage.text("패스워드 일치");
+                passmessage.removeClass("error-message").addClass("success-message");
+            } else {
+                passmessage.text("패스워드 불일치");
+                passmessage.removeClass("success-message").addClass("error-message");
+            }
+        });
+    });
+</script>
+
+<script>
+    // 페이지 로딩 시 실행
+    $(document).ready(function() {
+        $("#userId").on("input", function() {
+            var userId = $(this).val();
+            $.ajax({
+                type: "POST",
+                url: "/check-duplicate",
+                data: { User_Id: userId },
+                success: function(response) {
+                    if (response === "duplicate") {
+                        $("#message").text("이미 사용 중인 아이디입니다.");
+                    } else {
+                        $("#message").text("사용 가능한 아이디입니다.");
+                    }
+                }
+            });
+        });
+    });
+</script>
+
+<script>
+    const time_to_show_login = 400;
+    const time_to_hidden_login = 200;
+
+    function change_to_login() {
+        document.querySelector('.cont_forms').className = "cont_forms cont_forms_active_login";
+        document.querySelector('.cont_form_login').style.display = "block";
+        document.querySelector('.cont_form_sign_up').style.opacity = "0";
+
+        setTimeout(function() {
+            document.querySelector('.cont_form_login').style.opacity = "1";
+        }, time_to_show_login);
+        document.querySelector('.cont_form_login').style.top = "-100";
+
+        setTimeout(function() {
+            document.querySelector('.cont_form_sign_up').style.display = "none";
+            document.querySelector('.cont_form_sign_up').style.top = -100;
+        }, time_to_hidden_login);
+    }
+
+    const time_to_show_sign_up = 100;
+    const time_to_hidden_sign_up = 400;
+
+    function change_to_sign_up(at) {
+        document.querySelector('.cont_forms').className = "cont_forms cont_forms_active_sign_up";
+        document.querySelector('.cont_form_sign_up').style.display = "block";
+        document.querySelector('.cont_form_sign_up #message').style.display = "block";
+        document.querySelector('.cont_form_login').style.opacity = "0";
+
+        setTimeout(function() {
+            document.querySelector('.cont_form_sign_up').style.opacity = "1";
+        }, time_to_show_sign_up);
+
+        setTimeout(function() {
+            document.querySelector('.cont_form_login').style.display = "none";
+        }, time_to_hidden_sign_up);
+    }
+
+    const time_to_hidden_all = 500;
+
+    function hidden_login_and_sign_up() {
+        document.querySelector('.cont_forms').className = "cont_forms";
+        document.querySelector('.cont_form_sign_up').style.opacity = "0";
+        document.querySelector('.cont_form_login').style.opacity = "0";
+
+        setTimeout(function() {
+            document.querySelector('.cont_form_sign_up').style.display = "none";
+            document.querySelector('.cont_form_login').style.display = "none";
+        }, time_to_hidden_all);
+    }
+</script>
+</body>
+</html>
