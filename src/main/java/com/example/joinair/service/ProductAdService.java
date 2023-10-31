@@ -77,11 +77,6 @@ public class ProductAdService {
 
 
 
-
-
-
-
-
     public Optional<Product> productadView(Integer Pro_Code) {
         Optional<Product> optionalProduct = productAdRepository.findById(Pro_Code);
         return optionalProduct;
@@ -94,4 +89,10 @@ public class ProductAdService {
     public Page<Product> productadListWithPagination(Pageable pageable) {
         return productAdRepository.findAllOrderedByProCodeWithPagination(pageable);
     }
+
+
+
+
+
+
 }

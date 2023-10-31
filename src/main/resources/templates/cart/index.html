@@ -1,0 +1,55 @@
+<!DOCTYPE html>
+<html lang="en" xmlns:th="http://www.thymeleaf.org">
+<head>
+    <meta charset="UTF-8">
+    <title>Cart Info</title>
+    <script>
+        // 수량 필드가 변경될 때 호출되는 함수
+        function updateQuantity() {
+            document.querySelector('[name="updateBtn"]').click(); // UPDATE 버튼을 클릭
+        }
+    </script>
+</head>
+<body>
+<h3>장바구니</h3>
+<form method="post" th:action="${'/cart/update'}">
+    <table border="1">
+        <tr>
+            <th>옵션</th>
+            <th>상품코드</th>
+            <th>상품명</th>
+            <th>이미지</th>
+            <th>가격</th>
+            <th>
+                수량
+                <input type="submit" value="Update" name="updateBtn" style="display: none;" />
+            </th>
+            <th>소계</th>
+        </tr>
+        <tr th:each="item: ${session.cart}">
+            <td align="center">
+                <a th:href="${'/cart/remove/' + item.product.Pro_Code}">X</a>
+            </td>
+            <td th:text="${item.product.Pro_Code != null ? item.product.Pro_Code : ''}"></td>
+            <td th:text="${item.product.Pro_Name != null ? item.product.Pro_Name : ''}"></td>
+            <td>
+                <!-- 이미지 폭을 120으로 설정 -->
+                <img th:src="${item.product != null ? item.product.Pro_Filepath : ''}" alt="Product Image" style="width: 120px;"/>
+            </td>
+            <td th:text="${item.product.Pro_Price != null ? item.product.Pro_Price : ''}"></td>
+            <td>
+                <input type="number" th:value="${item.quantity}" name="quantity" style="width:50px;" oninput="updateQuantity()"/>
+            </td>
+            <td th:text="${item.product.Pro_Price != null && item.quantity != null ? item.product.Pro_Price * item.quantity : ''}"></td>
+        </tr>
+        <tr>
+            <td colspan="6">Total</td>
+            <!-- 여기서 total 속성을 session에서 참조하도록 변경 -->
+            <td th:text="${session.total != null ? session.total : ''}"></td>
+        </tr>
+    </table>
+</form>
+<br/>
+<a th:href="@{/productbuy/list}">계속 쇼핑 하기</a>
+</body>
+</html>

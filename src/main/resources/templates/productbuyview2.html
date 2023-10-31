@@ -42,7 +42,7 @@
 <!-- 헤더 -->
 <nav class="navbar navbar-expand-lg navbar-light shadow">
     <div class="container d-flex justify-content-between align-items-center">
-        <a class="navbar-brand text-success logo h1 align-self-center" href="index.html">
+        <a class="navbar-brand text-success logo h1 align-self-center" href="cart/index.html">
             Join Air🪂
         </a>
         <button class="navbar-toggler border-0" type="button" data-bs-toggle="collapse" data-bs-target="#templatemo_main_nav" aria-controls="navbarSupportedContent" aria-expanded="false" aria-label="Toggle navigation">
@@ -52,7 +52,7 @@
             <div class="flex-fill">
                 <ul class="nav navbar-nav d-flex justify-content-between mx-lg-auto">
                     <li class="nav-item">
-                        <a class="nav-link" href="index.html">홈</a>
+                        <a class="nav-link" href="cart/index.html">홈</a>
                     </li>
                     <li class="nav-item">
                         <a class="nav-link" href="about.html">회사소개</a>
@@ -149,7 +149,9 @@
                                     <button type="submit" class="btn btn-success btn-lg" name="submit" value="buy">Buy</button>
                                 </div>
                                 <div class="col d-grid">
-                                    <button type="submit" class="btn btn-success btn-lg" name="submit" value="addtocart">Add To Cart</button>
+                                    <button type="button" class="btn btn-success btn-lg" name="submit" onclick="addToCart()">
+                                        Add To Cart
+                                    </button>
                                 </div>
                             </div>
                         </form>
@@ -270,7 +272,27 @@
             }
         });
     });
+
+function addToCart() {
+    // 제품 코드 가져오기
+    var productCode = [[${Product.Pro_Code}]];
+
+    // 수량 입력 필드에서 값을 가져오기
+    var quantityInput = document.getElementById('var-value');
+    var quantity = quantityInput.textContent;
+
+    if (productCode && quantity) {
+        // 수량과 함께 컨트롤러로 리디렉션
+        window.location.href = "/cart/buy/" + productCode + "?quantity=" + quantity;
+    } else {
+        console.error("제품 코드 또는 수량이 없습니다.");
+    }
+}
+
+
+
 </script>
+
 <!-- End Slider Script -->
 
 <!-- Start Slider Script -->
