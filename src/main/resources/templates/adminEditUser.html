@@ -225,11 +225,11 @@
         <form method="post" th:action="@{/adminUpdateUser}" th:object="${user}">
 
 
-                    <td><input type="text" th:field="*{User_Id}"/></td>
+                    <td><input type="text" th:field="*{User_Id}" readonly="readonly"/></td>
 
 
 
-                    <td><input type="text" th:field="*{User_Name}"/></td>
+                    <td><input type="text" th:field="*{User_Name}" readonly="readonly"/></td>
 
                 <!-- 다른 사용자 정보 속성도 추가 -->
 
