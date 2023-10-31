@@ -28,4 +28,13 @@ public class Item {
     public Item() {
         super();
     }
+
+    public double getSubtotal() {
+        if (product != null) {
+            return product.getPro_Price() * quantity;
+        } else {
+            return 0.0;
+        }
+    }
+
 }

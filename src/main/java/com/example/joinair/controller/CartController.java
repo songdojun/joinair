@@ -58,7 +58,8 @@ public class CartController {
 
 
     @RequestMapping(value = "remove/{Pro_Code}", method = RequestMethod.GET)
-    public String remove(@PathVariable("Pro_Code") Integer Pro_Code, HttpSession session) {
+    public String remove(@PathVariable("Pro_Code") Integer Pro_Code,
+                         HttpSession session) {
         List<Item> cart = (List<Item>) session.getAttribute("cart");
         int index = isExists(Pro_Code, cart);
 
@@ -82,8 +83,6 @@ public class CartController {
 
         return "redirect:../../cart";
     }
-
-
 
     @RequestMapping(value = "update", method = RequestMethod.POST)
     public String update(HttpServletRequest request, HttpSession session) {
@@ -134,6 +133,7 @@ public class CartController {
         }
         return s;
     }
+
 
 }
 
