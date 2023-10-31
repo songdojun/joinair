@@ -21,7 +21,6 @@
 
     table {
         width: 100%;
-        table-layout: fixed;
         border-collapse: collapse;
     }
 
@@ -29,57 +28,61 @@
         border: 1px solid #ddd;
         padding: 8px;
         text-align: left;
-        overflow: hidden;
-        text-overflow: ellipsis;
-        white-space: nowrap;
+    }
+
+    th {
+        background-color: #f2f2f2; /* 헤더 배경색 설정 */
+    }
+
+    .title-column, .small-column, .date-column {
+        width: 20%; /* 각 열의 너비를 조절 */
+    }
+
+    .small-column, .date-column {
+        text-align: center; /* 중앙 정렬 */
     }
 
     .title-column {
-        width: 50%; /* 제목 열은 테이블 전체의 50% 크기로 조정 (상대적 크기) */
+        width: 30%; /* 제목 열은 다른 열보다 더 넓게 설정 */
     }
 
-    .small-column {
-        width: 10%; /* 글번호, 작성자, 작성일 열은 테이블 전체의 10% 크기로 조정 (상대적 크기) */
-    }
-
-    .date-column {
-        width: 20%; /* 작성일자 열을 테이블 전체의 15% 크기로 조정 (상대적 크기) */
+    .wrap-text {
+        word-wrap: break-word; /* 텍스트 줄 바꿈 설정 */
     }
 </style>
 
 <div class="layout">
-    <!-- Rev_Writer와 Rev_Date를 추가한 부분 -->
     <table>
+        <colgroup>
+            <col class="small-column" />
+            <col class="title-column" />
+            <col class="small-column" />
+            <col class="date-column" />
+            <col class="small-column" />
+        </colgroup>
         <thead>
         <tr>
-            <th class="small-column">글번호</th>
-            <th class="title-column">제목</th>
-            <th class="small-column">작성자</th> <!-- Rev_Writer 헤더 추가 -->
-            <th class="date-column">작성일</th> <!-- Rev_Date 헤더 추가 -->
+            <th>글번호</th>
+            <th>제목</th>
+            <th>작성자</th>
+            <th>작성일</th>
+            <th>상품명</th>
         </tr>
         </thead>
         <tbody>
         <tr th:each="review : ${list}">
-            <td class="small-column" th:text="${review.Rev_No}">1</td>
-            <td class="title-column">
+            <td class="small-column" th:text="${review.Rev_No}"></td>
+            <td class="title-column wrap-text">
                 <a th:href="@{/review/view(Rev_No=${review.Rev_No})}" th:text="${review.Rev_Title}"></a>
             </td>
-            <td class="small-column" th:text="${review.Rev_Writer}"></td> <!-- Rev_Writer 값 표시 -->
-            <td class="date-column" th:text="${#dates.format(review.Rev_Date, 'yyyy-MM-dd HH:mm:ss')}"></td> <!-- Rev_Date 값 표시 -->
+            <td class="small-column" th:text="${review.Rev_Writer}"></td>
+            <td class="date-column" th:text="${#dates.format(review.Rev_Date, 'yyyy-MM-dd HH:mm:ss')}"></td>
+            <td class="small-column wrap-text" th:if="${review.Product != null}" th:text="${review.Product.Pro_Name}"></td>
         </tr>
         </tbody>
     </table>
 
     <a href="/review/write" class="new-post-button">새 글 작성</a>
-
-    <th:block th:each="page : ${#numbers.sequence(startPage, endPage)}">
-        <a th:if="${page != nowPage}" th:href="@{/review/list(page=${page-1}, searchKeyword = ${param.searchKeyword})}" th:text="${page}"></a>
-        <strong th:if="${page == nowPage}" th:text="${page}" style="color: red"></strong>
-    </th:block>
-    <form th:action="@{/review/list}" method="get">
-        <input type="text" name="searchKeyword">
-        <button type="submit">검색</button>
-    </form>
 </div>
 
 </body>
