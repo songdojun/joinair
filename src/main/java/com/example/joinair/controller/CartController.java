@@ -52,14 +52,32 @@ public class CartController {
 
 
     @RequestMapping(value = "remove/{Pro_Code}", method = RequestMethod.GET)
-    public String remove(@PathVariable("Pro_Code") Integer Pro_Code,
-                         HttpSession session) {
+    public String remove(@PathVariable("Pro_Code") Integer Pro_Code, HttpSession session) {
         List<Item> cart = (List<Item>) session.getAttribute("cart");
         int index = isExists(Pro_Code, cart);
-        cart.remove(index);
-        session.setAttribute("cart", cart);
+
+        if (index != -1) {
+            Item removedItem = cart.get(index);
+
+            // 제거된 항목의 소계 계산
+            double subtotal = removedItem.getProduct().getPro_Price().doubleValue() * removedItem.getQuantity();
+
+            // 현재 총합을 가져와서 제거된 소계를 뺀 후 다시 저장
+            double currentTotal = (Double) session.getAttribute("total");
+            double updatedTotal = currentTotal - subtotal;
+
+            // 장바구니에서 항목 제거
+            cart.remove(index);
+
+            // 세션에 업데이트된 장바구니와 총합 저장
+            session.setAttribute("cart", cart);
+            session.setAttribute("total", updatedTotal);
+        }
+
         return "redirect:../../cart";
     }
+
+
 
     @RequestMapping(value = "update", method = RequestMethod.POST)
     public String update(HttpServletRequest request, HttpSession session) {
