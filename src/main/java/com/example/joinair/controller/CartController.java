@@ -47,8 +47,14 @@ public class CartController {
             }
             session.setAttribute("cart", cart);
         }
+
+        // 장바구니에 상품을 추가한 후, total 다시 계산
+        double total = total(session);
+        session.setAttribute("total", total);
+
         return "redirect:../../cart";
     }
+
 
 
     @RequestMapping(value = "remove/{Pro_Code}", method = RequestMethod.GET)

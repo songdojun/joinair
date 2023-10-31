@@ -287,6 +287,14 @@ function addToCart() {
     } else {
         console.error("제품 코드 또는 수량이 없습니다.");
     }
+      $.ajax({
+            type: 'POST',
+            url: '/cart/buy/' + productCode + '?quantity=' + quantity,
+            success: function(data) {
+                // 서버에서 업데이트된 총합을 반환받으면 해당 부분 업데이트
+                $('#total').text(data.total);
+            }
+        });
 }
 
 
