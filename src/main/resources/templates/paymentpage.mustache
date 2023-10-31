@@ -10,11 +10,10 @@
     <h1 class="text-center">결제창</h1>
 
     <!-- 결제 예정금액 -->
-    <h2>결제 예정금액</h2>
-    <p>총주문금액: $100</p>
-    <p>총 할인: $10</p>
-    <p>총 부가결제금액: $5</p>
-    <p>총 결제예정금액: $95</p>
+    <p>총 상품 주문금액: <span class="total" id="total">0</span></p>
+    <p>할인 금액: <span id="discountAmount">0</span></p>
+    <p>총 적립 금액: <span id="rewardAmount">0</span></p>
+    <p>최종 결제 금액: <span id="finalAmount">0</span></p>
 
     <!-- 결제버튼 -->
     <button onclick="requestCardPayment()" class="btn btn-primary">카드결제</button>
@@ -54,6 +53,7 @@
         // /payment/Deposit 페이지로 이동
         window.location.href = "/payment/Deposit";
     }
+
 </script>
 
 <!-- 결제 API 스크립트 추가 -->
