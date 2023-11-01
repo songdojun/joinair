@@ -7,12 +7,16 @@
     <link rel="apple-touch-icon" href="assets/img/apple-icon.png">
     <link rel="shortcut icon" type="image/x-icon" href="assets/img/favicon.ico">
     <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/4.5.2/css/bootstrap.min.css">
+
     <link rel="stylesheet" href="assets/css/templatemo.css">
     <link rel="stylesheet" href="assets/css/custom.css">
     <link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Roboto:wght@100;200;300;400;500;700;900&display=swap">
     <link rel="stylesheet" href="assets/css/fontawesome.min.css">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/twitter-bootstrap/4.5.0/css/bootstrap.min.css">
     <link rel="stylesheet" href="https://unpkg.com/leaflet@1.7.1/dist/leaflet.css"
           integrity="sha512-xodZBNTC5n17Xt2atTPuE1HxjVMSvLVW9ocqUKLsCC5CXdbqCmblAshOMAS6/keqq/sMZMZ19scR4PsZChSR7A==" crossorigin=""/>
+    <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
+
     <style>
 
         .custom-button {
@@ -36,6 +40,16 @@
             padding: 20px;
             max-width: 400px;
             width: 100%;
+        }
+
+        .error-message {
+        display: block !important;
+        color: red;
+        }
+
+        .success-message {
+        display: block !important;
+        color: blue;
         }
     </style>
 </head>
@@ -115,6 +129,7 @@
             <div class="form-group">
                 <input type="text" id="userid" class="form-control" name="User_Id" placeholder="아이디" required>
             </div>
+                <span id="message"></span>
             <div class="form-group">
                 <input type="text" id="usernm" class="form-control" name="User_Name" placeholder="이름" required>
             </div>
@@ -130,162 +145,198 @@
                 </div>
             </div>
 
-            <<div class="form-group">
+            <div class="form-group">
             <input type="password" id="userpw" class="form-control" name="User_Password" placeholder="비밀번호" required>
-        </div>
+            </div>
             <div class="form-group">
                 <input type="password" id="userpw2" class="form-control" placeholder="비밀번호 확인" required>
+            </div>
+            <div>
+                <span id="passmessage"></span>
+            </div>
+            <div>
                 <input type="text" id="userPhone" class="form-control" name="User_Phone" placeholder="전화번호" required>
             </div>
             <div class="form-group">
                 <div class="address-container">
                     <input type="button" onclick="sample4_execDaumPostcode()" value="주소검색" class="btn btn-primary" style="color: white; text-align: center; margin: 0 auto; display: block; margin-top: 10px;">
                     <div class="form-group">
-                        <input type="text" id="sample4_postcode" class="form-control" name="postcode" placeholder="우편번호">
+                        <input type="text" id="sample4_postcode" class="form-control" name="User_Postcode" placeholder="우편번호">
                     </div>
                     <div class="form-group">
-                        <input type="text" id="sample4_roadAddress" class="form-control" name="roadAddress" placeholder="도로명주소" size="60">
+                        <input type="text" id="sample4_roadAddress" class="form-control" name="User_RoadAddress" placeholder="도로명주소" size="60">
                     </div>
                     <div class="form-group">
-                        <input type="text" id="sample4_jibunAddress" class="form-control" name="jibunAddress" placeholder="지번주소" size="60">
+                        <input type="text" id="sample4_jibunAddress" class="form-control" name="User_JibunAddress" placeholder="지번주소" size="60">
                     </div>
                     <div class="form-group">
                         <span id="guide" style="color: #999; display: none;"></span>
                     </div>
                     <div class="form-group">
-                        <input type="text" id="sample4_detailAddress" class="form-control" placeholder="상세주소" size="60">
+                        <input type="text" id="sample4_detailAddress" class="form-control" name="User_DetailAddress" placeholder="상세주소" size="60">
                     </div>
                 </div>
             </div>
-            // 회원가입 버튼 클릭 시
-            <button type="submit" class="btn btn-primary custom-button" onclick="join_user()">가입하기</button>
+            <button type="submit" id="joinButton" class="btn btn-primary custom-button" onclick="join_user()">가입하기</button>
 
         </div>
     </div>
 </form>
+<script>
+    $(function() {
+       $("#userid").on("input", function() {
+           var userId = $("#userid").val();
+           var message = $("#message"); // 새로운 변수 추가
+
+
+
+           // 아이디 중복 확인을 수행할 백엔드 엔드포인트로 요청을 보냅니다.
+           $.ajax({
+               type: "POST",
+               url: "/check-duplicate", // 백엔드에서 처리할 URL로 변경해야 합니다.
+               data: { User_Id: userId },
+               success: function(response) {
+                   if (response === "duplicate") {
+                       $("#message").text("이미 사용 중인 아이디입니다.");
+                       message.removeClass("success-message").addClass("error-message");
+                       $("#joinButton").prop("disabled", true);
+
+                   } else {
+                       $("#message").text("사용 가능한 아이디입니다.");
+                       message.removeClass("error-message").addClass("success-message");
+                       $("#joinButton").prop("disabled", false);
+
+                   }
+               }
+           });
+       });
+   });
+</script>
+<script>
+    $(document).ready(function() {
+        $("#userpw, #userpw2").on("input", function() {
+            var password = $("#userpw").val();
+            var passwordCheck = $("#userpw2").val();
+
+            var passmessage = $("#passmessage");
+
+            if (password === passwordCheck) {
+                passmessage.text("패스워드 일치");
+                passmessage.removeClass("error-message").addClass("success-message");
+                $("#joinButton").prop("disabled", false);
+
+            } else {
+                passmessage.text("패스워드 불일치");
+                passmessage.removeClass("success-message").addClass("error-message");
+                $("#joinButton").prop("disabled", true);
+
+            }
+        });
+    });
+</script>
 
 <!-- 스크립트 -->
 <script type="text/javascript">
-    function join_user() {
-        <!--var userid = document.getElementById("userid");
-        var usernm = document.getElementById("usernm");
-        var userpw = document.getElementById("userpw");
-        var userpw2 = document.getElementById("userpw2");
-        var useraddr = document.getElementById("sample4_postcode");
-        var useremail = document.getElementById("useremail");-->
 
-        var user = {
-        User_Id: document.getElementById("userid").value,
-        User_Name: document.getElementById("usernm").value,
-        User_Email: document.getElementById("useremail").value,
-        User_Password: document.getElementById("userpw").value,
-        User_Phone: document.getElementById("userPhone").value,
-        // 나머지 필드도 추가
-    };
+    var addressPopupOpened = false;
 
-        if (userid.value === "") {
-            alert("아이디를 입력하세요.");
-            userid.focus();
-            return false;
-        }
+function join_user() {
+    var userid = document.getElementById("userid").value;
+    var usernm = document.getElementById("usernm").value;
+    var useremail = document.getElementById("useremail").value;
+    var userpw = document.getElementById("userpw").value;
+    var userPhone = document.getElementById("userPhone").value;
 
-        if (userpw.value === "") {
-            alert("비밀번호를 입력하세요.");
-            userpw.focus();
-            return false;
-        }
+    var postcode = document.getElementById("sample4_postcode").value;
+    var roadAddress = document.getElementById("sample4_roadAddress").value;
+    var jibunAddress = document.getElementById("sample4_jibunAddress").value;
 
-        if (userpw2.value === "") {
-            alert("비밀번호 확인을 입력하세요.");
-            userpw2.focus();
-            return false;
-        }
+    // 주소 정보 합치기
+    var userAddress = postcode + " " + roadAddress + " " + jibunAddress + " " + detailAddress;
 
-        if (userpw.value !== userpw2.value) {
-            alert("비밀번호와 비밀번호 확인이 일치하지 않습니다.");
-            userpw.focus();
-            return false;
-        }
-
-        if (useraddr.value === "") {
-            alert("주소를 입력하세요.");
-            useraddr.focus();
-            return false;
-        }
-
-        var validEmailPattern = /^[A-Za-z0-9_\.\-]+@[A-Za-z0-9\-]+\.[A-Za-z0-9\-]+/;
-        if (!validEmailPattern.test(useremail.value)) {
-            alert("올바른 이메일 주소 형식이 아닙니다.");
-            useremail.focus();
-            return false;
-        }
-        // 서버로 회원 정보 전송 및 DB에 저장하는 로직
-        var data = {
-            User_Id: userid,
-            User_Name: usernm,
-            User_Password: userpw,
-            User_Email: useremail,
-            User_Phone: userPhone,
-            User_Address: userAddress,
-            User_Mode: userMode
-        };
-
-        // 서버로 데이터 전송 (AJAX 사용)
-        // 예: jQuery AJAX를 사용한 POST 요청
-        $.ajax({
-            type: "POST",
-            url: "/membership", // 이 부분은 실제 서버 엔드포인트에 맞게 수정
-            data: JSON.stringify(data),
-            contentType: "application/json; charset=utf-8",
-            success: function(response) {
-                if (response === "success") {
-                    alert("가입이 완료되었습니다!");
-                    window.location.href = "index.html";
-                } else {
-                    alert("회원 가입에 실패했습니다.");
-                }
-            }
-        });
-
+    if (userid.value === "") {
+        alert("아이디를 입력하세요.");
+        userid.focus();
         return false;
-        <!--alert("가입이 완료되었습니다!");
-        // 가입 완료 시 index.html로 리디렉션
-        window.location.href = "index.html";
-        return false;-->
     }
 
-   function updateEmail() {
+    if (userpw.value === "") {
+        alert("비밀번호를 입력하세요.");
+        userpw.focus();
+        return false;
+    }
+
+    if (userpw2.value === "") {
+        alert("비밀번호 확인을 입력하세요.");
+        userpw2.focus();
+        return false;
+    }
+
+   <!-- if (userpw.value !== userpw2.value) {
+        alert("비밀번호와 비밀번호 확인이 일치하지 않습니다.");
+        userpw.focus();
+        return false;
+    }-->
+
+    if (useraddr.value === "") {
+        alert("주소를 입력하세요.");
+        useraddr.focus();
+        return false;
+    }
+
+    var validEmailPattern = /^[A-Za-z0-9_\.\-]+@[A-Za-z0-9\-]+\.[A-Za-z0-9\-]+/;
+    if (!validEmailPattern.test(useremail.value)) {
+        alert("올바른 이메일 주소 형식이 아닙니다.");
+        useremail.focus();
+        return false;
+    }
+    // 서버로 회원 정보 전송 및 DB에 저장하는 로직
+    var data = {
+        User_Id: userid,
+        User_Name: usernm,
+        User_Password: userpw,
+        User_Email: useremail,
+        User_Phone: userPhone,
+        User_Address: userAddress
+    };
+
+    // 서버로 데이터 전송 (AJAX 사용)
+    // 예: jQuery AJAX를 사용한 POST 요청
+    $.ajax({
+        type: "POST",
+        url: "/membership", // 이 부분은 실제 서버 엔드포인트에 맞게 수정
+        data: JSON.stringify(data),
+        contentType: "application/json; charset=utf-8",
+        success: function(response) {
+            if (response === "success") {
+                alert("가입이 완료되었습니다!");
+                window.location.href = "index.html";
+            } else {
+                alert("회원 가입에 실패했습니다.");
+            }
+        }
+    });
+
+    return false;
+    <!--alert("가입이 완료되었습니다!");
+    // 가입 완료 시 index.html로 리디렉션
+    window.location.href = "index.html";
+    return false;-->
+    }
+
+    function updateEmail() {
     var domainDropdown = document.getElementById("emailDomainDropdown");
     var selectedDomain = domainDropdown.options[domainDropdown.selectedIndex].value;
     var emailInput = document.getElementById("useremail");
 
     if (selectedDomain === "") {
-        emailInput.value = "";
+    emailInput.value = "";
     } else {
-        emailInput.value = emailInput.value.replace(/@.*$/, "") + selectedDomain;
+    emailInput.value = emailInput.value.replace(/@.*$/, "") + selectedDomain;
     }
-}
-
-    function sample4_execDaumPostcode() {
-        // 주소 검색 팝업 실행
-        new daum.Postcode({
-            oncomplete: function(data) {
-                var postcode = data.zonecode;
-                var roadAddress = data.roadAddress;
-                var jibunAddress = data.jibunAddress;
-
-                // 결과를 입력 필드에 설정
-                document.getElementById("sample4_postcode").value = postcode;
-                document.getElementById("sample4_roadAddress").value = roadAddress;
-                document.getElementById("sample4_jibunAddress").value = jibunAddress;
-
-                var guide = document.getElementById("guide");
-                guide.innerHTML = "";
-                guide.style.display = "none";
-            }
-        }).open();
     }
-</script>
+</script>>
+
 
 <footer class="bg-dark" id="tempaltemo_footer">
     <div class="container">
@@ -349,68 +400,9 @@
 
 <!--  다음 카카오 API 카카오맵 자바스크립트문-->
 <script src="http://dmaps.daum.net/map_js_init/postcode.v2.js"></script>
-<script>
 
 
-    function sample4_execDaumPostcode() {
-        new daum.Postcode({
-            oncomplete: function(data) {
-                // 팝업에서 검색결과 항목을 클릭했을때 실행할 코드를 작성하는 부분.
 
-                // 도로명 주소의 노출 규칙에 따라 주소를 표시한다.
-                // 내려오는 변수가 값이 없는 경우엔 공백('')값을 가지므로, 이를 참고하여 분기 한다.
-                var roadAddr = data.roadAddress; // 도로명 주소 변수
-                var extraRoadAddr = ''; // 참고 항목 변수
-
-                // 법정동명이 있을 경우 추가한다. (법정리는 제외)
-                // 법정동의 경우 마지막 문자가 "동/로/가"로 끝난다.
-                if(data.bname !== '' && /[동|로|가]$/g.test(data.bname)){
-                    extraRoadAddr += data.bname;
-                }
-                // 건물명이 있고, 공동주택일 경우 추가한다.
-                if(data.buildingName !== '' && data.apartment === 'Y'){
-                   extraRoadAddr += (extraRoadAddr !== '' ? ', ' + data.buildingName : data.buildingName);
-                }
-                // 표시할 참고항목이 있을 경우, 괄호까지 추가한 최종 문자열을 만든다.
-                if(extraRoadAddr !== ''){
-                    extraRoadAddr = ' (' + extraRoadAddr + ')';
-                }
-
-                // 우편번호와 주소 정보를 해당 필드에 넣는다.
-                document.getElementById('sample4_postcode').value = data.zonecode;
-                document.getElementById("sample4_roadAddress").value = roadAddr;
-                document.getElementById("sample4_jibunAddress").value = data.jibunAddress;
-
-                document.getElementById("sample4_engAddress").value = data.addressEnglish;
-
-                // 참고항목 문자열이 있을 경우 해당 필드에 넣는다.
-                if(roadAddr !== ''){
-                    document.getElementById("sample4_extraAddress").value = extraRoadAddr;
-                } else {
-                    document.getElementById("sample4_extraAddress").value = '';
-                }
-
-                var guideTextBox = document.getElementById("guide");
-                // 사용자가 '선택 안함'을 클릭한 경우, 예상 주소라는 표시를 해준다.
-                if(data.autoRoadAddress) {
-                    var expRoadAddr = data.autoRoadAddress + extraRoadAddr;
-                    guideTextBox.innerHTML = '(예상 도로명 주소 : ' + expRoadAddr + ')';
-                    guideTextBox.style.display = 'block';
-
-                } else if(data.autoJibunAddress) {
-                    var expJibunAddr = data.autoJibunAddress;
-                    guideTextBox.innerHTML = '(예상 지번 주소 : ' + expJibunAddr + ')';
-                    guideTextBox.style.display = 'block';
-                } else {
-                    guideTextBox.innerHTML = '';
-                    guideTextBox.style.display = 'none';
-                }
-            }
-        }).open();
-
-    }
-
-</script>
 <!--다음카카오 API 주소검색 select 아후 API 자동 창 닫히기-->
 <script>
     // 팝업이 열려있는지 확인하는 변수
@@ -434,6 +426,8 @@
                 var postcode = data.zonecode;
                 var roadAddress = data.roadAddress;
                 var jibunAddress = data.jibunAddress;
+                var detailAddress = document.getElementById("sample4_detailAddress").value;
+
 
                 // 결과를 입력 필드에 설정
                 document.getElementById("sample4_postcode").value = postcode;
@@ -487,7 +481,8 @@
 <!--</script>-->
 
 
-<script src="assets/js/jquery-1.11.0.min.js"></script>
+<!--<script src="assets/js/jquery-1.11.0.min.js"></script>-->
+<script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
 <script src="assets/js/jquery-migrate-1.2.1.min.js"></script>
 <script src="assets/js/bootstrap.bundle.min.js"></script>
 <script src="assets/js/templatemo.js"></script>

@@ -87,7 +87,28 @@ public class USERS {
     private String User_Phone;
     private int User_Mileage;
     private String User_DetailAddress; // 추가: 상세 주소 필드
+    private String User_Postcode;
+    public String User_RoadAddress;
+
+
+    public String getUser_RoadAddress() {
+        return User_RoadAddress;
+    }
+
+    public void setUser_RoadAddress(String user_RoadAddress) {
+        User_RoadAddress = user_RoadAddress;
+    }
+
+
+    public String getUser_Postcode() {
+        return User_Postcode;
+    }
+
+    public void setUser_Postcode(String user_Postcode) {
+        User_Postcode = user_Postcode;
+    }
 
     private String User_Mode;
+
 
 }
