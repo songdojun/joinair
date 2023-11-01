@@ -104,6 +104,7 @@ public class CartController {
                 // 총 가격을 다시 계산
                 double total = total(session);
 
+
                 // 세션에 갱신된 장바구니와 총 가격을 저장
                 session.setAttribute("cart", cart);
                 session.setAttribute("total", total);

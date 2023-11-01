@@ -13,7 +13,4 @@ public class PRODUCT {
     private int Pro_Price;    // 가격
     private int Pro_Inventory; // 재고량
     private int Pro_Weight;   // 무게
-
-
-
 }
