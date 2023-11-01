@@ -49,7 +49,7 @@ public class UserController {
 
 
                 System.out.println("사용자 모드로 로그인");
-                return "redirect:http://localhost:63342/joinair/src/main/resources/templates/index2.html"; // 사용자 모드로 리디렉션
+                return "redirect:/index"; // 사용자 모드로 리디렉션
             } else if ("admin".equals(userMode)) {
                 session.setAttribute("User_Id", storedUser.getUser_Id());
 
