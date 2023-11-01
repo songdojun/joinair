@@ -1,0 +1,427 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <title>JoinAir</title>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+
+    <link rel="apple-touch-icon" href="assets/img/apple-icon.png">
+    <link rel="shortcut icon" type=" image/x-icon" href="assets/img/favicon.ico">
+
+    <link rel="stylesheet" href="assets/css/bootstrap.min.css">
+    <link rel="stylesheet" href="assets/css/templatemo.css">
+    <link rel="stylesheet" href="assets/css/custom.css">
+
+    <link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Roboto:wght@100;200;300;400;500;700;900&display=swap">
+    <link rel="stylesheet" href="assets/css/fontawesome.min.css">
+    <style>
+        #tempaltemo_footer {
+            margin-bottom: 300px;
+        }
+    </style>
+
+</head>
+<body>
+<nav class="navbar navbar-expand-lg bg-dark navbar-light d-none d-lg-block" id="templatemo_nav_top">
+    <div class="container text-light">
+        <div class="w-100 d-flex justify-content-between">
+            <div>
+                <i class="fa fa-envelope mx-2"></i>
+                <a class="navbar-sm-brand text-light text-decoration-none" href="mailto:info@company.com">Doron delivery@Doron delivery.com</a>
+                <i class="fa fa-phone mx-2"></i>
+                <a href="tel:010-1234-5678" class="navbar-sm-brand text-light text-decoration-none">010-1234-5678</a>
+            </div>
+            <div>
+                <a class="text-light" href="https://fb.com/templatemo" target="_blank" rel="sponsored"><i class="fab fa-facebook-f fa-sm fa-fw me-2"></i></a>
+                <a class="text-light" href="https://www.instagram.com/" target="_blank"><i class="fab fa-instagram fa-sm fa-fw me-2"></i></a>
+
+                <a class="text-light" href="https://twitter.com/" target="_blank"><i class="fab fa-twitter fa-sm fa-fw me-2"></i></a>
+            </div>
+        </div>
+    </div>
+</nav>
+<nav class="navbar navbar-expand-lg navbar-light shadow">
+    <div class="container d-flex justify-content-between align-items-center">
+        <a class="navbar-brand text-success logo h1 align-self-center" href="index.html">Join Air🪂</a>
+        <button class="navbar-toggler border-0" type="button" data-bs-toggle="collapse" data-bs-target="#templatemo_main_nav" aria-controls="templatemo_main_nav" aria-expanded="false" aria-label="Toggle navigation">
+            <span class="navbar-toggler-icon"></span>
+        </button>
+        <div class="align-self-center collapse navbar-collapse flex-fill d-lg-flex justify-content-lg-between" id="templatemo_main_nav">
+            <div class="flex-fill">
+                <ul class="nav navbar-nav d-flex justify-content-between mx-lg-auto">
+                    <li class="nav-item">
+                    <li class="nav-item">
+                        <a class="nav-link" href="index.html">홈</a>
+                    </li>
+                    <li class="nav-item">
+                        <a class="nav-link" href="http://localhost:63342/joinair/src/main/resources/templates/about.html">회사 소개</a>
+                    </li>
+                    <li class="nav-item">
+                        <a class="nav-link" href="http://localhost:8080/productbuy/list">상품</a>
+                    </li>
+                    <li class="nav-item">
+                        <a class="nav-link" href="http://localhost:8080/qna/qnaList">문의</a>
+                    </li>
+                    <li class="nav-item">
+                        <a class="nav-link" href="http://localhost:8080/notice/list?page=0&searchKeyword=">공지사항</a>
+                    </li>
+                    <li class="nav-item">
+                        <a class="nav-link" href="http://localhost:8080/login">로그아웃</a>
+                    </li>
+                </ul>
+            </div>
+            <div class="navbar align-self-center d-flex">
+                <div class="d-lg-none flex-sm-fill mt-3 mb-4 col-7 col-sm-auto pr-3">
+                    <div class="input-group">
+                        <input type="text" class="form-control" id="inputMobileSearch" placeholder="검색">
+                        <div class="input-group-text">
+                            <i class="fa fa-fw fa-search"></i>
+                        </div>
+                    </div>
+                </div>
+                <a class="nav-icon d-none d-lg-inline" href="#" data-bs-toggle="modal" data-bs-target="#templatemo_search">
+                    <i class="fa fa-fw fa-search text-dark mr-2"></i>
+                </a>
+                <a class="nav-icon position-relative text-decoration-none" href="http://localhost:8080/cart">
+                    <i class="fa fa-fw fa-cart-arrow-down text-dark mr-1"></i>
+                    <span class="position-absolute top-0 left-100 translate-middle badge rounded-pill bg-light text-dark">7</span>
+                </a>
+                <a class="nav-icon position-relative text-decoration-none" href="#">
+                    <i class="fa fa-fw fa-user text-dark mr-3"></i>
+                    <span class="position-absolute top-0 left-100 translate-middle badge rounded-pill bg-light text-dark">+10</span>
+                </a>
+            </div>
+        </div>
+    </div>
+</nav>
+<div class="modal fade bg-white" id="templatemo_search" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel" aria-hidden="true">
+    <div class="modal-dialog modal-lg" role="document">
+        <div class="w-100 pt-1 mb-5 text-right">
+            <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+        </div>
+        <form action="" method="get" class="modal-content modal-body border-0 p-0">
+            <div class="input-group mb-2">
+                <input type="text" class="form-control" id="inputModalSearch" name="q" placeholder="검색 ">
+                <button type="submit" class="input-group-text bg-success text-light">
+                    <i class="fa fa-fw fa-search text-white"></i>
+                </button>
+            </div>
+        </form>
+    </div>
+</div>
+
+<div id="template-mo-zay-hero-carousel" class="carousel slide" data-bs-ride="carousel">
+    <ol class="carousel-indicators">
+        <li data-bs-target="#template-mo-zay-hero-carousel" data-bs-slide-to="0" class="active"></li>
+        <li data-bs-target="#template-mo-zay-hero-carousel" data-bs-slide-to="1"></li>
+        <li data-bs-target="#template-mo-zay-hero-carousel" data-bs-slide-to="2"></li>
+    </ol>
+    <div class="carousel-inner">
+        <div class="carousel-item active" style="background: url('https://www.zerolap.com/theme/basic/img/main/banner1.png') center center; background-size: cover;">
+            <div class="container">
+                <div class="row p-5">
+                    <div class="col-lg-6 mb-0 d-flex align-items-center">
+                    </div>
+                </div>
+            </div>
+        </div>
+        <div class="carousel-item" style="background: url('https://www.zerolap.com/theme/basic/img/main/banner6.svg') center center; background-size: cover;">
+            <div class="container">
+                <div class="row p-5">
+                    <div class="col-lg-6 mb-0 d-flex align-items-center">
+                        <div class="text-align-left align-self-center">
+                            <!--                            <h1 class="h1">추가도 가능함 추후 대화 이후 추가 예정</h1>-->
+                            <!--                            <h3 class="h2">추가도 가능함 추후 대화 이후 추가 예정</h3>-->
+                            <!--                            <p>추가도 가능함 추후 대화 이후 추가 예정</p>-->
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+        <div class="carousel-item" style="background: url('https://ybuy.kr/SkinImg/DB_tab32_1/07.jpg') center center; background-size: cover;">
+            <div class="container">
+                <div class="row p-5">
+                    <div class="col-lg-6 mb-0 d-flex align-items-center">
+                        <!--                        <div class="text-align-left align-self-center">-->
+                        <!--                            <h1 class="h1">추가도 가능함</h1>-->
+                        <!--                            <h3 class="h2">추가도 가능함 추후 대화 이후 추가 예정</h3>-->
+                        <!--                            <p>이 부분도 동일</p>-->
+                        <!--                        </div>-->
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+
+<!-- 핫이슈 컨텐츠 시작 편의점 음식 신상(CU편의점 기준) -->
+<div class="container">
+    <div class="row">
+        <div class="col-lg-12">
+            <h2 class="text-center" style="font-size: 32px; font-weight: bold; color:#2A0A0A; text-transform: uppercase;">핫이슈</h2>
+
+            <p class="text-center">지금 가장 핫한 편의점 음식을 만나보세요. 입맛을 돋우는 신제품이 등장했습니다.</p>
+
+            <div class="row">
+                <div class="col-lg-4">
+                    <div class="card">
+                        <img src="https://tqklhszfkvzk6518638.cdn.ntruss.com/product/8809895798601.jpg" class="card-img-top" alt="편의점 음식 1" width="200" height="200">
+                        <div class="card-body">
+                            <h5 class="card-title">푸드)꽃카황치즈쿠키</h5>
+                            <p class="card-text">가격1,800원</p>
+                        </div>
+                    </div>
+                </div>
+
+                <div class="col-lg-4">
+                    <div class="card">
+                        <img src="https://tqklhszfkvzk6518638.cdn.ntruss.com/product/8809948342409.jpg" class="card-img-top" alt="편의점 음식 2" width="200" height="200">
+                        <div class="card-body">
+                            <h5 class="card-title">도)한가위돼지구이정식</h5>
+                            <p class="card-text">가격6,900원</p>
+                        </div>
+                    </div>
+                </div>
+
+                <div class="col-lg-4">
+                    <div class="card">
+                        <img src="https://tqklhszfkvzk6518638.cdn.ntruss.com/product/8809665560780.jpg" class="card-img-top" alt="편의점 음식 3" width="200" height="200">
+                        <div class="card-body">
+                            <h5 class="card-title">샐)탄두리치킨샐러드</h5>
+                            <p class="card-text">가격6,600원
+                            </p>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+<div class="container">
+    <div class="row">
+        <div class="col-lg-12">
+
+            <br>
+
+
+            <div class="row">
+                <div class="col-lg-4">
+                    <div class="card">
+                        <img src="https://tqklhszfkvzk6518638.cdn.ntruss.com/product/8809948342034.jpg" class="card-img-top" alt="편의점 음식 1" width="200" height="300     ">
+                        <div class="card-body">
+                            <h5 class="card-title">자이언트)조청찍먹떡강정</h5>
+                            <p class="card-text">가격3,600원
+                            </p>
+                        </div>
+                    </div>
+                </div>
+
+                <div class="col-lg-4">
+                    <div class="card">
+                        <img src="https://tqklhszfkvzk6518638.cdn.ntruss.com/product/8994963002077.jpg" class="card-img-top" alt="편의점 음식 2" width="200" height="300">
+                        <div class="card-body">
+                            <h5 class="card-title">이맥스)미고랭라면봉지</h5>
+                            <p class="card-text">가격700원</p>
+                        </div>
+                    </div>
+                </div>
+
+                <div class="col-lg-4">
+                    <div class="card">
+                        <img src="https://tqklhszfkvzk6518638.cdn.ntruss.com/product/8809948342362.jpg" class="card-img-top" alt="편의점 음식 3" width="200" height="300">
+                        <div class="card-body">
+                            <h5 class="card-title">김)쫀득키리모찌유부초밥</h5>
+                            <p class="card-text">가격4,000원</p>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+<div class="container">
+    <div class="row">
+        <div class="col-lg-12">
+            <br>
+
+            <div class="row">
+                <div class="col-lg-4">
+                    <div class="card">
+                        <img src="https://tqklhszfkvzk6518638.cdn.ntruss.com/product/8809411843679.jpg" class="card-img-top" alt="편의점 음식 1" width="200" height="300">
+                        <div class="card-body">
+                            <h5 class="card-title">이웃집)브라우니약과쿠키</h5>
+                            <p class="card-text">가격2,700원</p>
+                        </div>
+                    </div>
+                </div>
+
+                <div class="col-lg-4">
+                    <div class="card">
+                        <img src="https://tqklhszfkvzk6518638.cdn.ntruss.com/product/8809860730650.jpg" class="card-img-top" alt="편의점 음식 2" width="200" height="300">
+                        <div class="card-body">
+                            <h5 class="card-title">귀멸)귀멸의칼날카레우동</h5>
+                            <p class="card-text">가격5,500원</p>
+                        </div>
+                    </div>
+                </div>
+
+                <div class="col-lg-4">
+                    <div class="card">
+                        <img src="https://tqklhszfkvzk6518638.cdn.ntruss.com/product/8809383959019.jpg" class="card-img-top" alt="편의점 음식 3" width="200" height="300">
+                        <div class="card-body">
+                            <h5 class="card-title">주)게딱지장삼각</h5>
+                            <p class="card-text">가격1,400원</p>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+
+
+<!-- 핫이슈 끝 -->
+
+
+<!-- 푸터 -->
+<footer class="bg-dark" id="tempaltemo_footer" style="margin-bottom: -1000px;">
+    <div class="container">
+        <div class="row">
+
+            <div class="col-md-4 pt-5">
+                <h2 class="h2 text-success border-bottom pb-3 border-light logo">Join Air🪂</h2>
+                <ul class="list-unstyled text-light footer-link-list">
+                    <li>
+                        <i class="fas fa-map-marker-alt fa-fw"></i>
+                        한국직업전문학교 11층 강의실02 항공4기 2조
+                    </li>
+                    <li>
+                        <i class="fa fa-phone fa-fw"></i>
+                        <a class="text-decoration-none" href="tel:010-020-0340">010-1234-1234</a>
+                    </li>
+                    <li>
+                        <i class="fa fa-envelope fa-fw"></i>
+                        <a class="text-decoration-none" href="mailto:info@company.com">drone delivery
+                            @drone delivery
+                            .com</a>
+                    </li>
+                </ul>
+            </div>
+
+            <div class="col-md-4 pt-5">
+                <h2 class="h2 text-light border-bottom pb-3 border-light">메뉴</h2>
+                <ul class="list-unstyled text-light footer-link-list">
+                    <li><a class="text-decoration-none" href="#">주문하기</a></li>
+                    <li><a class="text-decoration-none" href="#">배달 정보</a></li>
+                    <li><a class="text-decoration-none" href="#">고객지원</a></li>
+
+
+                </ul>
+            </div>
+
+            <div class="col-md-4 pt-5">
+                <h2 class="h2 text-light border-bottom pb-3 border-light">추가 정보</h2>
+                <ul class="list-unstyled text-light footer-link-list">
+                    <li><a class="text-decoration-none" href="#">홈</a></li>
+                    <li><a class="text-decoration-none" href="#">회사 소개</a></li>
+                    <li><a class="text-decoration-none" href="#">드론 정보</a></li>
+                    <li><a class="text-decoration-none" href="#">고객센터</a></li>
+
+                </ul>
+            </div>
+
+        </div>
+
+        <div class="row text-light mb-4">
+            <div class="col-12 mb-3">
+                <div class="w-100 my-3 border-top border-light"></div>
+            </div>
+            <div class="col-auto me-auto">
+                <ul class="list-inline text-left footer-icons">
+                    <li class="list-inline-item border border-light rounded-circle text-center">
+                        <a rel="nofollow" class="text-light text-decoration-none" target="_blank" href="http://fb.com/templatemo"><i class="fab fa-facebook-f fa-lg fa-fw"></i></a>
+                    </li>
+                    <li class="list-inline-item border border-light rounded-circle text-center">
+                        <a class="text-light text-decoration-none" target="_blank" href="https://www.instagram.com/"><i class="fab fa-instagram fa-lg fa-fw"></i></a>
+                    </li>
+
+
+                    <li class="list-inline-item border border-light rounded-circle text-center">
+                        <a class="text-light text-decoration-none" target="_blank" href="https://twitter.com/"><i class="fab fa-twitter fa-lg fa-fw"></i></a>
+                    </li>
+                </ul>
+            </div>
+            <div class="col-auto">
+                <label class="sr-only" for="subscribeEmail">Drone Delivery@drone delivery.com
+
+                </label>
+                <div class="input-group mb-2">
+                    <input type="text" class="form-control bg-dark border-light" id="subscribeEmail" placeholder="">
+
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <div class="w-100 bg-black py-3">
+        <div class="container">
+            <div class="row pt-2">
+                <div class="col-12">
+                    <p class="text-left text-light">
+                        저작권 © 2023 Join Air
+                        <a rel="sponsored" href="https://templatemo.com/page/1" target="_blank"></a>
+                    </p>
+                </div>
+            </div>
+        </div>
+    </div>
+
+</footer>
+
+
+
+<script src="assets/js/bootstrap.bundle.min.js"></script>
+<script src="assets/js/templatemo.js"></script>
+<script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
+<script type="text/javascript">
+    $(document).ready(function () {
+<!--      문서가 완전히 로드되면 이벤트 핸들러가 실행.-->
+<!--      이를 통해 JavaScript 코드가 HTML 문서의 로딩을 기다리지 않고 실행함.-->
+
+        //슬라이드 전환 함수
+          function nextSlide() {
+     <!-- -  2.현재 활성 슬라이드 찾기-->
+     <!-- -  3.다음 슬라이드 활성화-->
+
+
+             var allSlides = $(".carousel-item");
+
+<!--    extSlide라는 이름의 함수를 정의함. -->
+<!--    이 함수는 현재 활성 슬라이드를 찾고 다음 슬라이드를 활성화하는 역할임.-->
+
+
+            var currentIndex = allSlides.filter(".active").index();
+
+<!--            현재 활성 슬라이드의 인덱스를 찾아서 currentIndex 변수에 저장-->
+<!--            이를 위해 active 클래스를 가진 슬라이드를 찾는다-->
+<!--            currentIndex 변수를 이용하여 해당 슬라이드의 인덱스를 참조-->
+
+            var nextIndex = (currentIndex + 1) % allSlides.length;
+<!--            다음 슬라이드의 인덱스를 계산합니다. -->
+<!--            만약 현재 슬라이드가 마지막 슬라이드인 경우, 첫 번째 슬라이드로 돌아갑니다-->
+
+            allSlides.removeClass("active");
+<!--            모든 슬라이드에서 "active" 클래스를 제거하여 -->
+<!--            현재 활성화된 슬라이드의 활성화 상태를 해제한다.-->
+
+            allSlides.eq(nextIndex).addClass("active");
+<!--            계산한 다음 슬라이드의 인덱스에 -->
+<!--            해당하는 슬라이드에 "active" 클래스를 추가하여 다음 슬라이드를 활성화합니다.-->
+        }
+
+        // 1.5초마다 슬라이드 전환
+        setInterval(nextSlide, 2500);
+    });
+</script>
+</body>
+</html>

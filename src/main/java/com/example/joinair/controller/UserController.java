@@ -49,7 +49,7 @@ public class UserController {
 
 
                 System.out.println("사용자 모드로 로그인");
-                return "redirect:http://localhost:63342/joinair/src/main/resources/boot/index.html"; // 사용자 모드로 리디렉션
+                return "redirect:/index2"; // 사용자 모드로 리디렉션
             } else if ("admin".equals(userMode)) {
                 session.setAttribute("User_Id", storedUser.getUser_Id());
 
@@ -185,7 +185,7 @@ public class UserController {
     @GetMapping("/logout")
     public String logout(HttpSession session) {
         // 세션에서 사용자 ID를 제거하여 로그아웃 상태로 만듭니다.
-        session.removeAttribute("User_Id");
+        session.invalidate(); // 세션을 무효화하여 사용자 세션 데이터 삭제
         System.out.println("Log-out!!!");
 
         return "redirect:/login";
