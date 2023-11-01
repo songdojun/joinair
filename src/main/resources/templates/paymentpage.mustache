@@ -10,10 +10,10 @@
     <h1 class="text-center">결제창</h1>
 
     <!-- 결제 예정금액 -->
-    <p>총 상품 주문금액: <span class="total" id="total">0</span></p>
-    <p>할인 금액: <span id="discountAmount">0</span></p>
+    <p>총 상품 주문금액: <span class="total" id="total"></span></p>  {{!OD_Total_Price}}
+    {{!<p>할인 금액: <span id="discountAmount">0</span></p>
     <p>총 적립 금액: <span id="rewardAmount">0</span></p>
-    <p>최종 결제 금액: <span id="finalAmount">0</span></p>
+    <p>최종 결제 금액: <span id="finalAmount">0</span></p>       {{!Pay_Price}}
 
     <!-- 결제버튼 -->
     <button onclick="requestCardPayment()" class="btn btn-primary">카드결제</button>
@@ -53,6 +53,13 @@
         // /payment/Deposit 페이지로 이동
         window.location.href = "/payment/Deposit";
     }
+
+      // 페이지 로드 시 실행되는 함수
+    window.onload = function() {
+        // 세션에서 총 주문 금액을 가져와서 동적으로 삽입
+        var totalAmount = sessionStorage.getItem('totalAmount');
+        document.querySelector('.total').textContent = totalAmount;
+    };
 
 </script>
 

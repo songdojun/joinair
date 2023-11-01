@@ -36,6 +36,20 @@
                 totalCell.textContent = total;
             }
         }
+
+        // 주문하기 버튼 클릭 시 이벤트 핸들러
+function redirectToOrderPage() {
+    var totalAmount = document.querySelector('.total').textContent;
+
+    // 세션 스토리지에 총 주문 금액 저장
+    sessionStorage.setItem('totalAmount', totalAmount);
+
+    // 주문 페이지로 이동
+    window.location.href = "/orders/orderMain";
+}
+
+
+
     </script>
 </head>
 <body>
@@ -78,7 +92,7 @@
         </table>
     </form>
     <a th:href="@{/productbuy/list}" class="btn btn-primary">계속 쇼핑 하기</a>
-     <a th:href="@{/orders/orderMain}" class="btn btn-primary">주문하기</a>
+    <a href="javascript:void(0);" onclick="redirectToOrderPage()" class="btn btn-primary">주문하기</a>
 </div>
 <!-- 부트스트랩 관련 스크립트 추가 -->
 <script src="https://code.jquery.com/jquery-3.2.1.slim.min.js"></script>
