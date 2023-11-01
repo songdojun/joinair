@@ -34,7 +34,7 @@
   <select id="getCustomSales" resultType="com.example.joinair.dto.SALES">
     SELECT User_Id, ORDERS_NUM, amount, sales_Date, Pro_Code
     FROM SALES
-    WHERE User_Id LIKE '%' || #{user} || '%'
+    WHERE User_Id LIKE '%' || #{searchInput} || '%'
     ORDER BY sales_Date DESC
   </select>
 
