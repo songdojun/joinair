@@ -234,5 +234,42 @@
 <script src="../static/assets/js/bootstrap.bundle.min.js"></script>
 <script src="../static/assets/js/templatemo.js"></script>
 <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
+<!-- Mustache.js 라이브러리를 포함합니다 -->
+<script src="https://cdnjs.cloudflare.com/ajax/libs/mustache.js/4.2.0/mustache.min.js"></script>
+
+<script>
+    // 세션 상태 확인
+    var userId = sessionStorage.getItem("User_Id");
+
+    // HTML 템플릿을 가져옵니다
+    var template = document.getElementById("navbar-template").innerHTML;
+
+    // 렌더링을 위한 컨텍스트 데이터를 정의합니다
+    var context = {
+        loginUrl: userId ? "/logout" : "/login",
+        loginText: userId ? "로그아웃" : "로그인",
+    };
+
+    // Mustache를 사용하여 템플릿을 렌더링합니다
+    var renderedTemplate = Mustache.render(template, context);
+
+    // 렌더링된 템플릿으로 기존 콘텐츠를 교체합니다
+    document.querySelector(".nav-item").innerHTML = renderedTemplate;
+
+    // 로그아웃 기능을 처리합니다
+    var logoutItem = document.querySelector(".nav-link[href='/logout']");
+    logoutItem.addEventListener("click", function() {
+        sessionStorage.removeItem("User_Id");
+        // 로그아웃 후 템플릿을 다시 렌더링하여 "로그인" 링크를 표시합니다
+        context = {
+            loginUrl: "/login",
+            loginText: "로그인",
+        };
+        renderedTemplate = Mustache.render(template, context);
+        document.querySelector(".nav-item").innerHTML = renderedTemplate;
+    });
+</script>
+
+
 </body>
 </html>
