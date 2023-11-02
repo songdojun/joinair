@@ -169,27 +169,30 @@
 
             <!-- Rev 정보 테이블 추가 -->
             <div class="col-lg-12 mt-5">
-                <h2 class="h3">리뷰 정보</h2>
+                <h2 class="h3">상품 리뷰</h2>
+                <a th:href="@{/review/list}" class="btn btn-primary float-right">리뷰 더 보기</a>
                 <table class="table table-striped">
                     <thead>
                     <tr>
-                        <th>Rev_No</th>
-                        <th>Rev_Title</th>
-                        <th>Rev_Filepath</th>
-                        <th>Rev_Writer</th>
-                        <th>Rev_Content</th>
-                        <th>Rev_Date</th>
+                        <th>리뷰 번호</th>
+                        <th>리뷰 제목</th>
+                        <th>이미지</th>
+                        <th>리뷰 내용</th>
+                        <th>작성자</th>
+                        <th>작성일</th>
                     </tr>
                     </thead>
                     <tbody>
                     <!-- Rev 정보 반복 출력 -->
                     <tr th:each="review : ${Product.Reviews}">
-                        <td th:text="${review.Rev_No}">Rev_No</td>
-                        <td th:text="${review.Rev_Title}">Rev_Title</td>
-                        <td th:text="${review.Rev_Filepath}">Rev_Filepath</td>
-                        <td th:text="${review.Rev_Writer}">Rev_Writer</td>
-                        <td th:text="${review.Rev_Content}">Rev_Content</td>
-                        <td th:text="${review.Rev_Date}">Rev_Date</td>
+                        <td th:text="${review.Rev_No}">리뷰 번호</td>
+                        <td th:text="${review.Rev_Title}">리뷰 제목</td>
+                        <td>
+                            <img th:src="@{${review.Rev_Filepath}}" alt="Thumbnail" style="max-width: 100px; max-height: 100px;">
+                        </td>
+                        <td th:text="${review.Rev_Content}">리뷰 내용</td>
+                        <td th:text="${review.Rev_Writer}">리뷰 작성자</td>
+                        <td th:text="${#dates.format(review.Rev_Date, 'yyyy-MM-dd HH:mm:ss')}">작성일</td>
                     </tr>
                     </tbody>
                 </table>
