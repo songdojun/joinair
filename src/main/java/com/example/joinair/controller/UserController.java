@@ -188,7 +188,7 @@ public class UserController {
         session.invalidate(); // 세션을 무효화하여 사용자 세션 데이터 삭제
         System.out.println("Log-out!!!");
 
-        return "redirect:/login";
+        return "redirect:/index";
     }
 
 

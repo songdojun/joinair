@@ -215,5 +215,15 @@
 <script src="../static/assets/js/bootstrap.bundle.min.js"></script>
 <script src="../static/assets/js/templatemo.js"></script>
 <script src="../static/assets/js/custom.js"></script>
+<script>
+    function toggleLoginLogout() {
+        const loginButton = document.querySelector("button.btn-primary");
+        if (loginButton.textContent === "로그인") {
+            loginButton.textContent = "로그아웃";
+        } else {
+            loginButton.textContent = "로그인";
+        }
+    }
+</script>
 </body>
 </html>
