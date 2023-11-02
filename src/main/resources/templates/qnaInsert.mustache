@@ -68,8 +68,11 @@
                     <li class="nav-item">
                         <a class="nav-link" href="/notice/list">공지사항</a>
                     </li>
-                    <li class="nav-item">
+                    <li class="nav-item" id="loginButton">
                         <a class="nav-link" href="/login">로그인</a>
+                    </li>
+                    <li class="nav-item" id="logoutButton" style="display: none;">
+                        <a class="nav-link" href="/logout">로그아웃</a>
                     </li>
                 </ul>
             </div>
@@ -214,6 +217,26 @@
 <script>
     function redirectToQnaList() {
         window.location.href = "/qna/qnaList";
+    }
+</script>
+<!-- Mustache.js 라이브러리를 포함합니다 -->
+<script src="https://cdnjs.cloudflare.com/ajax/libs/mustache.js/4.2.0/mustache.min.js"></script>
+<script>
+    // 사용자 로그인 상태 확인 (예: 사용자가 로그인 중이면 true, 로그아웃 중이면 false)
+    var userLoggedIn = true;  // 또는 false, 이를 사용자의 로그인 상태에 맞게 설정하세요.
+
+    // 사용자 로그인 상태에 따라 버튼 표시/숨김 처리
+    var loginButton = document.getElementById("loginButton");
+    var logoutButton = document.getElementById("logoutButton");
+
+    if (userLoggedIn) {
+        // 사용자가 로그인 중인 경우
+        loginButton.style.display = "none";  // 로그인 버튼 숨김
+        logoutButton.style.display = "block"; // 로그아웃 버튼 표시
+    } else {
+        // 사용자가 로그아웃 중인 경우
+        loginButton.style.display = "block"; // 로그인 버튼 표시
+        logoutButton.style.display = "none";  // 로그아웃 버튼 숨김
     }
 </script>
 </body>
