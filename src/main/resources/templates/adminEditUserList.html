@@ -153,6 +153,11 @@
             background-color: #ddd;
         }
     </style>
+    <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
+    <script src="assets/js/bootstrap.bundle.min.js"></script>
+    <script src="assets/js/templatemo.js"></script>
+    <script src="assets/js/custom.js"></script>
+
 </head>
 <body>
 <!-- 네비게이션 바 -->
@@ -208,8 +213,6 @@
     <div class="container mt-5">
         <h1 class="text-center font-weight-bold">고객 정보 수정</h1>
 
-
-
         <h2 class="text-center">User List</h2>
         <div class="text-center">
             <div id="reportForm">
@@ -220,7 +223,8 @@
                     <option value="User_Phone">고객 전화번호</option>
                 </select>
                 <input class="form-control" type="text" id="searchInput" placeholder="검색어 입력">
-                <button class="btn btn-primary" id="searchButton">검색</button>
+                <button type="button" class="btn btn-primary" id="searchButton">검색</button>
+
             </div>
         </div>
         <table class="table table-striped">
@@ -235,7 +239,7 @@
                 <th>Actions</th>
             </tr>
             </thead>
-            <tbody>
+            <tbody id="userTableBody">
             <tr th:each="user : ${users}">
                 <td data-category="User_Id" th:text="${user.User_Id}"></td>
                 <td data-category="User_Name" th:text="${user.User_Name}"></td>
@@ -249,13 +253,6 @@
             </tr>
             </tbody>
         </table>
-        <div class="text-center mx-auto">
-            <a class="btn btn-warning font-weight-bold" th:href="@{'/adminEditUser/' + ${user.User_Id}}">수정</a>
-        </div>
-
-
-
-        </form>
     </div>
 </div>
 <footer class="bg-dark" id="templatemo_footer">
@@ -305,9 +302,50 @@
         </div>
     </div>
 </footer>
-<script src="assets/js/jquery-3.6.0.min.js"></script>
-<script src="assets/js/bootstrap.bundle.min.js"></script>
-<script src="assets/js/templatemo.js"></script>
-<script src="assets/js/custom.js"></script>
+<!-- JavaScript 추가 -->
+<script>
+    $(document).ready(function () {
+        // 검색 버튼과 검색 입력란을 가져옵니다.
+        var searchButton = $("#searchButton");
+        var searchInput = $("#searchInput");
+
+        // 검색 버튼에 클릭 이벤트 리스너를 추가합니다.
+        searchButton.click(function () {
+            performSearch();
+        });
+
+        // 검색 입력란에 키보드 이벤트 리스너를 추가하여 Enter 키를 감지합니다.
+        searchInput.keypress(function (e) {
+            if (e.which === 13) {
+                performSearch();
+            }
+        });
+
+        function performSearch() {
+            // 선택한 카테고리와 검색 입력을 가져옵니다.
+            var searchCategory = $("#searchCategory").val();
+            var searchInputValue = searchInput.val().toLowerCase();
+
+            // 사용자 테이블의 각 행을 루프합니다.
+            $("#userTableBody tr").each(function () {
+                var userValue = $(this).find('td[data-category="' + searchCategory + '"]').text().toLowerCase();
+
+                // 사용자 값이 검색 입력을 포함하는지 확인합니다.
+                if (userValue.includes(searchInputValue)) {
+                    // 검색 기준과 일치하는 경우 행을 표시합니다.
+                    $(this).show();
+                } else {
+                    // 검색 기준과 일치하지 않는 경우 행을 숨깁니다.
+                    $(this).hide();
+                }
+            });
+        }
+    });
+</script>
+
+
+
+
+
 </body>
 </html>

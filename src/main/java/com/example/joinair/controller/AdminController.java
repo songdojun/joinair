@@ -1,6 +1,7 @@
 package com.example.joinair.controller;
 
 import com.example.joinair.dto.SALES;
+import com.example.joinair.dto.USERS;
 import com.example.joinair.service.AdminService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
@@ -60,19 +61,19 @@ public class AdminController {
         return "salesReport";
     }
 
-    @GetMapping("/admin/searchUsers")
+    @GetMapping("/searchUsers")
     public String searchUsers(
             @RequestParam("searchCategory") String searchCategory,
             @RequestParam("searchInput") String searchInput,
             Model model) {
-        List<SALES> searchResults = adminService.searchUsers(searchCategory, searchInput);
+        List<USERS> searchResults = adminService.searchUsers(searchCategory, searchInput);
         model.addAttribute("users", searchResults);
-        model.addAttribute("isAdmin", true); // 현재 사용자가 관리자임을 나타내는 플래그
-        return "adminUserList"; // 사용자 검색 결과를 보여줄 뷰 페이지의 이름으로 교체하세요.
+        model.addAttribute("isAdmin", true);
+                // 현재 사용자가 관리자임을 나타내는 플래그
+
+
+        return "adminEditUserList"; // 사용자 검색 결과를 보여줄 뷰 페이지의 이름으로 교체하세요.
     }
-
-
-
 }
 
 

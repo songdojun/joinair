@@ -107,7 +107,7 @@ public class UserController {
         }
         List<USERS> users = userService.getAllUsers();
         model.addAttribute("users", users);
-        return "../templates/adminEditUserList";
+        return "/adminEditUserList";
     }
 
     @GetMapping("/adminEditUserList/{userId}")
