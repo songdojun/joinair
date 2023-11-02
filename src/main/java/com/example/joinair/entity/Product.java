@@ -4,6 +4,7 @@ import jakarta.persistence.*;
 import lombok.Data;
 
 import java.util.Date;
+import java.util.List;
 
 @Entity
 @Data
@@ -100,4 +101,45 @@ public class Product {
     protected  void onCreate(){
         Pro_Reg_Date = new Date();
     }
+
+
+
+
+    // 다른 필드들
+
+    @OneToOne
+    @JoinColumn(name = "Pro_Code", referencedColumnName = "Pro_Code", insertable = false, updatable = false)
+    private Review review;
+
+
+    @OneToMany(mappedBy = "product")
+    private List<Review> reviews;
+
+    // Review 엔티티의 필드에 접근하기 위한 Getter 메서드를 추가합니다.
+
+    public Integer getRev_No() {
+        return review != null ? review.getRev_No() : null;
+    }
+
+    public String getRev_Title() {
+        return review != null ? review.getRev_Title() : null;
+    }
+
+    public String getRev_Filepath() {
+        return review != null ? review.getRev_Filepath() : null;
+    }
+
+    public String getRev_Writer() {
+        return review != null ? review.getRev_Writer() : null;
+    }
+
+    public String getRev_Content() {
+        return review != null ? review.getRev_Content() : null;
+    }
+
+    public Date getRev_Date() {
+        return review != null ? review.getRev_Date() : null;
+    }
+
+
 }

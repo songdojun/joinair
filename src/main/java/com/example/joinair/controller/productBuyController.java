@@ -1,6 +1,7 @@
 package com.example.joinair.controller;
 
 import com.example.joinair.entity.Product;
+import com.example.joinair.entity.Review;
 import com.example.joinair.service.ProductBuyService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.domain.Page;
@@ -14,6 +15,9 @@ import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.multipart.MultipartFile;
+
+import java.util.List;
+import java.util.Optional;
 
 import static com.example.joinair.service.ProductAdService.regist;
 
@@ -60,7 +64,15 @@ public class productBuyController {
 
     @GetMapping("/productbuy/view")
     public String productbuyView(Model model, Integer Pro_Code){
-        model.addAttribute("Product",productBuyService.productbuyView(Pro_Code).orElse(null));
+        Optional<Product> product = productBuyService.productbuyView(Pro_Code);
+
+        if (product.isPresent()) {
+            // Reviews 정보를 가져와 Model에 추가
+            List<Review> reviews = product.get().getReviews();
+            model.addAttribute("Product", product.get());
+            model.addAttribute("Reviews", reviews);
+        }
+
         return "productbuyview2";
     }
 

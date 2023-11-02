@@ -162,7 +162,41 @@
     </div>
 </section>
 
+<section class="bg-light">
+    <div th:if="${Product != null}" class="container">
+        <div class="row">
+            <!-- Product 정보 출력 부분 (이전 내용 유지) -->
 
+            <!-- Rev 정보 테이블 추가 -->
+            <div class="col-lg-12 mt-5">
+                <h2 class="h3">리뷰 정보</h2>
+                <table class="table table-striped">
+                    <thead>
+                    <tr>
+                        <th>Rev_No</th>
+                        <th>Rev_Title</th>
+                        <th>Rev_Filepath</th>
+                        <th>Rev_Writer</th>
+                        <th>Rev_Content</th>
+                        <th>Rev_Date</th>
+                    </tr>
+                    </thead>
+                    <tbody>
+                    <!-- Rev 정보 반복 출력 -->
+                    <tr th:each="review : ${Product.Reviews}">
+                        <td th:text="${review.Rev_No}">Rev_No</td>
+                        <td th:text="${review.Rev_Title}">Rev_Title</td>
+                        <td th:text="${review.Rev_Filepath}">Rev_Filepath</td>
+                        <td th:text="${review.Rev_Writer}">Rev_Writer</td>
+                        <td th:text="${review.Rev_Content}">Rev_Content</td>
+                        <td th:text="${review.Rev_Date}">Rev_Date</td>
+                    </tr>
+                    </tbody>
+                </table>
+            </div>
+        </div>
+    </div>
+</section>
 
 
 <!-- 콘텐츠 끝 -->
