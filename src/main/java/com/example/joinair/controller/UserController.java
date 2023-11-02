@@ -143,7 +143,7 @@ public class UserController {
 
     @PostMapping("/membership")
     public String register(@ModelAttribute("signupUser") USERS signupUser, HttpSession session) {
-        String combinedAddress = signupUser.getUser_Postcode() + " " + signupUser.getUser_RoadAddress() + " " + signupUser.getUser_DetailAddress();
+        String combinedAddress = signupUser.getUser_Postcode() + " " + signupUser.getUser_RoadAddress();
         signupUser.setUser_Address(combinedAddress);
         // 회원가입 처리 로직
         // 여기에 회원가입 로직을 추가

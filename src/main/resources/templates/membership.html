@@ -1,5 +1,5 @@
 <!DOCTYPE html>
-<html lang="ko">
+<html lang="ko" xmlns="http://www.w3.org/1999/html">
 <head>
     <meta charset="utf-8">
     <meta name="viewport" content="width=device-width, initial-scale=1">
@@ -121,7 +121,7 @@
         </div>
     </div>
 </nav>
-<form method="post" action="/membership" onsubmit="return join_user();">
+<form name="membershipForm" method="post" action="/membership">
     <br>
     <div class="container">
         <h2 class="text-center font-weight-bold">회원 가입</h2>
@@ -164,20 +164,21 @@
                         <input type="text" id="sample4_postcode" class="form-control" name="User_Postcode" placeholder="우편번호">
                     </div>
                     <div class="form-group">
-                        <input type="text" id="sample4_roadAddress" class="form-control" name="User_RoadAddress" placeholder="도로명주소" size="60">
+                        <input type="text" id="sample4_roadAddress" class="form-control" name="User_RoadAddress" placeholder="도로명주소">
                     </div>
-                    <div class="form-group">
-                        <input type="text" id="sample4_jibunAddress" class="form-control" name="User_JibunAddress" placeholder="지번주소" size="60">
-                    </div>
+                    <!--<div class="form-group">
+                        <input type="text" id="sample4_jibunAddress" class="form-control" name="User_JibunAddress" placeholder="지번주소">
+                    </div>-->
                     <div class="form-group">
                         <span id="guide" style="color: #999; display: none;"></span>
                     </div>
                     <div class="form-group">
-                        <input type="text" id="sample4_detailAddress" class="form-control" name="User_DetailAddress" placeholder="상세주소" size="60">
+                        <input type="text" id="sample4_detailAddress" class="form-control" name="User_DetailAddress" placeholder="상세주소">
                     </div>
                 </div>
             </div>
-            <button type="submit" id="joinButton" class="btn btn-primary custom-button" onclick="join_user()">가입하기</button>
+
+            <button type="submit" id="joinButton" class="btn btn-primary custom-button" onsubmit="join_user()">가입하기</button>
 
         </div>
     </div>
@@ -246,13 +247,11 @@ function join_user() {
     var useremail = document.getElementById("useremail").value;
     var userpw = document.getElementById("userpw").value;
     var userPhone = document.getElementById("userPhone").value;
+}
 
-    var postcode = document.getElementById("sample4_postcode").value;
-    var roadAddress = document.getElementById("sample4_roadAddress").value;
-    var jibunAddress = document.getElementById("sample4_jibunAddress").value;
+    console.log("User Address: " + userAddress);
 
-    // 주소 정보 합치기
-    var userAddress = postcode + " " + roadAddress + " " + jibunAddress + " " + detailAddress;
+    alert("User Address: " + userAddress);
 
     if (userid.value === "") {
         alert("아이디를 입력하세요.");
@@ -334,7 +333,7 @@ function join_user() {
     } else {
     emailInput.value = emailInput.value.replace(/@.*$/, "") + selectedDomain;
     }
-    }
+  }
 </script>>
 
 
@@ -425,14 +424,15 @@ function join_user() {
                 // 검색 결과에서 우편번호, 도로명주소, 지번주소를 가져옴
                 var postcode = data.zonecode;
                 var roadAddress = data.roadAddress;
+<!--
                 var jibunAddress = data.jibunAddress;
-                var detailAddress = document.getElementById("sample4_detailAddress").value;
+-->
 
 
                 // 결과를 입력 필드에 설정
                 document.getElementById("sample4_postcode").value = postcode;
                 document.getElementById("sample4_roadAddress").value = roadAddress;
-                document.getElementById("sample4_jibunAddress").value = jibunAddress;
+
 
                 // 안내 메시지를 초기화하고 숨김
                 var guide = document.getElementById("guide");
@@ -460,25 +460,6 @@ function join_user() {
 </script>
 
 
-
-
-<!--<script>-->
-<!--    // updateEmail 함수 정의-->
-<!--   function updateEmail() {-->
-<!--       // 이메일 도메인 선택 드롭다운 요소를 가져와 domainDropdown 변수에 할당-->
-<!--       var domainDropdown = document.getElementById("emailDomainDropdown");-->
-
-<!--       // 사용자가 선택한 도메인을 가져오기 위해 현재 선택된 옵션의 값을 selectedDomain 변수에 할당-->
-<!--       var selectedDomain = domainDropdown.options[domainDropdown.selectedIndex].value;-->
-
-<!--       // 이메일 도메인 입력 필드 요소를 가져와 emailDomainInput 변수에 할당-->
-<!--       var emailDomainInput = document.getElementById("emailDomain");-->
-
-<!--       // 사용자가 선택한 도메인(selectedDomain)을 이메일 도메인 입력 필드(emailDomainInput)의 값으로 설정-->
-<!--       emailDomainInput.value = selectedDomain;-->
-<!--   }-->
-
-<!--</script>-->
 
 
 <!--<script src="assets/js/jquery-1.11.0.min.js"></script>-->

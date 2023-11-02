@@ -86,9 +86,9 @@ public class USERS {
     private String User_Address;
     private String User_Phone;
     private int User_Mileage;
-    private String User_DetailAddress; // 추가: 상세 주소 필드
     private String User_Postcode;
     public String User_RoadAddress;
+    private String User_DetailAddress;
 
 
     public String getUser_RoadAddress() {
