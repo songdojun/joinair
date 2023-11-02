@@ -1,0 +1,165 @@
+<!DOCTYPE html>
+<html lang="ko" xmlns:th="http://www.thymeleaf.org">
+<head>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <title>회원정보 수정 페이지</title>
+    <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/4.5.2/css/bootstrap.min.css">
+    <link rel="stylesheet" href="assets/css/templatemo.css">
+    <link rel="stylesheet" href="assets/css/custom.css">
+    <link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Roboto:wght@100;200;300;400;500;700;900&display=swap">
+    <link rel="stylesheet" href="assets/css/fontawesome.min.css">
+    <link rel="stylesheet" href="https://unpkg.com/leaflet@1.7.1/dist/leaflet.css"
+          integrity="sha512-xodZBNTC5n17Xt2atTPuE1HxjVMSvLVW9ocqUKLsCC5CXdbqCmblAshOMAS6/keqq/sMZMZ19scR4PsZChSR7A==" crossorigin=""/>
+    <style>
+        .custom-button {
+            background-color: #4CAF50;
+            color: white;
+            padding: 10px 20px;
+            border: none;
+            border-radius: 5px;
+            cursor: pointer;
+        }
+
+        .custom-button:hover {
+            background-color: #45a049;
+        }
+
+        .cotn_principal {
+            background: rgba(255, 255, 255, 0.9);
+            border-radius: 5px;
+            padding: 20px;
+            max-width: 400px;
+            width: 100%;
+        }
+
+        /* Updated styles for the report form and table */
+        #salesReportContainer {
+            padding: 20px;
+            margin: 20px auto;
+            max-width: 800px;
+            background-color: #f8f9fa;
+            border-radius: 5px;
+        }
+
+        #reportForm {
+            margin-bottom: 20px;
+        }
+
+        #reportForm label {
+            font-weight: bold;
+        }
+
+        #reportForm select,
+        #reportForm input[type="number"] {
+            margin: 5px;
+            padding: 5px;
+            border: 1px solid #ced4da;
+            border-radius: 3px;
+        }
+
+        #reportForm button {
+            background-color: #4CAF50;
+            color: white;
+            padding: 10px 20px;
+            border: none;
+            border-radius: 5px;
+            cursor: pointer;
+        }
+
+        #reportForm button:hover {
+            background-color: #45a049;
+        }
+
+        table {
+            width: 100%;
+            border-collapse: collapse;
+        }
+
+        table, th, td {
+            border: 1px solid #ddd;
+        }
+
+        th, td {
+            padding: 8px;
+            text-align: left;
+        }
+
+        th {
+            background-color: #4CAF50;
+            color: white;
+        }
+
+        tr:nth-child(even) {
+            background-color: #f2f2f2;
+        }
+
+        tr:hover {
+            background-color: #ddd;
+        }
+    </style>
+</head>
+<body>
+<nav class="navbar navbar-expand-lg navbar-light shadow">
+    <!-- ... (네비게이션 부분은 그대로 두세요) ... -->
+</nav>
+
+<!-- 수정된 고객 정보 수정 페이지 -->
+<div class="container">
+    <h1 class="text-center font-weight-bold">고객 정보 수정 페이지</h1>
+    <form action="/update-profile" method="post" class="mt-4">
+        <div class="form-group">
+            <label for="User_Id">고객 ID</label>
+            <input type="text" th:field="*{User_Id}" readonly="readonly" id="User_Id" class="form-control">
+        </div>
+        <div class="form-group">
+            <label for="User_Name">고객 이름</label>
+            <input type="text" th:field="*{User_Name}" readonly="readonly" id="User_Name" class="form-control">
+        </div>
+        <div class="form-group">
+            <label for="User_Email">고객 Email</label>
+            <input type="text" th:field="*{User_Email}" id="User_Email" class="form-control">
+        </div>
+
+        <div class="form-group">
+            <label for="User_Address">고객 주소</label>
+            <input type="text" th:field="*{User_Address}" id="User_Address" class="form-control">
+            <input type="button" onclick="sample4_execDaumPostcode()" value="주소검색" class="btn btn-primary"
+                   style="color: white; text-align: center; margin: 0 auto; display: block; margin-top: 10px;">
+        </div>
+        <div class="form-group">
+            <label for="User_Phone">고객 전화번호</label>
+            <input type="text" th:field="*{User_Phone}" id="User_Phone" class="form-control">
+        </div>
+        <div class="form-group">
+            <label for="User_Mileage">고객 마일리지</label>
+            <div class="alert alert-success text-center" id="User_Mileage" role="alert"
+                 style="background-color: #4CAF50; color: white;">
+                <p style="font-size: 24px; color: white; margin: 0;">{{user.User_Mileage}}</p>
+            </div>
+        </div>
+        <div class="text-center">
+            <button type="submit" class="btn btn-primary mt-3">수정하기</button>
+        </div>
+    </form>
+</div>
+
+<script>
+    function sample4_execDaumPostcode() {
+        new daum.Postcode({
+            oncomplete: function(data) {
+                // 주소 검색 결과에서 사용자가 선택한 주소를 가져와 고객 주소 입력란에 설정
+                document.getElementById("User_Address").value = data.jibunAddress;
+            }
+        }).open();
+    }
+</script>
+
+<script src="https://spi.maps.daum.net/imap/map_js_init/postcode.v2.js"></script>
+<script src="assets/js/jquery-1.11.0.min.js"></script>
+<script src="assets/js/jquery-migrate-1.2.1.min.js"></script>
+<script src="assets/js/bootstrap.bundle.min.js"></script>
+<script src="assets/js/templatemo.js"></script>
+<script src="assets/js/custom.js"></script>
+</body>
+</html>
