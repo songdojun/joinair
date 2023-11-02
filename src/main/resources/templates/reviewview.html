@@ -38,6 +38,8 @@
 
 <div th:if="${Review != null}">
     <h1 th:text="${Review.Rev_Title}">제목입니다.</h1>
+    <!-- 상품명 추가 -->
+    <h1 th:text="${Review.product?.Pro_Name} ?: '상품 없음'"></h1>
     <div class="meta-info">
         <p th:text="'작성자: ' + ${Review.Rev_Writer}"></p>
         <p th:text="'작성일: ' + ${#dates.format(Review.Rev_Date, 'yyyy-MM-dd HH:mm:ss')}"></p>

@@ -54,8 +54,9 @@
         <tr>
             <th class="small-column">글번호</th>
             <th class="title-column">제목</th>
-            <th class="small-column">작성자</th> <!-- Rev_Writer 헤더 추가 -->
-            <th class="date-column">작성일</th> <!-- Rev_Date 헤더 추가 -->
+            <th class="small-column">작성자</th>
+            <th class="date-column">작성일</th>
+            <th class="title-column">상품명</th> <!-- Pro_Name(상품명) 헤더 추가 -->
         </tr>
         </thead>
         <tbody>
@@ -64,11 +65,17 @@
             <td class="title-column">
                 <a th:href="@{/review/view(Rev_No=${review.Rev_No})}" th:text="${review.Rev_Title}"></a>
             </td>
-            <td class="small-column" th:text="${review.Rev_Writer}"></td> <!-- Rev_Writer 값 표시 -->
-            <td class="date-column" th:text="${#dates.format(review.Rev_Date, 'yyyy-MM-dd HH:mm:ss')}"></td> <!-- Rev_Date 값 표시 -->
+            <td class="small-column" th:text="${review.Rev_Writer}"></td>
+            <td class="date-column" th:text="${#dates.format(review.Rev_Date, 'yyyy-MM-dd HH:mm:ss')}"></td>
+
+            <!-- 상품명을 가장 밑에 td로 이동 -->
+            <td class="title-column">
+                <span th:text="${review.product?.Pro_Name} ?: '상품 없음'"></span>
+            </td>
         </tr>
         </tbody>
     </table>
+
 
     <a href="/review/write" class="new-post-button">새 글 작성</a>
 

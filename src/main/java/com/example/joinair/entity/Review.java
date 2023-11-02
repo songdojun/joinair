@@ -11,6 +11,15 @@ import java.util.Date;
 @Table(name = "REVIEW") // REVIEW 테이블과 매핑
 public class Review {
 
+
+
+
+    @ManyToOne
+    @JoinColumn(name = "Pro_Code", referencedColumnName = "Pro_Code", insertable = false, updatable = false)
+    private Product product;
+
+
+
     @Id
     @GeneratedValue(strategy = GenerationType.SEQUENCE, generator = "REVIEW_SEQ")
     @SequenceGenerator(name = "REVIEW_SEQ", sequenceName = "REVIEW_SEQ", allocationSize = 1)

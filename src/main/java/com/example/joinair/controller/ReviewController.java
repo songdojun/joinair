@@ -1,7 +1,10 @@
 package com.example.joinair.controller;
 
 
+import com.example.joinair.entity.Product;
 import com.example.joinair.entity.Review;
+import com.example.joinair.service.ProductBuyService;
+import com.example.joinair.service.ProductService;
 import com.example.joinair.service.ReviewService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.domain.Page;
@@ -15,6 +18,8 @@ import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.multipart.MultipartFile;
 
+import java.util.List;
+
 import static com.example.joinair.service.ReviewService.write;
 
 @Controller
@@ -23,20 +28,23 @@ public class ReviewController {
     @Autowired
     private ReviewService reviewService;
 
-    @GetMapping("/review/write") //localhost:8080/review/write
-    public String reviewWriteForm() {
-        return "reviewwrite";
+
+    @Autowired
+    private ProductBuyService productBuyService;
+
+    @GetMapping("/review/write")
+    public String showReviewForm(Model model) {
+        List<Product> productList = productBuyService.productbuyList(); // productBuyRepository를 통해 상품 목록을 가져옴
+        model.addAttribute("productList", productList); // 모델에 productList를 추가
+        return "reviewwrite"; // 리뷰 작성 페이지로 이동
     }
 
     @PostMapping("review/writepro")
     public String reviewWritePro(Review review, Model model, MultipartFile file) throws Exception {
-
-        write(review,file);
-
+        write(review, file);
         model.addAttribute("message", "글 작성이 완료되었습니다.");
         model.addAttribute("searchUrl", "/review/list");
         return "message";
-
     }
 
     @GetMapping("/review/list")
