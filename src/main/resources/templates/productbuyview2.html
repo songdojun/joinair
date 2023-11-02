@@ -159,6 +159,46 @@
     </div>
 </section>
 
+<section class="bg-light">
+    <table class="table table-striped">
+        <!-- 테이블의 제목 행 유지 -->
+        <thead>
+        <tr>
+            <th class="small-column">글번호</th>
+            <th class="title-column">제목</th>
+            <th class="small-column">작성자</th>
+            <th class="date-column">작성일</th>
+            <th class="title-column">상품명</th> <!-- Pro_Name(상품명) 헤더 추가 -->
+        </tr>
+        </thead>
+        <tbody>
+        <!-- 해당 상품과 관련된 글 리스트 출력 -->
+        <tr th:each="review : ${list}" th:if="${review.product != null and review.product.Pro_Code == productCode}">
+            <td class="small-column" th:text="${review.Rev_No}">1</td>
+            <td class="title-column">
+                <a th:href="@{/review/view(Rev_No=${review.Rev_No})}" th:text="${review.Rev_Title}"></a>
+            </td>
+            <td class="small-column" th:text="${review.Rev_Writer}"></td>
+            <td class="date-column" th:text="${#dates.format(review.Rev_Date, 'yyyy-MM-dd HH:mm:ss')}"></td>
+            <!-- 상품명을 가장 밑에 td로 이동 -->
+            <td class="title-column">
+                <span th:text="${review.product?.Pro_Name} ?: '상품 없음'"></span>
+            </td>
+        </tr>
+        <!-- 해당 상품과 관련된 글이 없는 경우 빈 행 출력 -->
+        <tr th:if="${#lists.isEmpty(list)}">
+            <td class="small-column"></td>
+            <td class="title-column"></td>
+            <td class="small-column"></td>
+            <td class="date-column"></td>
+            <td class="title-column">
+                <span>상품 없음</span>
+            </td>
+        </tr>
+        </tbody>
+    </table>
+</section>
+
 
 <!-- 콘텐츠 끝 -->
 

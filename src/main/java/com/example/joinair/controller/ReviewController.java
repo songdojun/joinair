@@ -16,6 +16,7 @@ import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
+import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.multipart.MultipartFile;
 
 import java.util.List;
@@ -47,30 +48,27 @@ public class ReviewController {
         return "message";
     }
 
+
+
+
     @GetMapping("/review/list")
     public String reviewList(Model model,
-                             @PageableDefault(page = 0, size = 10, sort = "Rev_No", direction = Sort.Direction.DESC) Pageable pageable,
-                             String searchKeyword) {
+                                @PageableDefault(page = 0, size = 10, sort = "Rev_No", direction = Sort.Direction.DESC) Pageable pageable,
+                                @RequestParam(name = "searchOption", required = false) String searchOption,
+                                @RequestParam(name = "searchKeyword", required = false) String searchKeyword) {
+        Page<Review> list = reviewService.reviewSearchList(searchOption, searchKeyword, pageable);
 
-        Page<Review> list = null;
+        int nowPage = list.getPageable().getPageNumber() + 1;
+        int startPage = Math.max(nowPage - 4, 1);
+        int endPage = Math.min(nowPage + 5, list.getTotalPages());
 
-        if(searchKeyword ==null){
-             list = reviewService.reviewListWithPagination(pageable);
-        }else{
-             list = reviewService.reviewSearchList(searchKeyword, pageable);
-        }
-
-
-
-        int nowPage= list.getPageable().getPageNumber()+1;
-        int startPage = Math.max(nowPage -4,1);
-        int endPage= Math.min(nowPage+5,list.getTotalPages());
-
-
+        // Add search parameters to the model
         model.addAttribute("list", list);
         model.addAttribute("nowPage", nowPage);
         model.addAttribute("startPage", startPage);
         model.addAttribute("endPage", endPage);
+        model.addAttribute("searchOption", searchOption);
+        model.addAttribute("searchKeyword", searchKeyword); // Pass search keyword to the view
 
         return "reviewlist";
     }

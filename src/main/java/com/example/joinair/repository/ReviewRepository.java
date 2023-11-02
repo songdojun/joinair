@@ -1,6 +1,7 @@
 package com.example.joinair.repository;
 
 
+import com.example.joinair.entity.Product;
 import com.example.joinair.entity.Review;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
@@ -16,11 +17,15 @@ public interface ReviewRepository extends JpaRepository<Review, Integer> {
     @Query("SELECT r FROM Review r ORDER BY r.Rev_No DESC")
     Page<Review> findAllOrderedByRevNoWithPagination(Pageable pageable);
 
+    @Query("SELECT r FROM Review r WHERE r.Rev_No = ?1 ORDER BY r.Rev_No DESC")
+    Page<Review> findReviewsByRevNo(Integer searchKeyword, Pageable pageable);
+
+
     @Query("SELECT r FROM Review r WHERE r.Rev_Title LIKE %:searchKeyword% ORDER BY r.Rev_No DESC")
-    Page<Review> findReviewsByTitleContaining(@Param("searchKeyword") String searchKeyword, Pageable pageable);
+    Page<Review> findReviewsByRevTitleContaining(@Param("searchKeyword") String searchKeyword, Pageable pageable);
 
-
-
+    @Query("SELECT r FROM Review r WHERE r.product.Pro_Name LIKE %?1% ORDER BY r.Rev_No DESC")
+    Page<Review> findReviewsByProNameContaining(String searchKeyword, Pageable pageable);
 
 
 

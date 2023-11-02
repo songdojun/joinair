@@ -1,10 +1,13 @@
 package com.example.joinair.service;
 
+import com.example.joinair.entity.Product;
 import com.example.joinair.entity.Review;
 import com.example.joinair.repository.ReviewRepository;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.domain.Page;
+import org.springframework.data.domain.PageRequest;
 import org.springframework.data.domain.Pageable;
+import org.springframework.data.domain.Sort;
 import org.springframework.stereotype.Service;
 import org.springframework.web.multipart.MultipartFile;
 
@@ -49,7 +52,26 @@ public class ReviewService {
     }
 
     public Page<Review> reviewSearchList(String searchKeyword, Pageable pageable) {
-        return reviewRepository.findReviewsByTitleContaining(searchKeyword, pageable);
+        return reviewRepository.findReviewsByRevTitleContaining(searchKeyword, pageable);
+    }
+
+    public Page<Review> reviewSearchList(String searchOption, String searchKeyword, Pageable pageable) {
+        Page<Review> list;
+
+        // Pageable 객체를 적절하게 설정
+        pageable = PageRequest.of(pageable.getPageNumber(), pageable.getPageSize(), Sort.by("Rev_No").descending());
+
+        if ("Rev_No".equals(searchOption)) {
+            list = reviewRepository.findReviewsByRevNo(Integer.parseInt(searchKeyword), pageable);
+        } else if ("Pro_Name".equals(searchOption)) {
+            list = reviewRepository.findReviewsByProNameContaining(searchKeyword, pageable);
+        } else if ("Rev_Title".equals(searchOption)) { // "Rev_Title" 검색 옵션 추가
+            list = reviewRepository.findReviewsByRevTitleContaining(searchKeyword, pageable);
+        } else {
+            list = reviewRepository.findAllOrderedByRevNoWithPagination(pageable);
+        }
+
+        return list;
     }
 
 
