@@ -43,4 +43,26 @@ function performSearch(page = 0) {
         .catch(error => console.error("검색 오류: ", error));
 }
 
+function changeCategory(categoryId) {
+    // 선택한 카테고리 ID를 이용하여 서버에 Ajax 요청을 보냅니다.
+    const url = "/productbuy/list";
+    const params = new URLSearchParams({
+        "cateNo": categoryId
+    });
+    const fullUrl = url + "?" + params.toString();
+
+    fetch(fullUrl)
+        .then(response => response.text())
+        .then(data => {
+            // 서버로부터 받은 데이터를 이용하여 상품 목록을 업데이트합니다.
+            // data 변수에 서버 응답 데이터가 들어옵니다.
+            const productListContainer = document.querySelector(".container.mt-5");
+            productListContainer.innerHTML = data; // 상품 목록 컨테이너를 업데이트
+
+            // 검색 결과를 받은 후 다시 초기화하여 검색을 가능하게 합니다.
+            initializeSearch();
+        })
+        .catch(error => console.error("카테고리 변경 오류: ", error));
+}
+
 

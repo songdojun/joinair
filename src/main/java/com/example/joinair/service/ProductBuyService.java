@@ -1,7 +1,6 @@
 package com.example.joinair.service;
 
 import com.example.joinair.entity.Product;
-import com.example.joinair.repository.ProductAdRepository;
 import com.example.joinair.repository.ProductBuyRepository;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.domain.Page;
@@ -86,4 +85,7 @@ public class ProductBuyService {
     }
 
 
+    public Page<Product> getProductListByCategory(Integer cateNo, Pageable pageable) {
+        return productBuyRepository.findProductsByCateNo(cateNo, pageable);
+    }
 }
