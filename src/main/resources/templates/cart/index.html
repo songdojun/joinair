@@ -41,7 +41,7 @@
             <tr>
                 <td colspan="3"><strong>총액</strong></td>
                 <td class="total" th:text="${session.total != null ? session.total : ''}"></td>
-                <td></td>
+                <td><a th:href="@{/productbuy/list}" class="btn btn-primary">계속 쇼핑 하기</a></td>
             </tr>
             </tfoot>
         </table>
@@ -106,7 +106,7 @@
             <input type="text" id="sample4_extraAddress" placeholder="참고항목" class="form-control">
         </div>
 
-            <div class="form-group">
+        <div class="form-group">
             <label for="shippingMobile">휴대 전화:</label>
             <input type="tel" id="shippingMobile" name="shippingMobile" class="form-control">
         </div>
@@ -123,6 +123,7 @@
 </script>
 <script src="//t1.daumcdn.net/mapjsapi/bundle/postcode/prod/postcode.v2.js"></script>
 <script>
+    //카카오 주소 api
     //본 예제에서는 도로명 주소 표기 방식에 대한 법령에 따라, 내려오는 데이터를 조합하여 올바른 주소를 구성하는 방법을 설명합니다.
     function sample4_execDaumPostcode() {
         new daum.Postcode({
@@ -192,6 +193,52 @@
             document.getElementById('shippingMobile').value = '';
         }
     });
+</script>
+<!-- 부트스트랩 링크 추가 -->
+<link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0/css/bootstrap.min.css">
+<script>
+    //수량 증가, 감소 시 소계 합계
+    function updateSubtotal(row) {
+        var priceCell = row.querySelector('.price');
+        var quantityInput = row.querySelector('[name="quantity"]');
+        var subtotalCell = row.querySelector('.subtotal');
+
+        if (priceCell && quantityInput && subtotalCell) {
+            var price = parseFloat(priceCell.textContent);
+            var quantity = parseInt(quantityInput.value);
+            if (quantity <= 0) {
+                quantityInput.value = 1;
+                quantity = 1;
+            }
+            var subtotal = price * quantity;
+            subtotalCell.textContent = subtotal;
+            updateTotal();
+        }
+    }
+
+    function updateTotal() {
+        var subtotalCells = document.querySelectorAll('.subtotal');
+        var totalCell = document.querySelector('.total');
+        var total = 0;
+        subtotalCells.forEach(function(subtotalCell) {
+            var subtotal = parseFloat(subtotalCell.textContent);
+            total += subtotal;
+        });
+        if (totalCell) {
+            totalCell.textContent = total;
+        }
+    }
+
+    // 주문하기 버튼 클릭 시 이벤트 핸들러
+function redirectToOrderPage() {
+var totalAmount = document.querySelector('.total').textContent;
+
+// 세션 스토리지에 총 주문 금액 저장
+sessionStorage.setItem('totalAmount', totalAmount);
+
+// 주문 페이지로 이동
+window.location.href = "/orders/orderMain";
+}
 </script>
 </body>
 </html>
