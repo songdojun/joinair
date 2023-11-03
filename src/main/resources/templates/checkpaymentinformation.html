@@ -23,6 +23,7 @@
                 <a class="navbar-sm-brand text-light text-decoration-none" href="tel:010-020-0340">010-1234-5678</a>
             </div>
             <div>
+                <span class="connected-id" th:if="${session.User_Id != null}">💫 <span th:text="${session.User_Id}"></span> 님 환영합니다 💫</span>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
                 <a class="text-light" href="https://fb.com/templatemo" target="_blank" rel="sponsored"><i class="fab fa-facebook-f fa-sm fa-fw me-2"></i></a>
                 <a class="text-light" href="https://www.instagram.com/" target="_blank"><i class="fab fa-instagram fa-sm fa-fw me-2"></i></a>
                 <a class="text-light" href="https://twitter.com/" target="_blank"><i class="fab fa-twitter fa-sm fa-fw me-2"></i></a>
@@ -170,5 +171,43 @@
 <script src="../static/assets/js/bootstrap.bundle.min.js"></script>
 <script src="../static/assets/js/templatemo.js"></script>
 <script src="../static/assets/js/custom.js"></script>
+<script>
+    document.addEventListener("DOMContentLoaded", function () {
+    // 세션 상태 확인
+    var userId = sessionStorage.getItem("User_Id");
+
+    // 로그인 및 로그아웃 메뉴 요소 가져오기
+    var loginItem = document.querySelector(".nav-item .nav-link[href='/login']");
+    var logoutItem = document.querySelector(".nav-item .nav-link[href='/logout']");
+    var userIdDisplay = document.querySelector("#user-id-display"); // 사용자 ID를 표시할 요소
+
+    if (userId) {
+        // 세션이 있으면 로그인 메뉴 항목을 감추고 로그아웃 메뉴 항목을 표시합니다
+        loginItem.style.display = "none";
+        logoutItem.style.display = "block";
+
+        // 사용자 ID를 표시
+        userIdDisplay.textContent = "접속된 ID: " + userId;
+    } else {
+        // 세션이 없으면 로그인 메뉴 항목을 표시하고 로그아웃 메뉴 항목을 감춥니다
+        loginItem.style.display = "block";
+        logoutItem.style.display = "none";
+
+        // 사용자 ID를 숨김
+        userIdDisplay.style.display = "none";
+    }
+
+    // 로그아웃 메뉴 항목 클릭 시 세션 삭제
+    logoutItem.addEventListener("click", function() {
+        sessionStorage.removeItem("User_Id");
+        // 로그아웃 후 로그인 메뉴 항목을 표시하고 로그아웃 메뉴 항목을 감춥니다
+        loginItem.style.display = "block";
+        logoutItem.style.display = "none";
+
+        // 사용자 ID를 숨김
+        userIdDisplay.style.display = "none";
+    });
+ });
+</script>
 </body>
 </html>
