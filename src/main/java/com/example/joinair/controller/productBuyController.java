@@ -119,7 +119,7 @@ public class productBuyController {
             productTemp.setPro_Price(updateProduct.getPro_Price());
             productTemp.setPro_Inventory(updateProduct.getPro_Inventory());
             productTemp.setPro_Weight(updateProduct.getPro_Weight());
-
+            productTemp.setPro_Des(updateProduct.getPro_Des());
             regist(productTemp,file);
         }
 

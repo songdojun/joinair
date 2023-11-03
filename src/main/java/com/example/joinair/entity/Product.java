@@ -82,6 +82,14 @@ public class Product {
         Pro_Filename = pro_Filename;
     }
 
+    public String getPro_Des() {
+        return Pro_Des;
+    }
+
+    public void setPro_Des(String pro_Des) {
+        Pro_Des = pro_Des;
+    }
+
     @Id
     private Integer Pro_Code;
     private Integer Cate_No;
@@ -92,6 +100,9 @@ public class Product {
     private Date Pro_Reg_Date;
     private String Pro_Filepath;
     private String Pro_Filename;
+
+
+    private  String Pro_Des;
 
     @ManyToOne
     @JoinColumn(name = "Cate_No", referencedColumnName = "Cate_No", insertable = false, updatable = false)
@@ -140,6 +151,9 @@ public class Product {
     public Date getRev_Date() {
         return review != null ? review.getRev_Date() : null;
     }
+
+
+
 
 
 }
