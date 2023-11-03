@@ -1,143 +1,185 @@
 <!DOCTYPE html>
-<html lang="ko" xmlns:th="http://www.thymeleaf.org">
+<html lang="en" xmlns:th="http://www.thymeleaf.org">
 <head>
     <meta charset="UTF-8">
-    <title>장바구니 및 주문 정보 입력</title>
-    <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0/css/bootstrap.min.css">
-    <style>
-        .scroll-box {
-            max-height: 400px;
-            overflow-y: auto;
-        }
-    </style>
+    <title>Cart and Order Information</title>
+    <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/4.5.2/css/bootstrap.min.css">
 </head>
 <body>
-<div class="container">
-    <div class="row">
-        <div class="col-md-6"> <!-- 왼쪽 컬럼 -->
-            <h3 class="my-4">장바구니</h3>
+<!-- 장바구니 -->
+<div class="container mt-5">
+    <h1 class="text-center mb-4">장바구니</h1>
+    <form method="post" th:action="${'/cart/update'}">
+        <table class="table">
+            <thead>
+            <tr>
+                <th scope="col">상품명</th>
+                <th scope="col">가격</th>
+                <th scope="col">수량</th>
+                <th scope="col">소계</th>
+                <th scope="col">옵션</th>
+            </tr>
+            </thead>
+            <tbody>
             <!-- 장바구니 내용 -->
-            <form method="post" th:action="${'/cart/update'}">
-                <table class="table">
-                    <!-- 테이블 헤더 -->
-                    <thead>
-                    <tr>
-                        <th scope="col">상품명</th>
-                        <th scope="col">가격</th>
-                        <th scope="col">수량</th>
-                        <th scope="col">소계</th>
-                        <th scope="col">옵션</th>
-                    </tr>
-                    </thead>
-                    <tbody>
-                    <!-- 각 상품 정보 -->
-                    <tr th:each="item: ${session.cart}">
-                        <td>
-                            <img th:src="${item.product != null ? item.product.Pro_Filepath : ''}" alt="상품 이미지" style="width: 60px;"/>
-                            <span th:text="${item.product.Pro_Name != null ? item.product.Pro_Name : ''}"></span>
-                        </td>
-                        <td class="price" th:text="${item.product.Pro_Price != null ? item.product.Pro_Price : ''}"></td>
-                        <td>
-                            <input type="number" name="quantity" th:value="${item.quantity}" class="form-control" style="width:60px;" oninput="updateSubtotal(this.parentNode.parentNode)"/>
-                        </td>
-                        <td class="subtotal" th:text="${item.product.Pro_Price != null && item.quantity != null ? item.product.Pro_Price * item.quantity : ''}"></td>
-                        <td>
-                            <a th:href="${'/cart/remove/' + item.product.Pro_Code}" class="text-danger">X</a>
-                        </td>
-                    </tr>
-                    </tbody>
-                    <tfoot>
-                    <!-- 합계 정보 -->
-                    <tr>
-                        <td colspan="3"><strong>총액</strong></td>
-                        <td class="total" th:text="${session.total != null ? session.total : ''}"></td>
-                        <td></td>
-                    </tr>
-                    </tfoot>
-                </table>
-            </form>
-        </div>
-        <div class="col-md-6"> <!-- 오른쪽 컬럼 -->
-            <div class="container mt-5">
-                <h1 class="text-center mb-4">주문 및 결제 정보 입력</h1>
-
-                <!-- 주문자 정보 입력란 -->
-                <h2>주문자 정보</h2>
-                <div class="form-group">
-                    <label for="customerName">주문자 이름:</label>
-                    <input type="text" id="customerName" name="customerName" class="form-control" required>
-                </div>
-
-                <div class="form-group">
-                    <label for="customerEmail">이메일:</label>
-                    <input type="email" id="customerEmail" name="customerEmail" class="form-control" required>
-                </div>
-
-                <div class="form-group">
-                    <label for="customerMobile">휴대 전화:</label>
-                    <input type="tel" id="customerMobile" name="customerMobile" class="form-control" required>
-                </div>
-
-                <br>
-
-                <!-- 배송 정보 입력란 -->
-                <h2>배송 정보</h2>
-                <div class="form-check">
-                    <input type="checkbox" id="sameAsBilling" name="sameAsBilling" value="1" class="form-check-input">
-                    <label for="sameAsBilling" class="form-check-label">주문자 정보와 동일</label>
-                </div>
-
-                <!-- 새로운 배송지 정보 입력란 -->
-                <div class="form-group">
-                    <label for="recipientName">받는 사람:</label>
-                    <input type="text" id="recipientName" name="recipientName" class="form-control">
-                </div>
-
-                <!-- 주소 입력란 -->
-                <div class="form-group">
-                    <label for="shippingAddress">주소:</label>
-                    <input type="text" id="sample3_postcode" placeholder="우편번호" class="form-control">
-                    <input type="button" onclick="sample3_execDaumPostcode()" value="우편번호 찾기" class="btn btn-primary mt-2">
-                    <input type="text" id="sample3_address" name="shippingAddress" placeholder="주소" class="form-control mt-2">
-                    <input type="text" id="sample3_detailAddress" name="sample3_detailAddress" placeholder="상세주소" class="form-control mt-2">
-                    <input type="text" id="sample3_extraAddress" name="sample3_extraAddress" placeholder="참고항목" class="form-control mt-2">
-                    <span id="guide" style="color:#999;display:none"></span>
-                </div>
-
-                <div class="form-group">
-                    <label for="shippingMobile">휴대 전화:</label>
-                    <input type="tel" id="shippingMobile" name="shippingMobile" class="form-control">
-                </div>
-
-                <a th:href="@{/productbuy/list}" class="btn btn-primary">계속 쇼핑하기</a>
-                <input type="submit" value="결제하기" class="btn btn primary" onclick="redirectToPaymentPage()">
-            </div>
-
-            <!-- 결제창 -->
-            <div class="container mt-5">
-                <div class="row">
-                    <div class="col-md-6 scroll-box">
-                        <h1 class="text-center">결제창</h1>
-                        <!-- 결제 정보 -->
-                        <p>총 상품 주문금액: <span class="total" id="total"></span></p>
-                        <p>할인 금액: <span id="discountAmount">0</span></p>
-                        <p>총 적립 금액: <span class="reward" id="rewardAmount"></span></p>
-                        <p>최종 결제 금액: <span class="final" id="total1"></span></p>
-                        <!-- 결제버튼 -->
-                        <button onclick="requestCardPayment()" class="btn btn-primary">카드결제</button>
-                        <button onclick="redirectToBankTransferPage()" class="btn btn-primary">무통장입금</button>
-                    </div>
-                </div>
-            </div>
-        </div>
-    </div>
+            <tr th:each="item: ${session.cart}">
+                <td>
+                    <img th:src="${item.product != null ? item.product.Pro_Filepath : ''}" alt="Product Image" style="width: 60px;"/>
+                    <span th:text="${item.product.Pro_Name != null ? item.product.Pro_Name : ''}"></span>
+                </td>
+                <td class="price" th:text="${item.product.Pro_Price != null ? item.product.Pro_Price : ''}"></td>
+                <td>
+                    <input type="number" name="quantity" th:value="${item.quantity}" class="form-control" style="width:60px;" oninput="updateSubtotal(this.parentNode.parentNode)"/>
+                </td>
+                <td class="subtotal" th:text="${item.product.Pro_Price != null && item.quantity != null ? item.product.Pro_Price * item.quantity : ''}"></td>
+                <td>
+                    <a th:href="${'/cart/remove/' + item.product.Pro_Code}" class="text-danger">X</a>
+                </td>
+            </tr>
+            </tbody>
+            <tfoot>
+            <tr>
+                <td colspan="3"><strong>총액</strong></td>
+                <td class="total" th:text="${session.total != null ? session.total : ''}"></td>
+                <td></td>
+            </tr>
+            </tfoot>
+        </table>
+    </form>
 </div>
 
-<!-- 부트스트랩 관련 스크립트 추가 -->
+<!-- 주문자 정보 -->
+<div class="container mt-5">
+    <h1 class="text-center mb-4">주문자 정보</h1>
+    <form method="post" action="/submit-customer-info-endpoint">
+        <div class="form-group">
+            <label for="customerName">주문자 이름:</label>
+            <input type="text" id="customerName" name="customerName" class="form-control" required>
+        </div>
+        <div class="form-group">
+            <label for="customerEmail">이메일:</label>
+            <input type="email" id="customerEmail" name="customerEmail" class="form-control" required>
+        </div>
+        <div class="form-group">
+            <label for="customerMobile">휴대 전화:</label>
+            <input type="tel" id="customerMobile" name="customerMobile" class="form-control" required>
+        </div>
+    </form>
+</div>
+
+<!-- 배송 정보 -->
+<div class="container mt-5">
+    <h1 class="text-center mb-4">배송 정보</h1>
+    <form method="post" action="/submit-shipping-info-endpoint">
+        <!-- 배송지 정보 입력란 -->
+        <div class="form-check">
+            <input type="checkbox" id="sameAsBilling" name="sameAsBilling" value="1" class="form-check-input">
+            <label for="sameAsBilling" class="form-check-label">주문자 정보와 동일</label>
+        </div>
+        <div class="form-group">
+            <label for="recipientName">받는 사람:</label>
+            <input type="text" id="recipientName" name="recipientName" class="form-control">
+        </div>
+        <!-- 주소 입력란 -->
+        <div class="form-group">
+            <label for="shippingAddress">주소:</label>
+            <div class="input-group">
+                <input type="text" id="sample4_postcode" placeholder="우편번호" class="form-control">
+                <div class="input-group-append">
+                    <button type="button" class="btn btn-primary" onclick="sample4_execDaumPostcode()">우편번호 찾기</button>
+                </div>
+            </div>
+        </div>
+        <div class="form-group">
+            <input type="text" id="sample4_roadAddress" placeholder="도로명주소" class="form-control">
+        </div>
+        <div class="form-group">
+            <input type="text" id="sample4_jibunAddress" placeholder="지번주소" class="form-control">
+        </div>
+        <div class="form-group">
+            <span id="guide" style="color:#999;display:none"></span>
+        </div>
+        <div class="form-group">
+            <input type="text" id="sample4_detailAddress" placeholder="상세주소" class="form-control">
+        </div>
+        <div class="form-group">
+            <input type="text" id="sample4_extraAddress" placeholder="참고항목" class="form-control">
+        </div>
+
+            <div class="form-group">
+            <label for="shippingMobile">휴대 전화:</label>
+            <input type="tel" id="shippingMobile" name="shippingMobile" class="form-control">
+        </div>
+    </form>
+</div>
+
+<!-- JavaScript 스크립트 및 다음 우편번호 서비스 스크립트 추가 -->
 <script src="https://code.jquery.com/jquery-3.2.1.slim.min.js"></script>
 <script src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.12.9/umd/popper.min.js"></script>
 <script src="https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0/js/bootstrap.min.js"></script>
-<!-- 다음 우편번호 서비스 스크립트 -->
+<script src="//t1.daumcdn.net/mapjsapi/bundle/postcode/prod/postcode.v2.js"></script>
+<script src="https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0/js/bootstrap.min.js"></script>
+<script>
+</script>
+<script src="//t1.daumcdn.net/mapjsapi/bundle/postcode/prod/postcode.v2.js"></script>
+<script>
+    //본 예제에서는 도로명 주소 표기 방식에 대한 법령에 따라, 내려오는 데이터를 조합하여 올바른 주소를 구성하는 방법을 설명합니다.
+    function sample4_execDaumPostcode() {
+        new daum.Postcode({
+            oncomplete: function(data) {
+                // 팝업에서 검색결과 항목을 클릭했을때 실행할 코드를 작성하는 부분.
+
+                // 도로명 주소의 노출 규칙에 따라 주소를 표시한다.
+                // 내려오는 변수가 값이 없는 경우엔 공백('')값을 가지므로, 이를 참고하여 분기 한다.
+                var roadAddr = data.roadAddress; // 도로명 주소 변수
+                var extraRoadAddr = ''; // 참고 항목 변수
+
+                // 법정동명이 있을 경우 추가한다. (법정리는 제외)
+                // 법정동의 경우 마지막 문자가 "동/로/가"로 끝난다.
+                if(data.bname !== '' && /[동|로|가]$/g.test(data.bname)){
+                    extraRoadAddr += data.bname;
+                }
+                // 건물명이 있고, 공동주택일 경우 추가한다.
+                if(data.buildingName !== '' && data.apartment === 'Y'){
+                   extraRoadAddr += (extraRoadAddr !== '' ? ', ' + data.buildingName : data.buildingName);
+                }
+                // 표시할 참고항목이 있을 경우, 괄호까지 추가한 최종 문자열을 만든다.
+                if(extraRoadAddr !== ''){
+                    extraRoadAddr = ' (' + extraRoadAddr + ')';
+                }
+
+                // 우편번호와 주소 정보를 해당 필드에 넣는다.
+                document.getElementById('sample4_postcode').value = data.zonecode;
+                document.getElementById("sample4_roadAddress").value = roadAddr;
+                document.getElementById("sample4_jibunAddress").value = data.jibunAddress;
+
+                // 참고항목 문자열이 있을 경우 해당 필드에 넣는다.
+                if(roadAddr !== ''){
+                    document.getElementById("sample4_extraAddress").value = extraRoadAddr;
+                } else {
+                    document.getElementById("sample4_extraAddress").value = '';
+                }
+
+                var guideTextBox = document.getElementById("guide");
+                // 사용자가 '선택 안함'을 클릭한 경우, 예상 주소라는 표시를 해준다.
+                if(data.autoRoadAddress) {
+                    var expRoadAddr = data.autoRoadAddress + extraRoadAddr;
+                    guideTextBox.innerHTML = '(예상 도로명 주소 : ' + expRoadAddr + ')';
+                    guideTextBox.style.display = 'block';
+
+                } else if(data.autoJibunAddress) {
+                    var expJibunAddr = data.autoJibunAddress;
+                    guideTextBox.innerHTML = '(예상 지번 주소 : ' + expJibunAddr + ')';
+                    guideTextBox.style.display = 'block';
+                } else {
+                    guideTextBox.innerHTML = '';
+                    guideTextBox.style.display = 'none';
+                }
+            }
+        }).open();
+    }
+</script>
+
 <script src="//t1.daumcdn.net/mapjsapi/bundle/postcode/prod/postcode.v2.js"></script>
 <script>
     // 주문자 정보와 배송 정보 동일 처리
@@ -150,97 +192,6 @@
             document.getElementById('shippingMobile').value = '';
         }
     });
-</script>
-<script>
-    function updateSubtotal(row) {
-        var priceCell = row.querySelector('.price');
-        var quantityInput = row.querySelector('[name="quantity"]');
-        var subtotalCell = row.querySelector('.subtotal');
-
-        if (priceCell && quantityInput && subtotalCell) {
-            var price = parseFloat(priceCell.textContent);
-            var quantity = parseInt(quantityInput.value);
-            if (quantity <= 0) {
-                quantityInput.value = 1;
-                quantity = 1;
-            }
-            var subtotal = price * quantity;
-            subtotalCell.textContent = subtotal;
-            updateTotal();
-        }
-    }
-
-    function updateTotal() {
-        var subtotalCells = document.querySelectorAll('.subtotal');
-        var totalCell = document.querySelector('.total');
-        var total = 0;
-        subtotalCells.forEach(function(subtotalCell) {
-            var subtotal = parseFloat(subtotalCell.textContent);
-            total += subtotal;
-        });
-        if (totalCell) {
-            totalCell.textContent = total;
-        }
-        // 총 주문 금액을 세션 스토리지에 저장
-        sessionStorage.setItem('totalAmount', total);
-    }
-
-    // "결제하기" 버튼 클릭 시 이벤트 핸들러
-    function redirectToPaymentPage() {
-        var totalAmount = document.querySelector('.total').textContent;
-        // 세션 스토리지에 총 주문 금액 저장
-        sessionStorage.setItem('totalAmount', totalAmount);
-        // 결제 페이지로 이동
-        window.location.href = "/payment/paymentpage";
-    }
-</script>
-<script>
-    var element_wrap = document.getElementById('wrap');
-
-    function foldDaumPostcode() {
-        element_wrap.style.display = 'none';
-    }
-
-    function sample3_execDaumPostcode() {
-        var currentScroll = Math.max(document.body.scrollTop, document.documentElement.scrollTop);
-        new daum.Postcode({
-            oncomplete: function(data) {
-                var addr = '';
-                var extraAddr = '';
-                if (data.userSelectedType === 'R') {
-                    addr = data.roadAddress;
-                } else {
-                    addr = data.jibunAddress;
-                }
-
-                if (data.userSelectedType === 'R') {
-                    if (data.bname !== '' && /[동|로|가]$/g.test(data.bname)) {
-                        extraAddr += data.bname;
-                    }
-                    if (data.buildingName !== '' && data.apartment === 'Y') {
-                        extraAddr += (extraAddr !== '' ? ', ' + data.buildingName : data.buildingName);
-                    }
-                    if (extraAddr !== '') {
-                        extraAddr = ' (' + extraAddr + ')';
-                    }
-                    document.getElementById('sample3_extraAddress').value = extraAddr;
-                } else {
-                    document.getElementById('sample3_extraAddress').value = '';
-                }
-                document.getElementById('sample3_postcode').value = data.zonecode;
-                document.getElementById('sample3_address').value = addr;
-                document.getElementById('sample3_detailAddress').focus();
-                element_wrap.style.display = 'none';
-                document.body.scrollTop = currentScroll;
-            },
-            onresize: function(size) {
-                element_wrap.style.height = size.height + 'px';
-            },
-            width: '100%',
-            height: '100%'
-        }).embed(element_wrap);
-        element_wrap.style.display = 'block';
-    }
 </script>
 </body>
 </html>
