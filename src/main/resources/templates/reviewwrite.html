@@ -1,32 +1,36 @@
 <!DOCTYPE html>
-<html lang="en">
+<html lang="en" xmlns:th="http://www.thymeleaf.org">
 <head>
     <meta charset="UTF-8">
     <title>게시글 작성폼</title>
 </head>
 
 <style>
-    .layout{
-        width : 500px;
-        margin : 0 auto;
-        margin-top :40px;
+    .layout {
+        width: 500px;
+        margin: 0 auto;
+        margin-top: 40px;
     }
 
     .layout input {
         width: 100%;
-        box-sizing :board-box;
+        box-sizing: border-box;
     }
 
     .layout textarea {
-        width :100%;
-        margin-top :10px;
-        min-height :300px;
+        width: 100%;
+        margin-top: 10px;
+        min-height: 300px;
     }
-
 </style>
 <body>
 <div class="layout">
     <form action="/review/writepro" method="post" enctype="multipart/form-data">
+        <label for="Pro_Code">상품 선택: </label>
+        <select name="Pro_Code" id="Pro_Code">
+            <option th:each="product : ${productList}" th:value="${product.Pro_Code}" th:text="${product.Pro_Name}"></option>
+        </select>
+        <br/>
         <label for="Rev_Title">제목: </label>
         <input name="Rev_Title" type="text" id="Rev_Title">
 
@@ -42,7 +46,5 @@
         <button type="submit">작성</button>
     </form>
 </div>
-
-
 </body>
 </html>

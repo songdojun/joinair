@@ -4,11 +4,11 @@
     <title>공지사항 페이지</title>
     <meta charset="utf-8">
     <meta name="viewport" content="width=device-width, initial-scale=1">
-    <link rel="apple-touch-icon" href="assets/img/apple-icon.png">
-    <link rel="shortcut icon" type="image/x-icon" href="assets/img/favicon.ico">
+    <link rel="apple-touch-icon" href="../static/assets/img/applef-icon.png">
+    <link rel="shortcut icon" type="image/x-icon" href="../static/assets/img/favicon.ico">
     <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.5.2/css/bootstrap.min.css">
-    <link rel="stylesheet" href="assets/css/templatemo.css">
-    <link rel="stylesheet" href="assets/css/custom.css">
+    <link rel="stylesheet" href="../static/assets/css/templatemo.css">
+    <link rel="stylesheet" href="../static/assets/css/custom.css">
     <link href="https://fonts.googleapis.com/css2?family=Roboto:wght@100;200;300;400;500;700;900&display=swap" rel="stylesheet">
     <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/font-awesome/4.7.0/css/font-awesome.min.css">
     <style>
@@ -26,49 +26,56 @@
     <div class="container text-light">
         <div class="w-100 d-flex justify-content-between">
             <div>
-                <!-- 이메일 아이콘과 이메일 주소를 표시 -->
                 <i class="fa fa-envelope mx-2"></i>
                 <a class="navbar-sm-brand text-light text-decoration-none" href="mailto:info@company.com">Doron delivery@Doron delivery.com</a>
-                <!-- 전화 아이콘과 전화번호를 표시 -->
                 <i class="fa fa-phone mx-2"></i>
-                <a class= "navbar-sm-brand text-light text-decoration-none" href="tel:010-1234-5678">010-1234-5678</a>
+                <a href="tel:010-1234-5678" class="navbar-sm-brand text-light text-decoration-none">010-1234-5678</a>
             </div>
+            <div>
+                <a class="text-light" href="https://fb.com/templatemo" target="_blank" rel="sponsored"><i class="fab fa-facebook-f fa-sm fa-fw me-2"></i></a>
+                <a class="text-light" href="https://www.instagram.com/" target="_blank"><i class="fab fa-instagram fa-sm fa-fw me-2"></i></a>
 
+                <a class="text-light" href="https://twitter.com/" target="_blank"><i class="fab fa-twitter fa-sm fa-fw me-2"></i></a>
+            </div>
         </div>
     </div>
 </nav>
-<!-- 상단 네비게이션 끝 -->
-
-<!-- 헤더 -->
 <nav class="navbar navbar-expand-lg navbar-light shadow">
     <div class="container d-flex justify-content-between align-items-center">
-        <a class="navbar-brand text-success logo h1 align-self-center" href="cart/index.html">
-            Join Air🪂
-        </a>
-        <button class="navbar-toggler border-0" type="button" data-bs-toggle="collapse" data-bs-target="#templatemo_main_nav" aria-controls="navbarSupportedContent" aria-expanded="false" aria-label="Toggle navigation">
+        <a class="navbar-brand text-success logo h1 align-self-center" href="/index">Join Air🪂</a>
+        <button class="navbar-toggler border-0" type="button" data-bs-toggle="collapse" data-bs-target="#templatemo_main_nav" aria-controls="templatemo_main_nav" aria-expanded="false" aria-label="Toggle navigation">
             <span class="navbar-toggler-icon"></span>
         </button>
         <div class="align-self-center collapse navbar-collapse flex-fill d-lg-flex justify-content-lg-between" id="templatemo_main_nav">
             <div class="flex-fill">
                 <ul class="nav navbar-nav d-flex justify-content-between mx-lg-auto">
                     <li class="nav-item">
-                        <a class="nav-link" href="cart/index.html">홈</a>
+                        <a class="nav-link" href="/index">홈</a>
                     </li>
                     <li class="nav-item">
-                        <a class="nav-link" href="about.html">회사소개</a>
+                        <a class="nav-link" href="/about">회사 소개</a>
                     </li>
                     <li class="nav-item">
-                        <a class="nav-link" href="shop.html">상품</a>
+                        <a class="nav-link" href="/productbuy/list">상품</a>
                     </li>
                     <li class="nav-item">
-                        <a class="nav-link" href="contact.html">문의</a>
+                        <a class="nav-link" href="/qna/qnaList">문의</a>
+                    </li>
+                    <li class="nav-item">
+                        <a class="nav-link" href="/notice/list">공지사항</a>
+                    </li>
+                    <li class="nav-item">
+                        <a class="nav-link" th:href="${session.User_Id != null} ? @{/logout} : @{/login}">
+                            <span th:if="${session.User_Id != null}">로그아웃</span>
+                            <span th:unless="${session.User_Id != null}">로그인</span>
+                        </a>
                     </li>
                 </ul>
             </div>
             <div class="navbar align-self-center d-flex">
                 <div class="d-lg-none flex-sm-fill mt-3 mb-4 col-7 col-sm-auto pr-3">
                     <div class="input-group">
-                        <input type="text" class="form-control" id="inputMobileSearch" placeholder="검색 ...">
+                        <input type="text" class="form-control" id="inputMobileSearch" placeholder="검색">
                         <div class="input-group-text">
                             <i class="fa fa-fw fa-search"></i>
                         </div>
@@ -77,18 +84,11 @@
                 <a class="nav-icon d-none d-lg-inline" href="#" data-bs-toggle="modal" data-bs-target="#templatemo_search">
                     <i class="fa fa-fw fa-search text-dark mr-2"></i>
                 </a>
-                <a class="nav-icon position-relative text-decoration-none" href="#">
-                    <i class="fa fa-fw fa-cart-arrow-down text-dark mr-1"></i>
-                    <span class="position-absolute top-0 left-100 translate-middle badge rounded-pill bg-light text-dark">1</span>
-                </a>
-                <a class="nav-icon position-relative text-decoration-none" href="#">
-                    <i class="fa fa-fw fa-user text-dark mr-3"></i>
-                    <span class="position-absolute top-0 left-100 translate-middle badge rounded-pill bg-light text-dark">+10</span>
-                </a>
             </div>
         </div>
     </div>
 </nav>
+
 <!-- 헤더 끝 -->
 
 <!-- 검색 모달 -->
@@ -162,13 +162,53 @@
     </div>
 </section>
 
+<section class="bg-light">
+    <div th:if="${Product != null}" class="container">
+        <div class="row">
+            <!-- Product 정보 출력 부분 (이전 내용 유지) -->
+
+            <!-- Rev 정보 테이블 추가 -->
+            <div class="col-lg-12 mt-5">
+                <h2 class="h3">상품 리뷰</h2>
+                <a th:href="@{/review/list}" class="btn btn-primary float-right">리뷰 더 보기</a>
+                <table class="table table-striped">
+                    <thead>
+                    <tr>
+                        <th>리뷰 번호</th>
+                        <th>리뷰 제목</th>
+                        <th>이미지</th>
+                        <th>리뷰 내용</th>
+                        <th>작성자</th>
+                        <th>작성일</th>
+                    </tr>
+                    </thead>
+                    <tbody>
+                    <!-- Rev 정보 반복 출력 -->
+                    <tr th:each="review : ${Product.Reviews}">
+                        <td th:text="${review.Rev_No}">리뷰 번호</td>
+                        <td th:text="${review.Rev_Title}">리뷰 제목</td>
+                        <td>
+                            <img th:src="@{${review.Rev_Filepath}}" alt="Thumbnail" style="max-width: 100px; max-height: 100px;">
+                        </td>
+                        <td th:text="${review.Rev_Content}">리뷰 내용</td>
+                        <td th:text="${review.Rev_Writer}">리뷰 작성자</td>
+                        <td th:text="${#dates.format(review.Rev_Date, 'yyyy-MM-dd HH:mm:ss')}">작성일</td>
+                    </tr>
+                    </tbody>
+                </table>
+            </div>
+        </div>
+    </div>
+</section>
+
 
 <!-- 콘텐츠 끝 -->
 
 <!-- 푸터 시작 -->
-<footer class="bg-dark" id="tempaltemo_footer">
+<footer class="bg-dark" id="tempaltemo_footer" style="margin-bottom: -1000px;">
     <div class="container">
         <div class="row">
+
             <div class="col-md-4 pt-5">
                 <h2 class="h2 text-success border-bottom pb-3 border-light logo">Join Air🪂</h2>
                 <ul class="list-unstyled text-light footer-link-list">
@@ -178,32 +218,41 @@
                     </li>
                     <li>
                         <i class="fa fa-phone fa-fw"></i>
-                        <a class="text-decoration-none" href="tel:010-1234-5678">010-1234-5678</a>
+                        <a class="text-decoration-none" href="tel:010-020-0340">010-1234-1234</a>
                     </li>
                     <li>
                         <i class="fa fa-envelope fa-fw"></i>
-                        <a class="text-decoration-none" href="mailto:info@dronefood.com">drone@dronedelivery.com</a>
+                        <a class="text-decoration-none" href="mailto:info@company.com">drone delivery
+                            @drone delivery
+                            .com</a>
                     </li>
                 </ul>
             </div>
+
             <div class="col-md-4 pt-5">
                 <h2 class="h2 text-light border-bottom pb-3 border-light">메뉴</h2>
                 <ul class="list-unstyled text-light footer-link-list">
-                    <li><a class="text-decoration-none" href="#">주문 하기</a></li>
+                    <li><a class="text-decoration-none" href="#">주문하기</a></li>
                     <li><a class="text-decoration-none" href="#">배달 정보</a></li>
-                    <li><a class="text-decoration-none" href="#">고객 지원</a></li>
-                    <li><a class="text-decoration-none" href="#">드론 정보</a></li>
+                    <li><a class="text-decoration-none" href="#">고객지원</a></li>
+
+
                 </ul>
             </div>
+
             <div class="col-md-4 pt-5">
-                <h2 class="h2 text-light border-bottom pb-3 border-light">정보</h2>
+                <h2 class="h2 text-light border-bottom pb-3 border-light">추가 정보</h2>
                 <ul class="list-unstyled text-light footer-link-list">
-                    <li><a class="text-decoration-none" href="http://localhost:63342/joinair/src/main/resources/boot/index.html">홈</a></li>
-                    <li><a class="text-decoration-none" href="http://localhost:63342/joinair/src/main/resources/boot/about.html">회사/소개</a></li>
-                    <li><a class="text-decoration-none" href="http://localhost:63342/joinair/src/main/resources/boot/contact.html">문의</a></li>
+                    <li><a class="text-decoration-none" href="/index">홈</a></li>
+                    <li><a class="text-decoration-none" href="/about">회사 소개</a></li>
+                    <li><a class="text-decoration-none" href="#">드론 정보</a></li>
+                    <li><a class="text-decoration-none" href="#">고객센터</a></li>
+
                 </ul>
             </div>
+
         </div>
+
         <div class="row text-light mb-4">
             <div class="col-12 mb-3">
                 <div class="w-100 my-3 border-top border-light"></div>
@@ -211,41 +260,55 @@
             <div class="col-auto me-auto">
                 <ul class="list-inline text-left footer-icons">
                     <li class="list-inline-item border border-light rounded-circle text-center">
-                        <a class="text-light text-decoration-none" target="_blank" href="http://facebook.com/"><i class="fab fa-facebook-f fa-lg fa-fw"></i></a>
+                        <a rel="nofollow" class="text-light text-decoration-none" target="_blank" href="http://fb.com/templatemo"><i class="fab fa-facebook-f fa-lg fa-fw"></i></a>
                     </li>
                     <li class="list-inline-item border border-light rounded-circle text-center">
                         <a class="text-light text-decoration-none" target="_blank" href="https://www.instagram.com/"><i class="fab fa-instagram fa-lg fa-fw"></i></a>
                     </li>
+
+
                     <li class="list-inline-item border border-light rounded-circle text-center">
                         <a class="text-light text-decoration-none" target="_blank" href="https://twitter.com/"><i class="fab fa-twitter fa-lg fa-fw"></i></a>
                     </li>
                 </ul>
             </div>
+            <div class="col-auto">
+                <label class="sr-only" for="subscribeEmail">Drone Delivery@drone delivery.com
+
+                </label>
+                <div class="input-group mb-2">
+                    <input type="text" class="form-control bg-dark border-light" id="subscribeEmail" placeholder="">
+
+                </div>
+            </div>
         </div>
     </div>
+
     <div class="w-100 bg-black py-3">
         <div class="container">
             <div class="row pt-2">
                 <div class="col-12">
                     <p class="text-left text-light">
                         저작권 © 2023 Join Air
+                        <a rel="sponsored" href="https://templatemo.com/page/1" target="_blank"></a>
                     </p>
                 </div>
             </div>
         </div>
     </div>
+
 </footer>
 <!-- 푸터 끝 -->
 
 <!-- 스크립트 시작 -->
 <!-- Start Script -->
 <!-- 스크립트 시작 -->
-<script src="assets/js/jquery-1.11.0.min.js"></script>
-<script src="assets/js/jquery-migrate-1.2.1.min.js"></script>
-<script src="assets/js/bootstrap.bundle.min.js"></script>
-<script src="assets/js/templatemo.js"></script>
-<script src="assets/js/custom.js"></script>
-<script src="assets/js/slick.min.js"></script>
+<script src="../static/assets/js/jquery-1.11.0.min.js"></script>
+<script src="../static/assets/js/jquery-migrate-1.2.1.min.js"></script>
+<script src="../static/assets/js/bootstrap.bundle.min.js"></script>
+<script src="../static/assets/js/templatemo.js"></script>
+<script src="../static/assets/js/custom.js"></script>
+<script src="../static/assets/js/slick.min.js"></script>
 
 <script>
     document.addEventListener('DOMContentLoaded', function() {
@@ -299,6 +362,34 @@ function addToCart() {
 
 
 
+</script>
+
+<!--로그인 → 로그아웃-->
+<script>
+    // 세션 상태 확인
+    var userId = sessionStorage.getItem("User_Id");
+
+    // 로그인 및 로그아웃 메뉴 요소 가져오기
+    var loginItem = document.querySelector(".nav-item .nav-link[href='/login']");
+    var logoutItem = document.querySelector(".nav-item .nav-link[href='/logout']");
+
+    if (userId) {
+        // 세션이 있으면 로그인 메뉴 항목을 감추고 로그아웃 메뉴 항목을 표시합니다
+        loginItem.style.display = "none";
+        logoutItem.style.display = "block";
+    } else {
+        // 세션이 없으면 로그인 메뉴 항목을 표시하고 로그아웃 메뉴 항목을 감춥니다
+        loginItem.style.display = "block";
+        logoutItem.style.display = "none";
+    }
+
+    // 로그아웃 메뉴 항목 클릭 시 세션 삭제
+    logoutItem.addEventListener("click", function() {
+        sessionStorage.removeItem("User_Id");
+        // 로그아웃 후 로그인 메뉴 항목을 표시하고 로그아웃 메뉴 항목을 감춥니다
+        loginItem.style.display = "block";
+        logoutItem.style.display = "none";
+    });
 </script>
 
 <!-- End Slider Script -->

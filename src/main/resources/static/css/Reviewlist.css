@@ -1,0 +1,78 @@
+/* Reviewlist.css */
+.layout {
+    width: 100%;
+    max-width: 1000px;
+    margin: 0 auto;
+    margin-top: 40px;
+    text-align: center;
+}
+
+table {
+    width: 100%;
+    table-layout: fixed;
+    border-collapse: collapse;
+}
+
+th, td {
+    border: 1px solid #ddd;
+    padding: 8px;
+    text-align: left;
+    overflow: hidden;
+    text-overflow: ellipsis;
+    white-space: nowrap;
+}
+
+.title-column {
+    width: 25%;
+}
+
+.small-column {
+    width: 10%;
+}
+
+.category-column {
+    width: 20%;
+}
+
+.date-column {
+    width: 20%;
+}
+
+.pagination {
+    margin-top: 20px;
+}
+
+.horizontal-pagination {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+}
+
+.horizontal-pagination a {
+    margin: 0 5px;
+    text-decoration: none;
+}
+
+.horizontal-pagination a.current-page {
+    color: red;
+}
+
+.current-page {
+    font-weight: bold;
+}
+
+.no-results {
+    font-weight: bold;
+    font-size: 18px;
+    margin-top: 10px;
+}
+
+/* 기존의 링크에 있는 밑줄을 없애는 스타일 */
+a {
+    text-decoration: none; /* 링크에 있는 밑줄 제거 */
+}
+
+/* 현재 페이지 번호에 있는 밑줄을 없애는 스타일 */
+a.current-page {
+    text-decoration: none; /* 링크에 있는 밑줄 제거 */
+}

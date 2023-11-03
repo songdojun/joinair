@@ -1,7 +1,10 @@
 package com.example.joinair.controller;
 
 
+import com.example.joinair.entity.Product;
 import com.example.joinair.entity.Review;
+import com.example.joinair.service.ProductBuyService;
+import com.example.joinair.service.ProductService;
 import com.example.joinair.service.ReviewService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.domain.Page;
@@ -13,7 +16,10 @@ import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
+import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.multipart.MultipartFile;
+
+import java.util.List;
 
 import static com.example.joinair.service.ReviewService.write;
 
@@ -23,46 +29,46 @@ public class ReviewController {
     @Autowired
     private ReviewService reviewService;
 
-    @GetMapping("/review/write") //localhost:8080/review/write
-    public String reviewWriteForm() {
-        return "reviewwrite";
+
+    @Autowired
+    private ProductBuyService productBuyService;
+
+    @GetMapping("/review/write")
+    public String showReviewForm(Model model) {
+        List<Product> productList = productBuyService.productbuyList(); // productBuyRepository를 통해 상품 목록을 가져옴
+        model.addAttribute("productList", productList); // 모델에 productList를 추가
+        return "reviewwrite"; // 리뷰 작성 페이지로 이동
     }
 
     @PostMapping("review/writepro")
     public String reviewWritePro(Review review, Model model, MultipartFile file) throws Exception {
-
-        write(review,file);
-
+        write(review, file);
         model.addAttribute("message", "글 작성이 완료되었습니다.");
         model.addAttribute("searchUrl", "/review/list");
         return "message";
-
     }
+
+
+
 
     @GetMapping("/review/list")
     public String reviewList(Model model,
-                             @PageableDefault(page = 0, size = 10, sort = "Rev_No", direction = Sort.Direction.DESC) Pageable pageable,
-                             String searchKeyword) {
+                                @PageableDefault(page = 0, size = 10, sort = "Rev_No", direction = Sort.Direction.DESC) Pageable pageable,
+                                @RequestParam(name = "searchOption", required = false) String searchOption,
+                                @RequestParam(name = "searchKeyword", required = false) String searchKeyword) {
+        Page<Review> list = reviewService.reviewSearchList(searchOption, searchKeyword, pageable);
 
-        Page<Review> list = null;
+        int nowPage = list.getPageable().getPageNumber() + 1;
+        int startPage = Math.max(nowPage - 4, 1);
+        int endPage = Math.min(nowPage + 5, list.getTotalPages());
 
-        if(searchKeyword ==null){
-             list = reviewService.reviewListWithPagination(pageable);
-        }else{
-             list = reviewService.reviewSearchList(searchKeyword, pageable);
-        }
-
-
-
-        int nowPage= list.getPageable().getPageNumber()+1;
-        int startPage = Math.max(nowPage -4,1);
-        int endPage= Math.min(nowPage+5,list.getTotalPages());
-
-
+        // Add search parameters to the model
         model.addAttribute("list", list);
         model.addAttribute("nowPage", nowPage);
         model.addAttribute("startPage", startPage);
         model.addAttribute("endPage", endPage);
+        model.addAttribute("searchOption", searchOption);
+        model.addAttribute("searchKeyword", searchKeyword); // Pass search keyword to the view
 
         return "reviewlist";
     }

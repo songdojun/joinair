@@ -1,5 +1,6 @@
 package com.example.joinair.entity;
 
+import com.example.joinair.dto.USERS;
 import jakarta.persistence.*;
 import lombok.Data;
 
@@ -10,9 +11,13 @@ import java.util.Date;
 @Table(name = "REVIEW") // REVIEW 테이블과 매핑
 public class Review {
 
+
+
+
     @ManyToOne
     @JoinColumn(name = "Pro_Code", referencedColumnName = "Pro_Code", insertable = false, updatable = false)
     private Product product;
+
 
 
     @Id
@@ -115,9 +120,5 @@ public class Review {
 
     public void setRev_No(Integer rev_No) {
         Rev_No = rev_No;
-    }
-
-    public String getProName() {
-        return product.getPro_Name();
     }
 }

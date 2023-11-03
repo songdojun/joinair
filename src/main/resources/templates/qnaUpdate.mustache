@@ -1,11 +1,97 @@
 <!DOCTYPE html>
 <html lang="en">
 <head>
+    <title>JoinAir</title>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+
+    <link rel="apple-touch-icon" href="../static/assets/img/apple-icon.png">
+    <link rel="shortcut icon" type=" image/x-icon" href="../static/assets/img/favicon.ico">
+
+    <link rel="stylesheet" href="../static/assets/css/bootstrap.min.css">
+    <link rel="stylesheet" href="../static/assets/css/templatemo.css">
+    <link rel="stylesheet" href="../static/assets/css/custom.css">
+
+    <link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Roboto:wght@100;200;300;400;500;700;900&display=swap">
+    <link rel="stylesheet" href="../static/assets/css/fontawesome.min.css">
+    <style>
+        #tempaltemo_footer {
+            margin-bottom: 300px;
+        }
+    </style>
+
     <meta charset="UTF-8">
-    <title>Q&A 수정</title>
+    <title>Q&A 추가</title>
+    <!-- Add Bootstrap CSS -->
     <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/4.5.2/css/bootstrap.min.css">
 </head>
 <body>
+<nav class="navbar navbar-expand-lg bg-dark navbar-light d-none d-lg-block" id="templatemo_nav_top">
+    <div class="container text-light">
+        <div class="w-100 d-flex justify-content-between">
+            <div>
+                <i class="fa fa-envelope mx-2"></i>
+                <a class="navbar-sm-brand text-light text-decoration-none" href="mailto:info@company.com">Doron delivery@Doron delivery.com</a>
+                <i class="fa fa-phone mx-2"></i>
+                <a href="tel:010-1234-5678" class="navbar-sm-brand text-light text-decoration-none">010-1234-5678</a>
+            </div>
+            <div>
+                <a class="text-light" href="https://fb.com/templatemo" target="_blank" rel="sponsored"><i class="fab fa-facebook-f fa-sm fa-fw me-2"></i></a>
+                <a class="text-light" href="https://www.instagram.com/" target="_blank"><i class="fab fa-instagram fa-sm fa-fw me-2"></i></a>
+
+                <a class="text-light" href="https://twitter.com/" target="_blank"><i class="fab fa-twitter fa-sm fa-fw me-2"></i></a>
+            </div>
+        </div>
+    </div>
+</nav>
+<nav class="navbar navbar-expand-lg navbar-light shadow">
+    <div class="container d-flex justify-content-between align-items-center">
+        <a class="navbar-brand text-success logo h1 align-self-center" href="/index">Join Air🪂</a>
+        <button class="navbar-toggler border-0" type="button" data-bs-toggle="collapse" data-bs-target="#templatemo_main_nav" aria-controls="templatemo_main_nav" aria-expanded="false" aria-label="Toggle navigation">
+            <span class="navbar-toggler-icon"></span>
+        </button>
+        <div class="align-self-center collapse navbar-collapse flex-fill d-lg-flex justify-content-lg-between" id="templatemo_main_nav">
+            <div class="flex-fill">
+                <ul class="nav navbar-nav d-flex justify-content-between mx-lg-auto">
+                    <li class="nav-item">
+                        <a class="nav-link" href="/index">홈</a>
+                    </li>
+                    <li class="nav-item">
+                        <a class="nav-link" href="/about">회사 소개</a>
+                    </li>
+                    <li class="nav-item">
+                        <a class="nav-link" href="/productbuy/list">상품</a>
+                    </li>
+                    <li class="nav-item">
+                        <a class="nav-link" href="/qna/qnaList">문의</a>
+                    </li>
+                    <li class="nav-item">
+                        <a class="nav-link" href="/notice/list">공지사항</a>
+                    </li>
+                    <li class="nav-item" id="loginButton">
+                        <a class="nav-link" href="/login">로그인</a>
+                    </li>
+                    <li class="nav-item" id="logoutButton" style="display: none;">
+                        <a class="nav-link" href="/logout">로그아웃</a>
+                    </li>
+                </ul>
+            </div>
+            <div class="navbar align-self-center d-flex">
+                <div class="d-lg-none flex-sm-fill mt-3 mb-4 col-7 col-sm-auto pr-3">
+                    <div class="input-group">
+                        <input type="text" class="form-control" id="inputMobileSearch" placeholder="검색">
+                        <div class="input-group-text">
+                            <i class="fa fa-fw fa-search"></i>
+                        </div>
+                    </div>
+                </div>
+                <a class="nav-icon d-none d-lg-inline" href="#" data-bs-toggle="modal" data-bs-target="#templatemo_search">
+                    <i class="fa fa-fw fa-search text-dark mr-2"></i>
+                </a>
+            </div>
+        </div>
+    </div>
+</nav>
 <div class="container mt-5">
     <h1>Q&A 수정</h1>
     <form method="post" action="/qna/qnaUpdate/{{qna.QNA_NO}}">
@@ -30,5 +116,118 @@
     </form>
     <a href="/qna/qnaList" class="btn btn-secondary">뒤로 가기</a>
 </div>
+<footer class="bg-dark" id="tempaltemo_footer" style="margin-bottom: -1000px;">
+    <div class="container">
+        <div class="row">
+
+            <div class="col-md-4 pt-5">
+                <h2 class="h2 text-success border-bottom pb-3 border-light logo">Join Air🪂</h2>
+                <ul class="list-unstyled text-light footer-link-list">
+                    <li>
+                        <i class="fas fa-map-marker-alt fa-fw"></i>
+                        한국직업전문학교 11층 강의실02 항공4기 2조
+                    </li>
+                    <li>
+                        <i class="fa fa-phone fa-fw"></i>
+                        <a class="text-decoration-none" href="tel:010-020-0340">010-1234-1234</a>
+                    </li>
+                    <li>
+                        <i class="fa fa-envelope fa-fw"></i>
+                        <a class="text-decoration-none" href="mailto:info@company.com">drone delivery
+                            @drone delivery
+                            .com</a>
+                    </li>
+                </ul>
+            </div>
+
+            <div class="col-md-4 pt-5">
+                <h2 class="h2 text-light border-bottom pb-3 border-light">메뉴</h2>
+                <ul class="list-unstyled text-light footer-link-list">
+                    <li><a class="text-decoration-none" href="#">주문하기</a></li>
+                    <li><a class="text-decoration-none" href="#">배달 정보</a></li>
+                    <li><a class="text-decoration-none" href="#">고객지원</a></li>
+
+
+                </ul>
+            </div>
+
+            <div class="col-md-4 pt-5">
+                <h2 class="h2 text-light border-bottom pb-3 border-light">추가 정보</h2>
+                <ul class="list-unstyled text-light footer-link-list">
+                    <li><a class="text-decoration-none" href="/index">홈</a></li>
+                    <li><a class="text-decoration-none" href="/about">회사 소개</a></li>
+                    <li><a class="text-decoration-none" href="#">드론 정보</a></li>
+                    <li><a class="text-decoration-none" href="#">고객센터</a></li>
+
+                </ul>
+            </div>
+
+        </div>
+
+        <div class="row text-light mb-4">
+            <div class="col-12 mb-3">
+                <div class="w-100 my-3 border-top border-light"></div>
+            </div>
+            <div class="col-auto me-auto">
+                <ul class="list-inline text-left footer-icons">
+                    <li class="list-inline-item border border-light rounded-circle text-center">
+                        <a rel="nofollow" class="text-light text-decoration-none" target="_blank" href="http://fb.com/templatemo"><i class="fab fa-facebook-f fa-lg fa-fw"></i></a>
+                    </li>
+                    <li class="list-inline-item border border-light rounded-circle text-center">
+                        <a class="text-light text-decoration-none" target="_blank" href="https://www.instagram.com/"><i class="fab fa-instagram fa-lg fa-fw"></i></a>
+                    </li>
+
+
+                    <li class="list-inline-item border border-light rounded-circle text-center">
+                        <a class="text-light text-decoration-none" target="_blank" href="https://twitter.com/"><i class="fab fa-twitter fa-lg fa-fw"></i></a>
+                    </li>
+                </ul>
+            </div>
+            <div class="col-auto">
+                <label class="sr-only" for="subscribeEmail">Drone Delivery@drone delivery.com
+
+                </label>
+                <div class="input-group mb-2">
+                    <input type="text" class="form-control bg-dark border-light" id="subscribeEmail" placeholder="">
+
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <div class="w-100 bg-black py-3">
+        <div class="container">
+            <div class="row pt-2">
+                <div class="col-12">
+                    <p class="text-left text-light">
+                        저작권 © 2023 Join Air
+                        <a rel="sponsored" href="https://templatemo.com/page/1" target="_blank"></a>
+                    </p>
+                </div>
+            </div>
+        </div>
+    </div>
+
+</footer>
+<!-- Mustache.js 라이브러리를 포함합니다 -->
+<script src="https://cdnjs.cloudflare.com/ajax/libs/mustache.js/4.2.0/mustache.min.js"></script>
+<script>
+    // 사용자 로그인 상태 확인 (예: 사용자가 로그인 중이면 true, 로그아웃 중이면 false)
+    var userLoggedIn = true;  // 또는 false, 이를 사용자의 로그인 상태에 맞게 설정하세요.
+
+    // 사용자 로그인 상태에 따라 버튼 표시/숨김 처리
+    var loginButton = document.getElementById("loginButton");
+    var logoutButton = document.getElementById("logoutButton");
+
+    if (userLoggedIn) {
+        // 사용자가 로그인 중인 경우
+        loginButton.style.display = "none";  // 로그인 버튼 숨김
+        logoutButton.style.display = "block"; // 로그아웃 버튼 표시
+    } else {
+        // 사용자가 로그아웃 중인 경우
+        loginButton.style.display = "block"; // 로그인 버튼 표시
+        logoutButton.style.display = "none";  // 로그아웃 버튼 숨김
+    }
+</script>
 </body>
 </html>

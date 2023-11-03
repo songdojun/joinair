@@ -10,26 +10,153 @@
     <h1 class="text-center">결제창</h1>
 
     <!-- 결제 예정금액 -->
-    <p>총 상품 주문금액: <span class="total" id="total">0</span></p>
+    <p>총 상품 주문금액: <span class="total" id="total"></span></p>
     <p>할인 금액: <span id="discountAmount">0</span></p>
-    <p>총 적립 금액: <span id="rewardAmount">0</span></p>
-    <p>최종 결제 금액: <span id="finalAmount">0</span></p>
-
+    <p>총 적립 금액: <span class="reward" id="rewardAmount"></span></p>
+    <p>최종 결제 금액: <span class="final" id="total1"></span></p>
     <!-- 결제버튼 -->
     <button onclick="requestCardPayment()" class="btn btn-primary">카드결제</button>
     <button onclick="redirectToBankTransferPage()" class="btn btn-primary">무통장입금</button>
 </div>
+<!-- 푸터 -->
+<footer class="bg-dark" id="tempaltemo_footer" style="margin-bottom: -1000px;">
+    <div class="container">
+        <div class="row">
+
+            <div class="col-md-4 pt-5">
+                <h2 class="h2 text-success border-bottom pb-3 border-light logo">Join Air🪂</h2>
+                <ul class="list-unstyled text-light footer-link-list">
+                    <li>
+                        <i class="fas fa-map-marker-alt fa-fw"></i>
+                        한국직업전문학교 11층 강의실02 항공4기 2조
+                    </li>
+                    <li>
+                        <i class="fa fa-phone fa-fw"></i>
+                        <a class="text-decoration-none" href="tel:010-020-0340">010-1234-1234</a>
+                    </li>
+                    <li>
+                        <i class="fa fa-envelope fa-fw"></i>
+                        <a class="text-decoration-none" href="mailto:info@company.com">drone delivery
+                            @drone delivery
+                            .com</a>
+                    </li>
+                </ul>
+            </div>
+
+            <div class="col-md-4 pt-5">
+                <h2 class="h2 text-light border-bottom pb-3 border-light">메뉴</h2>
+                <ul class="list-unstyled text-light footer-link-list">
+                    <li><a class="text-decoration-none" href="#">주문하기</a></li>
+                    <li><a class="text-decoration-none" href="#">배달 정보</a></li>
+                    <li><a class="text-decoration-none" href="#">고객지원</a></li>
+
+
+                </ul>
+            </div>
+
+            <div class="col-md-4 pt-5">
+                <h2 class="h2 text-light border-bottom pb-3 border-light">추가 정보</h2>
+                <ul class="list-unstyled text-light footer-link-list">
+                    <li><a class="text-decoration-none" href="/index">홈</a></li>
+                    <li><a class="text-decoration-none" href="/about">회사 소개</a></li>
+                    <li><a class="text-decoration-none" href="#">드론 정보</a></li>
+                    <li><a class="text-decoration-none" href="#">고객센터</a></li>
+
+                </ul>
+            </div>
+
+        </div>
+
+        <div class="row text-light mb-4">
+            <div class="col-12 mb-3">
+                <div class="w-100 my-3 border-top border-light"></div>
+            </div>
+            <div class="col-auto me-auto">
+                <ul class="list-inline text-left footer-icons">
+                    <li class="list-inline-item border border-light rounded-circle text-center">
+                        <a rel="nofollow" class="text-light text-decoration-none" target="_blank" href="http://fb.com/templatemo"><i class="fab fa-facebook-f fa-lg fa-fw"></i></a>
+                    </li>
+                    <li class="list-inline-item border border-light rounded-circle text-center">
+                        <a class="text-light text-decoration-none" target="_blank" href="https://www.instagram.com/"><i class="fab fa-instagram fa-lg fa-fw"></i></a>
+                    </li>
+
+
+                    <li class="list-inline-item border border-light rounded-circle text-center">
+                        <a class="text-light text-decoration-none" target="_blank" href="https://twitter.com/"><i class="fab fa-twitter fa-lg fa-fw"></i></a>
+                    </li>
+                </ul>
+            </div>
+            <div class="col-auto">
+                <label class="sr-only" for="subscribeEmail">Drone Delivery@drone delivery.com
+
+                </label>
+                <div class="input-group mb-2">
+                    <input type="text" class="form-control bg-dark border-light" id="subscribeEmail" placeholder="">
+
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <div class="w-100 bg-black py-3">
+        <div class="container">
+            <div class="row pt-2">
+                <div class="col-12">
+                    <p class="text-left text-light">
+                        저작권 © 2023 Join Air
+                        <a rel="sponsored" href="https://templatemo.com/page/1" target="_blank"></a>
+                    </p>
+                </div>
+            </div>
+        </div>
+    </div>
+
+</footer>
 
 <script>
+    // 페이지 로드 시 실행되는 함수
+    window.onload = function () {
+        // 세션에서 총 주문 금액과 할인 금액을 가져와서 동적으로 삽입
+        var totalAmount = sessionStorage.getItem('totalAmount');
+        var discountAmount = sessionStorage.getItem('discountAmount');
+        var totalElements = document.getElementsByClassName('total');
+        var discountElement = document.getElementById('discountAmount');
+        var rewardElement = document.getElementById('rewardAmount');
+        var finalElement = document.getElementById('total1');
+
+        for (var i = 0; i < totalElements.length; i++) {
+            totalElements[i].textContent = totalAmount;
+        }
+
+        // 할인 금액 표시
+        discountElement.textContent = discountAmount;
+
+        // 최종 결제 금액 계산
+        var finalPaymentAmount = totalAmount - discountAmount;
+        finalElement.textContent = finalPaymentAmount;
+
+        // 총 적립 금액 계산
+        var rewardAmount = finalPaymentAmount * 0.05; // 5%로 적립
+        rewardElement.textContent = rewardAmount;
+
+        // 아임포트에서 사용할 amount 값을 업데이트
+        var amountField = document.querySelector("input[name='amount']"); // 아임포트 API에서 사용하는 amount 필드를 찾음
+        amountField.value = finalPaymentAmount; // amount 필드의 값을 최종 결제 금액으로 업데이트
+    };
+</script>
+<script>
+    // 아임포트 초기화 및 카드결제 요청
     function requestCardPayment() {
-        // 아임포트 초기화 및 카드결제 요청
+        var finalPaymentAmount = parseFloat(document.querySelector('.final').textContent);
+        var merchant_uid = 'merchant_' + new Date().getTime();
+
         IMP.init('iamport'); // 'iamport' 대신 자신의 가맹점 식별코드를 사용하세요
         IMP.request_pay({
             pg: "inicis", // PG사 선택 (예: "inicis" 또는 "kakaopay")
             pay_method: "card", // 결제 수단 선택 (예: "card", "trans", "vbank", "phone")
-            merchant_uid: 'merchant_' + new Date().getTime(), // 고유 주문번호 생성
-            name: '결제테스트', // 상품명
-            amount: 9500, // 결제 금액
+            merchant_uid: merchant_uid, // 고유 주문번호 생성
+            name: 'joinair', // 상품명
+            amount: finalPaymentAmount, // 결제 금액
             buyer_email: 'iamport@siot.do', // 구매자 이메일
             buyer_name: '구매자', // 구매자 이름
             buyer_tel: '010-1234-5678', // 구매자 전화번호
@@ -53,12 +180,9 @@
         // /payment/Deposit 페이지로 이동
         window.location.href = "/payment/Deposit";
     }
-
 </script>
-
 <!-- 결제 API 스크립트 추가 -->
 <script src="https://code.jquery.com/jquery-1.12.4.min.js"></script>
 <script src="https://cdn.iamport.kr/js/iamport.payment-1.1.5.js"></script>
-
 </body>
 </html>

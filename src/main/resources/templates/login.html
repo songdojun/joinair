@@ -4,13 +4,13 @@
     <meta charset="utf-8">
     <meta name="viewport" content="width=device-width, initial-scale=1">
     <title>로그인 페이지</title>
-    <link rel="apple-touch-icon" href="assets/img/apple-icon.png">
-    <link rel="shortcut icon" type="image/x-icon" href="assets/img/favicon.ico">
+    <link rel="apple-touch-icon" href="../static/assets/img/apple-icon.png">
+    <link rel="shortcut icon" type="image/x-icon" href="../static/assets/img/favicon.ico">
     <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/4.5.2/css/bootstrap.min.css">
-    <link rel="stylesheet" href="assets/css/templatemo.css">
-    <link rel="stylesheet" href="assets/css/custom.css">
+    <link rel="stylesheet" href="../static/assets/css/templatemo.css">
+    <link rel="stylesheet" href="../static/assets/css/custom.css">
     <link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Roboto:wght@100;200;300;400;500;700;900&display=swap">
-    <link rel="stylesheet" href="assets/css/fontawesome.min.css">
+    <link rel="stylesheet" href="../static/assets/css/fontawesome.min.css">
     <link rel="stylesheet" href="https://unpkg.com/leaflet@1.7.1/dist/leaflet.css"
           integrity="sha512-xodZBNTC5n17Xt2atTPuE1HxjVMSvLVW9ocqUKLsCC5CXdbqCmblAshOMAS6/keqq/sMZMZ19scR4PsZChSR7A==" crossorigin=""/>
     <style>
@@ -48,6 +48,7 @@
                 <a class="navbar-sm-brand text-light text-decoration-none" href="mailto:info@company.com">Doron delivery@Doron delivery.com</a>
                 <i class="fa fa-phone mx-2"></i>
                 <a class="navbar-sm-brand text-light text-decoration-none" href="tel:010-1234-5678">010-1234-5678</a>
+                <p th:if="${session.userId != null}">접속된 ID: <span th:text="${session.userId}"></span></p>
             </div>
             <div>
                 <a class="text-light" href="https://fb.com/templatemo" target="_blank" rel="sponsored"><i class="fab fa-facebook-f fa-sm fa-fw me-2"></i></a>
@@ -59,7 +60,7 @@
 </nav>
 <nav class="navbar navbar-expand-lg navbar-light shadow">
     <div class="container d-flex justify-content between align-items-center">
-        <a class="navbar-brand text-success logo h1 align-self-center" href="index.html">Join Air🪂</a>
+        <a class="navbar-brand text-success logo h1 align-self-center" href="/index">Join Air🪂</a>
         <button class="navbar-toggler border-0" type="button" data-bs-toggle="collapse" data-bs-target="#templatemo_main_nav"
                 aria-controls="templatemo_main_nav" aria-expanded="false" aria-label="Toggle navigation">
             <span class="navbar-toggler-icon"></span>
@@ -68,22 +69,22 @@
             <div class="flex-fill">
                 <ul class="nav navbar-nav d-flex justify-content-between mx-lg-auto">
                     <li class="nav-item">
-                        <a class="nav-link" href="index.html">홈</a>
+                        <a class="nav-link" href="/index">홈</a>
                     </li>
                     <li class="nav-item">
-                        <a class="nav-link" href="about.html">회사 소개</a>
+                        <a class="nav-link" href="/about">회사 소개</a>
                     </li>
                     <li class="nav-item">
-                        <a class="nav-link" href="shop.html">상품</a>
+                        <a class="nav-link" href="/productbuy/list">상품</a>
                     </li>
                     <li class="nav-item">
-                        <a class="nav-link" href="contact.html">문의</a>
+                        <a class="nav-link" href="/qna/qnaList">문의</a>
                     </li>
                     <li class="nav-item">
-                        <a class="nav-link" href="http://localhost:8080/notice/list">공지사항</a>
+                        <a class="nav-link" href="/notice/list">공지사항</a>
                     </li>
                     <li class="nav-item">
-                        <a class="nav-link" href="#">로그인</a>
+                        <a class="nav-link" href="/login">로그인</a>
                     </li>
                     <li class="nav-item">
                         <a class="nav-link" href="#">회원가입</a>
@@ -183,9 +184,9 @@
             <div class="col-md-4 pt-5">
                 <h2 class="h2 text-light border-bottom pb-3 border-light">정보</h2>
                 <ul class="list-unstyled text-light footer-link-list">
-                    <li><a class="text-decoration-none" href="http://localhost:63342/joinair/src/main/resources/boot/index.html">홈</a></li>
-                    <li><a class="text-decoration-none" href="http://localhost:63342/joinair/src/main/resources/boot/about.html">회사/소개</a></li>
-                    <li><a class="text-decoration-none" href="http://localhost:63342/joinair/src/main/resources/boot/contact.html">문의</a></li>
+                    <li><a class="text-decoration-none" href="/index">홈</a></li>
+                    <li><a class="text-decoration-none" href="/about">회사/소개</a></li>
+                    <li><a class="text-decoration-none" href="/qna/qnaList">문의</a></li>
                 </ul>
             </div>
         </div>
@@ -210,10 +211,20 @@
         </div>
     </div>
 </footer>
-<script src="assets/js/jquery-1.11.0.min.js"></script>
-<script src="assets/js/jquery-migrate-1.2.1.min.js"></script>
-<script src="assets/js/bootstrap.bundle.min.js"></script>
-<script src="assets/js/templatemo.js"></script>
-<script src="assets/js/custom.js"></script>
+<script src="../static/assets/js/jquery-1.11.0.min.js"></script>
+<script src="../static/assets/js/jquery-migrate-1.2.1.min.js"></script>
+<script src="../static/assets/js/bootstrap.bundle.min.js"></script>
+<script src="../static/assets/js/templatemo.js"></script>
+<script src="../static/assets/js/custom.js"></script>
+<script>
+    function toggleLoginLogout() {
+        const loginButton = document.querySelector("button.btn-primary");
+        if (loginButton.textContent === "로그인") {
+            loginButton.textContent = "로그아웃";
+        } else {
+            loginButton.textContent = "로그인";
+        }
+    }
+</script>
 </body>
 </html>
