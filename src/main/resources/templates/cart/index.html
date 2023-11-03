@@ -1,102 +1,246 @@
 <!DOCTYPE html>
-<html lang="en" xmlns:th="http://www.thymeleaf.org">
+<html lang="ko" xmlns:th="http://www.thymeleaf.org">
 <head>
     <meta charset="UTF-8">
-    <title>Cart Info</title>
-    <!-- 부트스트랩 링크 추가 -->
+    <title>장바구니 및 주문 정보 입력</title>
     <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0/css/bootstrap.min.css">
-    <script>
-        function updateSubtotal(row) {
-            var priceCell = row.querySelector('.price');
-            var quantityInput = row.querySelector('[name="quantity"]');
-            var subtotalCell = row.querySelector('.subtotal');
-
-            if (priceCell && quantityInput && subtotalCell) {
-                var price = parseFloat(priceCell.textContent);
-                var quantity = parseInt(quantityInput.value);
-                if (quantity <= 0) {
-                    quantityInput.value = 1;
-                    quantity = 1;
-                }
-                var subtotal = price * quantity;
-                subtotalCell.textContent = subtotal;
-                updateTotal();
-            }
+    <style>
+        .scroll-box {
+            max-height: 400px;
+            overflow-y: auto;
         }
-
-        function updateTotal() {
-            var subtotalCells = document.querySelectorAll('.subtotal');
-            var totalCell = document.querySelector('.total');
-            var total = 0;
-            subtotalCells.forEach(function(subtotalCell) {
-                var subtotal = parseFloat(subtotalCell.textContent);
-                total += subtotal;
-            });
-            if (totalCell) {
-                totalCell.textContent = total;
-            }
-        }
-
-        // 주문하기 버튼 클릭 시 이벤트 핸들러
-function redirectToOrderPage() {
-    var totalAmount = document.querySelector('.total').textContent;
-
-    // 세션 스토리지에 총 주문 금액 저장
-    sessionStorage.setItem('totalAmount', totalAmount);
-
-    // 주문 페이지로 이동
-    window.location.href = "/orders/orderMain";
-}
-
-
-
-    </script>
+    </style>
 </head>
 <body>
 <div class="container">
-    <h3 class="my-4">장바구니</h3>
-    <form method="post" th:action="${'/cart/update'}">
-        <table class="table">
-            <thead>
-            <tr>
-                <th scope="col">상품명</th>
-                <th scope="col">가격</th>
-                <th scope="col">수량</th>
-                <th scope="col">소계</th>
-                <th scope="col">옵션</th>
-            </tr>
-            </thead>
-            <tbody>
-            <tr th:each="item: ${session.cart}">
-                <td>
-                    <img th:src="${item.product != null ? item.product.Pro_Filepath : ''}" alt="Product Image" style="width: 60px;"/>
-                    <span th:text="${item.product.Pro_Name != null ? item.product.Pro_Name : ''}"></span>
-                </td>
-                <td class="price" th:text="${item.product.Pro_Price != null ? item.product.Pro_Price : ''}"></td>
-                <td>
-                    <input type="number" name="quantity" th:value="${item.quantity}" class="form-control" style="width:60px;" oninput="updateSubtotal(this.parentNode.parentNode)"/>
-                </td>
-                <td class="subtotal" th:text="${item.product.Pro_Price != null && item.quantity != null ? item.product.Pro_Price * item.quantity : ''}"></td>
-                <td>
-                    <a th:href="${'/cart/remove/' + item.product.Pro_Code}" class="text-danger">X</a>
-                </td>
-            </tr>
-            </tbody>
-            <tfoot>
-            <tr>
-                <td colspan="3"><strong>Total</strong></td>
-                <td class="total" th:text="${session.total != null ? session.total : ''}"></td>
-                <td></td>
-            </tr>
-            </tfoot>
-        </table>
-    </form>
-    <a th:href="@{/productbuy/list}" class="btn btn-primary">계속 쇼핑 하기</a>
-    <a href="javascript:void(0);" onclick="redirectToOrderPage()" class="btn btn-primary">주문하기</a>
+    <div class="row">
+        <div class="col-md-6"> <!-- 왼쪽 컬럼 -->
+            <h3 class="my-4">장바구니</h3>
+            <!-- 장바구니 내용 -->
+            <form method="post" th:action="${'/cart/update'}">
+                <table class="table">
+                    <!-- 테이블 헤더 -->
+                    <thead>
+                    <tr>
+                        <th scope="col">상품명</th>
+                        <th scope="col">가격</th>
+                        <th scope="col">수량</th>
+                        <th scope="col">소계</th>
+                        <th scope="col">옵션</th>
+                    </tr>
+                    </thead>
+                    <tbody>
+                    <!-- 각 상품 정보 -->
+                    <tr th:each="item: ${session.cart}">
+                        <td>
+                            <img th:src="${item.product != null ? item.product.Pro_Filepath : ''}" alt="상품 이미지" style="width: 60px;"/>
+                            <span th:text="${item.product.Pro_Name != null ? item.product.Pro_Name : ''}"></span>
+                        </td>
+                        <td class="price" th:text="${item.product.Pro_Price != null ? item.product.Pro_Price : ''}"></td>
+                        <td>
+                            <input type="number" name="quantity" th:value="${item.quantity}" class="form-control" style="width:60px;" oninput="updateSubtotal(this.parentNode.parentNode)"/>
+                        </td>
+                        <td class="subtotal" th:text="${item.product.Pro_Price != null && item.quantity != null ? item.product.Pro_Price * item.quantity : ''}"></td>
+                        <td>
+                            <a th:href="${'/cart/remove/' + item.product.Pro_Code}" class="text-danger">X</a>
+                        </td>
+                    </tr>
+                    </tbody>
+                    <tfoot>
+                    <!-- 합계 정보 -->
+                    <tr>
+                        <td colspan="3"><strong>총액</strong></td>
+                        <td class="total" th:text="${session.total != null ? session.total : ''}"></td>
+                        <td></td>
+                    </tr>
+                    </tfoot>
+                </table>
+            </form>
+        </div>
+        <div class="col-md-6"> <!-- 오른쪽 컬럼 -->
+            <div class="container mt-5">
+                <h1 class="text-center mb-4">주문 및 결제 정보 입력</h1>
+
+                <!-- 주문자 정보 입력란 -->
+                <h2>주문자 정보</h2>
+                <div class="form-group">
+                    <label for="customerName">주문자 이름:</label>
+                    <input type="text" id="customerName" name="customerName" class="form-control" required>
+                </div>
+
+                <div class="form-group">
+                    <label for="customerEmail">이메일:</label>
+                    <input type="email" id="customerEmail" name="customerEmail" class="form-control" required>
+                </div>
+
+                <div class="form-group">
+                    <label for="customerMobile">휴대 전화:</label>
+                    <input type="tel" id="customerMobile" name="customerMobile" class="form-control" required>
+                </div>
+
+                <br>
+
+                <!-- 배송 정보 입력란 -->
+                <h2>배송 정보</h2>
+                <div class="form-check">
+                    <input type="checkbox" id="sameAsBilling" name="sameAsBilling" value="1" class="form-check-input">
+                    <label for="sameAsBilling" class="form-check-label">주문자 정보와 동일</label>
+                </div>
+
+                <!-- 새로운 배송지 정보 입력란 -->
+                <div class="form-group">
+                    <label for="recipientName">받는 사람:</label>
+                    <input type="text" id="recipientName" name="recipientName" class="form-control">
+                </div>
+
+                <!-- 주소 입력란 -->
+                <div class="form-group">
+                    <label for="shippingAddress">주소:</label>
+                    <input type="text" id="sample3_postcode" placeholder="우편번호" class="form-control">
+                    <input type="button" onclick="sample3_execDaumPostcode()" value="우편번호 찾기" class="btn btn-primary mt-2">
+                    <input type="text" id="sample3_address" name="shippingAddress" placeholder="주소" class="form-control mt-2">
+                    <input type="text" id="sample3_detailAddress" name="sample3_detailAddress" placeholder="상세주소" class="form-control mt-2">
+                    <input type="text" id="sample3_extraAddress" name="sample3_extraAddress" placeholder="참고항목" class="form-control mt-2">
+                    <span id="guide" style="color:#999;display:none"></span>
+                </div>
+
+                <div class="form-group">
+                    <label for="shippingMobile">휴대 전화:</label>
+                    <input type="tel" id="shippingMobile" name="shippingMobile" class="form-control">
+                </div>
+
+                <a th:href="@{/productbuy/list}" class="btn btn-primary">계속 쇼핑하기</a>
+                <input type="submit" value="결제하기" class="btn btn primary" onclick="redirectToPaymentPage()">
+            </div>
+
+            <!-- 결제창 -->
+            <div class="container mt-5">
+                <div class="row">
+                    <div class="col-md-6 scroll-box">
+                        <h1 class="text-center">결제창</h1>
+                        <!-- 결제 정보 -->
+                        <p>총 상품 주문금액: <span class="total" id="total"></span></p>
+                        <p>할인 금액: <span id="discountAmount">0</span></p>
+                        <p>총 적립 금액: <span class="reward" id="rewardAmount"></span></p>
+                        <p>최종 결제 금액: <span class="final" id="total1"></span></p>
+                        <!-- 결제버튼 -->
+                        <button onclick="requestCardPayment()" class="btn btn-primary">카드결제</button>
+                        <button onclick="redirectToBankTransferPage()" class="btn btn-primary">무통장입금</button>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
 </div>
+
 <!-- 부트스트랩 관련 스크립트 추가 -->
 <script src="https://code.jquery.com/jquery-3.2.1.slim.min.js"></script>
 <script src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.12.9/umd/popper.min.js"></script>
 <script src="https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0/js/bootstrap.min.js"></script>
+<!-- 다음 우편번호 서비스 스크립트 -->
+<script src="//t1.daumcdn.net/mapjsapi/bundle/postcode/prod/postcode.v2.js"></script>
+<script>
+    // 주문자 정보와 배송 정보 동일 처리
+    document.getElementById('sameAsBilling').addEventListener('change', function () {
+        if (this.checked) {
+            document.getElementById('recipientName').value = document.getElementById('customerName').value;
+            document.getElementById('shippingMobile').value = document.getElementById('customerMobile').value;
+        } else {
+            document.getElementById('recipientName').value = '';
+            document.getElementById('shippingMobile').value = '';
+        }
+    });
+</script>
+<script>
+    function updateSubtotal(row) {
+        var priceCell = row.querySelector('.price');
+        var quantityInput = row.querySelector('[name="quantity"]');
+        var subtotalCell = row.querySelector('.subtotal');
+
+        if (priceCell && quantityInput && subtotalCell) {
+            var price = parseFloat(priceCell.textContent);
+            var quantity = parseInt(quantityInput.value);
+            if (quantity <= 0) {
+                quantityInput.value = 1;
+                quantity = 1;
+            }
+            var subtotal = price * quantity;
+            subtotalCell.textContent = subtotal;
+            updateTotal();
+        }
+    }
+
+    function updateTotal() {
+        var subtotalCells = document.querySelectorAll('.subtotal');
+        var totalCell = document.querySelector('.total');
+        var total = 0;
+        subtotalCells.forEach(function(subtotalCell) {
+            var subtotal = parseFloat(subtotalCell.textContent);
+            total += subtotal;
+        });
+        if (totalCell) {
+            totalCell.textContent = total;
+        }
+        // 총 주문 금액을 세션 스토리지에 저장
+        sessionStorage.setItem('totalAmount', total);
+    }
+
+    // "결제하기" 버튼 클릭 시 이벤트 핸들러
+    function redirectToPaymentPage() {
+        var totalAmount = document.querySelector('.total').textContent;
+        // 세션 스토리지에 총 주문 금액 저장
+        sessionStorage.setItem('totalAmount', totalAmount);
+        // 결제 페이지로 이동
+        window.location.href = "/payment/paymentpage";
+    }
+</script>
+<script>
+    var element_wrap = document.getElementById('wrap');
+
+    function foldDaumPostcode() {
+        element_wrap.style.display = 'none';
+    }
+
+    function sample3_execDaumPostcode() {
+        var currentScroll = Math.max(document.body.scrollTop, document.documentElement.scrollTop);
+        new daum.Postcode({
+            oncomplete: function(data) {
+                var addr = '';
+                var extraAddr = '';
+                if (data.userSelectedType === 'R') {
+                    addr = data.roadAddress;
+                } else {
+                    addr = data.jibunAddress;
+                }
+
+                if (data.userSelectedType === 'R') {
+                    if (data.bname !== '' && /[동|로|가]$/g.test(data.bname)) {
+                        extraAddr += data.bname;
+                    }
+                    if (data.buildingName !== '' && data.apartment === 'Y') {
+                        extraAddr += (extraAddr !== '' ? ', ' + data.buildingName : data.buildingName);
+                    }
+                    if (extraAddr !== '') {
+                        extraAddr = ' (' + extraAddr + ')';
+                    }
+                    document.getElementById('sample3_extraAddress').value = extraAddr;
+                } else {
+                    document.getElementById('sample3_extraAddress').value = '';
+                }
+                document.getElementById('sample3_postcode').value = data.zonecode;
+                document.getElementById('sample3_address').value = addr;
+                document.getElementById('sample3_detailAddress').focus();
+                element_wrap.style.display = 'none';
+                document.body.scrollTop = currentScroll;
+            },
+            onresize: function(size) {
+                element_wrap.style.height = size.height + 'px';
+            },
+            width: '100%',
+            height: '100%'
+        }).embed(element_wrap);
+        element_wrap.style.display = 'block';
+    }
+</script>
 </body>
 </html>
