@@ -5,6 +5,17 @@
     <title>Cart and Order Information</title>
     <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/4.5.2/css/bootstrap.min.css">
 </head>
+<style>
+    #payment-box {
+    position: fixed;
+    top: 5%; /* 결제창을 수직 가운데 정렬, 필요에 따라 조정 */
+    right: 20px; /* 원하는 우측 간격 설정, 필요에 따라 조정 */
+    background-color: skyblue;
+    overflow-y: auto;
+    width: 500px; /* 결제창의 폭, 필요에 따라 조정 */
+    /* 여기에 필요한 다른 스타일을 추가할 수 있습니다. */
+}
+</style>
 <body>
 <!-- 장바구니 -->
 <div class="container mt-5">
@@ -112,6 +123,28 @@
         </div>
     </form>
 </div>
+<div id="payment-box" class="scroll-box">
+        <h1 class="text-center">결제창</h1>
+        <!-- 결제 정보 -->
+    <p>총 상품 주문금액: <span class="total" id="totalAmount"></span></p>
+    <p>할인 금액: <span id="discountAmount">0</span></p>
+        <p>총 적립 금액: <span class="reward" id="rewardAmount"></span></p>
+        <p>최종 결제 금액: <span class="final" id="total1"></span></p>
+        <!-- 결제 버튼 -->
+        <button onclick="requestCardPayment()" class="btn btn-primary">카드결제</button>
+        <button onclick="redirectToBankTransferPage()" class="btn btn-primary">무통장입금</button>
+        <!-- 기타 결제 관련 정보 및 양식 -->
+        <!-- 예를 들어, 신용카드 정보 입력 폼 등이 들어갈 수 있습니다. -->
+    </div>
+</div>
+<script>window.addEventListener("scroll", function () {
+    var scrollBox = document.querySelector("#payment-box");
+    if (scrollBox) {
+        scrollBox.style.transform = "translateX(0)"; // 항상 보이도록 변경
+    }
+});
+</script>
+
 
 <!-- JavaScript 스크립트 및 다음 우편번호 서비스 스크립트 추가 -->
 <script src="https://code.jquery.com/jquery-3.2.1.slim.min.js"></script>
@@ -217,28 +250,62 @@
     }
 
     function updateTotal() {
-        var subtotalCells = document.querySelectorAll('.subtotal');
-        var totalCell = document.querySelector('.total');
-        var total = 0;
-        subtotalCells.forEach(function(subtotalCell) {
-            var subtotal = parseFloat(subtotalCell.textContent);
-            total += subtotal;
+    var subtotalCells = document.querySelectorAll('.subtotal');
+    var totalCell = document.querySelector('.total');
+    var totalAmountCell = document.querySelector('#totalAmount'); // 총 상품 주문금액 요소
+    var total = 0;
+    subtotalCells.forEach(function(subtotalCell) {
+        var subtotal = parseFloat(subtotalCell.textContent);
+        total += subtotal;
+    });
+    if (totalCell) {
+        totalCell.textContent = total;
+    }
+    if (totalAmountCell) {
+        totalAmountCell.textContent = total; // 총 상품 주문금액 업데이트
+    }
+}
+
+</script>
+
+
+<script>
+    // 아임포트 초기화 및 카드결제 요청
+    function requestCardPayment() {
+        var finalPaymentAmount = parseFloat(document.querySelector('.final').textContent);
+        var merchant_uid = 'merchant_' + new Date().getTime();
+
+        IMP.init('iamport');
+        IMP.request_pay({
+            pg: "inicis",
+            pay_method: "card",
+            merchant_uid: merchant_uid,
+            name: 'joinair',
+            amount: finalPaymentAmount,
+            buyer_email: 'iamport@siot.do',
+            buyer_name: '구매자',
+            buyer_tel: '010-1234-5678',
+            buyer_addr: '서울특별시 강남구 삼성동',
+            buyer_postcode: '123-456'
+        }, function (rsp) {
+            if (rsp.success) {
+                var msg = '결제가 완료되었습니다.';
+                alert(msg);
+                location.href = "결제 완료 후 이동할 페이지 URL";
+            } else {
+                var msg = '결제에 실패하였습니다.';
+                msg += '에러내용 : ' + rsp.error_msg;
+                alert(msg);
+            }
         });
-        if (totalCell) {
-            totalCell.textContent = total;
-        }
     }
 
-    // 주문하기 버튼 클릭 시 이벤트 핸들러
-function redirectToOrderPage() {
-var totalAmount = document.querySelector('.total').textContent;
-
-// 세션 스토리지에 총 주문 금액 저장
-sessionStorage.setItem('totalAmount', totalAmount);
-
-// 주문 페이지로 이동
-window.location.href = "/orders/orderMain";
-}
+    // 무통장입금 버튼 클릭 시 페이지 이동
+    function redirectToBankTransferPage() {
+        window.location.href = "/payment/Deposit";
+    }
 </script>
+<script src="https://code.jquery.com/jquery-1.12.4.min.js"></script>
+<script src="https://cdn.iamport.kr/js/iamport.payment-1.1.5.js"></script>
 </body>
 </html>
