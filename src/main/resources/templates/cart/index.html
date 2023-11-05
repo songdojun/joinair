@@ -230,7 +230,7 @@
 <!-- 부트스트랩 링크 추가 -->
 <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0/css/bootstrap.min.css">
 <script>
-    //수량 증가, 감소 시 소계 합계
+    // 수량 증가, 감소 시 소계 합계
     function updateSubtotal(row) {
         var priceCell = row.querySelector('.price');
         var quantityInput = row.querySelector('[name="quantity"]');
@@ -250,23 +250,44 @@
     }
 
     function updateTotal() {
-    var subtotalCells = document.querySelectorAll('.subtotal');
-    var totalCell = document.querySelector('.total');
-    var totalAmountCell = document.querySelector('#totalAmount'); // 총 상품 주문금액 요소
-    var total = 0;
-    subtotalCells.forEach(function(subtotalCell) {
-        var subtotal = parseFloat(subtotalCell.textContent);
-        total += subtotal;
+        var subtotalCells = document.querySelectorAll('.subtotal');
+        var totalCell = document.querySelector('.total');
+        var totalAmountCell = document.querySelector('#totalAmount'); // 총 상품 주문금액 요소
+        var rewardAmountCell = document.getElementById('rewardAmount'); // 총 적립 금액 요소
+        var finalAmountCell = document.getElementById('total1'); // 최종 결제 금액 요소
+        var discountAmount = 0; // 할인 금액을 계산하는 로직에 따라 변경
+
+        var total = 0;
+        subtotalCells.forEach(function(subtotalCell) {
+            var subtotal = parseFloat(subtotalCell.textContent);
+            total += subtotal;
+        });
+
+        var rewardAmount = total * 0.05; // 5%로 설정
+
+        var finalAmount = total - discountAmount;
+
+        if (totalCell) {
+            totalCell.textContent = total;
+        }
+        if (totalAmountCell) {
+            totalAmountCell.textContent = total;
+        }
+        if (rewardAmountCell) {
+            rewardAmountCell.textContent = rewardAmount;
+        }
+        if (finalAmountCell) {
+            finalAmountCell.textContent = finalAmount;
+        }
+    }
+
+    // 페이지 로드 시 총액 업데이트
+    window.addEventListener('load', function() {
+        updateTotal();
     });
-    if (totalCell) {
-        totalCell.textContent = total;
-    }
-    if (totalAmountCell) {
-        totalAmountCell.textContent = total; // 총 상품 주문금액 업데이트
-    }
-}
 
 </script>
+
 
 
 <script>
