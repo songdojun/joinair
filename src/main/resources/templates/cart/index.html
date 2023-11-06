@@ -35,24 +35,34 @@
             <!-- 장바구니 내용 -->
             <tr th:each="item: ${session.cart}">
                 <td>
-                    <img th:src="${item.product != null ? item.product.Pro_Filepath : ''}" alt="Product Image" style="width: 60px;"/>
+                    <img th:src="${item.product != null ? item.product.Pro_Filepath : ''}" alt="Product Image"
+                         style="width: 60px;" />
                     <span th:text="${item.product.Pro_Name != null ? item.product.Pro_Name : ''}"></span>
                 </td>
-                <td class="price" th:text="${item.product.Pro_Price != null ? item.product.Pro_Price : ''}"></td>
+                <td class="price"
+                    th:text="${item.product.Pro_Price != null ? item.product.Pro_Price : ''}"></td>
                 <td>
-                    <input type="number" name="quantity" th:value="${item.quantity}" class="form-control" style="width:60px;" oninput="updateSubtotal(this.parentNode.parentNode)"/>
+                    <!-- 각 상품의 수량 입력 필드 이름을 고유하게 변경 -->
+                    <input type="number" name="quantity_${item.product.Pro_Code}" th:value="${item.quantity}" class="form-control" style="width:60px;" oninput="updateSubtotal(this.parentNode.parentNode, '${item.product.Pro_Code}')" />
+
                 </td>
                 <td th:text="${item.product != null ? item.product.Pro_Weight : ''}"></td>
 
-                <td class="subtotal" th:text="${item.product.Pro_Price != null && item.quantity != null ? item.product.Pro_Price * item.quantity : ''}"></td>
+                <td class="subtotal"
+                    th:text="${item.product.Pro_Price != null && item.quantity != null ? item.product.Pro_Price * item.quantity : ''}"></td>
                 <td>
-                    <a th:href="${'/cart/remove/' + item.product.Pro_Code}" class="text-danger">X</a>
+                    <a th:if="${session.cart != null}" th:href="${'/cart/remove/' + item.product.Pro_Code}" class="text-danger">X</a>
                 </td>
             </tr>
             </tbody>
             <tfoot>
             <tr>
-                <td colspan="4"><strong>총액</strong></td>
+                <td colspan="3"><strong>총 무게(g)</strong></td>
+                <td colspan="2" id="totalWeight"></td>
+                <td colspan="2"></td> <!-- 추가: 총 가격의 열을 비워둠 -->
+            </tr>
+            <tr>
+                <td colspan="4"><strong>TOTAL PRICE</strong></td>
                 <td class="total" th:text="${session.total != null ? session.total : ''}"></td>
                 <td><a th:href="@{/productbuy/list}" class="btn btn-primary">계속 쇼핑 하기</a></td>
             </tr>
@@ -232,61 +242,87 @@
 <!-- 부트스트랩 링크 추가 -->
 <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0/css/bootstrap.min.css">
 <script>
-    // 수량 증가, 감소 시 소계 합계
-    function updateSubtotal(row) {
-        var priceCell = row.querySelector('.price');
-        var quantityInput = row.querySelector('[name="quantity"]');
-        var subtotalCell = row.querySelector('.subtotal');
+    // 수량 증가, 감소 시 소계 및 무게 합계 업데이트
+function updateSubtotal(row, productCode) {
+    var priceCell = row.querySelector('.price');
+    var quantityInput = row.querySelector('[name="quantity_' + productCode + '"]');
+    var subtotalCell = row.querySelector('.subtotal');
+    var weightCell = row.querySelector('td:nth-child(4)'); // 무게를 나타내는 열
 
-        if (priceCell && quantityInput && subtotalCell) {
-            var price = parseFloat(priceCell.textContent);
-            var quantity = parseInt(quantityInput.value);
-            if (quantity <= 0) {
-                quantityInput.value = 1;
-                quantity = 1;
-            }
-            var subtotal = price * quantity;
-            subtotalCell.textContent = subtotal;
-            updateTotal();
+    if (priceCell && quantityInput && subtotalCell && weightCell) {
+        var price = parseFloat(priceCell.textContent);
+        var quantity = parseInt(quantityInput.value);
+        if (quantity <= 0) {
+            quantityInput.value = 1;
+            quantity = 1;
         }
-    }
+        var subtotal = price * quantity;
+        subtotalCell.textContent = subtotal;
 
-    function updateTotal() {
-        var subtotalCells = document.querySelectorAll('.subtotal');
-        var totalCell = document.querySelector('.total');
-        var totalAmountCell = document.querySelector('#totalAmount'); // 총 상품 주문금액 요소
-        var rewardAmountCell = document.getElementById('rewardAmount'); // 총 적립 금액 요소
-        var finalAmountCell = document.getElementById('total1'); // 최종 결제 금액 요소
-        var discountAmount = 0; // 할인 금액을 계산하는 로직에 따라 변경
+        // 무게 업데이트
+        var initialWeight = parseFloat(weightCell.getAttribute('data-initial-weight'));
+        var weight = initialWeight * quantity;
+        weightCell.textContent = weight;
 
-        var total = 0;
-        subtotalCells.forEach(function(subtotalCell) {
-            var subtotal = parseFloat(subtotalCell.textContent);
-            total += subtotal;
-        });
-
-        var rewardAmount = total * 0.05; // 5%로 설정
-
-        var finalAmount = total - discountAmount;
-
-        if (totalCell) {
-            totalCell.textContent = total;
-        }
-        if (totalAmountCell) {
-            totalAmountCell.textContent = total;
-        }
-        if (rewardAmountCell) {
-            rewardAmountCell.textContent = rewardAmount;
-        }
-        if (finalAmountCell) {
-            finalAmountCell.textContent = finalAmount;
-        }
-    }
-
-    // 페이지 로드 시 총액 업데이트
-    window.addEventListener('load', function() {
         updateTotal();
+    }
+}
+
+   // 페이지 로드 시 초기 무게 저장
+window.addEventListener('load', function () {
+    var weightCells = document.querySelectorAll('td:nth-child(4)');
+    weightCells.forEach(function (weightCell) {
+        var initialWeight = parseFloat(weightCell.textContent);
+        weightCell.setAttribute('data-initial-weight', initialWeight);
     });
+    updateTotal();
+});
+
+   // 총 무게 및 할인, 적립 등 업데이트
+   function updateTotal() {
+       var subtotalCells = document.querySelectorAll('.subtotal');
+       var totalCell = document.querySelector('.total');
+       var totalWeightCell = document.querySelector('#totalWeight'); // 추가: 총 무게 요소
+       var totalAmountCell = document.querySelector('#totalAmount');
+       var rewardAmountCell = document.getElementById('rewardAmount');
+       var finalAmountCell = document.getElementById('total1');
+       var discountAmount = 0;
+
+       var total = 0;
+       var totalWeight = 0; // 추가: 총 무게 초기화
+
+       subtotalCells.forEach(function(subtotalCell) {
+           var subtotal = parseFloat(subtotalCell.textContent);
+           total += subtotal;
+       });
+
+       // 총 무게 계산
+       var weightCells = document.querySelectorAll('td:nth-child(4)');
+       weightCells.forEach(function(weightCell) {
+           var weight = parseFloat(weightCell.textContent);
+           totalWeight += weight;
+       });
+
+       var rewardAmount = total * 0.05;
+       var finalAmount = total - discountAmount;
+
+       if (totalCell) {
+           totalCell.textContent = total;
+       }
+       if (totalWeightCell) {
+           totalWeightCell.textContent = totalWeight;
+       }
+       if (totalAmountCell) {
+           totalAmountCell.textContent = total;
+       }
+       if (rewardAmountCell) {
+           rewardAmountCell.textContent = rewardAmount;
+       }
+       if (finalAmountCell) {
+           finalAmountCell.textContent = finalAmount;
+       }
+   }
+
 
 </script>
 
