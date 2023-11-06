@@ -33,15 +33,24 @@ function performSearch(page = 0) {
     fetch(fullUrl)
         .then(response => response.text())
         .then(data => {
-            // 검색 결과를 받은 후, .layout 요소에 추가합니다.
-            const layout = document.querySelector(".layout");
-            layout.innerHTML = data; // 검색 결과로 레이아웃을 업데이트
+            // 검색 결과를 받은 후, .row 요소에 추가합니다.
+            const rowContainer = document.querySelector(".row");
+            rowContainer.innerHTML = getProductsFromHTML(data);
 
             // 검색 결과를 받은 후 다시 초기화하여 검색을 가능하게 합니다.
             initializeSearch();
         })
         .catch(error => console.error("검색 오류: ", error));
 }
+
+// 받아온 HTML에서 상품 목록을 추출하는 함수
+function getProductsFromHTML(html) {
+    const parser = new DOMParser();
+    const doc = parser.parseFromString(html, "text/html");
+    const productsContainer = doc.querySelector(".row");
+    return productsContainer.innerHTML;
+}
+
 
 function changeCategory(categoryId) {
     // 선택한 카테고리 ID를 이용하여 서버에 Ajax 요청을 보냅니다.
