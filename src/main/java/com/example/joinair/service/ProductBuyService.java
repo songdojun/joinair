@@ -58,13 +58,8 @@ public class ProductBuyService {
         // Pageable 객체를 적절하게 설정
         pageable = PageRequest.of(pageable.getPageNumber(), pageable.getPageSize(), Sort.by("Pro_Code").descending());
 
-        if ("Pro_Code".equals(searchOption)) {
-            list = productBuyRepository.findProductsByProCode(Integer.parseInt(searchKeyword), pageable);
-        } else if ("Pro_Name".equals(searchOption)) {
+        if ("Pro_Name".equals(searchOption)) {
             list = productBuyRepository.findProductsByProNameContaining(searchKeyword, pageable);
-        } else if ("Cate_Name".equals(searchOption)) {
-            // 수정: "Cate_Name" 검색을 위한 쿼리 추가
-            list = productBuyRepository.findProductsByCateNameContaining(searchKeyword, pageable);
         } else {
             list = productBuyRepository.findAllOrderedByProCodeWithPagination(pageable);
         }
