@@ -34,6 +34,13 @@ public class UserController {
         model.addAttribute("signupUser", new USERS()); // 수정: signup 폼 데이터를 저장할 모델 추가
         return "membership";
     }
+    private void storeUserInSession(HttpSession session, String userId) {
+        USERS user = userService.getUserById(userId);
+        if (user != null) {
+            session.setAttribute("User_Id", user.getUser_Id());
+            // 여기서 필요한 사용자 정보를 세션에 저장할 수 있습니다.
+        }
+    }
     @PostMapping("/login")
     public String loginPost(@ModelAttribute("loginUser") USERS loginUser, HttpSession session) {
         USERS storedUser = userService.getUserById(loginUser.getUser_Id());
@@ -44,7 +51,8 @@ public class UserController {
             if (passwordEncoder.matches(loginUser.getUser_Password(), storedUser.getUser_Password())) {
                 System.out.println("Password matches");
                 // 비밀번호가 일치하는 경우 세션에 사용자 아이디를 저장합니다.
-                session.setAttribute("User_Id", storedUser.getUser_Id());
+                //session.setAttribute("User_Id", storedUser.getUser_Id());
+                storeUserInSession(session, storedUser.getUser_Id());
 
                 // 이후 로그인 된 사용자의 권한에 따라 리디렉션합니다.
                 if ("user".equals(storedUser.getUser_Mode())) {
@@ -213,6 +221,7 @@ public class UserController {
     @GetMapping("/logout")
     public String logout(HttpSession session) {
         // 세션에서 사용자 ID를 제거하여 로그아웃 상태로 만듭니다.
+        session.removeAttribute("User_Id"); // 세션에서 User_Id 속성을 제거
         session.invalidate(); // 세션을 무효화하여 사용자 세션 데이터 삭제
         System.out.println("Log-out!!!");
 
