@@ -4,6 +4,7 @@ import com.example.joinair.dto.USERS;
 import com.example.joinair.service.UserService;
 import jakarta.servlet.http.HttpSession;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.*;
@@ -36,7 +37,34 @@ public class UserController {
     @PostMapping("/login")
     public String loginPost(@ModelAttribute("loginUser") USERS loginUser, HttpSession session) {
         USERS storedUser = userService.getUserById(loginUser.getUser_Id());
+        if (storedUser != null) {
+            // 데이터베이스에서 사용자를 찾았습니다.
+            // 이제 입력한 비밀번호와 저장된 비밀번호 해시를 비교합니다.
+            BCryptPasswordEncoder passwordEncoder = new BCryptPasswordEncoder();
+            if (passwordEncoder.matches(loginUser.getUser_Password(), storedUser.getUser_Password())) {
+                System.out.println("Password matches");
+                // 비밀번호가 일치하는 경우 세션에 사용자 아이디를 저장합니다.
+                session.setAttribute("User_Id", storedUser.getUser_Id());
 
+                // 이후 로그인 된 사용자의 권한에 따라 리디렉션합니다.
+                if ("user".equals(storedUser.getUser_Mode())) {
+                    // 사용자 모드로 로그인한 경우 사용자 페이지로 리디렉션합니다.
+                    return "redirect:/index";
+                } else if ("admin".equals(storedUser.getUser_Mode())) {
+                    // 관리자 모드로 로그인한 경우 관리자 페이지로 리디렉션합니다.
+                    return "redirect:/adminWelcome";
+                }
+
+            }
+        }
+
+        // 로그인에 실패하거나 사용자를 찾을 수 없는 경우, 다시 로그인 페이지로 리디렉션합니다.
+        System.out.println("Password does not match");
+        return "redirect:/login";
+    }
+
+
+        /*
         if (storedUser != null && storedUser.getUser_Password().equals(loginUser.getUser_Password())) {
             String userMode = storedUser.getUser_Mode();
             if ("user".equals(userMode)) {
@@ -68,7 +96,7 @@ public class UserController {
 
         // 이 경우에 대한 기본 반환 값, 필요에 따라 변경할 수 있습니다.
         return "redirect:/login"; // 또는 다른 기본 리디렉션
-    }
+    }*/
 
     @GetMapping("/adminWelcome")
     public String showAdminWelcomePage(Model model, HttpSession session) {

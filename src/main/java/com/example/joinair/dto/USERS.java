@@ -1,11 +1,64 @@
 package com.example.joinair.dto;
 
+import lombok.Data;
 import lombok.Getter;
 import lombok.Setter;
+import org.springframework.security.core.userdetails.UserDetails;
+import org.springframework.security.core.GrantedAuthority;
+import org.springframework.security.core.authority.SimpleGrantedAuthority;
+
+import java.util.Collection;
+import java.util.Collections;
 
 @Getter
 @Setter
-public class USERS {
+@Data
+public class USERS implements UserDetails {
+    private String User_Id;
+    private String User_Name;
+    private String User_Email;
+    private String User_Password;
+    private String User_Address;
+    private String User_Phone;
+    private int User_Mileage;
+    private String User_Postcode;
+    public String User_RoadAddress;
+    private String User_DetailAddress;
+    private String User_Mode;
+
+    @Override
+    public Collection<? extends GrantedAuthority> getAuthorities() {
+        return Collections.singletonList(new SimpleGrantedAuthority(this.User_Mode));
+    }
+
+    @Override
+    public String getPassword() {
+        return User_Password; // User_Password 필드의 값을 반환하도록 수정
+    }
+
+    @Override
+    public String getUsername() {
+        return this.User_Id;
+    }
+    @Override
+    public boolean isAccountNonExpired() {
+        return true;
+    }
+
+    @Override
+    public boolean isAccountNonLocked() {
+        return true;
+    }
+
+    @Override
+    public boolean isCredentialsNonExpired() {
+        return true;
+    }
+
+    @Override
+    public boolean isEnabled() {
+        return true;
+    }
 
     public String getUser_Id() {
         return User_Id;
@@ -16,7 +69,7 @@ public class USERS {
     }
 
     public String getUser_Name() {
-        return User_Name;
+        return this.User_Name;
     }
 
     public void setUser_Name(String user_Name) {
@@ -79,16 +132,7 @@ public class USERS {
         User_Mode = user_Mode;
     }
 
-    private String User_Id;
-    private String User_Name;
-    private String User_Email;
-    private String User_Password;
-    private String User_Address;
-    private String User_Phone;
-    private int User_Mileage;
-    private String User_Postcode;
-    public String User_RoadAddress;
-    private String User_DetailAddress;
+
 
 
     public String getUser_RoadAddress() {
@@ -108,7 +152,6 @@ public class USERS {
         User_Postcode = user_Postcode;
     }
 
-    private String User_Mode;
 
 
 }

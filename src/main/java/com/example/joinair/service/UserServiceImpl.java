@@ -4,8 +4,14 @@ package com.example.joinair.service;
 import com.example.joinair.dto.USERS;
 import com.example.joinair.mapper.UserMapper;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.security.core.userdetails.UserDetailsService;
+import org.springframework.security.core.userdetails.UsernameNotFoundException;
+import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.stereotype.Service;
+import org.springframework.transaction.annotation.Transactional;
 
+import java.text.SimpleDateFormat;
+import java.util.Date;
 import java.util.List;
 
 @Service
@@ -28,10 +34,19 @@ public class UserServiceImpl implements UserService {
     }
 
     @Override
+    @Transactional
     public void registerUser(USERS user, String userMode) {
+        String password = user.getPassword();
+
+        if (password == null || password.isEmpty()) {
+            throw new IllegalArgumentException("비밀번호를 제공하세요.");
+        }
+
+        BCryptPasswordEncoder passwordEncoder = new BCryptPasswordEncoder();
+        user.setUser_Password(passwordEncoder.encode(password));
+        user.setUser_Mode("USER");
         String combinedAddress = user.getUser_Address() + " " + user.getUser_DetailAddress();
         user.setUser_Address(combinedAddress);
-        user.setUser_Mode(userMode);
         userMapper.registerUser(user);
     }
     @Override
@@ -52,4 +67,23 @@ public class UserServiceImpl implements UserService {
         return existingUser != null;
     }
 
-}
+
+        /*public void joinUser(USERS users){
+            BCryptPasswordEncoder passwordEncoder = new BCryptPasswordEncoder();
+            users.setUser_Password(passwordEncoder.encode(users.getPassword()));
+            users.setUser_Mode("USER");
+
+            userMapper.saveUser(users);
+        }*/
+
+        @Override
+        public USERS loadUserByUsername(String userId) throws UsernameNotFoundException {
+            //여기서 받은 유저 패스워드와 비교하여 로그인 인증
+            USERS users = userMapper.getUserAccount(userId);
+            if (users == null){
+                throw new UsernameNotFoundException("User not authorized.");
+            }
+            return users;
+        }
+    }
+
