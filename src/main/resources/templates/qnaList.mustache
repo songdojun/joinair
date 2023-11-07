@@ -76,38 +76,51 @@
                     <li class="nav-item">
                         <a class="nav-link" href="/notice/list">공지사항</a>
                     </li>
-                    <li class="nav-item" id="loginButton" style="display: block;">
-                        <a class="nav-link" href="/login">로그인</a>
-                    </li>
-                    <li class="nav-item" id="logoutButton" style="display: none;">
-                        <a class="nav-link" href="/logout">로그아웃</a>
-                    </li>
-                </ul>
+                        <li class="nav-item">
+                            <a class="nav-link" href="/login">
+                                {{#userLoggedIn}}로그아웃{{/userLoggedIn}}
+                                {{^userLoggedIn}}로그인{{/userLoggedIn}}
+                            </a>
+                        </li>
+                    </ul>
             </div>
+            <!--로그인 → 로그아웃-->
             <script>
-                var userLoggedIn = <%= session.getAttribute("userLoggedIn") == null ? false : (boolean) session.getAttribute("userLoggedIn") %>;
+                // 세션 상태 확인
+var userLoggedIn = {{userLoggedIn}}; // Mustache를 사용하여 userLoggedIn 값을 가져옴
 
-// 사용자 로그인 상태에 따라 버튼 표시/숨김 처리
-var loginButton = document.getElementById("loginButton");
-var logoutButton = document.getElementById("logoutButton");
+// 로그인 및 로그아웃 메뉴 요소 가져오기
+var loginItem = document.querySelector(".nav-item .nav-link[href='/login']");
+var logoutItem = document.querySelector(".nav-item .nav-link[href='/logout']");
 
 function updateButtons() {
     if (userLoggedIn) {
-        // 사용자가 로그인 중인 경우
-        loginButton.style.display = "none";  // 로그인 버튼 숨김
-        logoutButton.style.display = "block"; // 로그아웃 버튼 표시
-        console.log("true"); // userLoggedIn이 true일 때 메시지 출력
+        // 세션이 있으면 로그인 메뉴 항목을 감추고 로그아웃 메뉴 항목을 표시합니다
+        loginItem.textContent = "로그아웃";
+        logoutItem.style.display = "block";
     } else {
-        // 사용자가 로그아웃 중인 경우
-        loginButton.style.display = "block"; // 로그인 버튼 표시
-        logoutButton.style.display = "none";  // 로그아웃 버튼 숨김
-        console.log("false"); // userLoggedIn이 false일 때 메시지 출력
+        // 세션이 없으면 로그인 메뉴 항목을 표시하고 로그아웃 메뉴 항목을 감춥니다
+        loginItem.textContent = "로그인";
+        logoutItem.style.display = "none";
     }
 }
 
-// 페이지 로딩 시 초기 버튼 상태 업데이트
-updateButtons();
+updateButtons(); // 페이지 로딩 시 초기 버튼 상태 업데이트
 
+logoutItem.addEventListener("click", function() {
+  if (userLoggedIn) {
+        // 로그아웃 처리 (예: 세션 삭제)
+        // 세션 삭제 로직을 추가하세요
+        // 아래 코드는 세션 삭제 예시입니다. 실제로는 세션 삭제 방법을 사용해야 합니다.
+        // sessionStorage.removeItem("User_Id"); // User_Id 세션 삭제
+
+        // 로그아웃 처리가 완료되면 userLoggedIn 값을 업데이트하여 버튼 상태를 업데이트합니다
+        userLoggedIn = false;
+
+        // 로그아웃 후 로그인 메뉴 항목을 표시하고 로그아웃 메뉴 항목을 감춥니다
+        updateButtons();
+    }
+});
             </script>
 
             <div class="navbar align-self-center d-flex">
@@ -124,7 +137,8 @@ updateButtons();
                     <i class="fa fa-fw fa-search text-dark mr-2"></i>
                 </a>
             </div>
-        </div>
+
+    </div>
     </div>
 </nav>
 
