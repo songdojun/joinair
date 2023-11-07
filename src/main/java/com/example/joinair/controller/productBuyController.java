@@ -1,7 +1,6 @@
 package com.example.joinair.controller;
 
 import com.example.joinair.entity.Product;
-import com.example.joinair.entity.Review;
 import com.example.joinair.service.ProductBuyService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.domain.Page;
@@ -15,9 +14,6 @@ import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.multipart.MultipartFile;
-
-import java.util.List;
-import java.util.Optional;
 
 import static com.example.joinair.service.ProductAdService.regist;
 
@@ -40,54 +36,33 @@ public class productBuyController {
     }
 
     @GetMapping("/productbuy/list")
-    public String productbuyList(
-            @RequestParam(name = "cateNo", required = false) Integer cateNo,
-            Model model,
-            @PageableDefault(page = 0, size = 10, sort = "Pro_Code", direction = Sort.Direction.DESC) Pageable pageable,
-            @RequestParam(name = "searchOption", required = false) String searchOption,
-            @RequestParam(name = "searchKeyword", required = false) String searchKeyword) {
-
-        Page<Product> list;
-
-        if (cateNo != null) {
-            // 카테고리에 해당하는 상품 목록을 가져오는 서비스 메소드를 호출합니다.
-            list = productBuyService.getProductListByCategory(cateNo, pageable);
-        } else {
-            // 카테고리가 선택되지 않은 경우, 전체 상품 목록을 가져오는 서비스 메소드를 호출합니다.
-            list = productBuyService.productbuySearchList(searchOption, searchKeyword, pageable);
-        }
+    public String productbuyList(Model model,
+                                 @PageableDefault(page = 0, size = 10, sort = "Pro_Code", direction = Sort.Direction.DESC) Pageable pageable,
+                                 @RequestParam(name = "searchOption", required = false) String searchOption,
+                                 @RequestParam(name = "searchKeyword", required = false) String searchKeyword) {
+        Page<Product> list = productBuyService.productbuySearchList(searchOption, searchKeyword, pageable);
 
         int nowPage = list.getPageable().getPageNumber() + 1;
         int startPage = Math.max(nowPage - 4, 1);
         int endPage = Math.min(nowPage + 5, list.getTotalPages());
 
-        // 모델에 상품 목록 및 페이징 정보를 추가합니다.
+        // Add search parameters to the model
         model.addAttribute("list", list);
         model.addAttribute("nowPage", nowPage);
         model.addAttribute("startPage", startPage);
         model.addAttribute("endPage", endPage);
         model.addAttribute("searchOption", searchOption);
-        model.addAttribute("searchKeyword", searchKeyword);
+        model.addAttribute("searchKeyword", searchKeyword); // Pass search keyword to the view
 
-        return "productbuylist2";
+        return "productbuylist";
     }
-
 
 
     @GetMapping("/productbuy/view")
     public String productbuyView(Model model, Integer Pro_Code){
-        Optional<Product> product = productBuyService.productbuyView(Pro_Code);
-
-        if (product.isPresent()) {
-            // Reviews 정보를 가져와 Model에 추가
-            List<Review> reviews = product.get().getReviews();
-            model.addAttribute("Product", product.get());
-            model.addAttribute("Reviews", reviews);
-        }
-
+        model.addAttribute("Product",productBuyService.productbuyView(Pro_Code).orElse(null));
         return "productbuyview2";
     }
-
 
 
     @GetMapping("/productbuy/delete")
@@ -119,7 +94,7 @@ public class productBuyController {
             productTemp.setPro_Price(updateProduct.getPro_Price());
             productTemp.setPro_Inventory(updateProduct.getPro_Inventory());
             productTemp.setPro_Weight(updateProduct.getPro_Weight());
-            productTemp.setPro_Des(updateProduct.getPro_Des());
+
             regist(productTemp,file);
         }
 

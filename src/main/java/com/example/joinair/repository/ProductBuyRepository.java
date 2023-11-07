@@ -27,7 +27,6 @@ public interface ProductBuyRepository extends JpaRepository<Product, Integer>{
     @Query("SELECT p FROM Product p WHERE p.category.Cate_Name LIKE %?1% ORDER BY p.Pro_Code DESC")
     Page<Product> findProductsByCateNameContaining(String searchKeyword, Pageable pageable);
 
-    @Query("SELECT p FROM Product p WHERE p.category.Cate_No = ?1 ORDER BY p.Pro_Code DESC")
-    Page<Product> findProductsByCateNo(Integer cateNo, Pageable pageable);
+
 
 }
