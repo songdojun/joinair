@@ -29,19 +29,21 @@ public class SpringSecurityConfig {
                 .sessionManagement((sessionManagement) ->
                         sessionManagement.sessionCreationPolicy(SessionCreationPolicy.STATELESS)
                 )
+
                 .authorizeHttpRequests((authorizeRequests) ->
+
                         authorizeRequests.anyRequest().permitAll()
 
-
-                );
+                )
+                .logout(withDefaults());
 
         return http.build();
     }
     /*public SecurityFilterChain filterChain(HttpSecurity http) throws Exception {
-        http.csrf().disable().cors().disable()
+        http
                 .authorizeHttpRequests(request -> request
                         .dispatcherTypeMatchers(DispatcherType.FORWARD).permitAll()
-                        .requestMatchers("/status", "/images/**", "/membership", "/productbuy/list", "/about").permitAll()
+                        .requestMatchers("/status", "/images/**", "/membership", "/productbuy/list", "/about", "/index").permitAll()
                         .anyRequest().authenticated()
                 )
                 .formLogin(login -> login
