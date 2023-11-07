@@ -62,6 +62,7 @@ public class AdminController {
         return "SalesReport";
     }
 
+
     @GetMapping("/searchUsers")
     public String searchUsers(
             @RequestParam("searchCategory") String searchCategory,
@@ -69,7 +70,7 @@ public class AdminController {
             Model model) {
         List<USERS> searchResults = adminService.searchUsers(searchCategory, searchInput);
         model.addAttribute("users", searchResults);
-        model.addAttribute("isAdmin", true);
+//        model.addAttribute("isAdmin", true);
                 // 현재 사용자가 관리자임을 나타내는 플래그
 
 

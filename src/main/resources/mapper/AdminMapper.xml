@@ -64,6 +64,7 @@
       </when>
     </choose>
   </select>
+
   <select id="searchUsersByUserId" parameterType="String" resultType="com.example.joinair.dto.USERS">
     SELECT * FROM USERS
     WHERE User_Id LIKE '%' || #{userId} || '%'

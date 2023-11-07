@@ -1,8 +1,8 @@
 package com.example.joinair.dto;
 
-import lombok.Data;
-import lombok.Getter;
-import lombok.Setter;
+import jakarta.persistence.Entity;
+import jakarta.persistence.Id;
+import lombok.*;
 import org.springframework.security.core.userdetails.UserDetails;
 import org.springframework.security.core.GrantedAuthority;
 import org.springframework.security.core.authority.SimpleGrantedAuthority;
@@ -12,8 +12,12 @@ import java.util.Collections;
 
 @Getter
 @Setter
+@Entity
 @Data
+@AllArgsConstructor
+@NoArgsConstructor
 public class USERS implements UserDetails {
+    @Id
     private String User_Id;
     private String User_Name;
     private String User_Email;
