@@ -1,4 +1,4 @@
-// HTML 파일이 로드될 때 초기화 함수 호출
+// HTML 파일이 로드될 때 초기화 함수 호출..
 document.addEventListener("DOMContentLoaded", function () {
     initializeSearch();
     initializeCategoryButtons();
