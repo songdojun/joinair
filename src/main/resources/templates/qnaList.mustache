@@ -1,24 +1,25 @@
 <!DOCTYPE html>
 <html lang="en">
 <head>
-        <title>JoinAir</title>
-        <meta charset="utf-8">
-        <meta name="viewport" content="width=device-width, initial-scale=1">
+    <title>JoinAir</title>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
 
-        <link rel="apple-touch-icon" href="../static/assets/img/apple-icon.png">
-        <link rel="shortcut icon" type=" image/x-icon" href="../static/assets/img/favicon.ico">
+    <link rel="apple-touch-icon" href="../static/assets/img/apple-icon.png">
+    <link rel="shortcut icon" type=" image/x-icon" href="../static/assets/img/favicon.ico">
 
-        <link rel="stylesheet" href="../static/assets/css/bootstrap.min.css">
-        <link rel="stylesheet" href="../static/assets/css/templatemo.css">
-        <link rel="stylesheet" href="../static/assets/css/custom.css">
+    <link rel="stylesheet" href="../static/assets/css/bootstrap.min.css">
+    <link rel="stylesheet" href="../static/assets/css/templatemo.css">
+    <link rel="stylesheet" href="../static/assets/css/custom.css">
 
-        <link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Roboto:wght@100;200;300;400;500;700;900&display=swap">
-        <link rel="stylesheet" href="../static/assets/css/fontawesome.min.css">
-        <style>
-            #tempaltemo_footer {
-                margin-bottom: 300px;
-            }
-        </style>
+    <link rel="stylesheet"
+          href="https://fonts.googleapis.com/css2?family=Roboto:wght@100;200;300;400;500;700;900&display=swap">
+    <link rel="stylesheet" href="../static/assets/css/fontawesome.min.css">
+    <style>
+        #tempaltemo_footer {
+            margin-bottom: 300px;
+        }
+    </style>
 
     <meta charset="UTF-8">
     <title>Q&A 목록</title>
@@ -31,15 +32,19 @@
         <div class="w-100 d-flex justify-content-between">
             <div>
                 <i class="fa fa-envelope mx-2"></i>
-                <a class="navbar-sm-brand text-light text-decoration-none" href="mailto:info@company.com">Doron delivery@Doron delivery.com</a>
+                <a class="navbar-sm-brand text-light text-decoration-none" href="mailto:info@company.com">Doron
+                    delivery@Doron delivery.com</a>
                 <i class="fa fa-phone mx-2"></i>
                 <a href="tel:010-1234-5678" class="navbar-sm-brand text-light text-decoration-none">010-1234-5678</a>
             </div>
             <div>
-                <a class="text-light" href="https://fb.com/templatemo" target="_blank" rel="sponsored"><i class="fab fa-facebook-f fa-sm fa-fw me-2"></i></a>
-                <a class="text-light" href="https://www.instagram.com/" target="_blank"><i class="fab fa-instagram fa-sm fa-fw me-2"></i></a>
+                <a class="text-light" href="https://fb.com/templatemo" target="_blank" rel="sponsored"><i
+                        class="fab fa-facebook-f fa-sm fa-fw me-2"></i></a>
+                <a class="text-light" href="https://www.instagram.com/" target="_blank"><i
+                        class="fab fa-instagram fa-sm fa-fw me-2"></i></a>
 
-                <a class="text-light" href="https://twitter.com/" target="_blank"><i class="fab fa-twitter fa-sm fa-fw me-2"></i></a>
+                <a class="text-light" href="https://twitter.com/" target="_blank"><i
+                        class="fab fa-twitter fa-sm fa-fw me-2"></i></a>
             </div>
         </div>
     </div>
@@ -47,10 +52,13 @@
 <nav class="navbar navbar-expand-lg navbar-light shadow">
     <div class="container d-flex justify-content-between align-items-center">
         <a class="navbar-brand text-success logo h1 align-self-center" href="index.html">Join Air🪂</a>
-        <button class="navbar-toggler border-0" type="button" data-bs-toggle="collapse" data-bs-target="#templatemo_main_nav" aria-controls="templatemo_main_nav" aria-expanded="false" aria-label="Toggle navigation">
+        <button class="navbar-toggler border-0" type="button" data-bs-toggle="collapse"
+                data-bs-target="#templatemo_main_nav" aria-controls="templatemo_main_nav" aria-expanded="false"
+                aria-label="Toggle navigation">
             <span class="navbar-toggler-icon"></span>
         </button>
-        <div class="align-self-center collapse navbar-collapse flex-fill d-lg-flex justify-content-lg-between" id="templatemo_main_nav">
+        <div class="align-self-center collapse navbar-collapse flex-fill d-lg-flex justify-content-lg-between"
+             id="templatemo_main_nav">
             <div class="flex-fill">
                 <ul class="nav navbar-nav d-flex justify-content-between mx-lg-auto">
                     <li class="nav-item">
@@ -68,7 +76,7 @@
                     <li class="nav-item">
                         <a class="nav-link" href="/notice/list">공지사항</a>
                     </li>
-                    <li class="nav-item" id="loginButton">
+                    <li class="nav-item" id="loginButton" style="display: block;">
                         <a class="nav-link" href="/login">로그인</a>
                     </li>
                     <li class="nav-item" id="logoutButton" style="display: none;">
@@ -76,6 +84,32 @@
                     </li>
                 </ul>
             </div>
+            <script>
+                var userLoggedIn = <%= session.getAttribute("userLoggedIn") == null ? false : (boolean) session.getAttribute("userLoggedIn") %>;
+
+// 사용자 로그인 상태에 따라 버튼 표시/숨김 처리
+var loginButton = document.getElementById("loginButton");
+var logoutButton = document.getElementById("logoutButton");
+
+function updateButtons() {
+    if (userLoggedIn) {
+        // 사용자가 로그인 중인 경우
+        loginButton.style.display = "none";  // 로그인 버튼 숨김
+        logoutButton.style.display = "block"; // 로그아웃 버튼 표시
+        console.log("true"); // userLoggedIn이 true일 때 메시지 출력
+    } else {
+        // 사용자가 로그아웃 중인 경우
+        loginButton.style.display = "block"; // 로그인 버튼 표시
+        logoutButton.style.display = "none";  // 로그아웃 버튼 숨김
+        console.log("false"); // userLoggedIn이 false일 때 메시지 출력
+    }
+}
+
+// 페이지 로딩 시 초기 버튼 상태 업데이트
+updateButtons();
+
+            </script>
+
             <div class="navbar align-self-center d-flex">
                 <div class="d-lg-none flex-sm-fill mt-3 mb-4 col-7 col-sm-auto pr-3">
                     <div class="input-group">
@@ -85,7 +119,8 @@
                         </div>
                     </div>
                 </div>
-                <a class="nav-icon d-none d-lg-inline" href="#" data-bs-toggle="modal" data-bs-target="#templatemo_search">
+                <a class="nav-icon d-none d-lg-inline" href="#" data-bs-toggle="modal"
+                   data-bs-target="#templatemo_search">
                     <i class="fa fa-fw fa-search text-dark mr-2"></i>
                 </a>
             </div>
@@ -192,15 +227,18 @@
             <div class="col-auto me-auto">
                 <ul class="list-inline text-left footer-icons">
                     <li class="list-inline-item border border-light rounded-circle text-center">
-                        <a rel="nofollow" class="text-light text-decoration-none" target="_blank" href="http://fb.com/templatemo"><i class="fab fa-facebook-f fa-lg fa-fw"></i></a>
+                        <a rel="nofollow" class="text-light text-decoration-none" target="_blank"
+                           href="http://fb.com/templatemo"><i class="fab fa-facebook-f fa-lg fa-fw"></i></a>
                     </li>
                     <li class="list-inline-item border border-light rounded-circle text-center">
-                        <a class="text-light text-decoration-none" target="_blank" href="https://www.instagram.com/"><i class="fab fa-instagram fa-lg fa-fw"></i></a>
+                        <a class="text-light text-decoration-none" target="_blank" href="https://www.instagram.com/"><i
+                                class="fab fa-instagram fa-lg fa-fw"></i></a>
                     </li>
 
 
                     <li class="list-inline-item border border-light rounded-circle text-center">
-                        <a class="text-light text-decoration-none" target="_blank" href="https://twitter.com/"><i class="fab fa-twitter fa-lg fa-fw"></i></a>
+                        <a class="text-light text-decoration-none" target="_blank" href="https://twitter.com/"><i
+                                class="fab fa-twitter fa-lg fa-fw"></i></a>
                     </li>
                 </ul>
             </div>
@@ -241,25 +279,6 @@
 
 <!-- Mustache.js 라이브러리를 포함합니다 -->
 <script src="https://cdnjs.cloudflare.com/ajax/libs/mustache.js/4.2.0/mustache.min.js"></script>
-<script>
-    // 사용자 로그인 상태 확인 (예: 사용자가 로그인 중이면 true, 로그아웃 중이면 false)
-    var userLoggedIn = true;  // 또는 false, 이를 사용자의 로그인 상태에 맞게 설정하세요.
-
-    // 사용자 로그인 상태에 따라 버튼 표시/숨김 처리
-    var loginButton = document.getElementById("loginButton");
-    var logoutButton = document.getElementById("logoutButton");
-
-    if (userLoggedIn) {
-        // 사용자가 로그인 중인 경우
-        loginButton.style.display = "none";  // 로그인 버튼 숨김
-        logoutButton.style.display = "block"; // 로그아웃 버튼 표시
-    } else {
-        // 사용자가 로그아웃 중인 경우
-        loginButton.style.display = "block"; // 로그인 버튼 표시
-        logoutButton.style.display = "none";  // 로그아웃 버튼 숨김
-    }
-</script>
-
 
 
 </body>

@@ -39,35 +39,21 @@ public class UserController {
 
         if (storedUser != null && storedUser.getUser_Password().equals(loginUser.getUser_Password())) {
             String userMode = storedUser.getUser_Mode();
+            session.setAttribute("User_Id", storedUser.getUser_Id());
+            session.setAttribute("userLoggedIn", true); // 사용자 로그인 상태를 true로 설정
+            System.out.println("true");
             if ("user".equals(userMode)) {
-                session.setAttribute("User_Id", storedUser.getUser_Id());
-
-                // 로그 확인
-                System.out.println("storedUser: " + storedUser);
-                System.out.println("loginUser: " + loginUser);
-                System.out.println("User_mode: " + storedUser.getUser_Mode());
-
-
-                System.out.println("사용자 모드로 로그인");
-                return "redirect:/index"; // 사용자 모드로 리디렉션
+                return "redirect:/index";
             } else if ("admin".equals(userMode)) {
-                session.setAttribute("User_Id", storedUser.getUser_Id());
-
-                // 로그 확인
-                System.out.println("storedUser: " + storedUser);
-                System.out.println("loginUser: " + loginUser);
-                System.out.println("User_mode: " + storedUser.getUser_Mode());
-
-                System.out.println("관리자 모드로 로그인");
-                return "redirect:/adminWelcome"; // 관리자 모드로 리디렉션
+                return "redirect:/adminWelcome";
             }
         } else {
-            System.out.println("Login Failed!");
-            return "redirect:/login"; // 로그인 실패 시 로그인 페이지로 리디렉션
+            session.setAttribute("userLoggedIn", false); // 사용자 로그인 실패 시 로그인 상태를 false로 설정
+            System.out.println("flase");
+            return "redirect:/login";
         }
 
-        // 이 경우에 대한 기본 반환 값, 필요에 따라 변경할 수 있습니다.
-        return "redirect:/login"; // 또는 다른 기본 리디렉션
+        return "redirect:/login";
     }
 
     @GetMapping("/adminWelcome")
