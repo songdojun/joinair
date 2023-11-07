@@ -98,10 +98,12 @@ public class qnaController {
     @GetMapping("/qnaInsert-view")
     public ModelAndView qnaInsertView() {
         ModelAndView mv = new ModelAndView();
-        mv.setViewName("qnaInsert"); // "qnaInsert.mustache" 템플릿을 사용
+        mv.setViewName("qnaInsert");
         mv.setStatus(HttpStatus.OK);
+        mv.addObject("qna", new QNA()); // 모델 객체를 추가합니다.
         return mv;
     }
+
 
     @PostMapping("/qnainsert")
     public String qnainsert(@ModelAttribute QNA qna) {

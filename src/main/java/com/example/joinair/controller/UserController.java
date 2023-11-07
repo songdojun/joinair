@@ -70,6 +70,7 @@ public class UserController {
         return "redirect:/login"; // 또는 다른 기본 리디렉션
     }
 
+
     @GetMapping("/adminWelcome")
     public String showAdminWelcomePage(Model model, HttpSession session) {
         if (session.getAttribute("User_Id") == null) {

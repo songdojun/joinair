@@ -6,15 +6,23 @@
     <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/4.5.2/css/bootstrap.min.css">
 </head>
 <style>
-    #payment-box {
-    position: fixed;
-    top: 5%; /* 결제창을 수직 가운데 정렬, 필요에 따라 조정 */
-    right: 20px; /* 원하는 우측 간격 설정, 필요에 따라 조정 */
-    background-color: skyblue;
-    overflow-y: auto;
-    width: 500px; /* 결제창의 폭, 필요에 따라 조정 */
+    .container {
+    float: left;
+    margin-right: 20px; /* 왼쪽으로 이동한 두 컨테이너 사이의 간격, 필요에 따라 조정 */
 }
+   #payment-box {
+       position: fixed;
+       top: 5%; /* 결제창을 수직 가운데 정렬, 필요에 따라 조정 */
+       right: 20px; /* 원하는 우측 간격 설정, 필요에 따라 조정 */
+       background-color: skyblue;
+       float: right;
+       overflow-y: auto;
+       max-width: 100%; /* 화면 폭에 맞게 최대 너비 설정 */
+       max-height: 100%; /* 화면 높이에 맞게 최대 높이 설정 */
+       width: 350px; /* 너비를 자동으로 설정하여 유동적으로 크기 조절 */
+   }
 </style>
+
 <body>
 <!-- 장바구니 -->
 <div class="container mt-5">
