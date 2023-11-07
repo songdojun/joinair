@@ -1,6 +1,7 @@
 // HTML 파일이 로드될 때 초기화 함수 호출
 document.addEventListener("DOMContentLoaded", function () {
     initializeSearch();
+    initializeCategoryButtons();
 });
 
 // 검색 함수
@@ -24,8 +25,23 @@ function performSearch(page = 0) {
 
             // 검색 결과를 받은 후 다시 초기화하여 검색을 가능하게 합니다.
             initializeSearch();
+            initializeCategoryButtons(); // 카테고리 버튼 초기화 추가
         })
         .catch(error => console.error("검색 오류: ", error));
+}
+
+// 카테고리 버튼 초기화 함수
+function initializeCategoryButtons() {
+    const categoryButtons = document.querySelectorAll(".category-button");
+
+    categoryButtons.forEach(button => {
+        button.addEventListener("click", function () {
+            const category = button.getAttribute("data-category");
+            document.getElementById("searchOption").value = "Cate_Name";
+            document.getElementById("searchKeyword").value = category;
+            performSearch();
+        });
+    });
 }
 
 // 초기화 함수 (이 함수를 호출하여 페이지가 로드될 때 검색을 초기화)
