@@ -21,7 +21,7 @@ function performSearch(page = 0) {
     fetch(fullUrl)
         .then(response => response.text())
         .then(data => {
-            // 검색 결과를 .layout 요소 안에 업데이트
+            // 검색 결과를 .layout 요소 안에 업데이트  중복 네브바 문제 해결완료
             const layout = document.querySelector(".layout");
             const searchResults = new DOMParser().parseFromString(data, "text/html");
             layout.innerHTML = searchResults.querySelector(".layout").innerHTML;
