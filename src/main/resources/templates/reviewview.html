@@ -1,55 +1,176 @@
 <!DOCTYPE html>
-<html lang="en" xmlns:th="http://www.thymeleaf.org">
+<html lang="ko" xmlns:th="http://www.thymeleaf.org">
 <head>
-    <meta charset="UTF-8">
-    <title>게시글 상세 페이지</title>
+    <title> 리뷰 상세 페이지 </title>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <link rel="apple-touch-icon" href="../static/assets/img/apple-icon.png">
+    <link rel="shortcut icon" type="image/x-icon" href="../static/assets/img/favicon.ico">
+    <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.5.2/css/bootstrap.min.css">
+    <link rel="stylesheet" href="../static/assets/css/templatemo.css">
+    <link rel="stylesheet" href="../static/assets/css/custom.css">
+    <link href="https://fonts.googleapis.com/css2?family=Roboto:wght@100;200;300;400;500;700;900&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/font-awesome/4.7.0/css/font-awesome.min.css">
     <style>
-        body {
-            font-family: Arial, sans-serif;
-            margin: 20px;
-            display: flex;
-            justify-content: center;
-            align-items: flex-start; /* Align items to the top */
-            height: 100vh;
-        }
 
-        h1, p {
-            margin-bottom: 10px;
-        }
 
-        .meta-info {
-            color: #666;
-            font-size: 14px;
-            margin-bottom: 20px;
-        }
-
-        .download-link {
-            display: block;
-            margin-top: 10px;
-        }
-
-        .action-links a {
-            margin-right: 10px;
-            text-decoration: none;
-        }
     </style>
 </head>
 <body>
-
-<div th:if="${Review != null}">
-    <h1 th:text="${Review.Rev_Title}">제목입니다.</h1>
-    <div class="meta-info">
-        <p th:text="'작성자: ' + ${Review.Rev_Writer}"></p>
-        <p th:text="'작성일: ' + ${#dates.format(Review.Rev_Date, 'yyyy-MM-dd HH:mm:ss')}"></p>
+<nav class="navbar navbar-expand-lg bg-dark navbar-light d-none d-lg-block" id="templatemo_nav_top">
+    <div class="container text-light">
+        <div class="w-100 d-flex justify-content-between">
+            <div>
+                <i class="fa fa-envelope mx-2"></i>
+                <a class="navbar-sm-brand text-light text-decoration-none" href="mailto:info@company.com">Doron delivery@Doron delivery.com</a>
+                <i class="fa fa-phone mx-2"></i>
+                <a class="navbar-sm-brand text-light text-decoration-none" href="tel:010-1234-5678">010-1234-5678</a>
+            </div>
+            <div>
+                <a class="text-light" href="https://fb.com/templatemo" target="_blank" rel="sponsored"><i class="fab fa-facebook-f fa-sm fa-fw me-2"></i></a>
+                <a class="text-light" href="https://www.instagram.com/" target="_blank"><i class="fab fa-instagram fa-sm fa-fw me-2"></i></a>
+                <a class="text-light" href="https://twitter.com/" target="_blank"><i class="fab fa-twitter fa-sm fa-fw me-2"></i></a>
+            </div>
+        </div>
     </div>
-    <p th:text="${Review.Rev_Content}">내용이 들어갈 부분입니다.</p>
-    <a class="download-link" th:href="@{${Review?.Rev_Filepath}}" download>다운로드</a>
+</nav>
+<nav class="navbar navbar-expand-lg navbar-light shadow">
+    <div class="container d-flex justify-content between align-items-center">
+        <a class="navbar-brand text-success logo h1 align-self-center" href="../templates/index.html">Join Air🪂</a>
+        <button class="navbar-toggler border-0" type="button" data-bs-toggle="collapse" data-bs-target="#templatemo_main_nav"
+                aria-controls="templatemo_main_nav" aria-expanded="false" aria-label="Toggle navigation">
+            <span class="navbar-toggler-icon"></span>
+        </button>
+        <div class="align-self-center collapse navbar-collapse flex-fill d-lg-flex justify-content-lg-between" id="templatemo_main_nav">
+            <div class="flex-fill">
+                <ul class="nav navbar-nav d-flex justify-content-between mx-lg-auto">
+                    <li class="nav-item">
+                        <a class="nav-link" href="../templates/index.html">홈</a>
+                    </li>
+                    <li class="nav-item">
+                        <a class="nav-link" href="../templates/about.html">회사 소개</a>
+                    </li>
+                    <li class="nav-item">
+                        <a class="nav-link" href="../templates/shop.html">상품</a>
+                    </li>
+                    <li class="nav-item">
+                        <a class="nav-link" href="../templates/contact.html">문의</a>
+                    </li>
+                    <li class="nav-item">
+                        <a class="nav-link" href="http://localhost:8080/notice/list">공지사항</a>
+                    </li>
+                    <!--                    사용에 따라 사용-->
+                    <!--                    <li class="nav-item">-->
+                    <!--                        <a class="nav-link" href="#">로그인</a>-->
+                    <!--                    </li>-->
 
-    <div class="action-links">
-        <a th:href="@{/review/delete(Rev_No=${Review.Rev_No})}">글삭제</a>
-        <a th:href="@{/review/modify/{Rev_No}(Rev_No=${Review.Rev_No})}">수정</a>
+                </ul>
+            </div>
+            <div class="navbar align-self-center d-flex">
+                <div class="d-lg-none flex-sm-fill mt-3 mb-4 col-7 col-sm-auto pr-3">
+                    <div class="input-group">
+                        <input type="text" class="form-control" id="inputMobileSearch" placeholder="검색">
+                        <div class="input-group-text">
+                            <i class="fa fa-fw fa-search"></i>
+                        </div>
+                    </div>
+                </div>
+                <a class="nav-icon d-none d-lg-inline" href="#" data-bs-toggle="modal" data-bs-target="#templatemo_search">
+                    <i class="fa fa-fw fa-search text-dark mr-2"></i>
+                </a>
+
+            </div>
+        </div>
     </div>
+</nav><br>
+<div class="form-container text-center" style="max-width: 50%; margin: 0 auto; padding: 20px;">
+    <h2 class="font-weight-bold ">리뷰 상세페이지</h2>
+    <br>
+    <form action="/review/modifypro" method="post" enctype="multipart/form-data">
+        <div class="mb-3">
+            <label for="Rev_Title" class="form-label">제목:</label>
+            <input name="Rev_Title" type="text" class="form-control" id="Rev_Title">
+        </div>
+
+        <div class="mb-3">
+            <label for="Rev_Content" class="form-label">내용:</label>
+            <textarea name="Rev_Content" class="form-control" id="Rev_Content"></textarea>
+        </div>
+
+        <div class="mb-3">
+            <label for="file" class="form-label">파일 업로드:</label>
+            <input type="file" class="form-control" name="file" id="file">
+        </div>
+
+        <button type="submit" class="btn btn-primary custom-button">수정하기</button>
+    </form>
 </div>
 
+<footer class="bg-dark" id="tempaltemo_footer">
+    <div class="container">
+        <div class="row">
+            <div class="col-md-4 pt-5">
+                <h2 class="h2 text-success border-bottom pb-3 border-light logo">Join Air🪂</h2>
+                <ul class="list-unstyled text-light footer-link-list">
+                    <li>
+                        <i class="fas fa-map-marker-alt fa-fw"></i>
+                        한국직업전문학교 11층 강의실02 항공4기 2조
+                    </li>
+                    <li>
+                        <i class="fa fa-phone fa-fw"></i>
+                        <a class="text-decoration-none" href="tel:010-1234-5678">010-1234-5678</a>
+                    </li>
+                    <li>
+                        <i class="fa fa-envelope fa-fw"></i>
+                        <a class="text-decoration-none" href="mailto:info@dronefood.com">drone@dronedelivery.com</a>
+                    </li>
+                </ul>
+            </div>
+            <div class="col-md-4 pt-5">
+                <h2 class="h2 text-light border-bottom pb-3 border-light">메뉴</h2>
+                <ul class="list-unstyled text-light footer-link-list">
+
+                    <li><a class="text-decoration-none" href="contact.html">고객 지원</a></li>
+                    <li><a class="text-decoration-none" href="#">드론 정보</a></li>
+                </ul>
+            </div>
+            <div class="col-md-4 pt-5">
+                <h2 class="h2 text-light border-bottom pb-3 border-light">정보</h2>
+                <ul class="list-unstyled text-light footer-link-list">
+                    <li><a class="text-decoration-none" href="http://localhost:63342/joinair/src/main/resources/templates/index.html">홈</a></li>
+                    <li><a class="text-decoration-none" href="http://localhost:63342/joinair/src/main/resources/templates/about.html">회사/소개</a></li>
+                    <li><a class="text-decoration-none" href="http://localhost:63342/joinair/src/main/resources/templates/contact.html">문의</a></li>
+                </ul>
+            </div>
+        </div>
+        <div class="row text-light mb-4">
+            <div class="col-12 mb-3">
+                <div class="w-100 my-3 border-top border-light"></div>
+            </div>
+            <div class="col-auto me-auto">
+
+            </div>
+        </div>
+    </div>
+    <div class="w-100 bg-black py-3">
+        <div class="container">
+            <div class="row pt-2">
+                <div class="col-12">
+                    <p class="text-left text-light">
+                        저작권 © 2023 Join Air
+                    </p>
+                </div>
+            </div>
+        </div>
+    </div>
+</footer>
+<script src="assets/js/jquery-migrate-1.2.1.min.js"></script>
+<script src="assets/js/bootstrap.bundle.min.js"></script>
+<script src="assets/js/templatemo.js"></script>
+<script src="assets/js/custom.js"></script>
+<script src="assets/js/membership.js"></script>
+</div>
+</body>
+</html>
 </body>
 </html>

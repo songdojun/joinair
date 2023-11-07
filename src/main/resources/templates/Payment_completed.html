@@ -3,7 +3,7 @@
 <head>
     <meta charset="utf-8">
     <meta name="viewport" content="width=device-width, initial-scale=1">
-    <title>회원가입 페이지</title>
+    <title>결제완료 페이지</title>
     <link rel="apple-touch-icon" href="/assets/img/apple-icon.png">
     <link rel="shortcut icon" type=" image/x-icon" href="../static/assets/img/favicon.ico">
 
@@ -15,91 +15,6 @@
     <link rel="stylesheet" href="/assets/css/fontawesome.min.css">
     <style>
 
-        .custom-button {
-                background-color: #4CAF50;
-                color: white;
-                padding: 10px 20px;
-                border: none;
-                border-radius: 5px;
-                cursor: pointer;
-            }
-
-            .custom-button:hover {
-                background-color: #45a049;
-            }
-
-            .cotn_principal {
-                background: rgba(255, 255, 255, 0.9);
-                border-radius: 5px;
-                padding: 20px;
-                max-width: 400px;
-                width: 100%;
-            }
-
-            /* Updated styles for the report form and table */
-            #salesReportContainer {
-                padding: 20px;
-                margin: 20px auto;
-                max-width: 800px;
-                background-color: #f8f9fa;
-                border-radius: 5px;
-            }
-
-            #reportForm {
-                margin-bottom: 20px;
-            }
-
-            #reportForm label {
-                font-weight: bold;
-            }
-
-            #reportForm select,
-            #reportForm input[type="number"] {
-                margin: 5px;
-                padding: 5px;
-                border: 1px solid #ced4da;
-                border-radius: 3px;
-            }
-
-            #reportForm button {
-                background-color: #4CAF50;
-                color: white;
-                padding: 10px 20px;
-                border: none;
-                border-radius: 5px;
-                cursor: pointer;
-            }
-
-            #reportForm button:hover {
-                background-color: #45a049;
-            }
-
-            table {
-                width: 100%;
-                border-collapse: collapse;
-            }
-
-            table, th, td {
-                border: 1px solid #ddd;
-            }
-
-            th, td {
-                padding: 8px;
-                text-align: left;
-            }
-
-            th {
-                background-color: #4CAF50;
-                color: white;
-            }
-
-            tr:nth-child(even) {
-                background-color: #f2f2f2;
-            }
-
-            tr:hover {
-                background-color: #ddd;
-            }
     </style>
 </head>
 <body>
@@ -170,40 +85,6 @@
     </div>
 </nav>
 
-
-<div class="form-container text-center" style="max-width: 50%; margin: 0 auto; padding: 20px;">
-    <h2 class="font-weight-bold">리뷰 작성페이지</h2>
-    <br>
-    <form action="/review/writepro" method="post" enctype="multipart/form-data">
-        <label for="Pro_Code" class="form-label">상품 선택:</label>
-        <select name="Pro_Code" id="Pro_Code" class="form-control">
-            <option th:each="product : ${productList}" th:value="${product.Pro_Code}" th:text="${product.Pro_Name}"></option>
-        </select>
-        <br/>
-        <div class="mb-3">
-            <label for="Rev_Title" class="form-label">제목:</label>
-            <input name="Rev_Title" type="text" id="Rev_Title" class="form-control">
-        </div>
-
-        <div class="mb-3">
-            <label for="Rev_Writer" class="form-label">작성자:</label>
-            <input name="Rev_Writer" type="text" id="Rev_Writer" class="form-control">
-        </div>
-
-        <div class="mb-3">
-            <label for="Rev_Content" class="form-label">내용:</label>
-            <textarea name="Rev_Content" id="Rev_Content" class="form-control"></textarea>
-        </div>
-
-        <div class="mb-3">
-            <label for="file" class="form-label">파일 업로드:</label>
-            <input type="file" name="file" id="file" class="form-control">
-        </div>
-
-        <button type="submit" class="btn btn-primary custom-button">작성</button>
-    </form>
-</div>
-
 <footer class="bg-dark" id="tempaltemo_footer">
     <div class="container">
         <div class="row">
@@ -261,12 +142,12 @@
             </div>
         </div>
     </div>
-    </footer>
+</footer>
 <script src="assets/js/jquery-migrate-1.2.1.min.js"></script>
 <script src="assets/js/bootstrap.bundle.min.js"></script>
 <script src="assets/js/templatemo.js"></script>
 <script src="assets/js/custom.js"></script>
 <script src="assets/js/membership.js"></script>
-</div>
+
 </body>
 </html>
