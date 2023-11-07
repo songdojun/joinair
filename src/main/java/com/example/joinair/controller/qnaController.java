@@ -104,6 +104,7 @@ public class qnaController {
         return mv;
     }
 
+
     @PostMapping("/qnainsert")
     public String qnainsert(@ModelAttribute QNA qna) {
         boolean result = qnaService.qnainsert(qna);
