@@ -21,14 +21,18 @@ function performSearch(page = 0) {
     fetch(fullUrl)
         .then(response => response.text())
         .then(data => {
-            document.querySelector(".layout").innerHTML = data;
+            // 검색 결과를 .layout 요소 안에 업데이트
+            const layout = document.querySelector(".layout");
+            const searchResults = new DOMParser().parseFromString(data, "text/html");
+            layout.innerHTML = searchResults.querySelector(".layout").innerHTML;
 
             // 검색 결과를 받은 후 다시 초기화하여 검색을 가능하게 합니다.
             initializeSearch();
-            initializeCategoryButtons(); // 카테고리 버튼 초기화 추가
+            initializeCategoryButtons();
         })
         .catch(error => console.error("검색 오류: ", error));
 }
+
 
 // 카테고리 버튼 초기화 함수
 function initializeCategoryButtons() {
