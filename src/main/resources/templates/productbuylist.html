@@ -28,6 +28,8 @@
         .card {
             margin-bottom: 20px;
         }
+
+
     </style>
 </head>
 <body>
@@ -110,29 +112,34 @@
 </nav>
 
 <div class="layout">
-    <h1>
-        <a th:href="@{/productbuy/list}">전체 상품 보기</a>
-    </h1>
 
 
 
-    <div>
-        <select id="searchOption">
-            <option value="Pro_Name" selected>상품명</option>
-            <option value="Pro_Code">상품코드</option>
-            <option value="Cate_Name">카테고리</option>
-        </select>
-        <input type="text" name="searchKeyword" id="searchKeyword" placeholder="검색어 입력">
-        <button id="searchButton">검색</button>
-    </div>
 
-    <!-- 카테고리 버튼 -->
-    <div>
-        <button class="category-button" data-category="간편식사">간편식사</button>
-        <button class="category-button" data-category="과자류">과자류</button>
-        <button class="category-button" data-category="생활용품">생활용품</button>
-        <button class="category-button" data-category="식품">식품</button>
-        <button class="category-button" data-category="음료주류">음료주류</button>
+    <div class="container mt-5">
+        <div class="row">
+            <div class="col-md-6">
+                <div class="input-group mb-3">
+                    <select id="searchOption" class="form-select">
+                        <option value="Pro_Name" selected>상품명</option>
+                        <option value="Pro_Code">상품코드</option>
+                        <option value="Cate_Name">카테고리</option>
+                    </select>
+                    <input type="text" name="searchKeyword" id="searchKeyword" class="form-control" placeholder="검색어 입력">
+                    <button id="searchButton" class="btn btn-primary">검색</button>
+                </div>
+            </div>
+            <div class="col-md-6">
+                <div class="btn-group" role="group">
+                    <a class="btn btn-primary" href="/productbuy/list">전체</a>
+                    <button class="btn btn-secondary category-button" data-category="간편식사">간편식사</button>
+                    <button class="btn btn-secondary category-button" data-category="과자류">과자류</button>
+                    <button class="btn btn-secondary category-button" data-category="생활용품">생활용품</button>
+                    <button class="btn btn-secondary category-button" data-category="식품">식품</button>
+                    <button class="btn btn-secondary category-button" data-category="음료주류">음료주류</button>
+                </div>
+            </div>
+        </div>
     </div>
 
 
@@ -157,29 +164,35 @@
     </div>
 
     <!-- 페이지네이션 -->
-    <div class="pagination" th:if="${list.totalPages > 1 || list.totalElements == 0}">
-        <!-- Adjust pagination links to include search parameters -->
-        <div class="horizontal-pagination">
-            <a th:if="${list.number > 0}" th:href="@{|/productbuy/list?page=0&size=${list.size}&sort=${list.sort}&searchOption=${searchOption}&searchKeyword=${searchKeyword}|}" aria-label="First">
-                <span aria-hidden="true">첫 페이지</span>
-            </a>
-            <!-- Adjust previous and next links similarly -->
-            <a th:if="${list.number > 0}" th:href="@{|/productbuy/list?page=${list.number - 1}&size=${list.size}&sort=${list.sort}&searchOption=${searchOption}&searchKeyword=${searchKeyword}|}" aria-label="Previous">
-                <span aria-hidden="true">&laquo; 이전</span>
-            </a>
-            <!-- Add searchOption and searchKeyword to the page number links -->
-            <span th:each="i : ${#numbers.sequence(0, list.totalPages - 1)}">
-            <a th:if="${i == list.number}" th:text="${i + 1}" class="current-page"></a>
-            <a th:unless="${i == list.number}" th:href="@{|/productbuy/list?page=${i}&size=${list.size}&sort=${list.sort}&searchOption=${searchOption}&searchKeyword=${searchKeyword}|}" th:text="${i + 1}"></a>
-        </span>
-            <a th:if="${list.number < list.totalPages - 1}" th:href="@{|/productbuy/list?page=${list.number + 1}&size=${list.size}&sort=${list.sort}&searchOption=${searchOption}&searchKeyword=${searchKeyword}|}" aria-label="Next">
-                <span aria-hidden="true">다음 &raquo;</span>
-            </a>
-            <a th:if="${list.number < list.totalPages - 1}" th:href="@{|/productbuy/list?page=${list.totalPages - 1}&size=${list.size}&sort=${list.sort}&searchOption=${searchOption}&searchKeyword=${searchKeyword}|}" aria-label="Last">
-                <span aria-hidden="true">마지막 페이지</span>
-            </a>
-        </div>
-    </div>
+    <nav aria-label="Page navigation">
+        <ul class="pagination justify-content-center">
+            <li th:if="${list.number > 0}" class="page-item">
+                <a th:href="@{|/productbuy/list?page=0&size=${list.size}&sort=${list.sort}&searchOption=${searchOption}&searchKeyword=${searchKeyword}|}" aria-label="First" class="page-link">
+                    <span aria-hidden="true">첫 페이지</span>
+                </a>
+            </li>
+            <li th:if="${list.number > 0}" class="page-item">
+                <a th:href="@{|/productbuy/list?page=${list.number - 1}&size=${list.size}&sort=${list.sort}&searchOption=${searchOption}&searchKeyword=${searchKeyword}|}" aria-label="Previous" class="page-link">
+                    <span aria-hidden="true">&laquo; 이전</span>
+                </a>
+            </li>
+            <th:block th:each="i : ${#numbers.sequence(0, list.totalPages - 1)}">
+                <li th:classappend="${i == list.number} ? 'page-item active' : 'page-item'">
+                    <a th:href="@{|/productbuy/list?page=${i}&size=${list.size}&sort=${list.sort}&searchOption=${searchOption}&searchKeyword=${searchKeyword}|}" th:text="${i + 1}" class="page-link"></a>
+                </li>
+            </th:block>
+            <li th:if="${list.number < list.totalPages - 1}" class="page-item">
+                <a th:href="@{|/productbuy/list?page=${list.number + 1}&size=${list.size}&sort=${list.sort}&searchOption=${searchOption}&searchKeyword=${searchKeyword}|}" aria-label="Next" class="page-link">
+                    <span aria-hidden="true">다음 &raquo;</span>
+                </a>
+            </li>
+            <li th:if="${list.number < list.totalPages - 1}" class="page-item">
+                <a th:href="@{|/productbuy/list?page=${list.totalPages - 1}&size=${list.size}&sort=${list.sort}&searchOption=${searchOption}&searchKeyword=${searchKeyword}|}" aria-label="Last" class="page-link">
+                    <span aria-hidden="true">마지막 페이지</span>
+                </a>
+            </li>
+        </ul>
+    </nav>
 
     <div th:if="${list.totalPages == 0}" class="no-results">검색 결과가 없습니다.</div>
 
