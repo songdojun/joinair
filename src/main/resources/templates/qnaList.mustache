@@ -76,53 +76,54 @@
                     <li class="nav-item">
                         <a class="nav-link" href="/notice/list">공지사항</a>
                     </li>
-                        <li class="nav-item">
-                            <a class="nav-link" href="/login">
-                                {{#userLoggedIn}}로그아웃{{/userLoggedIn}}
-                                {{^userLoggedIn}}로그인{{/userLoggedIn}}
-                            </a>
-                        </li>
-                    </ul>
+                    <li class="nav-item">
+                        {{#userLoggedIn}}
+                            <a class="nav-link" href="/logout">로그아웃</a>
+                        {{/userLoggedIn}}
+                        {{^userLoggedIn}}
+                            <a class="nav-link" href="/login">로그인</a>
+                        {{/userLoggedIn}}
+                    </li>
+                </ul>
             </div>
             <!--로그인 → 로그아웃-->
             <script>
                 // 세션 상태 확인
-var userLoggedIn = {{userLoggedIn}}; // Mustache를 사용하여 userLoggedIn 값을 가져옴
+                var userLoggedIn = {{userLoggedIn}}; // Mustache를 사용하여 userLoggedIn 값을 가져옴
 
-// 로그인 및 로그아웃 메뉴 요소 가져오기
-var loginItem = document.querySelector(".nav-item .nav-link[href='/login']");
-var logoutItem = document.querySelector(".nav-item .nav-link[href='/logout']");
+    // 로그인 및 로그아웃 메뉴 요소 가져오기
+    var loginItem = document.querySelector(".nav-item .nav-link[href='/login']");
+    var logoutItem = document.querySelector(".nav-item .nav-link[href='/logout']");
 
-function updateButtons() {
-    if (userLoggedIn) {
-        // 세션이 있으면 로그인 메뉴 항목을 감추고 로그아웃 메뉴 항목을 표시합니다
-        loginItem.textContent = "로그아웃";
-        logoutItem.style.display = "block";
-    } else {
-        // 세션이 없으면 로그인 메뉴 항목을 표시하고 로그아웃 메뉴 항목을 감춥니다
-        loginItem.textContent = "로그인";
-        logoutItem.style.display = "none";
+    function updateButtons() {
+        if (userLoggedIn) {
+            // 세션이 있으면 로그인 메뉴 항목을 감추고 로그아웃 메뉴 항목을 표시합니다
+            loginItem.style.display = "none";
+            logoutItem.style.display = "block";
+        } else {
+            // 세션이 없으면 로그인 메뉴 항목을 표시하고 로그아웃 메뉴 항목을 감춥니다
+            loginItem.style.display = "block";
+            logoutItem.style.display = "none";
+        }
     }
-}
 
-updateButtons(); // 페이지 로딩 시 초기 버튼 상태 업데이트
+    updateButtons(); // 페이지 로딩 시 초기 버튼 상태 업데이트
 
-logoutItem.addEventListener("click", function() {
-  if (userLoggedIn) {
-        // 로그아웃 처리 (예: 세션 삭제)
-        // 세션 삭제 로직을 추가하세요
-        // 아래 코드는 세션 삭제 예시입니다. 실제로는 세션 삭제 방법을 사용해야 합니다.
-        // sessionStorage.removeItem("User_Id"); // User_Id 세션 삭제
+    logoutItem.addEventListener("click", function() {
+        if (userLoggedIn) {
+            // 로그아웃 처리 (예: 세션 삭제)
+            // 세션 삭제 로직을 추가하세요
+            // 아래 코드는 세션 삭제 예시입니다. 실제로는 세션 삭제 방법을 사용해야 합니다.
+            // sessionStorage.removeItem("User_Id"); // User_Id 세션 삭제
 
-        // 로그아웃 처리가 완료되면 userLoggedIn 값을 업데이트하여 버튼 상태를 업데이트합니다
-        userLoggedIn = false;
+            // 로그아웃 처리가 완료되면 userLoggedIn 값을 업데이트하여 버튼 상태를 업데이트합니다
+            userLoggedIn = false;
 
-        // 로그아웃 후 로그인 메뉴 항목을 표시하고 로그아웃 메뉴 항목을 감춥니다
-        updateButtons();
-    }
-});
+            // 로그아웃 후 로그인 메뉴 항목을 표시하고 로그아웃 메뉴 항목을 감춥니다
+            updateButtons();
+        }
+    });
             </script>
-
             <div class="navbar align-self-center d-flex">
                 <div class="d-lg-none flex-sm-fill mt-3 mb-4 col-7 col-sm-auto pr-3">
                     <div class="input-group">
