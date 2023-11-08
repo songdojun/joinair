@@ -3,6 +3,7 @@ package com.example.joinair.controller;
 import com.example.joinair.dto.QNA;
 import com.example.joinair.dto.QNAPAGE;
 import com.example.joinair.service.qnaService;
+import jakarta.servlet.http.HttpSession;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.stereotype.Controller;
@@ -22,17 +23,17 @@ public class qnaController {
     private qnaService qnaService;
 
     @GetMapping("/qnaList")
-    public ModelAndView qnaList(@RequestParam(defaultValue = "1") int page, @RequestParam(defaultValue = "10") int pageSize, QNA qnadto) {
+    public ModelAndView qnaList(@RequestParam(defaultValue = "1") int page, @RequestParam(defaultValue = "10") int pageSize, QNA qnadto, HttpSession session) {
 
         QNAPAGE pagingInfo = new QNAPAGE();
         pagingInfo.setPage(page);
         pagingInfo.setPageSize(pageSize);
 
         //기억안남
-        List<QNA> qnaList = qnaService.qnaList(qnadto);
+//        List<QNA> qnaList = qnaService.qnaList(qnadto);
 
         //검색어 + 페이징
-        List<QNA> qnaRueslt = qnaService.qnaListWithPaging(pagingInfo, qnadto);
+//        List<QNA> qnaRueslt = qnaService.qnaListWithPaging(pagingInfo, qnadto);
 
         //총게물 갯수
         int totalItemCount = qnaService.getTotalItemCount();
@@ -46,16 +47,20 @@ public class qnaController {
         List<String> pagingList = qnaService.pagingList(totalPageCount, page);
 
 
-
         ModelAndView mv = new ModelAndView();
 
         mv.addObject("pagelist", pagingList);
         mv.setViewName("qnaList");
         mv.setStatus(HttpStatus.OK);
-        mv.addObject("qnaList", qnaRueslt);
+//        mv.addObject("qnaList", qnaRueslt);
         mv.addObject("currentPage", page);
         mv.addObject("totalPageCount", totalPageCount);
         mv.addObject("pageNumbers", pageNumbers);
+        // 추가
+        //mv.addObject("userLoggedIn", true); // 사용자가 로그인한 경우
+        String userId = (String) session.getAttribute("user_id"); // 세션에서 사용자 아이디 가져오기
+        mv.addObject("userLoggedIn", userId != null); // 사용자가 로그인한 경우 true, 아닌 경우 false
+        mv.addObject("user_id", userId); // 사용자 아이디를 ModelAndView에 추가
 
 
 

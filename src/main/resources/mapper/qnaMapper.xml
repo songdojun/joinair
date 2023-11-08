@@ -4,20 +4,16 @@
 <mapper namespace="com.example.joinair.mapper.qnaMapper">
     <select id="qnaList" resultType="com.example.joinair.dto.QNA">
         SELECT * FROM qna
-
-        WHERE qna_title like '%${keyword}%'
+        WHERE qna_title like '%' || #{keyword} || '%'
         ORDER BY QNA_NO DESC
     </select>
 
     <select id="qna" resultType="com.example.joinair.dto.QNA">
         SELECT * FROM qna WHERE QNA_NO = #{QNA_NO}
     </select>
-    <update id="qnaupdateView">
-        UPDATE qna SET QNA_VIEWS = QNA_VIEWS + 1 WHERE QNA_NO = #{QNA_NO}
-    </update>
 
     <update id="qnaupdateCommand">
-        UPDATE qna SET QNA_COMMAND = #{QNA_COMMAND} WHERE QNA_NO = #{QNA_NO}
+        UPDATE qna SET QNA_CONTENT = #{QNA_CONTENT} WHERE QNA_NO = #{QNA_NO}
     </update>
 
     <insert id="qnainsert" parameterType="com.example.joinair.dto.QNA">
@@ -38,25 +34,25 @@
     </delete>
 
 
-    <select id="qnaListWithPaging" resultType="com.example.joinair.dto.QNA">
-        SELECT *
-        FROM (
-        SELECT qna.*, ROWNUM AS rnum
-        FROM (
-        SELECT * FROM qna
-        where qna_title like '%${keyword}%'
-        ORDER BY QNA_NO DESC
-        ) qna
-        )
-        WHERE rnum between #{startIndex} AND #{endIndex}
+<!--    <select id="qnaListWithPaging" resultType="com.example.joinair.dto.QNA">-->
+<!--        SELECT *-->
+<!--        FROM (-->
+<!--        SELECT qna.*, ROWNUM AS rnum-->
+<!--        FROM (-->
+<!--        SELECT * FROM qna-->
+<!--        where qna_title like '%' || #{keyword} || '%'-->
+<!--        ORDER BY QNA_NO DESC-->
+<!--        ) qna-->
+<!--        )-->
+<!--        WHERE rnum between #{startIndex} AND #{endIndex}-->
 
-    </select>
+<!--    </select>-->
 
     <select id="getTotalItemCount" resultType="int">
         SELECT count(QNA_NO) FROM qna
 
         <if test="keyword != null and keyword != ''">
-        WHERE qna_title like '%${keyword}%'
+            WHERE qna_title LIKE '%' || #{keyword} || '%'
         </if>
 
         ORDER BY QNA_NO DESC

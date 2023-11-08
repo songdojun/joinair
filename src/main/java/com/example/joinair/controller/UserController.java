@@ -55,14 +55,10 @@ public class UserController {
                 storeUserInSession(session, storedUser.getUser_Id());
 
                 // 이후 로그인 된 사용자의 권한에 따라 리디렉션합니다.
-                if ("ROLE_USER".equals(storedUser.getUser_Mode())) {
-                    System.out.println("USER Mode Login!!!!");
-
+                if ("user".equals(storedUser.getUser_Mode())) {
                     // 사용자 모드로 로그인한 경우 사용자 페이지로 리디렉션합니다.
                     return "redirect:/index";
-                } else if ("ROLE_ADMIN".equals(storedUser.getUser_Mode())) {
-                    System.out.println("ADMIN Mode Login!!!!");
-
+                } else if ("admin".equals(storedUser.getUser_Mode())) {
                     // 관리자 모드로 로그인한 경우 관리자 페이지로 리디렉션합니다.
                     return "redirect:/adminWelcome";
                 }
@@ -119,11 +115,8 @@ public class UserController {
         String userId = (String) session.getAttribute("User_Id");
         USERS user = userService.getUserById(userId);
 
-        if (user != null && "ROLE_ADMIN".equals(user.getUser_Mode())) {
+        if (user != null && "ADMIN".equals(user.getUser_Mode())) {
             model.addAttribute("isAdmin", true);
-            model.addAttribute("userId", userId); // 사용자 ID를 모델에 추가
-            model.addAttribute("userMode", user.getUser_Mode());
-
             List<USERS> users = userService.getAllUsers();
             model.addAttribute("users", users);
 
@@ -143,19 +136,14 @@ public class UserController {
         String userId = (String) session.getAttribute("User_Id");
         USERS user = userService.getUserById(userId);
 
-        if (user != null && "ROLE_ADMIN".equals(user.getUser_Mode())) {
-//            model.addAttribute("Role", ROLE_ADMIN); // 관리자 역할이면 isAdmin을 true로 설정
-            model.addAttribute("userMode", user.getUser_Mode());
-            List<USERS> users = userService.getAllUsers();
-            model.addAttribute("users", users);
-            return "adminEditUserList";
-
+        if (user != null && "admin".equals(user.getUser_Mode())) {
+            model.addAttribute("isAdmin", true); // 관리자 역할이면 isAdmin을 true로 설정
         } else {
             return "redirect:/login"; // 관리자가 아니면 로그인 페이지로 리디렉션
         }
-//        List<USERS> users = userService.getAllUsers();
-//        model.addAttribute("users", users);
-//        return "adminEditUserList";
+        List<USERS> users = userService.getAllUsers();
+        model.addAttribute("users", users);
+        return "/adminEditUserList";
     }
 
     @GetMapping("/adminEditUserList/{userId}")
@@ -166,8 +154,8 @@ public class UserController {
         String adminUserId = (String) session.getAttribute("User_Id");
         USERS adminUser = userService.getUserById(adminUserId);
 
-        if (adminUser != null && "ROLE_ADMIN".equals(adminUser.getUser_Mode())) {
-//            model.addAttribute("isAdmin", true);
+        if (adminUser != null && "admin".equals(adminUser.getUser_Mode())) {
+            model.addAttribute("isAdmin", true);
             USERS user = userService.getUserById(userId);
             model.addAttribute("user", user); // 사용자 정보를 모델에 추가
             return "adminEditUser"; // adminEditUser.html 템플릿 반환
