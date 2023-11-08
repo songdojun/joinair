@@ -54,7 +54,7 @@ public class productBuyController {
         model.addAttribute("searchOption", searchOption);
         model.addAttribute("searchKeyword", searchKeyword); // Pass search keyword to the view
 
-        return "productbuylist";
+        return "productbuylist"; //페이징 및 검색기능 문제로 기존 productbuylist2였지만 productbuylist로 원복했습니다.
     }
 
 

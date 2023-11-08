@@ -29,26 +29,26 @@
 <div class="layout">
     <form th:action="@{/dronead/update/{D_Code}(D_Code=${drone.D_Code})}" method="post" enctype="multipart/form-data">
         <!-- 상품 정보를 수정할 수 있는 입력 필드 추가 -->
-        <label for="D_Code">드론 코드:</label>
+        <label for="D_Code">드론 코드(변경불가):</label>
         <input name="D_Code" type="text" id="D_Code" th:value="${drone.D_Code}" th:readonly="true">
 
 
         <label for="D_Name">드론 명:</label>
         <input name="D_Name" type="text" id="D_Name" th:value="${drone.D_Name}">
 
-        <label for="D_Payload">페이로드 용량:</label>
+        <label for="D_Payload">페이로드(kg):</label>
         <input name="D_Payload" type="text" id="D_Payload" th:value="${drone.D_Payload}">
 
         <label for="D_Count">수량:</label>
         <input name="D_Count" type="text" id="D_Count" th:value="${drone.D_Count}">
 
-        <label for="D_Size">크기:</label>
+        <label for="D_Size">축간거리(cm):</label>
         <input name="D_Size" type="text" id="D_Size" th:value="${drone.D_Size}">
 
-        <label for="D_Weight">무게:</label>
+        <label for="D_Weight">무게(kg):</label>
         <input name="D_Weight" type="text" id="D_Weight" th:value="${drone.D_Weight}">
 
-        <label for="D_Speed">속도:</label>
+        <label for="D_Speed">속도(m/s):</label>
         <input name="D_Speed" type="text" id="D_Speed" th:value="${drone.D_Speed}">
 
 

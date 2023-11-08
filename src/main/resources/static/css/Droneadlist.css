@@ -1,7 +1,7 @@
 /* Droneadlist.css */
 .layout {
     width: 100%;
-    max-width: 1000px;
+    max-width: 1700px; /* 전체적인 표 크기를 좌우로 늘릴 수 있습니다. */
     margin: 0 auto;
     margin-top: 40px;
     text-align: center;
@@ -15,30 +15,30 @@ table {
 
 th, td {
     border: 1px solid #ddd;
-    padding: 8px;
+    padding: 12px; /* 좀 더 큰 패딩 */
     text-align: left;
+    white-space: nowrap; /* 줄 바꿈 방지 */
     overflow: hidden;
     text-overflow: ellipsis;
-    white-space: nowrap;
 }
 
 .title-column {
-    width: 25%;
+    width: 40%; /* 좀 더 큰 폭 */
 }
 
-.small-column {
-    width: 10%;
+small-column {
+    width: 25%; /* 좌우 폭을 더 넓게 조정 */
 }
 
-.category-column {
-    width: 20%;
+category-column {
+    width: 25%; /* 좀 더 큰 폭 */
 }
 
-.date-column {
-    width: 20%;
+date-column {
+    width: 80%; /* 드론등록일자 컬럼은 더 넓게 조정 */
 }
 
-.pagination {
+pagination {
     margin-top: 20px;
 }
 
@@ -57,11 +57,11 @@ th, td {
     color: red;
 }
 
-.current-page {
+current-page {
     font-weight: bold;
 }
 
-.no-results {
+no-results {
     font-weight: bold;
     font-size: 18px;
     margin-top: 10px;
