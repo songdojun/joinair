@@ -1,10 +1,8 @@
 package com.example.joinair.dto;
 
-import lombok.Getter;
-import lombok.Setter;
+import lombok.Data;
 
-@Getter
-@Setter
+@Data
 public class USERS {
 
     public String getUser_Id() {

@@ -2,7 +2,9 @@ package com.example.joinair.controller;
 
 import com.example.joinair.dto.QNA;
 import com.example.joinair.dto.QNAPAGE;
+import com.example.joinair.service.UserService;
 import com.example.joinair.service.qnaService;
+import jakarta.servlet.http.HttpSession;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.stereotype.Controller;
@@ -20,9 +22,19 @@ public class qnaController {
 
     @Autowired
     private qnaService qnaService;
+    @Autowired
+    private UserService userService;
 
     @GetMapping("/qnaList")
-    public ModelAndView qnaList(@RequestParam(defaultValue = "1") int page, @RequestParam(defaultValue = "10") int pageSize, QNA qnadto) {
+    public ModelAndView qnaList(@RequestParam(defaultValue = "1") int page, @RequestParam(defaultValue = "10") int pageSize, QNA qnadto, HttpSession session) {
+        ModelAndView mv = new ModelAndView();
+        String userId = (String) session.getAttribute("User_Id");
+
+        if (userId != null) {
+            mv.addObject("userLoggedIn", true); // 사용자 로그인 상태를 true로 설정
+        } else {
+            mv.addObject("userLoggedIn", false);
+        }
 
         QNAPAGE pagingInfo = new QNAPAGE();
         pagingInfo.setPage(page);
@@ -46,9 +58,6 @@ public class qnaController {
         List<String> pagingList = qnaService.pagingList(totalPageCount, page);
 
 
-
-        ModelAndView mv = new ModelAndView();
-
         mv.addObject("pagelist", pagingList);
         mv.setViewName("qnaList");
         mv.setStatus(HttpStatus.OK);
@@ -56,8 +65,6 @@ public class qnaController {
         mv.addObject("currentPage", page);
         mv.addObject("totalPageCount", totalPageCount);
         mv.addObject("pageNumbers", pageNumbers);
-
-
 
         return mv;
     }
