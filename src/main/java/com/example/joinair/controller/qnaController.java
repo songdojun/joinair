@@ -32,7 +32,7 @@ public class qnaController {
         List<QNA> qnaList = qnaService.qnaList(qnadto);
 
         //검색어 + 페이징
-        List<QNA> qnaRueslt = qnaService.qnaListWithPaging(pagingInfo, qnadto);
+//        List<QNA> qnaRueslt = qnaService.qnaListWithPaging(pagingInfo, qnadto);
 
         //총게물 갯수
         int totalItemCount = qnaService.getTotalItemCount();
@@ -52,7 +52,7 @@ public class qnaController {
         mv.addObject("pagelist", pagingList);
         mv.setViewName("qnaList");
         mv.setStatus(HttpStatus.OK);
-        mv.addObject("qnaList", qnaRueslt);
+//        mv.addObject("qnaList", qnaRueslt);
         mv.addObject("currentPage", page);
         mv.addObject("totalPageCount", totalPageCount);
         mv.addObject("pageNumbers", pageNumbers);

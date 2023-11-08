@@ -38,19 +38,19 @@
     </delete>
 
 
-    <select id="qnaListWithPaging" resultType="com.example.joinair.dto.QNA">
-        SELECT *
-        FROM (
-        SELECT qna.*, ROWNUM AS rnum
-        FROM (
-        SELECT * FROM qna
-        where qna_title like '%${keyword}%'
-        ORDER BY QNA_NO DESC
-        ) qna
-        )
-        WHERE rnum between #{startIndex} AND #{endIndex}
+<!--    <select id="qnaListWithPaging" resultType="com.example.joinair.dto.QNA">-->
+<!--        SELECT *-->
+<!--        FROM (-->
+<!--        SELECT qna.*, ROWNUM AS rnum-->
+<!--        FROM (-->
+<!--        SELECT * FROM qna-->
+<!--        where qna_title like '%${keyword}%'-->
+<!--        ORDER BY QNA_NO DESC-->
+<!--        ) qna-->
+<!--        )-->
+<!--        WHERE rnum between #{startIndex} AND #{endIndex}-->
 
-    </select>
+<!--    </select>-->
 
     <select id="getTotalItemCount" resultType="int">
         SELECT count(QNA_NO) FROM qna
