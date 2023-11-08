@@ -18,8 +18,13 @@
                 padding: 20px;
                 max-width: 600px;
                 margin: 0 auto;
-            }
 
+            }
+      #additionalInfoBox {
+            display: none;
+            background-color: #f2f2f2;
+            padding: 20px;
+            border: 1px solid #ddd;
         </style>
     </head>
     <body>
@@ -105,7 +110,36 @@
             <p class="text-center text-success">감사합니다!</p>
             <p class="text-center">주문 번호: <strong th:text="${orderDetail.OD_Num}"></strong></p>
             <p class="text-center">예상 소요 시간: <strong>1시간</strong></p>
-            <p class="text-center"><button class="btn btn-danger">확인</button> <button class="btn btn-primary">추가 정보</button></p>
+            <p class="text-center">
+            <p class="text-center">
+            <button class="btn btn-danger" id="confirmButton">확인</button>
+            <button class="btn btn-primary" id="additionalInfoButton">추가 정보</button>
+        </p>
+
+            <div id="additionalInfoBox">
+                <p th:text="'주문자: ' + ${users.User_Name}"></p>
+                <p th:text="'주소: ' + ${users.User_Address}"></p>
+                <p th:text="'가격: $' + ${Pro_Price}"></p>
+            </div>
+
+            <script>
+                // 확인 버튼 클릭 시 메인 페이지로 이동
+                document.getElementById('confirmButton').addEventListener('click', function() {
+                    window.location.href = 'index.html'; // 메인 페이지 URL로 변경 추후 수정
+                });
+
+                // 추가 정보 버튼 클릭 시 추가 정보 박스를 표시/숨김
+                document.getElementById('additionalInfoButton').addEventListener('click', function() {
+                    var infoBox = document.getElementById('additionalInfoBox');
+                    if (infoBox.style.display === 'none' || infoBox.style.display === '') {
+                        infoBox.style.display = 'block';
+                    } else {
+                        infoBox.style.display = 'none';
+                    }
+                });
+            </script>
+
+
         </div>
     </div>
     <div class="container mt-3">

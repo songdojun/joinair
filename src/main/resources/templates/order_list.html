@@ -3,23 +3,140 @@
 <head>
     <meta charset="utf-8">
     <meta name="viewport" content="width=device-width, initial-scale=1">
-    <title>결제완료 페이지</title>
+    <title>회원가입 페이지</title>
     <link rel="apple-touch-icon" href="/assets/img/apple-icon.png">
     <link rel="shortcut icon" type=" image/x-icon" href="../static/assets/img/favicon.ico">
 
     <link rel="stylesheet" href="/assets/css/bootstrap.min.css">
     <link rel="stylesheet" href="/assets/css/templatemo.css">
-    <link rel="stylesheet" href="/assets/css/custom.css">
+    <link rel="stylesheet" href=/assets/css/custom.css">
 
     <link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Roboto:wght@100;200;300;400;500;700;900&display=swap">
     <link rel="stylesheet" href="/assets/css/fontawesome.min.css">
     <style>
-        /* 별도의 CSS 스타일링을 추가할 수 있습니다. */
+        body {
+           background-color: #f5f5f5;
+           font-family: 'Roboto', sans-serif;
+       }
+
+       .order-list {
+           background-color: #fff;
+           border-radius: 5px;
+           padding: 20px;
+           box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
+           max-width: 600px;
+           margin: 20px auto;
+       }
+
+       .order-title {
+           font-size: 24px;
+           font-weight: bold;
+           color: #333;
+       }
+
+       .order-search-input {
+           width: 100%;
+           max-width: 400px;
+           padding: 10px;
+           border: 1px solid #ccc;
+           border-radius: 5px;
+           font-size: 16px;
+       }
+
+       .order-filters {
+           margin-top: 20px;
+           text-align: center;
+       }
+
+       .filter-item {
+           display: inline-block;
+           margin: 5px;
+           padding: 5px 10px;
+           background-color: #4CAF50;
+           color: white;
+           border-radius: 5px;
+           cursor: pointer;
+       }
+
+       .filter-item.active {
+           background-color: #45a049;
+       }
+
+       .order-item {
+           border: 1px solid #ddd;
+           border-radius: 5px;
+           margin-bottom: 20px;
+           padding: 20px;
+           background-color: #fff;
+       }
+
+       .order-status {
+           font-weight: bold;
+           color: #4CAF50;
+       }
+
+       .order-arrival {
+           font-weight: bold;
+           color: #333;
+       }
+
+       .product-info {
+           display: flex;
+           align-items: center;
+           margin-top: 20px;
+       }
+
+       .product-title {
+           flex-grow: 1;
+           font-size: 20px;
+           color: #333;
+       }
+
+       .product-price {
+           font-size: 18px;
+           color: #4CAF50;
+       }
+
+       .product-quantity {
+           font-size: 18px;
+           color: #333;
+       }
+
+       .order-actions {
+           margin-top: 20px;
+           text-align: center;
+       }
+
+       .track-shipping-button {
+           background-color: #4CAF50;
+           color: white;
+           padding: 10px 20px;
+           border: none;
+           border-radius: 5px;
+           cursor: pointer;
+       }
+
+       .request-return-button {
+           background-color: #f00;
+           color: white;
+           padding: 10px 20px;
+           border: none;
+           border-radius: 5px;
+           cursor: pointer;
+       }
+
+       .write-review-button {
+           background-color: #346AFF;
+           color: white;
+           padding: 10px 20px;
+           border: none;
+           border-radius: 5px;
+           cursor: pointer;
+       }
     </style>
 </head>
 <body>
 <nav class="navbar navbar-expand-lg bg-dark navbar-light d-none d-lg-block" id="templatemo_nav_top">
-    <!-- 상단 네비게이션 바 -->
     <div class="container text-light">
         <div class="w-100 d-flex justify-content-between">
             <div>
@@ -36,35 +153,36 @@
         </div>
     </div>
 </nav>
-<nav class="navbar navbar-expand-lg navbar-light shadow" id="templatemo_main_nav">
-    <!-- 메인 네비게이션 바 -->
-    <div class="container d-flex justify-content-between align-items-center">
-        <a class="navbar-brand text-success logo h1 align-self-center" href="/index">Join Air🪂</a>
+<nav class="navbar navbar-expand-lg navbar-light shadow">
+    <div class="container d-flex justify-content between align-items-center">
+        <a class="navbar-brand text-success logo h1 align-self-center" href="../templates/index.html">Join Air🪂</a>
         <button class="navbar-toggler border-0" type="button" data-bs-toggle="collapse" data-bs-target="#templatemo_main_nav"
                 aria-controls="templatemo_main_nav" aria-expanded="false" aria-label="Toggle navigation">
             <span class="navbar-toggler-icon"></span>
         </button>
-        <div class="align-self-center collapse navbar-collapse flex-fill d-lg-flex justify-content-lg-between" id="templatemo_main_nav1">
+        <div class="align-self-center collapse navbar-collapse flex-fill d-lg-flex justify-content-lg-between" id="templatemo_main_nav">
             <div class="flex-fill">
                 <ul class="nav navbar-nav d-flex justify-content-between mx-lg-auto">
                     <li class="nav-item">
-                        <a class="nav-link" href="/index">홈</a>
+                        <a class="nav-link" href="../templates/index.html">홈</a>
                     </li>
                     <li class="nav-item">
-                        <a class="nav-link" href="/about">회사 소개</a>
+                        <a class="nav-link" href="../templates/about.html">회사 소개</a>
                     </li>
                     <li class="nav-item">
-                        <a class="nav-link" href="/productbuy/list">상품</a>
+                        <a class="nav-link" href="../templates/shop.html">상품</a>
                     </li>
                     <li class="nav-item">
-                        <a class="nav-link" href="/qna/qnaList">문의</a>
+                        <a class="nav-link" href="../templates/contact.html">문의</a>
                     </li>
                     <li class="nav-item">
-                        <a class="nav-link" href="/notice/list">공지사항</a>
+                        <a class="nav-link" href="http://localhost:8080/notice/list">공지사항</a>
                     </li>
-                    <li class="nav-item">
-                        <a class="nav-link" href="/index">로그아웃</a>
-                    </li>
+                    <!--                    사용에 따라 사용-->
+                    <!--                    <li class="nav-item">-->
+                    <!--                        <a class="nav-link" href="#">로그인</a>-->
+                    <!--                    </li>-->
+
                 </ul>
             </div>
             <div class="navbar align-self-center d-flex">
@@ -79,38 +197,32 @@
                 <a class="nav-icon d-none d-lg-inline" href="#" data-bs-toggle="modal" data-bs-target="#templatemo_search">
                     <i class="fa fa-fw fa-search text-dark mr-2"></i>
                 </a>
-                <a class="nav-icon position-relative text-decoration-none" href="#">
-                    <i class="fa fa-fw fa-cart-arrow-down text-dark mr-1"></i>
-                    <span class="position-absolute top-0 left-100 translate-middle badge rounded-pill bg-light text-dark"></span>
-                </a>
-                <a class="nav-icon position-relative text-decoration-none" href="#">
-                    <i class="fa fa-fw fa-user text-dark mr-3"></i>
-                    <span class="position-absolute top-0 left-100 translate-middle badge rounded-pill bg-light text-dark"></span>
-                </a>
-            </div>
-        </div>
-    </div>
-</nav>
 
-<section class="bg-light">
-    <div class="container py-4">
-        <div class="row justify-content-center">
-            <div class="col-lg-5 col-md-10">
-                <div class="card">
-                    <div class="card-header bg-success text-white">
-                        <h2 class="mb-0">결제 완료</h2>
-                    </div>
-                    <div class="card-body">
-                        <p>주문이 성공적으로 완료되었습니다.<br><Br> 주문 번호: <span th:text="${orderNumber}"></span></p>
-                        <p>주문 날짜: <span th:text="${orderDate}"></span></p>
-                        <p>주문 금액: <span th:text="${orderAmount}"></span></p>
-                        <p>결제 방법: <span th:text="${paymentMethod}"></span></p>
-                    </div>
-                </div>
             </div>
         </div>
     </div>
-</section>
+</nav><br>
+
+<!-- Thymeleaf 반복문을 사용하여 주문 목록 생성 -->
+<h2 style="text-align: center">주문목록</h2>
+
+<div th:each="order : ${orders}" class="order-item" style="max-width: 700px; margin: 0 auto; text-align: center;">
+    <div class="order-details">
+        <span class="order-status" th:text="${order.state}">배송완료</span>
+        <span class="order-arrival" th:text="${order.ordersNum}">10/31(화) 도착</span>
+    </div>
+    <div class="product-info">
+        <img th:src="${order.imageUrl}" alt="상품 이미지" style="max-width: 60px;">
+        <div class="product-title" th:text="${order.productTitle}" style="font-size: 16px; color: #333;">상품 제목</div>
+        <div class="product-price" th:text="${order.totalPrice + ' 원'}" style="font-size: 14px; color: #4CAF50;">주문 가격</div>
+        <div class="product-quantity" th:text="${order.totalQuantity + ' 개'}" style="font-size: 14px; color: #333;">주문 수량</div>
+    </div>
+    <div class="order-actions">
+        <button class="track-shipping-button" style="background-color: #4CAF50; color: white; padding: 8px 16px; border: none; border-radius: 5px; cursor: pointer;">배송조회</button>
+        <button class="request-return-button" style="background-color: #f00; color: white; padding: 8px 16px; border: none; border-radius: 5px; cursor: pointer;">교환, 반품 신청</button>
+        <button class="write-review-button" style="background-color: #346AFF; color: white; padding: 8px 16px; border: none; border-radius: 5px; cursor: pointer;">리뷰 작성하기</button>
+    </div>
+</div>
 
 <footer class="bg-dark" id="tempaltemo_footer">
     <div class="container">
@@ -135,6 +247,7 @@
             <div class="col-md-4 pt-5">
                 <h2 class="h2 text-light border-bottom pb-3 border-light">메뉴</h2>
                 <ul class="list-unstyled text-light footer-link-list">
+
                     <li><a class="text-decoration-none" href="contact.html">고객 지원</a></li>
                     <li><a class="text-decoration-none" href="#">드론 정보</a></li>
                 </ul>
@@ -153,7 +266,18 @@
                 <div class="w-100 my-3 border-top border-light"></div>
             </div>
             <div class="col-auto me-auto">
-                <!-- 다른 요소 추가 가능 -->
+
+            </div>
+        </div>
+    </div>
+    <div class="w-100 bg-black py-3">
+        <div class="container">
+            <div class="row pt-2">
+                <div class="col-12">
+                    <p class="text-left text-light">
+                        저작권 © 2023 Join Air
+                    </p>
+                </div>
             </div>
         </div>
     </div>
@@ -163,5 +287,6 @@
 <script src="assets/js/templatemo.js"></script>
 <script src="assets/js/custom.js"></script>
 <script src="assets/js/membership.js"></script>
+
 </body>
 </html>
