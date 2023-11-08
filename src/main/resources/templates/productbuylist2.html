@@ -160,7 +160,7 @@
                         <div class="card-body">
                             <h5 class="card-title" th:text="${product.Pro_Name}"></h5>
                             <p class="card-text" style="text-align: right; font-size: 1.2em; font-weight: bold;">
-                                가격: <span th:text="${product.Pro_Price != null ? #numbers.formatDecimal(product.Pro_Price, 3, 0) : '가격 없음'}"></span>
+                                가격: <span th:text="${product.Pro_Price != null ? #numbers.formatDecimal(product.Pro_Price, 3, 0) + '원' : '가격 없음'}"></span>
                             </p>
                         </div>
                     </a>
