@@ -1,6 +1,7 @@
 package com.example.joinair.controller;
 
 import com.example.joinair.entity.Item;
+import com.example.joinair.entity.Product;
 import com.example.joinair.service.ProductService;
 import jakarta.servlet.http.HttpServletRequest;
 import jakarta.servlet.http.HttpSession;
@@ -40,12 +41,23 @@ public class CartController {
             session.setAttribute("cart", cart);
         } else {
             List<Item> cart = (List<Item>) session.getAttribute("cart");
-            int index = isExists(Pro_Code, cart);
-            if (index == -1) {
+            boolean found = false;
+            for (Item item : cart) {
+                if (item.getProduct().getPro_Code().equals(Pro_Code)) {
+                    int newQuantity = item.getQuantity() + quantity;
+                    item.setQuantity(newQuantity);
+
+                    // 무게 업데이트
+                    Product product = item.getProduct();
+                    // 상품 무게 = 상품 1개의 무게 * 수량
+                    product.setPro_Weight(productService.findOne(Pro_Code).getPro_Weight() * newQuantity);
+                    found = true;
+                    break;
+                }
+            }
+
+            if (!found) {
                 cart.add(new Item(productService.findOne(Pro_Code), quantity));
-            } else {
-                int updatedQuantity = cart.get(index).getQuantity() + quantity;
-                cart.get(index).setQuantity(updatedQuantity);
             }
             session.setAttribute("cart", cart);
         }
@@ -56,6 +68,7 @@ public class CartController {
 
         return "redirect:../../cart";
     }
+
 
 
 
