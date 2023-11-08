@@ -61,7 +61,7 @@ public class qnaController {
         mv.addObject("pagelist", pagingList);
         mv.setViewName("qnaList");
         mv.setStatus(HttpStatus.OK);
-//        mv.addObject("qnaList", qnaRueslt);
+        mv.addObject("qnaList", qnaList);
         mv.addObject("currentPage", page);
         mv.addObject("totalPageCount", totalPageCount);
         mv.addObject("pageNumbers", pageNumbers);

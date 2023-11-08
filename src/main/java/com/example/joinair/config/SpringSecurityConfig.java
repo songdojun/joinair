@@ -35,7 +35,7 @@ public class SpringSecurityConfig {
                         authorizeRequests
 
                                 //.requestMatchers("/", "/index","/about", "/membership", "productbut/list", "notice").permitAll()
-                                .requestMatchers("/adminWelcome","admin/sales/report", "/admin/sales/reportData", "/adminEditUserList").hasRole("admin")
+                                //.requestMatchers("/adminWelcome","admin/sales/report", "/admin/sales/reportData", "/adminEditUserList").hasRole("admin")
                                 .anyRequest().permitAll()
                 )
                 .logout(withDefaults());
