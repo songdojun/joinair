@@ -1,7 +1,6 @@
 package com.example.joinair.service;
 
 import com.example.joinair.dto.QNA;
-import com.example.joinair.dto.QNAPAGE;
 import com.example.joinair.mapper.qnaMapper;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;

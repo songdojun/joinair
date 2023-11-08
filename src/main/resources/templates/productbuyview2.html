@@ -130,7 +130,8 @@
                         <div class="meta-info">
                             <p th:text="'카테고리: ' + ${Product.Category.Cate_Name}"></p>
                             <p th:text="'상품 코드: ' + ${Product.Pro_Code}"></p>
-                            <p th:text="'상품 무게: ' + ${Product.Pro_Weight}"></p>
+                            <p th:text="'상품 무게(g): ' + ${Product.Pro_Weight}"></p>
+                            <p th:text="'상품 설명: ' + ${Product.Pro_Des}"></p>
                         </div>
                         <a class="download-link" th:href="@{${Product?.Pro_Filepath}}" download>다운로드</a>
                         <form action="" method="GET">

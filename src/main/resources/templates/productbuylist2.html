@@ -14,6 +14,23 @@
     <link rel="stylesheet" href="https://unpkg.com/leaflet@1.7.1/dist/leaflet.css"
           integrity="sha512-xodZBNTC5n17Xt2atTPuE1HxjVMSvLVW9ocqUKLsCC5CXdbqCmblAshOMAS6/keqq/sMZMZ19scR4PsZChSR7A==" crossorigin=""/>
     <script src="/js/searchProductbuy.js"></script>
+    <style>
+        /* 카테고리 버튼과 간격 조절 및 버튼 크기 키우기 */
+        .card-body h5 {
+            margin-bottom: 15px;
+        }
+
+          .card-body .btn {
+            display: inline-block; /* 가로로 배치되도록 설정 */
+            margin-right: 10px; /* 버튼 간 간격 조절 */
+            margin-bottom: 10px;
+        }
+
+        /* 선택 사항: 카테고리 버튼과 카드 가장자리 사이에 더 많은 여백을 원하면. */
+        .card {
+            margin-bottom: 20px;
+        }
+    </style>
 </head>
 
 <body>
@@ -98,6 +115,17 @@
     </div>
 </nav>
 
+<div>
+    <h3>카테고리 목록</h3>
+    <ul>
+        <li><a href="/productbuy/list?cateNo=1">간편식사</a></li>
+        <li><a href="/productbuy/list?cateNo=2">과자류</a></li>
+        <li><a href="/productbuy/list?cateNo=3">생활용품</a></li>
+        <li><a href="/productbuy/list?cateNo=4">식품</a></li>
+        <li><a href="/productbuy/list?cateNo=5">음료주류</a></li>
+    </ul>
+</div>
+
 <div class="modal fade bg-white" id="templatemo_search" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel" aria-hidden="true">
     <div class="modal-dialog modal-lg" role="document">
         <div class="w-100 pt-1 mb-5 text-right">
@@ -120,12 +148,7 @@
         </h1>
 
         <div>
-            <select id="searchOption">
-                <option value="Pro_Name" selected>상품명</option>
-                <option value="Pro_Code">상품코드</option>
-                <option value="Cate_Name">카테고리</option>
-            </select>
-            <input type="text" name="searchKeyword" id="searchKeyword" placeholder="검색어 입력">
+            <input type="text" name="searchKeyword" id="searchKeyword" placeholder="상품명 입력">
             <button id="searchButton">검색</button>
         </div>
     </div>
@@ -142,7 +165,7 @@
                         <div class="card-body">
                             <h5 class="card-title" th:text="${product.Pro_Name}"></h5>
                             <p class="card-text" style="text-align: right; font-size: 1.2em; font-weight: bold;">
-                                가격: <span th:text="${product.Pro_Price != null ? #numbers.formatDecimal(product.Pro_Price, 3, 0) : '가격 없음'}"></span>
+                                가격: <span th:text="${product.Pro_Price != null ? #numbers.formatDecimal(product.Pro_Price, 3, 0) + '원' : '가격 없음'}"></span>
                             </p>
                         </div>
                     </a>
@@ -150,12 +173,6 @@
             </div>
         </div>
     </div>
-
-
-
-
-    <!-- 상품 목록 컨테이너 끝 -->
-
     <!-- 상품 목록 컨테이너 끝 -->
     <!-- 페이지네이션 -->
     <div class="container mt-4 text-center">
@@ -185,9 +202,7 @@
 
     <div th:if="${list.totalPages == 0}" class="no-results">검색 결과가 없습니다.</div>
 
-    <!-- 상품 등록 버튼 -->
 
-    <!-- 페이지네이션 및 다른 내용 유지 -->
 
 </div>
 <footer class="bg-dark" id="tempaltemo_footer">
@@ -248,6 +263,13 @@
         loginItem.style.display = "block";
         logoutItem.style.display = "none";
     });
+
+
+
+
+
+
+
 </script>
 </body>
 </html>

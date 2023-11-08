@@ -1,7 +1,6 @@
 package com.example.joinair.controller;
 
 import com.example.joinair.entity.Product;
-import com.example.joinair.entity.Review;
 import com.example.joinair.service.ProductBuyService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.domain.Page;
@@ -15,9 +14,6 @@ import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.multipart.MultipartFile;
-
-import java.util.List;
-import java.util.Optional;
 
 import static com.example.joinair.service.ProductAdService.regist;
 
@@ -41,9 +37,9 @@ public class productBuyController {
 
     @GetMapping("/productbuy/list")
     public String productbuyList(Model model,
-                                @PageableDefault(page = 0, size = 10, sort = "Pro_Code", direction = Sort.Direction.DESC) Pageable pageable,
-                                @RequestParam(name = "searchOption", required = false) String searchOption,
-                                @RequestParam(name = "searchKeyword", required = false) String searchKeyword) {
+                                 @PageableDefault(page = 0, size = 10, sort = "Pro_Code", direction = Sort.Direction.DESC) Pageable pageable,
+                                 @RequestParam(name = "searchOption", required = false) String searchOption,
+                                 @RequestParam(name = "searchKeyword", required = false) String searchKeyword) {
         Page<Product> list = productBuyService.productbuySearchList(searchOption, searchKeyword, pageable);
 
         int nowPage = list.getPageable().getPageNumber() + 1;
@@ -58,24 +54,15 @@ public class productBuyController {
         model.addAttribute("searchOption", searchOption);
         model.addAttribute("searchKeyword", searchKeyword); // Pass search keyword to the view
 
-        return "productbuylist2";
+        return "productbuylist"; //페이징 및 검색기능 문제로 기존 productbuylist2였지만 productbuylist로 원복했습니다.
     }
 
 
     @GetMapping("/productbuy/view")
     public String productbuyView(Model model, Integer Pro_Code){
-        Optional<Product> product = productBuyService.productbuyView(Pro_Code);
-
-        if (product.isPresent()) {
-            // Reviews 정보를 가져와 Model에 추가
-            List<Review> reviews = product.get().getReviews();
-            model.addAttribute("Product", product.get());
-            model.addAttribute("Reviews", reviews);
-        }
-
+        model.addAttribute("Product",productBuyService.productbuyView(Pro_Code).orElse(null));
         return "productbuyview2";
     }
-
 
 
     @GetMapping("/productbuy/delete")

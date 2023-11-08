@@ -2,6 +2,7 @@ package com.example.joinair.controller;
 
 import com.example.joinair.dto.QNA;
 import com.example.joinair.dto.QNAPAGE;
+import com.example.joinair.service.UserService;
 import com.example.joinair.service.qnaService;
 import jakarta.servlet.http.HttpSession;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -21,16 +22,26 @@ public class qnaController {
 
     @Autowired
     private qnaService qnaService;
+    @Autowired
+    private UserService userService;
 
     @GetMapping("/qnaList")
     public ModelAndView qnaList(@RequestParam(defaultValue = "1") int page, @RequestParam(defaultValue = "10") int pageSize, QNA qnadto, HttpSession session) {
+        ModelAndView mv = new ModelAndView();
+        String userId = (String) session.getAttribute("User_Id");
+
+        if (userId != null) {
+            mv.addObject("userLoggedIn", true); // 사용자 로그인 상태를 true로 설정
+        } else {
+            mv.addObject("userLoggedIn", false);
+        }
 
         QNAPAGE pagingInfo = new QNAPAGE();
         pagingInfo.setPage(page);
         pagingInfo.setPageSize(pageSize);
 
         //기억안남
-//        List<QNA> qnaList = qnaService.qnaList(qnadto);
+        List<QNA> qnaList = qnaService.qnaList(qnadto);
 
         //검색어 + 페이징
 //        List<QNA> qnaRueslt = qnaService.qnaListWithPaging(pagingInfo, qnadto);
@@ -47,8 +58,6 @@ public class qnaController {
         List<String> pagingList = qnaService.pagingList(totalPageCount, page);
 
 
-        ModelAndView mv = new ModelAndView();
-
         mv.addObject("pagelist", pagingList);
         mv.setViewName("qnaList");
         mv.setStatus(HttpStatus.OK);
@@ -56,13 +65,6 @@ public class qnaController {
         mv.addObject("currentPage", page);
         mv.addObject("totalPageCount", totalPageCount);
         mv.addObject("pageNumbers", pageNumbers);
-        // 추가
-        //mv.addObject("userLoggedIn", true); // 사용자가 로그인한 경우
-        String userId = (String) session.getAttribute("user_id"); // 세션에서 사용자 아이디 가져오기
-        mv.addObject("userLoggedIn", userId != null); // 사용자가 로그인한 경우 true, 아닌 경우 false
-        mv.addObject("user_id", userId); // 사용자 아이디를 ModelAndView에 추가
-
-
 
         return mv;
     }
@@ -103,10 +105,12 @@ public class qnaController {
     @GetMapping("/qnaInsert-view")
     public ModelAndView qnaInsertView() {
         ModelAndView mv = new ModelAndView();
-        mv.setViewName("qnaInsert"); // "qnaInsert.mustache" 템플릿을 사용
+        mv.setViewName("qnaInsert");
         mv.setStatus(HttpStatus.OK);
+        mv.addObject("qna", new QNA()); // 모델 객체를 추가합니다.
         return mv;
     }
+
 
     @PostMapping("/qnainsert")
     public String qnainsert(@ModelAttribute QNA qna) {

@@ -1,82 +1,271 @@
 <!DOCTYPE html>
-<html lang="en" xmlns:th="http://www.thymeleaf.org">
+<html lang="ko" xmlns:th="http://www.thymeleaf.org">
 <head>
-    <meta charset="UTF-8">
-    <title>상품 목록</title>
-    <link rel="stylesheet" href="/css/Productbuylist.css">
+    <title>상품 페이지</title>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <link rel="apple-touch-icon" href="/assets/img/apple-icon.png">
+    <link rel="shortcut icon" type="image/x-icon" href="/assets/img/favicon.ico">
+    <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.5.2/css/bootstrap.min.css">
+    <link rel="stylesheet" href="/assets/css/templatemo.css">
+    <link rel="stylesheet" href="/assets/css/custom.css">
+    <link href="https://fonts.googleapis.com/css2?family=Roboto:wght@100;200;300;400;500;700;900&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/font-awesome/4.7.0/css/font-awesome.min.css">
+    <script src="/js/searchProductbuy.js"></script>
+    <style>
+        /* 카테고리 버튼과 간격 조절 및 버튼 크기 키우기 */
+        .card-body h5 {
+            margin-bottom: 15px;
+        }
+
+          .card-body .btn {
+            display: inline-block; /* 가로로 배치되도록 설정 */
+            margin-right: 10px; /* 버튼 간 간격 조절 */
+            margin-bottom: 10px;
+        }
+
+        /* 선택 사항: 카테고리 버튼과 카드 가장자리 사이에 더 많은 여백을 원하면 */
+        .card {
+            margin-bottom: 20px;
+        }
+
+
+    </style>
 </head>
 <body>
-<div class="layout">
-    <h1>
-        <a th:href="@{/productbuy/list}">상품 페이지</a>
-    </h1>
-
-
-
-    <div>
-        <select id="searchOption">
-            <option value="Pro_Name" selected>상품명</option>
-            <option value="Pro_Code">상품코드</option>
-            <option value="Cate_Name">카테고리</option>
-        </select>
-        <input type="text" name="searchKeyword" id="searchKeyword" placeholder="검색어 입력">
-        <button id="searchButton">검색</button>
+<!-- 첫 번째 네브바 -->
+<nav class="navbar navbar-expand-lg bg-dark navbar-light d-none d-lg-block" id="templatemo_nav_top">
+    <div class="container text-light">
+        <div class="w-100 d-flex justify-content-between">
+            <div>
+                <i class="fa fa-envelope mx-2"></i>
+                <a class="navbar-sm-brand text-light text-decoration-none" href="mailto:info@company.com"> Doron 배송@Doron 배송.com </a>
+                <i class="fa fa-phone mx-2"></i>
+                <a class="navbar-sm-brand text-light text-decoration-none" href="tel:010-020-0340"> 010-1234-5678</a>
+            </div>
+            <div>
+                <a class="text-light" href="https://fb.com/templatemo" target="_blank" rel="sponsored"><i class="fab fa-facebook-f fa-sm fa-fw me-2"></i></a>
+                <a class="text-light" href="https://www.instagram.com/" target="_blank"><i class="fab fa-instagram fa-sm fa-fw me-2"></i></a>
+                <a class="text-light" href="https://twitter.com/" target="_blank"><i class="fab fa-twitter fa-sm fa-fw me-2"></i></a>
+            </div>
+        </div>
     </div>
+</nav>
 
-    <table>
-        <thead>
-        <tr>
-            <th class="small-column">상품코드</th>
-            <th class="title-column">상품명</th>
-            <th class="category-column">카테고리</th>
-            <th class="small-column">단가</th>
-            <th class="small-column">무게</th>
-        </tr>
-        </thead>
-        <tbody>
-        <tr th:each="product : ${list}">
-            <td class="small-column" th:text="${product.Pro_Code}">상품코드</td>
-            <td class="title-column">
-                <a th:href="@{/productbuy/view(Pro_Code=${product.Pro_Code})}" th:text="${product.Pro_Name}">상품명</a>
-            </td>
-            <td class="category-column" th:text="${product.category.Cate_Name}">카테고리</td>
-            <td class="small-column" th:text="${product.Pro_Price}">가격</td>
-            <td class="small-column" th:text="${product.Pro_Weight}">무게(g)</td>
-        </tr>
-        </tbody>
-    </table>
+<!-- 두 번째 네브바 -->
+<nav class="navbar navbar-expand-lg navbar-light shadow" id="templatemo_main_na">
+    <div class="container d-flex justify-content between align-items-center">
+        <a class="navbar-brand text-success logo h1 align-self-center" href="/index">Join Air🪂</a>
+        <button class="navbar-toggler border-0" type="button" data-bs-toggle="collapse" data-bs-target="#templatemo_main_nav"
+                aria-controls="templatemo_main_nav" aria-expanded="false" aria-label="Toggle navigation">
+            <span class="navbar-toggler-icon"></span>
+        </button>
+        <div class="align-self-center collapse navbar-collapse flex-fill d-lg-flex justify-content-lg-between" id="templatemo_main_nav">
+            <div class="flex-fill">
+                <ul class="nav navbar-nav d-flex justify-content-between mx-lg-auto">
+                    <li class="nav-item">
+                        <a class="nav-link" href="/index">홈</a>
+                    </li>
+                    <li class="nav-item">
+                        <a class="nav-link" href="/about">회사 소개</a>
+                    </li>
+                    <li class="nav-item">
+                        <a class="nav-link" href="/productbuy/list">상품</a>
+                    </li>
+                    <li class="nav-item">
+                        <a class="nav-link" href="/qna/qnaList">문의</a>
+                    </li>
+                    <li class="nav-item">
+                        <a class="nav-link" href="/notice/list">공지사항</a>
+                    </li>
+                    <li class="nav-item">
+                        <a class="nav-link" th:href="${session.User_Id != null} ? @{/logout} : @{/login}">
+                            <span th:if="${session.User_Id != null}">로그아웃</span>
+                            <span th:unless="${session.User_Id != null}">로그인</span>
+                        </a>
+                    </li>
+                </ul>
+            </div>
+            <div class="navbar align-self-center d-flex">
+                <div class="d-lg-none flex-sm-fill mt-3 mb-4 col-7 col-sm-auto pr-3">
+                    <div class="input-group">
+                        <input type="text" class="form-control" id="inputMobileSearch" placeholder="검색">
+                        <div class="input-group-text">
+                            <i class="fa fa-fw fa-search"></i>
+                        </div>
+                    </div>
+                </div>
+                <a class="nav-icon d-none d-lg-inline" href="#" data-bs-toggle="modal" data-bs-target="#templatemo_search">
+                    <i class="fa fa-fw fa-search text-dark mr-2"></i>
+                </a>
+                <a class="nav-icon position-relative text-decoration-none" href="#">
+                    <i class="fa fa-fw fa-cart-arrow-down text-dark mr-1"></i>
+                    <span class="position-absolute top-0 left-100 translate-middle badge rounded-pill bg-light text-dark">1</span>
+                </a>
+                <a class="nav-icon position-relative text-decoration-none" href="#">
+                    <i class="fa fa-fw fa-user text-dark mr-3"></i>
+                    <span class="position-absolute top-0 left-100 translate-middle badge rounded-pill bg-light text-dark">+10</span>
+                </a>
+            </div>
+        </div>
+    </div>
+</nav>
 
-    <!-- 페이지네이션 -->
-    <div class="pagination" th:if="${list.totalPages > 1 || list.totalElements == 0}">
-        <!-- Adjust pagination links to include search parameters -->
-        <div class="horizontal-pagination">
-            <a th:if="${list.number > 0}" th:href="@{|/productbuy/list?page=0&size=${list.size}&sort=${list.sort}&searchOption=${searchOption}&searchKeyword=${searchKeyword}|}" aria-label="First">
-                <span aria-hidden="true">첫 페이지</span>
-            </a>
-            <!-- Adjust previous and next links similarly -->
-            <a th:if="${list.number > 0}" th:href="@{|/productbuy/list?page=${list.number - 1}&size=${list.size}&sort=${list.sort}&searchOption=${searchOption}&searchKeyword=${searchKeyword}|}" aria-label="Previous">
-                <span aria-hidden="true">&laquo; 이전</span>
-            </a>
-            <!-- Add searchOption and searchKeyword to the page number links -->
-            <span th:each="i : ${#numbers.sequence(0, list.totalPages - 1)}">
-            <a th:if="${i == list.number}" th:text="${i + 1}" class="current-page"></a>
-            <a th:unless="${i == list.number}" th:href="@{|/productbuy/list?page=${i}&size=${list.size}&sort=${list.sort}&searchOption=${searchOption}&searchKeyword=${searchKeyword}|}" th:text="${i + 1}"></a>
-        </span>
-            <a th:if="${list.number < list.totalPages - 1}" th:href="@{|/productbuy/list?page=${list.number + 1}&size=${list.size}&sort=${list.sort}&searchOption=${searchOption}&searchKeyword=${searchKeyword}|}" aria-label="Next">
-                <span aria-hidden="true">다음 &raquo;</span>
-            </a>
-            <a th:if="${list.number < list.totalPages - 1}" th:href="@{|/productbuy/list?page=${list.totalPages - 1}&size=${list.size}&sort=${list.sort}&searchOption=${searchOption}&searchKeyword=${searchKeyword}|}" aria-label="Last">
-                <span aria-hidden="true">마지막 페이지</span>
-            </a>
+<div class="layout">
+
+
+
+
+    <div class="container mt-5">
+        <div class="row">
+            <div class="col-md-6">
+                <div class="input-group mb-3">
+                    <select id="searchOption" class="form-select">
+                        <option value="Pro_Name" selected>상품명</option>
+                        <option value="Pro_Code">상품코드</option>
+                        <option value="Cate_Name">카테고리</option>
+                    </select>
+                    <input type="text" name="searchKeyword" id="searchKeyword" class="form-control" placeholder="검색어 입력">
+                    <button id="searchButton" class="btn btn-primary">검색</button>
+                </div>
+            </div>
+            <div class="col-md-6">
+                <div class="btn-group" role="group">
+                    <a class="btn btn-primary" href="/productbuy/list">전체</a>
+                    <button class="btn btn-secondary category-button" data-category="간편식사">간편식사</button>
+                    <button class="btn btn-secondary category-button" data-category="과자류">과자류</button>
+                    <button class="btn btn-secondary category-button" data-category="생활용품">생활용품</button>
+                    <button class="btn btn-secondary category-button" data-category="식품">식품</button>
+                    <button class="btn btn-secondary category-button" data-category="음료주류">음료주류</button>
+                </div>
+            </div>
         </div>
     </div>
 
+
+    <!-- 상품 목록 컨테이너 시작 -->
+    <div class="container mt-5">
+        <div class="row">
+            <div class="col-md-4 mb-4" th:each="product : ${list}">
+                <div class="card">
+                    <a th:href="@{|/productbuy/view?Pro_Code=${product.Pro_Code}|}">
+                        <img class="card-img img-fluid" th:src="${product != null} ? ${product.Pro_Filepath} : ''" alt="상품 이미지">
+
+                        <div class="card-body">
+                            <h5 class="card-title" th:text="${product.Pro_Name}"></h5>
+                            <p class="card-text" style="text-align: right; font-size: 1.2em; font-weight: bold;">
+                                가격: <span th:text="${product.Pro_Price != null ? #numbers.formatDecimal(product.Pro_Price, 3, 0) : '가격 없음'}"></span>
+                            </p>
+                        </div>
+                    </a>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <!-- 페이지네이션 -->
+    <nav aria-label="Page navigation">
+        <ul class="pagination justify-content-center">
+            <li th:if="${list.number > 0}" class="page-item">
+                <a th:href="@{|/productbuy/list?page=0&size=${list.size}&sort=${list.sort}&searchOption=${searchOption}&searchKeyword=${searchKeyword}|}" aria-label="First" class="page-link">
+                    <span aria-hidden="true">첫 페이지</span>
+                </a>
+            </li>
+            <li th:if="${list.number > 0}" class="page-item">
+                <a th:href="@{|/productbuy/list?page=${list.number - 1}&size=${list.size}&sort=${list.sort}&searchOption=${searchOption}&searchKeyword=${searchKeyword}|}" aria-label="Previous" class="page-link">
+                    <span aria-hidden="true">&laquo; 이전</span>
+                </a>
+            </li>
+            <th:block th:each="i : ${#numbers.sequence(0, list.totalPages - 1)}">
+                <li th:classappend="${i == list.number} ? 'page-item active' : 'page-item'">
+                    <a th:href="@{|/productbuy/list?page=${i}&size=${list.size}&sort=${list.sort}&searchOption=${searchOption}&searchKeyword=${searchKeyword}|}" th:text="${i + 1}" class="page-link"></a>
+                </li>
+            </th:block>
+            <li th:if="${list.number < list.totalPages - 1}" class="page-item">
+                <a th:href="@{|/productbuy/list?page=${list.number + 1}&size=${list.size}&sort=${list.sort}&searchOption=${searchOption}&searchKeyword=${searchKeyword}|}" aria-label="Next" class="page-link">
+                    <span aria-hidden="true">다음 &raquo;</span>
+                </a>
+            </li>
+            <li th:if="${list.number < list.totalPages - 1}" class="page-item">
+                <a th:href="@{|/productbuy/list?page=${list.totalPages - 1}&size=${list.size}&sort=${list.sort}&searchOption=${searchOption}&searchKeyword=${searchKeyword}|}" aria-label="Last" class="page-link">
+                    <span aria-hidden="true">마지막 페이지</span>
+                </a>
+            </li>
+        </ul>
+    </nav>
+
     <div th:if="${list.totalPages == 0}" class="no-results">검색 결과가 없습니다.</div>
 
-    <!-- 상품 등록 버튼 -->
-    <a href="/productbuy/regist" class="new-post-button">새 상품 등록</a>
+
+
 </div>
 
-<script src="/js/searchProductbuy.js"></script>
+<footer class="bg-dark" id="tempaltemo_footer">
+    <div class= "container">
+        <div class="row">
+            <div class="col-md-4 pt-5">
+                <h2 class="h2 text-success border-bottom pb-3 border-light logo">Join Air🪂</h2>
+                <ul class="list-unstyled text-light footer-link-list">
+                    <li>
+                        <i class="fas fa-map-marker-alt fa-fw"></i>
+                        한국직업전문학교 11층 강의실02 항공4기 2조
+                    </li>
+                    <li>
+                        <i class="fa fa-phone fa-fw"></i>
+                        <a class="text-decoration-none" href="tel:010-1234-5678">010-1234-5678</a>
+                    </li>
+                    <li>
+                        <i class="fa fa-envelope fa-fw"></i>
+                        <a class="text-decoration-none" href="mailto:info@dronefood.com">drone@dronedelivery.com</a>
+                    </li>
+                </ul>
+            </div>
+            <div class="col-md-4 pt-5">
+                <h2 class="h2 text-light border-bottom pb-3 border-light">메뉴</h2>
+                <ul class="list-unstyled text-light footer-link-list">
+                    <li><a class="text-decoration-none" href="#">주문 하기</a></li>
+                    <li><a class="text-decoration-none" href="#">배달 정보</a></li>
+                    <li><a class="text-decoration-none" href="#">고객 지원</a></li>
+                    <li><a class="text-decoration-none" href="#">드론 정보</a></li>
+                </ul>
+            </div>
+        </div>
+    </div>
+</footer>
+<!--로그인 → 로그아웃-->
+<script>
+    // 세션 상태 확인
+    var userId = sessionStorage.getItem("User_Id");
+
+    // 로그인 및 로그아웃 메뉴 요소 가져오기
+    var loginItem = document.querySelector(".nav-item .nav-link[href='/login']");
+    var logoutItem = document.querySelector(".nav-item .nav-link[href='/logout']");
+
+    if (userId) {
+        // 세션이 있으면 로그인 메뉴 항목을 감추고 로그아웃 메뉴 항목을 표시합니다
+        loginItem.style.display = "none";
+        logoutItem.style.display = "block";
+    } else {
+        // 세션이 없으면 로그인 메뉴 항목을 표시하고 로그아웃 메뉴 항목을 감춥니다
+        loginItem.style.display = "block";
+        logoutItem.style.display = "none";
+    }
+
+    // 로그아웃 메뉴 항목 클릭 시 세션 삭제
+    logoutItem.addEventListener("click", function() {
+        sessionStorage.removeItem("User_Id");
+        // 로그아웃 후 로그인 메뉴 항목을 표시하고 로그아웃 메뉴 항목을 감춥니다
+        loginItem.style.display = "block";
+        logoutItem.style.display = "none";
+    });
+
+
+
+
+
+
+
+</script>
+
 </body>
 </html>

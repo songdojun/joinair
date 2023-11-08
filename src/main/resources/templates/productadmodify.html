@@ -44,6 +44,9 @@
         <label for="Pro_Weight">무게:</label>
         <input name="Pro_Weight" type="text" id="Pro_Weight" th:value="${product.Pro_Weight}">
 
+        <label for="Pro_Des">상품 설명:</label>
+        <input name="Pro_Des" type="text" id="Pro_Des" th:value="${product.Pro_Des}">
+
         <input type="file" name="file" th:if="${product != null}">
 
         <button type="submit" th:if="${product != null}">수정</button>

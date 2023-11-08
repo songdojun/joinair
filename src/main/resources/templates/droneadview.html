@@ -40,11 +40,11 @@
     <h1 th:text="${Drone.D_Name}">드론코드명 입니다.</h1>
     <div class="meta-info">
         <p th:text="'드론 명: ' + ${Drone.D_Name}"></p>
-        <p th:text="'페이로드 용량: ' + ${Drone.D_Payload}"></p>
+        <p th:text="'페이로드(kg): ' + ${Drone.D_Payload}"></p>
         <p th:text="'드론 수량: ' + ${Drone.D_Count}"></p>
-        <p th:text="'드론 크기: ' + ${Drone.D_Size}"></p>
-        <p th:text="'드론 무게: ' + ${Drone.D_Weight}"></p>
-        <p th:text="'드론 속도: ' + ${Drone.D_Speed}"></p>
+        <p th:text="'축간거리(cm): ' + ${Drone.D_Size}"></p>
+        <p th:text="'기체무게(kg): ' + ${Drone.D_Weight}"></p>
+        <p th:text="'속도(m/s): ' + ${Drone.D_Speed}"></p>
 
         <p th:text="'드론 등록일: ' + ${#dates.format(Drone.D_Reg_Date, 'yyyy-MM-dd HH:mm:ss')}"></p>
     </div>
