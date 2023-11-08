@@ -59,10 +59,26 @@
                 <td class="subtotal"
                     th:text="${item.product.Pro_Price != null && item.quantity != null ? item.product.Pro_Price * item.quantity : ''}"></td>
                 <td>
-                    <a th:if="${session.cart != null}" th:href="${'/cart/remove/' + item.product.Pro_Code}" class="text-danger">X</a>
+                    <a th:if="${session.cart != null}" th:attr="data-pro-code=${item.product.Pro_Code}" class="text-danger" onclick="removeItem(this)" href="/cart">X</a>
                 </td>
             </tr>
             </tbody>
+            <script>
+                function removeItem(link) {
+                    var productCode = link.getAttribute('data-pro-code');
+                    $.get('/cart/remove/' + productCode, function (response) {
+                        if (response === 'Success') {
+                            // 성공적으로 삭제되면 해당 행을 삭제
+                            var row = link.closest('tr');
+                            row.remove();
+                        } else {
+                            // 실패하면 원하는 처리를 수행 (예: 오류 메시지 표시)
+                            alert("삭제에 실패하였습니다.");
+                        }
+                    });
+                }
+            </script>
+
             <tfoot>
             <tr>
                 <td colspan="3"><strong>총 무게(g)</strong></td>
