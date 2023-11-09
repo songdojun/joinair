@@ -45,7 +45,9 @@
                 <td>
                     <img th:src="${item.product != null ? item.product.Pro_Filepath : ''}" alt="Product Image"
                          style="width: 60px;" />
-                    <span th:text="${item.product.Pro_Name != null ? item.product.Pro_Name : ''}"></span>
+                    <a th:href="@{/productbuy/view(Pro_Code=${item.product.Pro_Code})}">
+                        <span th:text="${item.product.Pro_Name != null ? item.product.Pro_Name : ''}"></span>
+                    </a>
                 </td>
                 <td class="price"
                     th:text="${item.product.Pro_Price != null ? item.product.Pro_Price : ''}"></td>
@@ -93,7 +95,7 @@
     </form>
 </div>
 
-<!-- 주문자 정보 -->
+<!-- 주문자 정보 . -->
 <div class="container mt-5">
     <h1 class="text-center mb-4">주문자 정보</h1>
     <form method="post" action="/submit-customer-info-endpoint">
@@ -165,8 +167,10 @@
     <p>총 적립 금액: <span class="reward" id="rewardAmount"></span></p>
     <p>최종 결제 금액: <span class="final" id="total1"></span></p>
     <!-- 결제 버튼 -->
-    <button onclick="requestCardPayment()" class="btn btn-primary">카드결제</button>
-    <button onclick="redirectToBankTransferPage()" class="btn btn-primary">무통장입금</button>
+    <button onclick="showPaymentButtons()" class="btn btn-primary">결제 진행</button>
+    <br/><br/>
+    <button id="cardPaymentButton" onclick="requestCardPayment()" class="btn btn-primary" style="display: none">카드결제</button>
+    <button id="bankTransferButton" onclick="redirectToBankTransferPage()" class="btn btn-primary" style="display: none">무통장입금</button>
     <!-- 기타 결제 관련 정보 및 양식 -->
     <!-- 예를 들어, 신용카드 정보 입력 폼 등이 들어갈 수 있습니다. -->
 </div>
@@ -177,6 +181,13 @@
         scrollBox.style.transform = "translateX(0)"; // 항상 보이도록 변경
     }
 });
+
+  function showPaymentButtons() {
+        var cardPaymentButton = document.querySelector('#cardPaymentButton');
+        var bankTransferButton = document.querySelector('#bankTransferButton');
+        cardPaymentButton.style.display = 'block';
+        bankTransferButton.style.display = 'block';
+    }
 </script>
 
 
