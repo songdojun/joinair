@@ -50,9 +50,7 @@
                 <td class="price"
                     th:text="${item.product.Pro_Price != null ? item.product.Pro_Price : ''}"></td>
                 <td>
-                    <!-- 각 상품의 수량 입력 필드 이름을 고유하게 변경 -->
-                    <input type="number" name="quantity_${item.product.Pro_Code}" th:value="${item.quantity}" class="form-control" style="width:60px;" oninput="updateSubtotal(this.parentNode.parentNode, '${item.product.Pro_Code}')" />
-
+                    <input type="number" name="quantity_${item.product.Pro_Code}" th:value="${item.quantity}" class="form-control" style="width:60px;" readonly />
                 </td>
                 <td th:text="${item.product != null ? item.product.Pro_Weight : ''}"></td>
 
