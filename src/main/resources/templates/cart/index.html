@@ -45,7 +45,9 @@
                 <td>
                     <img th:src="${item.product != null ? item.product.Pro_Filepath : ''}" alt="Product Image"
                          style="width: 60px;" />
-                    <span th:text="${item.product.Pro_Name != null ? item.product.Pro_Name : ''}"></span>
+                    <a th:href="@{/productbuy/view(Pro_Code=${item.product.Pro_Code})}">
+                        <span th:text="${item.product.Pro_Name != null ? item.product.Pro_Name : ''}"></span>
+                    </a>
                 </td>
                 <td class="price"
                     th:text="${item.product.Pro_Price != null ? item.product.Pro_Price : ''}"></td>
