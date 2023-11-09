@@ -69,6 +69,7 @@ public class CartController {
             session.setAttribute("cart", cart);
             // 로그 추가
             logCartDetails("Item added to cart 동일상품 카트 추가", cart);
+
         }
 
         // 장바구니에 상품을 추가한 후, total 다시 계산
@@ -78,18 +79,26 @@ public class CartController {
         // 로그 추가
         logger.info("Total updated in 'buy' method - Total: {}", total);
 
+
         return "redirect:../../cart";
     }
+
+//    private void logCartDetails(String message, List<Item> cart) {
+//        logger.info("{} - Cart Details:", message);
+//        for (Item item : cart) {
+//            logger.info("Product: {}, Quantity: {}, Weight: {}",
+//                    item.getProduct().getPro_Name(), item.getQuantity(), item.getProduct().getPro_Weight());
+//        }
+//    }
 
     private void logCartDetails(String message, List<Item> cart) {
         logger.info("{} - Cart Details:", message);
         for (Item item : cart) {
-            logger.info("Product: {}, Quantity: {}, Weight: {}",
-                    item.getProduct().getPro_Name(), item.getQuantity(), item.getProduct().getPro_Weight());
+            logger.info("Product: {}, Quantity: {}, Weight: {}, Subtotal: {}",
+                    item.getProduct().getPro_Name(), item.getQuantity(),
+                    item.getProduct().getPro_Weight(), item.getSubtotal());
         }
     }
-
-
 
 
 
@@ -180,6 +189,21 @@ public class CartController {
         }
         return s;
     }
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
 
 
 }
