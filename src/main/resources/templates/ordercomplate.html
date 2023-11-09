@@ -1,0 +1,165 @@
+<!DOCTYPE html>
+<html lang="ko" xmlns:th="http://www.thymeleaf.org">
+<head>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <title>주문 완료 페이지</title>
+    <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/4.5.2/css/bootstrap.min.css">
+    <link rel="stylesheet" href="/assets/css/templatemo.css">
+    <link rel="stylesheet" href="/assets/css/custom.css">
+    <link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Roboto:wght@100;200;300;400;500;700;900&display=swap">
+    <link rel="stylesheet" href="/assets/css/fontawesome.min.css">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.2.0/css/all.min.css">
+
+    <style>
+        .cotn_principal {
+            background: rgba(255, 255, 255, 0.9);
+            border-radius: 5px;
+            padding: 20px;
+            max-width: 600px;
+            margin: 0 auto;
+
+        }
+  #additionalInfoBox {
+        display: none;
+        background-color: #f2f2f2;
+        padding: 20px;
+        border: 1px solid #ddd;
+    </style>
+</head>
+<body>
+<!--첫번째네비게이션-->
+<nav class="navbar navbar-expand-lg bg-dark navbar-light d-none d-lg-block" id="templatemo_nav_top">
+    <div class="container text-light">
+        <div class="w-100 d-flex justify-content-between">
+            <div>
+                <i class="fa fa-envelope mx-2"></i>
+                <a class="navbar-sm-brand text-light text-decoration-none" href="mailto:info@company.com">Doron delivery@Doron delivery.com</a>
+                <i class="fa fa-phone mx-2"></i>
+                <a class="navbar-sm-brand text-light text-decoration-none" href="tel:010-1234-5678">010-1234-5678</a>
+            </div>
+            <div>
+                <a class="text-light" href="https://fb.com/templatemo" target="_blank" rel="sponsored"><i class="fab fa-facebook-f fa-sm fa-fw me-2"></i></a>
+                <a class="text-light" href="https://www.instagram.com/" target="_blank"><i class="fab fa-instagram fa-sm fa-fw me-2"></i></a>
+                <a class="text-light" href="https://twitter.com/" target="_blank"><i class="fab fa-twitter fa-sm fa-fw me-2"></i></a>
+            </div>
+        </div>
+    </div>
+</nav>
+<!--두번쨰 네비게이션-->
+<nav class="navbar navbar-expand-lg navbar-light shadow" id="templatemo_main_nav">
+    <div class="container d-flex justify-content-between align-items-center">
+        <a class="navbar-brand text-success logo h1 align-self-center" href="/index">Join Air🪂</a>
+        <button class="navbar-toggler border-0" type="button" data-bs-toggle="collapse" data-bs-target="#templatemo_main_nav"
+                aria-controls="templatemo_main_nav" aria-expanded="false" aria-label="Toggle navigation">
+            <span class="navbar-toggler-icon"></span>
+        </button>
+        <div class="align-self-center collapse navbar-collapse flex-fill d-lg-flex justify-content-lg-between" id="templatemo_main_nav1">
+            <div class="flex-fill">
+                <ul class="nav navbar-nav d-flex justify-content-between mx-lg-auto">
+                    <li class="nav-item">
+                        <a class="nav-link" href="/index">홈</a>
+                    </li>
+                    <li class="nav-item">
+                        <a class="nav-link" href="/about">회사 소개</a>
+                    </li>
+                    <li class="nav-item">
+                        <a class="nav-link" href="/productbuy/list">상품</a>
+                    </li>
+                    <li class="nav-item">
+                        <a class="nav-link" href="/qna/qnaList">문의</a>
+                    </li>
+                    <li class="nav-item">
+                        <a class="nav-link" href="/notice/list">공지사항</a>
+                    </li>
+                    <li class="nav-item">
+                        <a class="nav-link" href="/index">로그아웃</a>
+                    </li>
+                </ul>
+            </div>
+            <div class="navbar align-self-center d-flex">
+                <div class="d-lg-none flex-sm-fill mt-3 mb-4 col-7 col-sm-auto pr-3">
+                    <div class="input-group">
+                        <input type="text" class="form-control" id="inputMobileSearch" placeholder="검색">
+                        <div class="input-group-text">
+                            <i class="fa fa-fw fa-search"></i>
+                        </div>
+                    </div>
+                </div>
+                <a class="nav-icon d-none d-lg-inline" href="#" data-bs-toggle="modal" data-bs-target="#templatemo_search">
+                    <i class="fa fa-fw fa-search text-dark mr-2"></i>
+                </a>
+                <a class="nav-icon position-relative text-decoration-none" href="#">
+                    <i class="fa fa-fw fa-cart-arrow-down text-dark mr-1"></i>
+                    <span class="position-absolute top-0 left-100 translate-middle badge rounded-pill bg-light text-dark"></span>
+                </a>
+                <a class="nav-icon position-relative text-decoration-none" href="#">
+                    <i class="fa fa-fw fa-user text-dark mr-3"></i>
+                    <span class="position-absolute top-0 left-100 translate-middle badge rounded-pill bg-light text-dark"></span> <!--이름넣기 좋음-->
+                </a>
+            </div>
+        </div>
+    </div>
+</nav>
+
+<!--센터 내용-->
+<div class="container mt-5">
+    <div class="cotn_principal">
+        <i class="fas fa-shopping-cart fa-5x d-block" style="margin-left: 220px;"></i><br>
+        <h2 class="text-center mt-3">주문완료!</h2>
+        <p class="text-center text-success">감사합니다!</p>
+        <p class="text-center">주문 번호: <strong th:text="${orderDetail.OD_Num}"></strong></p>
+        <p class="text-center">예상 소요 시간: <strong>1시간</strong></p>
+        <p class="text-center">
+        <p class="text-center">
+            <button class="btn btn-danger" id="confirmButton">확인</button>
+            <button class="btn btn-primary" id="additionalInfoButton">추가 정보</button>
+        </p>
+
+        <div id="additionalInfoBox">
+            <p th:text="'주문자: ' + ${users.User_Name}"></p>
+            <p th:text="'주소: ' + ${users.User_Address}"></p>
+            <p th:text="'가격: $' + ${Orders_Total_Price}"></p>
+        </div>
+
+        <script>
+            // 확인 버튼 클릭 시 메인 페이지로 이동
+            document.getElementById('confirmButton').addEventListener('click', function() {
+                window.location.href = 'index.html'; // 메인 페이지 URL로 변경 추후 수정
+            });
+
+            // 추가 정보 버튼 클릭 시 추가 정보 박스를 표시/숨김
+            document.getElementById('additionalInfoButton').addEventListener('click', function() {
+                var infoBox = document.getElementById('additionalInfoBox');
+                if (infoBox.style.display === 'none' || infoBox.style.display === '') {
+                    infoBox.style.display = 'block';
+                } else {
+                    infoBox.style.display = 'none';
+                }
+            });
+        </script>
+
+
+    </div>
+</div>
+<div class="container mt-3">
+    <div class="cotn_principal">
+        <a class="btn btn-success d-block mx-auto" href="/index" style="margin-left: 500px;">홈으로 돌아가기</a>
+    </div>
+</div>
+
+
+
+<footer class="bg-dark" id="tempaltemo_footer">
+    <!-- 푸터 내용 -->
+</footer>
+<script src="assets/js/jquery-migrate-1.2.1.min.js"></script>
+<script src="assets/js/bootstrap.bundle.min.js"></script>
+<script src="assets/js/templatemo.js"></script>
+<script src="assets/js/custom.js"></script>
+<script src="assets/js/membership.js"></script>
+<script src="https://code.jquery.com/jquery-3.2.1.slim.min.js"></script>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.12.9/umd/popper.min.js"></script>
+<script src="https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0/js/bootstrap.min.js"></script>
+</body>
+</html>
