@@ -5,6 +5,8 @@ import com.example.joinair.entity.Product;
 import com.example.joinair.service.ProductService;
 import jakarta.servlet.http.HttpServletRequest;
 import jakarta.servlet.http.HttpSession;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
@@ -18,12 +20,15 @@ import org.springframework.web.bind.annotation.RequestParam;
 import java.util.ArrayList;
 import java.util.List;
 
+
 @Controller
 @RequestMapping("cart")
 public class CartController {
 
     @Autowired
     private ProductService productService;
+    private static final Logger logger = LoggerFactory.getLogger(CartController.class);
+
 
     @RequestMapping(method = RequestMethod.GET)
     public String index(ModelMap modelMap, HttpSession session) {
@@ -39,6 +44,8 @@ public class CartController {
             List<Item> cart = new ArrayList<Item>();
             cart.add(new Item(productService.findOne(Pro_Code), quantity));
             session.setAttribute("cart", cart);
+            // 로그 추가
+            logCartDetails("New cart created", cart);
         } else {
             List<Item> cart = (List<Item>) session.getAttribute("cart");
             boolean found = false;
@@ -60,14 +67,28 @@ public class CartController {
                 cart.add(new Item(productService.findOne(Pro_Code), quantity));
             }
             session.setAttribute("cart", cart);
+            // 로그 추가
+            logCartDetails("Item added to cart 동일상품 카트 추가", cart);
         }
 
         // 장바구니에 상품을 추가한 후, total 다시 계산
         double total = total(session);
         session.setAttribute("total", total);
 
+        // 로그 추가
+        logger.info("Total updated in 'buy' method - Total: {}", total);
+
         return "redirect:../../cart";
     }
+
+    private void logCartDetails(String message, List<Item> cart) {
+        logger.info("{} - Cart Details:", message);
+        for (Item item : cart) {
+            logger.info("Product: {}, Quantity: {}, Weight: {}",
+                    item.getProduct().getPro_Name(), item.getQuantity(), item.getProduct().getPro_Weight());
+        }
+    }
+
 
 
 
@@ -126,6 +147,8 @@ public class CartController {
                 // 총 가격을 다시 계산
                 double total = total(session);
 
+                // 로그 추가
+//                logger.info("Cart updated in 'update' method - Cart: {}, Total: {}", cart, total);
 
                 // 세션에 갱신된 장바구니와 총 가격을 저장
                 session.setAttribute("cart", cart);
@@ -133,9 +156,10 @@ public class CartController {
             }
         }
 
-        // 장바구니 페이지로 리다이렉트   // 널포인트익셉션때문에 리다이렉트방식안쓰고 직접 리턴방식 씀
+        // 널포인트익셉션 방지를 위해 리다이렉트 대신 직접 리턴
         return "cart/index";
     }
+
 
 
     private int isExists(Integer Pro_Code, List<Item> cart) {
