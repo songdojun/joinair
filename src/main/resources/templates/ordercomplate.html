@@ -1,165 +1,432 @@
 <!DOCTYPE html>
-<html lang="ko" xmlns:th="http://www.thymeleaf.org">
+<html lang="en" xmlns:th="http://www.thymeleaf.org">
 <head>
-    <meta charset="utf-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1">
-    <title>주문 완료 페이지</title>
+    <meta charset="UTF-8">
+    <title>Cart and Order Information</title>
     <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/4.5.2/css/bootstrap.min.css">
-    <link rel="stylesheet" href="/assets/css/templatemo.css">
-    <link rel="stylesheet" href="/assets/css/custom.css">
-    <link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Roboto:wght@100;200;300;400;500;700;900&display=swap">
-    <link rel="stylesheet" href="/assets/css/fontawesome.min.css">
-    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.2.0/css/all.min.css">
-
-    <style>
-        .cotn_principal {
-            background: rgba(255, 255, 255, 0.9);
-            border-radius: 5px;
-            padding: 20px;
-            max-width: 600px;
-            margin: 0 auto;
-
-        }
-  #additionalInfoBox {
-        display: none;
-        background-color: #f2f2f2;
-        padding: 20px;
-        border: 1px solid #ddd;
-    </style>
 </head>
+<style>
+
+    #payment-box {
+               position: fixed;
+               top: 1%;
+               right: 13px;
+               background-color: skyblue;
+               overflow-y: auto;
+               width: 180px;
+           }
+    .modal-dialog.modal-dialog-fixed-right {
+        position: fixed;
+        margin: 0;
+        top: 0;
+        right: 0;
+        bottom: 0;
+        z-index: 1050;
+        max-width: 100%;
+        width: 500px; /* 모달의 최대 너비 지정, 필요에 따라 조절 가능 */
+    }
+     .centered-button {
+        display: flex;
+        justify-content: center;
+        align-items: center;
+        height: 100vh; /* 버튼이 화면 중앙에 위치하도록 설정 */
+    }
+
+    .modal-dialog.modal-dialog-fixed-right {
+        position: fixed;
+        margin: 0;
+        top: 0;
+        right: 0;
+        bottom: 0;
+        z-index: 1050;
+        max-width: 100%;
+        width: 500px; /* 모달의 최대 너비 지정, 필요에 따라 조절 가능 */
+    }
+
+    .modal-footer {
+        text-align: center; /* 텍스트 중앙 정렬 */
+    }
+
+    .modal-footer .btn-primary {
+        margin-bottom: 10px; /* 결제 버튼 아래 여백 조절, 필요에 따라 조절 가능 */
+    }
+</style>
 <body>
-<!--첫번째네비게이션-->
-<nav class="navbar navbar-expand-lg bg-dark navbar-light d-none d-lg-block" id="templatemo_nav_top">
-    <div class="container text-light">
-        <div class="w-100 d-flex justify-content-between">
-            <div>
-                <i class="fa fa-envelope mx-2"></i>
-                <a class="navbar-sm-brand text-light text-decoration-none" href="mailto:info@company.com">Doron delivery@Doron delivery.com</a>
-                <i class="fa fa-phone mx-2"></i>
-                <a class="navbar-sm-brand text-light text-decoration-none" href="tel:010-1234-5678">010-1234-5678</a>
-            </div>
-            <div>
-                <a class="text-light" href="https://fb.com/templatemo" target="_blank" rel="sponsored"><i class="fab fa-facebook-f fa-sm fa-fw me-2"></i></a>
-                <a class="text-light" href="https://www.instagram.com/" target="_blank"><i class="fab fa-instagram fa-sm fa-fw me-2"></i></a>
-                <a class="text-light" href="https://twitter.com/" target="_blank"><i class="fab fa-twitter fa-sm fa-fw me-2"></i></a>
-            </div>
-        </div>
-    </div>
-</nav>
-<!--두번쨰 네비게이션-->
-<nav class="navbar navbar-expand-lg navbar-light shadow" id="templatemo_main_nav">
-    <div class="container d-flex justify-content-between align-items-center">
-        <a class="navbar-brand text-success logo h1 align-self-center" href="/index">Join Air🪂</a>
-        <button class="navbar-toggler border-0" type="button" data-bs-toggle="collapse" data-bs-target="#templatemo_main_nav"
-                aria-controls="templatemo_main_nav" aria-expanded="false" aria-label="Toggle navigation">
-            <span class="navbar-toggler-icon"></span>
-        </button>
-        <div class="align-self-center collapse navbar-collapse flex-fill d-lg-flex justify-content-lg-between" id="templatemo_main_nav1">
-            <div class="flex-fill">
-                <ul class="nav navbar-nav d-flex justify-content-between mx-lg-auto">
-                    <li class="nav-item">
-                        <a class="nav-link" href="/index">홈</a>
-                    </li>
-                    <li class="nav-item">
-                        <a class="nav-link" href="/about">회사 소개</a>
-                    </li>
-                    <li class="nav-item">
-                        <a class="nav-link" href="/productbuy/list">상품</a>
-                    </li>
-                    <li class="nav-item">
-                        <a class="nav-link" href="/qna/qnaList">문의</a>
-                    </li>
-                    <li class="nav-item">
-                        <a class="nav-link" href="/notice/list">공지사항</a>
-                    </li>
-                    <li class="nav-item">
-                        <a class="nav-link" href="/index">로그아웃</a>
-                    </li>
-                </ul>
-            </div>
-            <div class="navbar align-self-center d-flex">
-                <div class="d-lg-none flex-sm-fill mt-3 mb-4 col-7 col-sm-auto pr-3">
-                    <div class="input-group">
-                        <input type="text" class="form-control" id="inputMobileSearch" placeholder="검색">
-                        <div class="input-group-text">
-                            <i class="fa fa-fw fa-search"></i>
-                        </div>
-                    </div>
-                </div>
-                <a class="nav-icon d-none d-lg-inline" href="#" data-bs-toggle="modal" data-bs-target="#templatemo_search">
-                    <i class="fa fa-fw fa-search text-dark mr-2"></i>
-                </a>
-                <a class="nav-icon position-relative text-decoration-none" href="#">
-                    <i class="fa fa-fw fa-cart-arrow-down text-dark mr-1"></i>
-                    <span class="position-absolute top-0 left-100 translate-middle badge rounded-pill bg-light text-dark"></span>
-                </a>
-                <a class="nav-icon position-relative text-decoration-none" href="#">
-                    <i class="fa fa-fw fa-user text-dark mr-3"></i>
-                    <span class="position-absolute top-0 left-100 translate-middle badge rounded-pill bg-light text-dark"></span> <!--이름넣기 좋음-->
-                </a>
-            </div>
-        </div>
-    </div>
-</nav>
-
-<!--센터 내용-->
+<!-- 장바구니 -->
 <div class="container mt-5">
-    <div class="cotn_principal">
-        <i class="fas fa-shopping-cart fa-5x d-block" style="margin-left: 220px;"></i><br>
-        <h2 class="text-center mt-3">주문완료!</h2>
-        <p class="text-center text-success">감사합니다!</p>
-        <p class="text-center">주문 번호: <strong th:text="${orderDetail.OD_Num}"></strong></p>
-        <p class="text-center">예상 소요 시간: <strong>1시간</strong></p>
-        <p class="text-center">
-        <p class="text-center">
-            <button class="btn btn-danger" id="confirmButton">확인</button>
-            <button class="btn btn-primary" id="additionalInfoButton">추가 정보</button>
-        </p>
+    <h1 class="text-center mb-4">장바구니</h1>
+    <form method="post" th:action="${'/cart/update'}">
+        <table class="table">
+            <thead>
+            <tr>
+                <th scope="col">상품명</th>
+                <th scope="col">가격</th>
+                <th scope="col">수량</th>
+                <th scope="col">무게(g)</th>
+                <th scope="col">소계</th>
+                <th scope="col">옵션</th>
+            </tr>
+            </thead>
+            <tbody>
+            <!-- 장바구니 내용 -->
+            <tr th:each="item: ${session.cart}">
+                <td>
+                    <img th:src="${item.product != null ? item.product.Pro_Filepath : ''}" alt="Product Image"
+                         style="width: 60px;" />
+                    <span th:text="${item.product.Pro_Name != null ? item.product.Pro_Name : ''}"></span>
+                </td>
+                <td class="price"
+                    th:text="${item.product.Pro_Price != null ? item.product.Pro_Price : ''}"></td>
+                <td>
+                    <!-- 각 상품의 수량 입력 필드 이름을 고유하게 변경 -->
+                    <input type="number" name="quantity_${item.product.Pro_Code}" th:value="${item.quantity}" class="form-control" style="width:60px;" oninput="updateSubtotal(this.parentNode.parentNode, '${item.product.Pro_Code}')" />
 
-        <div id="additionalInfoBox">
-            <p th:text="'주문자: ' + ${users.User_Name}"></p>
-            <p th:text="'주소: ' + ${users.User_Address}"></p>
-            <p th:text="'가격: $' + ${Orders_Total_Price}"></p>
+                </td>
+                <td th:text="${item.product != null ? item.product.Pro_Weight : ''}"></td>
+
+                <td class="subtotal"
+                    th:text="${item.product.Pro_Price != null && item.quantity != null ? item.product.Pro_Price * item.quantity : ''}"></td>
+                <td>
+                    <a th:if="${session.cart != null}" th:href="${'/cart/remove/' + item.product.Pro_Code}" class="text-danger">X</a>
+                </td>
+            </tr>
+            </tbody>
+            <tfoot>
+            <tr>
+                <td colspan="3"><strong>총 무게(g)</strong></td>
+                <td colspan="2" id="totalWeight"></td>
+                <td colspan="2"></td> <!-- 추가: 총 가격의 열을 비워둠 -->
+            </tr>
+            <tr>
+                <td colspan="4"><strong>TOTAL PRICE</strong></td>
+                <td class="total" th:text="${session.total != null ? session.total : ''}"></td>
+                <td><a th:href="@{/productbuy/list}" class="btn btn-primary">계속 쇼핑 하기</a></td>
+            </tr>
+            </tfoot>
+        </table>
+    </form>
+</div>
+
+<!-- 주문자 정보 -->
+<div class="container mt-5">
+    <h1 class="text-center mb-4">주문자 정보</h1>
+    <form method="post" action="/submit-customer-info-endpoint">
+        <div class="form-group">
+            <label for="customerName">주문자 이름:</label>
+            <input type="text" id="customerName" name="customerName" class="form-control" required>
+        </div>
+        <div class="form-group">
+            <label for="customerEmail">이메일:</label>
+            <input type="email" id="customerEmail" name="customerEmail" class="form-control" required>
+        </div>
+        <div class="form-group">
+            <label for="customerMobile">휴대 전화:</label>
+            <input type="tel" id="customerMobile" name="customerMobile" class="form-control" required>
+        </div>
+    </form>
+</div>
+
+<!-- 배송 정보 -->
+<div class="container mt-5">
+    <h1 class="text-center mb-4">배송 정보</h1>
+    <form method="post" action="/submit-shipping-info-endpoint">
+        <!-- 배송지 정보 입력란 -->
+        <div class="form-check">
+            <input type="checkbox" id="sameAsBilling" name="sameAsBilling" value="1" class="form-check-input">
+            <label for="sameAsBilling" class="form-check-label">주문자 정보와 동일</label>
+        </div>
+        <div class="form-group">
+            <label for="recipientName">받는 사람:</label>
+            <input type="text" id="recipientName" name="recipientName" class="form-control">
+        </div>
+        <!-- 주소 입력란 -->
+        <div class="form-group">
+            <label for="shippingAddress">주소:</label>
+            <div class="input-group">
+                <input type="text" id="sample4_postcode" placeholder="우편번호" class="form-control" id="shippingAddress">
+                <div class="input-group-append">
+                    <button type="button" class="btn btn-primary" onclick="sample4_execDaumPostcode()">우편번호 찾기</button>
+                </div>
+            </div>
+        </div>
+        <div class="form-group">
+            <input type="text" id="sample4_roadAddress" placeholder="도로명주소" class="form-control">
+        </div>
+        <div class="form-group">
+            <input type="text" id="sample4_jibunAddress" placeholder="지번주소" class="form-control">
+        </div>
+        <div class="form-group">
+            <span id="guide" style="color:#999;display:none"></span>
+        </div>
+        <div class="form-group">
+            <input type="text" id="sample4_detailAddress" placeholder="상세주소" class="form-control">
+        </div>
+        <div class="form-group">
+            <input type="text" id="sample4_extraAddress" placeholder="참고항목" class="form-control">
         </div>
 
-        <script>
-            // 확인 버튼 클릭 시 메인 페이지로 이동
-            document.getElementById('confirmButton').addEventListener('click', function() {
-                window.location.href = 'index.html'; // 메인 페이지 URL로 변경 추후 수정
-            });
-
-            // 추가 정보 버튼 클릭 시 추가 정보 박스를 표시/숨김
-            document.getElementById('additionalInfoButton').addEventListener('click', function() {
-                var infoBox = document.getElementById('additionalInfoBox');
-                if (infoBox.style.display === 'none' || infoBox.style.display === '') {
-                    infoBox.style.display = 'block';
-                } else {
-                    infoBox.style.display = 'none';
-                }
-            });
-        </script>
+        <div class="form-group">
+            <label for="shippingMobile">휴대 전화:</label>
+            <input type="tel" id="shippingMobile" name="shippingMobile" class="form-control">
+        </div>
+    </form>
+</div>
+<!-- 결제 버튼 -->
+<button data-toggle="modal" data-target="#paymentModal" class="btn btn-primary" style="margin: auto; display: block;">결제</button><br>
 
 
+<!-- 결제 모달 -->
+<div class="modal fade" id="paymentModal" tabindex="-1" role="dialog" aria-labelledby="paymentModalLabel" aria-hidden="true">
+    <!-- 모달 창의 다이얼로그 부분 설정 -->
+    <div class="modal-dialog modal-dialog-fixed-right" role="document">
+        <!-- 모달 창의 내용을 감싸는 컨테이너 -->
+        <div class="modal-content">
+            <!-- 모달 창 상단 부분 (헤더) -->
+            <div class="modal-header">
+                <!-- 모달 창의 제목 -->
+                <h5 class="modal-title" id="paymentModalLabel">결제창</h5>
+                <!-- 모달 닫기 버튼 -->
+                <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                    <!-- 닫기 아이콘 -->
+                    <span aria-hidden="true">&times;</span>
+                </button>
+                <!-- 추가 항목 아래 <div> 태그 추가해서 추가하기 -->
+            </div>
+            <div class="modal-body">
+                <!-- 결제 정보 -->
+                <p>총 상품 주문금액: <span class="total" id="totalAmount"></span></p>
+                <p>할인 금액: <span id="discountAmount">0</span></p>
+                <p>총 적립 금액: <span class="reward" id="rewardAmount"></span></p>
+                <p>최종 결제 금액: <span class="final" id="total1"></span></p>
+                <!-- 기타 결제 관련 정보 및 양식 -->
+                <!-- 예를 들어, 신용카드 정보 입력 폼 등이 들어갈 수 있습니다. -->
+            </div>
+            <div class="modal-footer">
+                <!-- 결제 버튼 -->
+                <button onclick="requestCardPayment()" class="btn btn-primary">카드결제</button>
+                <button onclick="redirectToBankTransferPage()" class="btn btn-primary">무통장입금</button>
+            </div>
+        </div>
     </div>
 </div>
-<div class="container mt-3">
-    <div class="cotn_principal">
-        <a class="btn btn-success d-block mx-auto" href="/index" style="margin-left: 500px;">홈으로 돌아가기</a>
-    </div>
+
 </div>
+<script>window.addEventListener("scroll", function () {
+    var scrollBox = document.querySelector("#payment-box");
+    if (scrollBox) {
+        scrollBox.style.transform = "translateX(0)"; // 항상 보이도록 변경
+    }
+});
+</script>
 
 
-
-<footer class="bg-dark" id="tempaltemo_footer">
-    <!-- 푸터 내용 -->
-</footer>
-<script src="assets/js/jquery-migrate-1.2.1.min.js"></script>
-<script src="assets/js/bootstrap.bundle.min.js"></script>
-<script src="assets/js/templatemo.js"></script>
-<script src="assets/js/custom.js"></script>
-<script src="assets/js/membership.js"></script>
+<!-- JavaScript 스크립트 및 다음 우편번호 서비스 스크립트 추가 -->
 <script src="https://code.jquery.com/jquery-3.2.1.slim.min.js"></script>
 <script src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.12.9/umd/popper.min.js"></script>
 <script src="https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0/js/bootstrap.min.js"></script>
+<script src="//t1.daumcdn.net/mapjsapi/bundle/postcode/prod/postcode.v2.js"></script>
+<script src="https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0/js/bootstrap.min.js"></script>
+<script>
+</script>
+<script src="//t1.daumcdn.net/mapjsapi/bundle/postcode/prod/postcode.v2.js"></script>
+<script>
+    //카카오 주소 api
+    //본 예제에서는 도로명 주소 표기 방식에 대한 법령에 따라, 내려오는 데이터를 조합하여 올바른 주소를 구성하는 방법을 설명합니다.
+    function sample4_execDaumPostcode() {
+        new daum.Postcode({
+            oncomplete: function(data) {
+                // 팝업에서 검색결과 항목을 클릭했을때 실행할 코드를 작성하는 부분.
+
+                // 도로명 주소의 노출 규칙에 따라 주소를 표시한다.
+                // 내려오는 변수가 값이 없는 경우엔 공백('')값을 가지므로, 이를 참고하여 분기 한다.
+                var roadAddr = data.roadAddress; // 도로명 주소 변수
+                var extraRoadAddr = ''; // 참고 항목 변수
+
+                // 법정동명이 있을 경우 추가한다. (법정리는 제외)
+                // 법정동의 경우 마지막 문자가 "동/로/가"로 끝난다.
+                if(data.bname !== '' && /[동|로|가]$/g.test(data.bname)){
+                    extraRoadAddr += data.bname;
+                }
+                // 건물명이 있고, 공동주택일 경우 추가한다.
+                if(data.buildingName !== '' && data.apartment === 'Y'){
+                   extraRoadAddr += (extraRoadAddr !== '' ? ', ' + data.buildingName : data.buildingName);
+                }
+                // 표시할 참고항목이 있을 경우, 괄호까지 추가한 최종 문자열을 만든다.
+                if(extraRoadAddr !== ''){
+                    extraRoadAddr = ' (' + extraRoadAddr + ')';
+                }
+
+                // 우편번호와 주소 정보를 해당 필드에 넣는다.
+                document.getElementById('sample4_postcode').value = data.zonecode;
+                document.getElementById("sample4_roadAddress").value = roadAddr;
+                document.getElementById("sample4_jibunAddress").value = data.jibunAddress;
+
+                // 참고항목 문자열이 있을 경우 해당 필드에 넣는다.
+                if(roadAddr !== ''){
+                    document.getElementById("sample4_extraAddress").value = extraRoadAddr;
+                } else {
+                    document.getElementById("sample4_extraAddress").value = '';
+                }
+
+                var guideTextBox = document.getElementById("guide");
+                // 사용자가 '선택 안함'을 클릭한 경우, 예상 주소라는 표시를 해준다.
+                if(data.autoRoadAddress) {
+                    var expRoadAddr = data.autoRoadAddress + extraRoadAddr;
+                    guideTextBox.innerHTML = '(예상 도로명 주소 : ' + expRoadAddr + ')';
+                    guideTextBox.style.display = 'block';
+
+                } else if(data.autoJibunAddress) {
+                    var expJibunAddr = data.autoJibunAddress;
+                    guideTextBox.innerHTML = '(예상 지번 주소 : ' + expJibunAddr + ')';
+                    guideTextBox.style.display = 'block';
+                } else {
+                    guideTextBox.innerHTML = '';
+                    guideTextBox.style.display = 'none';
+                }
+            }
+        }).open();
+    }
+</script>
+
+<script src="//t1.daumcdn.net/mapjsapi/bundle/postcode/prod/postcode.v2.js"></script>
+<script>
+    // 주문자 정보와 배송 정보 동일 처리
+    document.getElementById('sameAsBilling').addEventListener('change', function () {
+        if (this.checked) {
+            document.getElementById('recipientName').value = document.getElementById('customerName').value;
+            document.getElementById('shippingMobile').value = document.getElementById('customerMobile').value;
+        } else {
+            document.getElementById('recipientName').value = '';
+            document.getElementById('shippingMobile').value = '';
+        }
+    });
+</script>
+<!-- 부트스트랩 링크 추가 -->
+<link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0/css/bootstrap.min.css">
+<script>
+    // 수량 증가, 감소 시 소계 및 무게 합계 업데이트
+function updateSubtotal(row, productCode) {
+    var priceCell = row.querySelector('.price');
+    var quantityInput = row.querySelector('[name="quantity_' + productCode + '"]');
+    var subtotalCell = row.querySelector('.subtotal');
+    var weightCell = row.querySelector('td:nth-child(4)'); // 무게를 나타내는 열
+
+    if (priceCell && quantityInput && subtotalCell && weightCell) {
+        var price = parseFloat(priceCell.textContent);
+        var quantity = parseInt(quantityInput.value);
+        if (quantity <= 0) {
+            quantityInput.value = 1;
+            quantity = 1;
+        }
+        var subtotal = price * quantity;
+        subtotalCell.textContent = subtotal;
+
+        // 무게 업데이트
+        var initialWeight = parseFloat(weightCell.getAttribute('data-initial-weight'));
+        var weight = initialWeight * quantity;
+        weightCell.textContent = weight;
+
+        updateTotal();
+    }
+}
+
+   // 페이지 로드 시 초기 무게 저장
+window.addEventListener('load', function () {
+    var weightCells = document.querySelectorAll('td:nth-child(4)');
+    weightCells.forEach(function (weightCell) {
+        var initialWeight = parseFloat(weightCell.textContent);
+        weightCell.setAttribute('data-initial-weight', initialWeight);
+    });
+    updateTotal();
+});
+
+   // 총 무게 및 할인, 적립 등 업데이트
+   function updateTotal() {
+       var subtotalCells = document.querySelectorAll('.subtotal');
+       var totalCell = document.querySelector('.total');
+       var totalWeightCell = document.querySelector('#totalWeight'); // 추가: 총 무게 요소
+       var totalAmountCell = document.querySelector('#totalAmount');
+       var rewardAmountCell = document.getElementById('rewardAmount');
+       var finalAmountCell = document.getElementById('total1');
+       var discountAmount = 0;
+
+       var total = 0;
+       var totalWeight = 0; // 추가: 총 무게 초기화
+
+       subtotalCells.forEach(function(subtotalCell) {
+           var subtotal = parseFloat(subtotalCell.textContent);
+           total += subtotal;
+       });
+
+       // 총 무게 계산
+       var weightCells = document.querySelectorAll('td:nth-child(4)');
+       weightCells.forEach(function(weightCell) {
+           var weight = parseFloat(weightCell.textContent);
+           totalWeight += weight;
+       });
+
+       var rewardAmount = total * 0.05;
+       var finalAmount = total - discountAmount;
+
+       if (totalCell) {
+           totalCell.textContent = total;
+       }
+       if (totalWeightCell) {
+           totalWeightCell.textContent = totalWeight;
+       }
+       if (totalAmountCell) {
+           totalAmountCell.textContent = total;
+       }
+       if (rewardAmountCell) {
+           rewardAmountCell.textContent = rewardAmount;
+       }
+       if (finalAmountCell) {
+           finalAmountCell.textContent = finalAmount;
+       }
+   }
+
+
+</script>
+
+
+
+<script>
+    // 아임포트 초기화 및 카드결제 요청
+    function requestCardPayment() {
+        var finalPaymentAmount = parseFloat(document.querySelector('.final').textContent);
+        var merchant_uid = 'merchant_' + new Date().getTime();
+
+        IMP.init('iamport');
+        IMP.request_pay({
+            pg: "inicis",
+            pay_method: "card",
+            merchant_uid: merchant_uid,
+            name: 'joinair',
+            amount: finalPaymentAmount,
+            buyer_email: 'iamport@siot.do',
+            buyer_name: '구매자',
+            buyer_tel: '010-1234-5678',
+            buyer_addr: '서울특별시 강남구 삼성동',
+            buyer_postcode: '123-456'
+        }, function (rsp) {
+            if (rsp.success) {
+                var msg = '결제가 완료되었습니다.';
+                alert(msg);
+                location.href = "결제 완료 후 이동할 페이지 URL";
+            } else {
+                var msg = '결제에 실패하였습니다.';
+                msg += '에러내용 : ' + rsp.error_msg;
+                alert(msg);
+            }
+        });
+    }
+
+    // 무통장입금 버튼 클릭 시 페이지 이동
+    function redirectToBankTransferPage() {
+        window.location.href = "/payment/Deposit";
+    }
+</script>
+<script src="https://code.jquery.com/jquery-1.12.4.min.js"></script>
+<script src="https://cdn.iamport.kr/js/iamport.payment-1.1.5.js"></script>
 </body>
 </html>
