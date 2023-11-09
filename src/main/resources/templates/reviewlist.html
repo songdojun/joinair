@@ -1,127 +1,137 @@
 <!DOCTYPE html>
-<html lang="en" xmlns:th="http://www.thymeleaf.org">
+<html lang="ko" xmlns:th="http://www.thymeleaf.org">
 <head>
-    <meta charset="UTF-8">
-    <title>게시글 리스트</title>
-    <link rel="stylesheet" href="/css/Reviewlist.css">
+    <title>리뷰 리스트</title>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <link rel="apple-touch-icon" href="../static/assets/img/apple-icon.png">
+    <link rel="shortcut icon" type="image/x-icon" href="../static/assets/img/favicon.ico">
+    <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.5.2/css/bootstrap.min.css">
+    <link rel="stylesheet" href="../static/assets/css/templatemo.css">
+    <link rel="stylesheet" href="../static/assets/css/custom.css">
+    <link href="https://fonts.googleapis.com/css2?family=Roboto:wght@100;200;300;400;500;700;900&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/font-awesome/4.7.0/css/font-awesome.min.css">
 </head>
 <body>
-
-<style>
-    .layout {
-        width: 800px;
-        margin: 0 auto;
-        margin-top: 40px;
-    }
-
-    .new-post-button {
-        display: block;
-        margin-top: 20px;
-        padding: 10px;
-    }
-
-    table {
-        width: 100%;
-        table-layout: fixed;
-        border-collapse: collapse;
-    }
-
-    th, td {
-        border: 1px solid #ddd;
-        padding: 8px;
-        text-align: left;
-        overflow: hidden;
-        text-overflow: ellipsis;
-        white-space: nowrap;
-    }
-
-    .title-column {
-        width: 50%; /* 제목 열은 테이블 전체의 50% 크기로 조정 (상대적 크기) */
-    }
-
-    .small-column {
-        width: 10%; /* 글번호, 작성자, 작성일 열은 테이블 전체의 10% 크기로 조정 (상대적 크기) */
-    }
-
-    .date-column {
-        width: 20%; /* 작성일자 열을 테이블 전체의 15% 크기로 조정 (상대적 크기) */
-    }
-</style>
-
-<div class="layout">
-
-    <h1>
-        <a th:href="@{/review/list}">리뷰 페이지</a>
-    </h1>
-    <div>
-        <select id="searchOption">
-            <option value="Rev_Title" selected>리뷰제목</option>
-            <option value="Pro_Name">상품명</option>
-        </select>
-        <input type="text" name="searchKeyword" id="searchKeyword" placeholder="검색어 입력">
-        <button id="searchButton">검색</button>
-    </div>
-
-    <!-- Rev_Writer와 Rev_Date를 추가한 부분 -->
-    <table>
-        <thead>
-        <tr>
-            <th class="small-column">글번호</th>
-            <th class="title-column">제목</th>
-            <th class="small-column">작성자</th>
-            <th class="date-column">작성일</th>
-            <th class="title-column">상품명</th> <!-- Pro_Name(상품명) 헤더 추가 -->
-        </tr>
-        </thead>
-        <tbody>
-        <tr th:each="review : ${list}">
-            <td class="small-column" th:text="${review.Rev_No}">1</td>
-            <td class="title-column">
-                <a th:href="@{/review/view(Rev_No=${review.Rev_No})}" th:text="${review.Rev_Title}"></a>
-            </td>
-            <td class="small-column" th:text="${review.Rev_Writer}"></td>
-            <td class="date-column" th:text="${#dates.format(review.Rev_Date, 'yyyy-MM-dd HH:mm:ss')}"></td>
-
-            <!-- 상품명을 가장 밑에 td로 이동 -->
-            <td class="title-column">
-                <span th:text="${review.product?.Pro_Name} ?: '상품 없음'"></span>
-            </td>
-        </tr>
-        </tbody>
-    </table>
-
-    <div class="pagination" th:if="${list.totalPages > 1 || list.totalElements == 0}">
-        <!-- Adjust pagination links to include search parameters -->
-        <div class="horizontal-pagination">
-            <a th:if="${list.number > 0}" th:href="@{|/review/list?page=0&size=${list.size}&sort=${list.sort}&searchOption=${searchOption}&searchKeyword=${searchKeyword}|}" aria-label="First">
-                <span aria-hidden="true">첫 페이지</span>
-            </a>
-            <!-- Adjust previous and next links similarly -->
-            <a th:if="${list.number > 0}" th:href="@{|/review/list?page=${list.number - 1}&size=${list.size}&sort=${list.sort}&searchOption=${searchOption}&searchKeyword=${searchKeyword}|}" aria-label="Previous">
-                <span aria-hidden="true">&laquo; 이전</span>
-            </a>
-            <!-- Add searchOption and searchKeyword to the page number links -->
-            <span th:each="i : ${#numbers.sequence(0, list.totalPages - 1)}">
-            <a th:if="${i == list.number}" th:text="${i + 1}" class="current-page"></a>
-            <a th:unless="${i == list.number}" th:href="@{|/review/list?page=${i}&size=${list.size}&sort=${list.sort}&searchOption=${searchOption}&searchKeyword=${searchKeyword}|}" th:text="${i + 1}"></a>
-        </span>
-            <a th:if="${list.number < list.totalPages - 1}" th:href="@{|/review/list?page=${list.number + 1}&size=${list.size}&sort=${list.sort}&searchOption=${searchOption}&searchKeyword=${searchKeyword}|}" aria-label="Next">
-                <span aria-hidden="true">다음 &raquo;</span>
-            </a>
-            <a th:if="${list.number < list.totalPages - 1}" th:href="@{|/review/list?page=${list.totalPages - 1}&size=${list.size}&sort=${list.sort}&searchOption=${searchOption}&searchKeyword=${searchKeyword}|}" aria-label="Last">
-                <span aria-hidden="true">마지막 페이지</span>
-            </a>
+<nav class="navbar navbar-expand-lg bg-dark navbar-light d-none d-lg-block" id="templatemo_nav_top">
+    <div class="container text-light">
+        <div class="w-100 d-flex justify-content-between">
+            <div>
+                <i class="fa fa-envelope mx-2"></i>
+                <a class="navbar-sm-brand text-light text-decoration-none" href="mailto:info@company.com">Doron delivery@Doron delivery.com</a>
+                <i class="fa fa-phone mx-2"></i>
+                <a class="navbar-sm-brand text-light text-decoration-none" href="tel:010-1234-5678">010-1234-5678</a>
+            </div>
         </div>
     </div>
-
-    <div th:if="${list.totalPages == 0}" class="no-results">검색 결과가 없습니다.</div>
-
-
-    <a href="/review/write" class="new-post-button">새 글 작성</a>
-
-
-
+</nav>
+<nav class="navbar navbar-expand-lg navbar-light shadow">
+    <div class="container d-flex justify-content-between align-items-center">
+        <a class="navbar-brand text-success logo h1 align-self-center" href="/index">Join Air🪂</a>
+        <button class="navbar-toggler border-0" type="button" data-toggle="collapse" data-target="#templatemo_main_nav"
+                aria-controls="templatemo_main_nav" aria-expanded="false" aria-label="Toggle navigation">
+            <span class="navbar-toggler-icon"></span>
+        </button>
+        <div class="align-self-center collapse navbar-collapse flex-fill d-lg-flex justify-content-lg-between" id="templatemo_main_nav">
+            <div class="flex-fill">
+                <ul class="navbar-nav d-flex justify-content-between mx-lg-auto">
+                    <li class="nav-item">
+                        <a class="nav-link" href="/index">홈</a>
+                    </li>
+                    <li class="nav-item">
+                        <a class="nav-link" href="/about">회사 소개</a>
+                    </li>
+                    <li class="nav-item">
+                        <a class="nav-link" href="/productbuy/list">상품</a>
+                    </li>
+                    <li class="nav-item">
+                        <a class="nav-link" href="/qna/qnaList">문의</a>
+                    </li>
+                    <li class="nav-item">
+                        <a class="nav-link" href="/notice/list">공지사항</a>
+                    </li>
+                    <li class="nav-item">
+                        <a class="nav-link" href="/login">로그인</a>
+                    </li>
+                </ul>
+            </div>
+        </div>
+    </div>
+</nav>
+<header>
+    <br>
+    <h1 style="text-align: center; font-weight: bold;">리뷰 페이지</h1>
+    <br>
+</header>
+<div class="container my-4">
+    <div class="layout">
+        <a href="/review/write" class="btn btn-primary mb-3">새 글 작성</a>
+        <table class="table table-striped">
+            <!-- 테이블 헤더 -->
+            <thead class="thead-light">
+            <tr>
+                <th class="small-column">글번호</th>
+                <th class="title-column">제목</th>
+                <th class="small-column">작성자</th>
+                <th class="date-column">작성일</th>
+                <th class="title-column">상품명</th>
+            </tr>
+            </thead>
+            <tbody>
+            <!-- 리뷰 목록 반복 출력 -->
+            <tr th:each="review : ${list}">
+                <td class="small-column" th:text="${review.Rev_No}">1</td>
+                <td class="title-column">
+                    <a th:href="@{/review/view(Rev_No=${review.Rev_No})}" th:text="${review.Rev_Title}"></a>
+                </td>
+                <td class="small-column" th:text="${review.Rev_Writer}"></td>
+                <td class="date-column" th:text="${#dates.format(review.Rev_Date, 'yyyy-MM-dd HH:mm:ss')}"></td>
+                <td class="title-column">
+                    <span th:text="${review.product?.Pro_Name} ?: '상품 없음'"></span>
+                </td>
+            </tr>
+            </tbody>
+        </table>
+        <div class="pagination">
+            <th:block th:each="page : ${#numbers.sequence(startPage, endPage)}">
+                <a class="btn btn-primary" th:if="${page != nowPage}" th:href="@{/review/list(page=${page-1}, searchKeyword=${param.searchKeyword})}" th:text="${page}"></a>
+                <strong th:if="${page == nowPage}" th:text="${page}" style="color: red"></strong>
+            </th:block>
+        </div>
+        <div class="search-form my-3">
+            <form th:action="@{/review/list}" method="get">
+                <div class="input-group">
+                    <input type="text" class="form-control search-input" name="searchKeyword" placeholder="검색어를 입력하세요">
+                    <div class="input-group-append">
+                        <button type="submit" class="btn btn-success search-button">검색</button>
+                    </div>
+                </div>
+            </form>
+        </div>
+    </div>
 </div>
-<script src="/js/searchReview.js"></script>
+<footer class="bg-dark" id="tempaltemo_footer">
+    <div class="container">
+        <div class="row">
+            <div class="col-md-5 pt-4">
+                <h2 class="h2 text-success border-bottom pb-3 border-light logo">Join Air🪂</h2>
+                <ul class="list-unstyled text-light footer-link-list">
+                    <li><i class="fas fa-map-marker-alt fa-fw"></i>한국직업전문학교 11층 강의실02 항공4기 2조</li>
+                    <li><i class="fa fa-phone fa-fw"></i><a class="text-decoration-none" href="tel:010-1234-5678">010-1234-5678</a></li>
+                    <li><i class="fa fa-envelope fa-fw"></i><a class="text-decoration-none" href="mailto:info@dronefood.com">drone@dronedelivery.com</a></li>
+                </ul>
+            </div>
+            <div class="col-12 text-light mb-4">
+                <hr class="border-light">
+                <p class="text-center">저작권 © 2023 Join Air</p>
+            </div>
+        </div>
+    </div>
+</footer>
+<script src="https://code.jquery.com/jquery-3.5.1.slim.min.js"></script>
+<script src="https://cdn.jsdelivr.net/npm/@popperjs/core@2.9.3/dist/umd/popper.min.js"></script>
+<script src="https://stackpath.bootstrapcdn.com/bootstrap/4.5.2/js/bootstrap.min.js"></script>
+<script src="../static/assets/js/templatemo.js"></script>
+<script src="../static/assets/js/custom.js"></script>
 </body>
 </html>

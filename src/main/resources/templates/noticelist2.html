@@ -3,14 +3,18 @@
 <head>
     <title>공지사항 리스트</title>
     <meta charset="utf-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1">
-    <link rel="apple-touch-icon" href="../static/assets/img/apple-icon.png">
-    <link rel="shortcut icon" type="image/x-icon" href="../static/assets/img/favicon.ico">
-    <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.5.2/css/bootstrap.min.css">
-    <link rel="stylesheet" href="../static/assets/css/templatemo.css">
-    <link rel="stylesheet" href="../static/assets/css/custom.css">
-    <link href="https://fonts.googleapis.com/css2?family=Roboto:wght@100;200;300;400;500;700;900&display=swap" rel="stylesheet">
-    <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/font-awesome/4.7.0/css/font-awesome.min.css">
+    <meta content="width=device-width, initial-scale=1" name="viewport">
+    <link href="../static/assets/img/apple-icon.png" rel="apple-touch-icon">
+    <link href="../static/assets/img/favicon.ico" rel="shortcut icon" type="image/x-icon">
+    <link href="https://maxcdn.bootstrapcdn.com/bootstrap/4.5.2/css/bootstrap.min.css" rel="stylesheet">
+    <link href="../static/assets/css/templatemo.css" rel="stylesheet">
+    <link href="../static/assets/css/custom.css" rel="stylesheet">
+    <link href="https://fonts.googleapis.com/css2?family=Roboto:wght@100;200;300;400;500;700;900&display=swap"
+          rel="stylesheet">
+    <link href="../static/assets/css/fontawesome.min.css" rel="stylesheet">
+    <link crossorigin="" href="https://unpkg.com/leaflet@1.7.1/dist/leaflet.css"
+          integrity="sha512-xodZBNTC5n17Xt2atTPuE1HxjVMSvLVW9ocqUKLsCC5CXdbqCmblAshOMAS6/keqq/sMZMZ19scR4PsZChSR7A=="
+          rel="stylesheet"/>
 </head>
 <body>
 <nav class="navbar navbar-expand-lg bg-dark navbar-light d-none d-lg-block" id="templatemo_nav_top">
@@ -18,24 +22,35 @@
         <div class="w-100 d-flex justify-content-between">
             <div>
                 <i class="fa fa-envelope mx-2"></i>
-                <a class="navbar-sm-brand text-light text-decoration-none" href="mailto:info@company.com">Doron delivery@Doron delivery.com</a>
+                <a class="navbar-sm-brand text-light text-decoration-none" href="mailto:info@company.com"> Doron
+                    delivery@Doron delivery.com </a>
                 <i class="fa fa-phone mx-2"></i>
-                <a class="navbar-sm-brand text-light text-decoration-none" href="tel:010-020-0340">010-1234-5678</a>
+                <a class="navbar-sm-brand text-light text-decoration-none" href="tel:010-020-0340"> 010-1234-5678</a>
             </div>
-
+            <div>
+                <a class="text-light" href="https://fb.com/templatemo" rel="sponsored" target="_blank"><i
+                        class="fab fa-facebook-f fa-sm fa-fw me-2"></i></a>
+                <a class="text-light" href="https://www.instagram.com/" target="_blank"><i
+                        class="fab fa-instagram fa-sm fa-fw me-2"></i></a>
+                <a class="text-light" href="https://twitter.com/" target="_blank"><i
+                        class="fab fa-twitter fa-sm fa-fw me-2"></i></a>
+            </div>
         </div>
     </div>
 </nav>
+
 <nav class="navbar navbar-expand-lg navbar-light shadow">
     <div class="container d-flex justify-content-between align-items-center">
         <a class="navbar-brand text-success logo h1 align-self-center" href="/index">Join Air🪂</a>
-        <button class="navbar-toggler border-0" type="button" data-toggle="collapse" data-target="#templatemo_main_nav"
-                aria-controls="templatemo_main_nav" aria-expanded="false" aria-label="Toggle navigation">
+        <button aria-controls="templatemo_main_nav" aria-expanded="false" aria-label="Toggle navigation"
+                class="navbar-toggler border-0" data-bs-target="#templatemo_main_nav" data-bs-toggle="collapse"
+                type="button">
             <span class="navbar-toggler-icon"></span>
         </button>
-        <div class="align-self-center collapse navbar-collapse flex-fill d-lg-flex justify-content-lg-between" id="templatemo_main_nav">
+        <div class="align-self-center collapse navbar-collapse flex-fill d-lg-flex justify-content-lg-between"
+             id="templatemo_main_nav">
             <div class="flex-fill">
-                <ul class="navbar-nav d-flex justify-content-between mx-lg-auto">
+                <ul class="nav navbar-nav d-flex justify-content-between mx-lg-auto">
                     <li class="nav-item">
                         <a class="nav-link" href="/index">홈</a>
                     </li>
@@ -59,6 +74,28 @@
                     </li>
                 </ul>
             </div>
+            <div class="navbar align-self-center d-flex">
+                <div class="d-lg-none flex-sm-fill mt-3 mb-4 col-7 col-sm-auto pr-3">
+                    <div class="input-group">
+                        <input class="form-control" id="inputMobileSearch" placeholder="검색" type="text">
+                        <div class="input-group-text">
+                            <i class="fa fa-fw fa-search"></i>
+                        </div>
+                    </div>
+                </div>
+                <a class="nav-icon d-none d-lg-inline" data-bs-target="#templatemo_search" data-bs-toggle="modal"
+                   href="#">
+                    <i class="fa fa-fw fa-search text-dark mr-2"></i>
+                </a>
+                <a class="nav-icon position-relative text-decoration-none" href="http://localhost:8080/cart">
+                    <i class="fa fa-fw fa-cart-arrow-down text-dark mr-1"></i>
+                    <span class="position-absolute top-0 left-100 translate-middle badge rounded-pill bg-light text-dark"></span>
+                </a>
+                <a class="nav-icon position-relative text-decoration-none" href="#">
+                    <i class="fa fa-fw fa-user text-dark mr-3"></i>
+                    <span class="position-absolute top-0 left-100 translate-middle badge rounded-pill bg-light text-dark"></span>
+                </a>
+            </div>
         </div>
     </div>
 </nav>
@@ -70,7 +107,7 @@
 </header>
 <div class="container my-4">
     <div class="layout">
-        <a href="/notice/create" class="btn btn-primary mb-3">새 글 작성</a>
+        <a class="btn btn-primary mb-3" href="/notice/create">새 글 작성</a>
         <table class="table table-striped">
             <!-- 테이블 헤더 -->
             <thead class="thead-light">
@@ -95,70 +132,45 @@
         </table>
         <div class="pagination">
             <th:block th:each="page : ${#numbers.sequence(startPage, endPage)}">
-                <a class="btn btn-primary" th:if="${page != nowPage}" th:href="@{/notice/list(page=${page-1}, searchKeyword=${param.searchKeyword})}" th:text="${page}"></a>
-                <strong th:if="${page == nowPage}" th:text="${page}" style="color: red"></strong>
+                <a class="btn btn-primary" th:href="@{/notice/list(page=${page-1}, searchKeyword=${param.searchKeyword})}"
+                   th:if="${page != nowPage}"
+                   th:text="${page}"></a>
+                <strong style="color: red" th:if="${page == nowPage}" th:text="${page}"></strong>
             </th:block>
         </div>
         <div class="search-form my-3">
-            <form th:action="@{/notice/list}" method="get">
+            <form method="get" th:action="@{/notice/list}">
                 <div class="input-group">
-                    <input type="text" class="form-control search-input" name="searchKeyword" placeholder="검색어를 입력하세요">
+                    <input class="form-control search-input" name="searchKeyword" placeholder="검색어를 입력하세요" type="text">
                     <div class="input-group-append">
-                        <button type="submit" class="btn btn-success search-button">검색</button>
+                        <button class="btn btn-success search-button" type="submit">검색</button>
                     </div>
                 </div>
             </form>
         </div>
     </div>
 </div>
-<footer class="bg-dark" id="tempaltemo_footer">
+<footer class="bg-dark" id="tempaltemo_footer" style="padding: px 0;">
     <div class="container">
         <div class="row">
-            <div class="col-md-4 pt-5">
-                <h2 class="h2 text-success border-bottom pb-3 border-light logo">Join Air🪂</h2>
+            <div class="col-md-5  pt-1"><br>
+                <h2 class="h2 text-success border-bottom pb-1 border-light logo">Join Air🪂</h2>
                 <ul class="list-unstyled text-light footer-link-list">
-                    <li>
-                        <i class="fas fa-map-marker-alt fa-fw"></i>
-                        한국직업전문학교 11층 강의실02 항공4기 2조
+                    <li><i class="fas fa-map-marker-alt fa-fw"></i>한국직업전문학교 11층 강의실02 항공4기 2조</li>
+                    <li><i class="fa fa-phone fa-fw"></i><a class="text-decoration-none" href="tel:010-1234-5678">010-1234-5678</a>
                     </li>
-                    <li>
-                        <i class="fa fa-phone fa-fw"></i>
-                        <a class="text-decoration-none" href="tel:010-1234-5678">010-1234-5678</a>
+                    <li><i class="fa fa-envelope fa-fw"></i><a class="text-decoration-none"
+                                                               href="mailto:info@dronefood.com">drone@dronedelivery.com</a>
                     </li>
-                    <li>
-                        <i class="fa fa-envelope fa-fw"></i>
-                        <a class="text-decoration-none" href="mailto:info@dronefood.com">drone@dronedelivery.com</a>
-                    </li>
+                    <div class="col-10 text-center mt-4">
+                        <p class="text-center">저작권 © 2023 Join Air</p>
+                    </div>
                 </ul>
-            </div>
-            <div class="col-md-4 pt-5">
-                <h2 class="h2 text-light border-bottom pb-3 border-light">메뉴</h2>
-                <ul class="list-unstyled text-light footer-link-list">
-                    <li><a class="text-decoration-none" href="#">주문 하기</a></li>
-                    <li><a class="text-decoration-none" href="#">배달 정보</a></li>
-                    <li><a class="text-decoration-none" href="#">고객 지원</a></li>
-                    <li><a class="text-decoration-none" href="#">드론 정보</a></li>
-                </ul>
-            </div>
-            <div class="col-md-4 pt-5">
-                <h2 class="h2 text-light border-bottom pb-3 border-light">정보</h2>
-                <ul class="list-unstyled text-light footer-link-list">
-                    <li><a class="text-decoration-none" href="/index">홈</a></li>
-                    <li><a class="text-decoration-none" href="/about">회사/소개</a></li>
-                    <li><a class="text-decoration-none" href="#">문의</a></li>
-                </ul>
-            </div>
-        </div>
-        <div class="row text-light mb-4">
-            <div class="col-12 mb-3">
-                <div class="w-100 my-3 border-top border-light"></div>
-            </div>
-            <div class="col-auto me-auto">
-
             </div>
         </div>
     </div>
 </footer>
+
 <script src="https://code.jquery.com/jquery-3.5.1.slim.min.js"></script>
 <script src="https://cdn.jsdelivr.net/npm/@popperjs/core@2.9.3/dist/umd/popper.min.js"></script>
 <script src="https://stackpath.bootstrapcdn.com/bootstrap/4.5.2/js/bootstrap.min.js"></script>

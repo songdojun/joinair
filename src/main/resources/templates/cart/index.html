@@ -6,23 +6,51 @@
     <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/4.5.2/css/bootstrap.min.css">
 </head>
 <style>
-    .container {
-    float: left;
-    margin-right: 20px; /* 왼쪽으로 이동한 두 컨테이너 사이의 간격, 필요에 따라 조정 */
-}
-   #payment-box {
-       position: fixed;
-       top: 5%; /* 결제창을 수직 가운데 정렬, 필요에 따라 조정 */
-       right: 20px; /* 원하는 우측 간격 설정, 필요에 따라 조정 */
-       background-color: skyblue;
-       float: right;
-       overflow-y: auto;
-       max-width: 100%; /* 화면 폭에 맞게 최대 너비 설정 */
-       max-height: 100%; /* 화면 높이에 맞게 최대 높이 설정 */
-       width: 350px; /* 너비를 자동으로 설정하여 유동적으로 크기 조절 */
-   }
-</style>
 
+    #payment-box {
+               position: fixed;
+               top: 1%;
+               right: 13px;
+               background-color: skyblue;
+               overflow-y: auto;
+               width: 180px;
+           }
+    .modal-dialog.modal-dialog-fixed-right {
+        position: fixed;
+        margin: 0;
+        top: 0;
+        right: 0;
+        bottom: 0;
+        z-index: 1050;
+        max-width: 100%;
+        width: 500px; /* 모달의 최대 너비 지정, 필요에 따라 조절 가능 */
+    }
+     .centered-button {
+        display: flex;
+        justify-content: center;
+        align-items: center;
+        height: 100vh; /* 버튼이 화면 중앙에 위치하도록 설정 */
+    }
+
+    .modal-dialog.modal-dialog-fixed-right {
+        position: fixed;
+        margin: 0;
+        top: 0;
+        right: 0;
+        bottom: 0;
+        z-index: 1050;
+        max-width: 100%;
+        width: 500px; /* 모달의 최대 너비 지정, 필요에 따라 조절 가능 */
+    }
+
+    .modal-footer {
+        text-align: center; /* 텍스트 중앙 정렬 */
+    }
+
+    .modal-footer .btn-primary {
+        margin-bottom: 10px; /* 결제 버튼 아래 여백 조절, 필요에 따라 조절 가능 */
+    }
+</style>
 <body>
 <!-- 장바구니 -->
 <div class="container mt-5">
@@ -45,43 +73,27 @@
                 <td>
                     <img th:src="${item.product != null ? item.product.Pro_Filepath : ''}" alt="Product Image"
                          style="width: 60px;" />
-                    <a th:href="@{/productbuy/view(Pro_Code=${item.product.Pro_Code})}">
-                        <span th:text="${item.product.Pro_Name != null ? item.product.Pro_Name : ''}"></span>
-                    </a>
+                    <span th:text="${item.product.Pro_Name != null ? item.product.Pro_Name : ''}"></span>
                 </td>
                 <td class="price"
                     th:text="${item.product.Pro_Price != null ? item.product.Pro_Price : ''}"></td>
                 <td>
-                    <input type="number" name="quantity_${item.product.Pro_Code}" th:value="${item.quantity}" class="form-control" style="width:60px;" readonly />
+                    <!-- 각 상품의 수량 입력 필드 이름을 고유하게 변경 -->
+                    <input type="number" name="quantity_${item.product.Pro_Code}" th:value="${item.quantity}" class="form-control" style="width:60px;" oninput="updateSubtotal(this.parentNode.parentNode, '${item.product.Pro_Code}')" />
+
                 </td>
                 <td th:text="${item.product != null ? item.product.Pro_Weight : ''}"></td>
 
                 <td class="subtotal"
                     th:text="${item.product.Pro_Price != null && item.quantity != null ? item.product.Pro_Price * item.quantity : ''}"></td>
                 <td>
-                    <a th:if="${session.cart != null}" th:attr="data-pro-code=${item.product.Pro_Code}" class="text-danger" onclick="removeItem(this)" href="/cart">X</a>
+                    <a th:if="${session.cart != null}" th:href="${'/cart/remove/' + item.product.Pro_Code}" class="text-danger">X</a>
                 </td>
             </tr>
             </tbody>
-            <script>
-                function removeItem(link) {
-                    var productCode = link.getAttribute('data-pro-code');
-                    $.get('/cart/remove/' + productCode, function (response) {
-                        if (response === 'Success') {
-                            // 성공적으로 삭제되면 해당 행을 삭제
-                            var row = link.closest('tr');
-                            row.remove();
-                        } else {
-                            // 실패하면 원하는 처리를 수행 (예: 오류 메시지 표시)
-                            alert("삭제에 실패하였습니다.");
-                        }
-                    });
-                }
-            </script>
-
             <tfoot>
             <tr>
-                <td colspan="3"><strong>총 무게(g)</strong></td>
+            2    <td colspan="3"><strong>총 무게(g)</strong></td>
                 <td colspan="2" id="totalWeight"></td>
                 <td colspan="2"></td> <!-- 추가: 총 가격의 열을 비워둠 -->
             </tr>
@@ -95,7 +107,7 @@
     </form>
 </div>
 
-<!-- 주문자 정보 . -->
+<!-- 주문자 정보 -->
 <div class="container mt-5">
     <h1 class="text-center mb-4">주문자 정보</h1>
     <form method="post" action="/submit-customer-info-endpoint">
@@ -131,7 +143,7 @@
         <div class="form-group">
             <label for="shippingAddress">주소:</label>
             <div class="input-group">
-                <input type="text" id="sample4_postcode" placeholder="우편번호" class="form-control">
+                <input type="text" id="sample4_postcode" placeholder="우편번호" class="form-control" id="shippingAddress">
                 <div class="input-group-append">
                     <button type="button" class="btn btn-primary" onclick="sample4_execDaumPostcode()">우편번호 찾기</button>
                 </div>
@@ -159,21 +171,45 @@
         </div>
     </form>
 </div>
-<div id="payment-box" class="scroll-box">
-    <h1 class="text-center">결제창</h1>
-    <!-- 결제 정보 -->
-    <p>총 상품 주문금액: <span class="total" id="totalAmount"></span></p>
-    <p>할인 금액: <span id="discountAmount">0</span></p>
-    <p>총 적립 금액: <span class="reward" id="rewardAmount"></span></p>
-    <p>최종 결제 금액: <span class="final" id="total1"></span></p>
-    <!-- 결제 버튼 -->
-    <button onclick="showPaymentButtons()" class="btn btn-primary">결제 진행</button>
-    <br/><br/>
-    <button id="cardPaymentButton" onclick="requestCardPayment()" class="btn btn-primary" style="display: none">카드결제</button>
-    <button id="bankTransferButton" onclick="redirectToBankTransferPage()" class="btn btn-primary" style="display: none">무통장입금</button>
-    <!-- 기타 결제 관련 정보 및 양식 -->
-    <!-- 예를 들어, 신용카드 정보 입력 폼 등이 들어갈 수 있습니다. -->
+<!-- 결제 버튼 -->
+<button data-toggle="modal" data-target="#paymentModal" class="btn btn-primary" style="margin: auto; display: block;">결제</button><br>
+
+
+<!-- 결제 모달 -->
+<div class="modal fade" id="paymentModal" tabindex="-1" role="dialog" aria-labelledby="paymentModalLabel" aria-hidden="true">
+    <!-- 모달 창의 다이얼로그 부분 설정 -->
+    <div class="modal-dialog modal-dialog-fixed-right" role="document">
+        <!-- 모달 창의 내용을 감싸는 컨테이너 -->
+        <div class="modal-content">
+            <!-- 모달 창 상단 부분 (헤더) -->
+            <div class="modal-header">
+                <!-- 모달 창의 제목 -->
+                <h5 class="modal-title" id="paymentModalLabel">결제창</h5>
+                <!-- 모달 닫기 버튼 -->
+                <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                    <!-- 닫기 아이콘 -->
+                    <span aria-hidden="true">&times;</span>
+                </button>
+                <!-- 추가 항목 아래 <div> 태그 추가해서 추가하기 -->
+            </div>
+            <div class="modal-body">
+                <!-- 결제 정보 -->
+                <p>총 상품 주문금액: <span class="total" id="totalAmount"></span></p>
+                <p>할인 금액: <span id="discountAmount">0</span></p>
+                <p>총 적립 금액: <span class="reward" id="rewardAmount"></span></p>
+                <p>최종 결제 금액: <span class="final" id="total1"></span></p>
+                <!-- 기타 결제 관련 정보 및 양식 -->
+                <!-- 예를 들어, 신용카드 정보 입력 폼 등이 들어갈 수 있습니다. -->
+            </div>
+            <div class="modal-footer">
+                <!-- 결제 버튼 -->
+                <button onclick="requestCardPayment()" class="btn btn-primary">카드결제</button>
+                <button onclick="redirectToBankTransferPage()" class="btn btn-primary">무통장입금</button>
+            </div>
+        </div>
+    </div>
 </div>
+
 </div>
 <script>window.addEventListener("scroll", function () {
     var scrollBox = document.querySelector("#payment-box");
@@ -181,13 +217,6 @@
         scrollBox.style.transform = "translateX(0)"; // 항상 보이도록 변경
     }
 });
-
-  function showPaymentButtons() {
-        var cardPaymentButton = document.querySelector('#cardPaymentButton');
-        var bankTransferButton = document.querySelector('#bankTransferButton');
-        cardPaymentButton.style.display = 'block';
-        bankTransferButton.style.display = 'block';
-    }
 </script>
 
 

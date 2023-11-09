@@ -1,60 +1,58 @@
 <!DOCTYPE html>
 <html lang="ko" xmlns:th="http://www.thymeleaf.org">
 <head>
-    <title>공지사항 수정</title>
+    <title>리뷰 리스트</title>
     <meta charset="utf-8">
     <meta name="viewport" content="width=device-width, initial-scale=1">
-
+    <link rel="apple-touch-icon" href="../static/assets/img/apple-icon.png">
     <link rel="shortcut icon" type="image/x-icon" href="../static/assets/img/favicon.ico">
-    <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/4.5.2/css/bootstrap.min.css">
+    <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.5.2/css/bootstrap.min.css">
     <link rel="stylesheet" href="../static/assets/css/templatemo.css">
     <link rel="stylesheet" href="../static/assets/css/custom.css">
-    <link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Roboto:wght@100;200;300;400;500;700;900&display=swap">
-    <link rel="stylesheet" href="../static/assets/css/fontawesome.min.css">
-    <link rel="stylesheet" href="https://unpkg.com/leaflet@1.7.1/dist/leaflet.css"
-          integrity="sha512-xodZBNTC5n17Xt2atTPuE1HxjVMSvLVW9ocqUKLsCC5CXdbqCmblAshOMAS6/keqq/sMZMZ19scR4PsZChSR7A==" crossorigin=""/>
+    <link href="https://fonts.googleapis.com/css2?family=Roboto:wght@100;200;300;400;500;700;900&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/font-awesome/4.7.0/css/font-awesome.min.css">
     <style>
 
         .container-fluid {
-            padding: 50px 0;
-            text-align: center;
-        }
+     padding: 50px 0;
+     text-align: center;
+ }
 
-        .form-container {
-            background-color: #fff;
-            border-radius: 10px;
-            padding: 30px;
-            box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
-        }
+ .form-container {
+     background-color: #fff;
+     border-radius: 10px;
+     padding: 30px;
+     box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
+ }
 
-        .form-container input[type="text"],
-        .form-container textarea {
-            width: 100%;
-            padding: 10px;
-            margin: 8px 0;
-            border: 1px solid #ccc;
-            border-radius: 4px;
-            box-sizing: border-box;
-        }
+ .form-container input[type="text"],
+ .form-container textarea {
+     width: 100%;
+     padding: 10px;
+     margin: 8px 0;
+     border: 1px solid #ccc;
+     border-radius: 4px;
+     box-sizing: border-box;
+ }
 
-        .form-container input[type="file"] {
-            width: 100%;
-            padding: 10px;
-            margin: 8px 0;
-        }
+ .form-container input[type="file"] {
+     width: 100%;
+     padding: 10px;
+     margin: 8px 0;
+ }
 
-        .form-container button {
-            background-color: #007bff;
-            color: #fff;
-            padding: 10px 20px;
-            border: none;
-            border-radius: 5px;
-            cursor: pointer;
-        }
+ .form-container button {
+     background-color: #007bff;
+     color: #fff;
+     padding: 10px 20px;
+     border: none;
+     border-radius: 5px;
+     cursor: pointer;
+ }
 
-        .form-container button:hover {
-            background-color: #0056b3;
-        }
+ .form-container button:hover {
+     background-color: #0056b3;
+ }
     </style>
 </head>
 <body>
@@ -138,7 +136,7 @@
                 </div>
                 <div class="form-group">
                     <label for="file">파일 첨부:</label>
-                    <input type="file" name="file" th:if="${notice != null}" class="form-control">
+                    <input type="file" name="file" th:if="${notice != null}" class="form-control" id="file">
                 </div>
                 <button type="submit" th:if="${notice != null}" class="btn btn-primary">수정</button>
             </form>
@@ -148,58 +146,17 @@
 <footer class="bg-dark" id="tempaltemo_footer">
     <div class="container">
         <div class="row">
-            <div class="col-md-4 pt-5">
+            <div class="col-md-5 pt-4">
                 <h2 class="h2 text-success border-bottom pb-3 border-light logo">Join Air🪂</h2>
                 <ul class="list-unstyled text-light footer-link-list">
-                    <li>
-                        <i class="fas fa-map-marker-alt fa-fw"></i>
-                        한국직업전문학교 11층 강의실02 항공4기 2조
-                    </li>
-                    <li>
-                        <i class="fa fa-phone fa-fw"></i>
-                        <a class="text-decoration-none" href="tel:010-1234-5678">010-1234-5678</a>
-                    </li>
-                    <li>
-                        <i class="fa fa-envelope fa-fw"></i>
-                        <a class="text-decoration-none" href="mailto:info@dronefood.com">drone@dronedelivery.com</a>
-                    </li>
+                    <li><i class="fas fa-map-marker-alt fa-fw"></i>한국직업전문학교 11층 강의실02 항공4기 2조</li>
+                    <li><i class="fa fa-phone fa-fw"></i><a class="text-decoration-none" href="tel:010-1234-5678">010-1234-5678</a></li>
+                    <li><i class="fa fa-envelope fa-fw"></i><a class="text-decoration-none" href="mailto:info@dronefood.com">drone@dronedelivery.com</a></li>
                 </ul>
             </div>
-            <div class="col-md-4 pt-5">
-                <h2 class="h2 text-light border-bottom pb-3 border-light">메뉴</h2>
-                <ul class="list-unstyled text-light footer-link-list">
-                    <li><a class="text-decoration-none" href="#">주문 하기</a></li>
-                    <li><a class="text-decoration-none" href="#">배달 정보</a></li>
-                    <li><a class="text-decoration-none" href="#">고객 지원</a></li>
-                    <li><a class="text-decoration-none" href="#">드론 정보</a></li>
-                </ul>
-            </div>
-            <div class="col-md-4 pt-5">
-                <h2 class="h2 text-light border-bottom pb-3 border-light">정보</h2>
-                <ul class="list-unstyled text-light footer-link-list">
-                    <li><a class="text-decoration-none" href="/index">홈</a></li>
-                    <li><a class="text-decoration-none" href="/about">회사/소개</a></li>
-                    <li><a class="text-decoration-none" href="/qna/qnaList">문의</a></li>
-                </ul>
-            </div>
-        </div>
-        <div class="row text-light mb-4">
-            <div class="col-12 mb-3">
-                <div class="w-100 my-3 border-top border-light"></div>
-            </div>
-            <div class="col-auto me-auto">
-
-            </div>
-        </div>
-    </div>
-    <div class="w-100 bg-black py-3">
-        <div class="container">
-            <div class="row pt-2">
-                <div class="col-12">
-                    <p class="text-left text-light">
-                        저작권 © 2023 Join Air
-                    </p>
-                </div>
+            <div class="col-12 text-light mb-4">
+                <hr class="border-light">
+                <p class="text-center">저작권 © 2023 Join Air</p>
             </div>
         </div>
     </div>
