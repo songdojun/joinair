@@ -47,7 +47,6 @@ public class UserController {
                 System.out.println("loginUser: " + loginUser);
                 System.out.println("User_mode: " + storedUser.getUser_Mode());
 
-
                 System.out.println("사용자 모드로 로그인");
                 return "redirect:/index"; // 사용자 모드로 리디렉션
             } else if ("admin".equals(userMode)) {

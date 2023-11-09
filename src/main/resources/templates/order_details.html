@@ -10,14 +10,52 @@
     <link rel="stylesheet" href="/assets/css/templatemo.css">
     <link rel="stylesheet" href="/assets/css/custom.css">
     <link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Roboto:wght@100;200;300;400;500;700;900&display=swap">
-    <link rel="stylesheet" href="/assets/css/fontawesome.min.css">
+
+    <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/font-awesome/4.7.0/css/font-awesome.min.css">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/4.7.0/css/font-awesome.min.css">
+    <style>
+        .img-fluid {
+            max-width: 80px; /* 최대 폭 설정 */
+            max-height: 80px; /* 최대 높이 설정 */
+        }
+
+        .site-section {
+            padding: 50px 0;
+        }
+
+        .custom-table {
+            width: 100%;
+            border-collapse: collapse;
+            margin-top: 20px;
+        }
+
+        .custom-table th,
+        .custom-table td {
+            border: 1px solid #ddd;
+            padding: 8px;
+            text-align: center;
+        }
+
+        .custom-table th {
+            background-color: #f2f2f2;
+        }
+
+        .custom-list {
+            list-style: none;
+            padding: 0;
+        }
+
+        .custom-item {
+            margin-bottom: 10px;
+        }
+
+        .section-heading {
+            color: #2d98da;
+
+
+    </style>
 </head>
-<style>
-    .img-fluid {
-      max-width: 80; /* 최대 폭 설정 */
-      max-height: 80px; /* 최대 높이 설정 */
-    }
-</style>
+
 <body>
 <nav class="navbar navbar-expand-lg bg-dark navbar-light d-none d-lg-block" id="templatemo_nav_top">
     <div class="container text-light">
@@ -96,40 +134,30 @@
     <div class="container">
         <div class="row mb-5">
             <form class="col-md-12" method="post">
-                <div class="site-blocks-table">
-                    <table class="table table-bordered">
+                <div class="table-responsive">
+                    <table class="table table-bordered custom-table">
                         <thead>
                         <tr>
                             <th class="product-thumbnail">사진</th>
                             <th class="product-name">상품</th>
                             <th class="product-price">가격</th>
                             <th class="product-quantity">수량</th>
+                            <th class="product-weight">무게</th>
                             <th class="product-total">총가격</th>
-                            <th class="product-remove">Remove</th>
                         </tr>
                         </thead>
                         <tbody>
                         <tr th:each="orderDetail : ${orderDetails}">
                             <td class="product-thumbnail">
-                                <img th:src="${orderDetail.product.imageUrl}" alt="Image" class="img-fluid">
+                                <img th:src="${orderDetail.product.imageUrl}" alt="Product Image" class="img-fluid">
                             </td>
-                            <td class="product-name">
-                                <h2 class="h5 text-black" th:text="${orderDetail.product.name}"></h2>
+                            <td class="product-name" th:text="${orderDetail.product.name}"></td>
+                            <td class="product-price" th:text="${orderDetail.product.price}"></td>
+                            <td class="product-quantity">
+                                <span th:text="${orderDetail.OD_Qua}"></span>
                             </td>
-                            <td th:text="${orderDetail.product.price}"></td>
-                            <td>
-                                <div class="input-group mb-1" style="max-width: 120px;">
-                                    <div class="input-group-prepend">
-                                        <button class="btn btn-outline-primary js-btn-minus" type="button">−</button>
-                                    </div>
-                                    <input type="text" class="form-control text-center" th:value="${orderDetail.quantity}" placeholder="" aria-label="Example text with button addon" aria-describedby="button-addon1">
-                                    <div class="input-group-append">
-                                        <button class="btn btn-outline-primary js-btn-plus" type="button">+</button>
-                                    </div>
-                                </div>
-                            </td>
-                            <td th:text="${orderDetail.totalPrice}"></td>
-                            <td><a href="#" class="btn btn-primary height-auto btn-sm">X</a></td>
+                            <td class="product-weight" th:text="${orderDetail.product.weight}"></td>
+                            <td class="product-total" th:text="${orderDetail.totalPrice}"></td>
                         </tr>
                         </tbody>
                     </table>
@@ -138,95 +166,67 @@
         </div>
 
         <!-- 주문 상세 정보 -->
-        <div class="site-section">
-            <div class="container">
+        <div class="row mb-5">
+            <div class="col-md-6">
+                <h2 class="section-heading">주문 상세 정보</h2>
+                <ul class="list-group custom-list">
+                    <li class="list-group-item custom-item">주문자: <span th:text="${users.User_Name}"></span></li>
+                    <li class="list-group-item custom-item">주문상세번호: <span th:text="${orderDetail.OD_Num}"></span></li>
+                    <li class="list-group-item custom-item">주문번호: <span th:text="${orderDetail.Orders_Num}"></span></li>
+                    <li class="list-group-item custom-item">배송요청사항: <span th:text="${orderDetail.OD_Request}"></span></li>
+                    <li class="list-group-item custom-item">
+                        <div class="item-label">수량:</div>
+                        <div class="item-value" th:text="${orderDetail.OD_Qua}"></div>
+                    </li>
+                    <li class="list-group-item custom-item">총 소계금액: <span th:text="${orderDetail.OD_Total_Price}"></span></li>
+                    <li class="list-group-item custom-item">총 무게: <span th:text="${orderDetail.OD_Totalweight}"></span></li>
+                    <li class="list-group-item custom-item">위치: <span th:text="${orderDetail.OD_Location}"></span></li>
+                    <li class="list-group-item custom-item">요청배달시간: <span th:text="${orderDetail.OD_Reqtime}"></span></li>
+                </ul>
+            </div>
+            <div class="col-md-6">
                 <div class="row mb-5">
                     <div class="col-md-6">
-                        <h2>주문 상세 정보</h2>
-                        <ul class="list-group">
-                            <li class="list-group-item">주문자: <span th:text="${users.User_Name}"></span></li>
-                            <li class="list-group-item">주문상세번호: <span th:text="${orderDetail.OD_Num}"></span></li>
-                            <li class="list-group-item">주문번호: <span th:text="${orderDetail.Orders_Num}"></span></li>
-                            <li class="list-group-item">배송요청사항: <span th:text="${orderDetail.OD_Request}"></span></li>
-                            <li class="list-group-item">주문날짜: <span th:text="${orderDetail.OD_Date}"></span></li>
-                            <li class="list-group-item">수량: <span th:text="${orderDetail.OD_Qua}"></span></li>
-                            <li class="list-group-item">총 소계금액: <span th:text="${orderDetail.OD_Total_Price}"></span></li>
-                            <li class="list-group-item">총 무게: <span th:text="${orderDetail.OD_Totalweight}"></span></li>
-                            <li class="list-group-item">위치: <span th:text="${orderDetail.OD_Location}"></span></li>
-                            <li class="list-group-item">요청배달시간: <span th:text="${orderDetail.OD_Reqtime}"></span></li>
-                        </ul>
+                        <button class="btn btn-outline-primary btn-sm btn-block">뒤로가기</button>
                     </div>
+                </div>
+                <div class="row mb-3">
                     <div class="col-md-6">
-                        <div class="row mb-5">
-                            <div class="col-md-6">
-                                <button class="btn btn-outline-primary btn-sm btn-block" onclick="history.back();">뒤로가기</button>
-                            </div>
-                        </div>
-                        <div class="row">
-                            <div class="col-md-8 mb-3 mb-md-0">
-                                <input type="text" class="form-control py-3" id="coupon" placeholder="마일리지 사용하기">
-                            </div>
-                            <div class="col-md-4">
-                                <button class="btn btn-primary btn-sm px-4">적용</button>
-                            </div>
-                        </div>
-                        <div class="row">
-                            <div class="col-md-12 text-right border-bottom mb-5">
-                                <h3 class="text-black h4 text-uppercase">가격</h3>
-                            </div>
-                        </div>
-                        <div class="row mb-3">
-                            <div class="col-md-6">
-                                <span class="text-black">총 가격</span>
-                            </div>
-                            <div class="col-md-6 text-right">
-                                <h5><strong class="text-black" th:text="${totalPrice}">1,00000원</strong></h5>
-                            </div>
-                        </div>
-                        <div class="row">
-                            <div class="col-md-12">
-                                <a class="btn btn-primary btn-lg btn-block" th:href="@{'checkout/' + ${orderId}}">결제하기</a>
-                            </div>
-                        </div>
+                        <!-- 추가적인 내용 -->
+                    </div>
+                </div>
+                <div class="row">
+                    <div class="col-md-12">
+                        <!-- 추가적인 내용 -->
                     </div>
                 </div>
             </div>
         </div>
     </div>
+</div>
 
-<footer class="bg-dark" id="tempaltemo_footer">
-    <div class= "container">
-        <div class="row">
-            <div class="col-md-4 pt-5">
-                <h2 class="h2 text-success border-bottom pb-3 border-light logo">Join Air🪂</h2>
-                <ul class="list-unstyled text-light footer-link-list">
-                    <li>
-                        <i class="fas fa-map-marker-alt fa-fw"></i>
-                        한국직업전문학교 11층 강의실02 항공4기 2조
-                    </li>
-                    <li>
-                        <i class="fa fa-phone fa-fw"></i>
-                        <a class="text-decoration-none" href="tel:010-1234-5678">010-1234-5678</a>
-                    </li>
-                    <li>
-                        <i class="fa fa-envelope fa-fw"></i>
-                        <a class="text-decoration-none" href="mailto:info@dronefood.com">drone@dronedelivery.com</a>
-                    </li>
-                </ul>
-            </div>
-            <div class="col-md-4 pt-5">
-                <h2 class="h2 text-light border-bottom pb-3 border-light">메뉴</h2>
-                <ul class="list-unstyled text-light footer-link-list">
-                    <li><a class="text-decoration-none" href="#">주문 하기</a></li>
-                    <li><a class="text-decoration-none" href="#">배달 정보</a></li>
-                    <li><a class="text-decoration-none" href="#">고객 지원</a></li>
-                    <li><a class="text-decoration-none" href="#">드론 정보</a></li>
-                </ul>
+
+
+
+
+    <footer class="bg-dark" id="tempaltemo_footer">
+        <div class="container">
+            <div class="row">
+                <div class="col-md-5 pt-4">
+                    <h2 class="h2 text-success border-bottom pb-3 border-light logo">Join Air🪂</h2>
+                    <ul class="list-unstyled text-light footer-link-list">
+                        <li><i class="fas fa-map-marker-alt fa-fw"></i>한국직업전문학교 11층 강의실02 항공4기 2조</li>
+                        <li><i class="fa fa-phone fa-fw"></i><a class="text-decoration-none" href="tel:010-1234-5678">010-1234-5678</a></li>
+                        <li><i class="fa fa-envelope fa-fw"></i><a class="text-decoration-none" href="mailto:info@dronefood.com">drone@dronedelivery.com</a></li>
+                    </ul>
+                </div>
+                <div class="col-10 text-light mb-1">
+                    <hr class="border-light">
+                    <p class="text-center">저작권 © 2023 Join Air</p>
+                </div>
             </div>
         </div>
-    </div>
-
-</footer>
+    </footer>
 <script src="assets/js/jquery-migrate-1.2.1.min.js"></script>
 <script src="assets/js/bootstrap.bundle.min.js"></script>
 <script src="assets/js/templatemo.js"></script>
