@@ -92,21 +92,36 @@
             </tr>
             </tbody>
         </table>
-        <div class="pagination">
-            <th:block th:each="page : ${#numbers.sequence(startPage, endPage)}">
-                <a class="btn btn-primary" th:if="${page != nowPage}" th:href="@{/review/list(page=${page-1}, searchKeyword=${param.searchKeyword})}" th:text="${page}"></a>
-                <strong th:if="${page == nowPage}" th:text="${page}" style="color: red"></strong>
-            </th:block>
+        <div class="pagination" th:if="${list.totalPages > 1 || list.totalElements == 0}">
+            <!-- Adjust pagination links to include search parameters -->
+            <div class="horizontal-pagination">
+                <a th:if="${list.number > 0}" th:href="@{|/review/list?page=0&size=${list.size}&sort=${list.sort}&searchOption=${searchOption}&searchKeyword=${searchKeyword}|}" aria-label="First">
+                    <span aria-hidden="true">첫 페이지</span>
+                </a>
+                <!-- Adjust previous and next links similarly -->
+                <a th:if="${list.number > 0}" th:href="@{|/review/list?page=${list.number - 1}&size=${list.size}&sort=${list.sort}&searchOption=${searchOption}&searchKeyword=${searchKeyword}|}" aria-label="Previous">
+                    <span aria-hidden="true">&laquo; 이전</span>
+                </a>
+                <!-- Add searchOption and searchKeyword to the page number links -->
+                <span th:each="i : ${#numbers.sequence(0, list.totalPages - 1)}">
+            <a th:if="${i == list.number}" th:text="${i + 1}" class="current-page"></a>
+            <a th:unless="${i == list.number}" th:href="@{|/review/list?page=${i}&size=${list.size}&sort=${list.sort}&searchOption=${searchOption}&searchKeyword=${searchKeyword}|}" th:text="${i + 1}"></a>
+        </span>
+                <a th:if="${list.number < list.totalPages - 1}" th:href="@{|/review/list?page=${list.number + 1}&size=${list.size}&sort=${list.sort}&searchOption=${searchOption}&searchKeyword=${searchKeyword}|}" aria-label="Next">
+                    <span aria-hidden="true">다음 &raquo;</span>
+                </a>
+                <a th:if="${list.number < list.totalPages - 1}" th:href="@{|/review/list?page=${list.totalPages - 1}&size=${list.size}&sort=${list.sort}&searchOption=${searchOption}&searchKeyword=${searchKeyword}|}" aria-label="Last">
+                    <span aria-hidden="true">마지막 페이지</span>
+                </a>
+            </div>
         </div>
-        <div class="search-form my-3">
-            <form th:action="@{/review/list}" method="get">
-                <div class="input-group">
-                    <input type="text" class="form-control search-input" name="searchKeyword" placeholder="검색어를 입력하세요">
-                    <div class="input-group-append">
-                        <button type="submit" class="btn btn-success search-button">검색</button>
-                    </div>
-                </div>
-            </form>
+        <div>
+            <select id="searchOption">
+                <option value="Rev_Title" selected>리뷰제목</option>
+                <option value="Pro_Name">상품명</option>
+            </select>
+            <input type="text" name="searchKeyword" id="searchKeyword" placeholder="검색어 입력">
+            <button id="searchButton">검색</button>
         </div>
     </div>
 </div>
@@ -133,5 +148,6 @@
 <script src="https://stackpath.bootstrapcdn.com/bootstrap/4.5.2/js/bootstrap.min.js"></script>
 <script src="../static/assets/js/templatemo.js"></script>
 <script src="../static/assets/js/custom.js"></script>
+<script src="/js/searchReview.js"></script>
 </body>
 </html>

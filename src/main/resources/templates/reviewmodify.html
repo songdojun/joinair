@@ -9,7 +9,7 @@
 
     <link rel="stylesheet" href="/assets/css/bootstrap.min.css">
     <link rel="stylesheet" href="/assets/css/templatemo.css">
-    <link rel="stylesheet" href=/assets/css/custom.css">
+<!--    <link rel="stylesheet" href=/assets/css/custom.css">-->
 
     <link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Roboto:wght@100;200;300;400;500;700;900&display=swap">
     <link rel="stylesheet" href="/assets/css/fontawesome.min.css">
@@ -172,26 +172,24 @@
 
 
 
-<div class="form-container text-center" style="max-width: 50%; margin: 0 auto; padding: 20px;">
-    <h2 class="font-weight-bold">리뷰 수정페이지</h2>
-    <br>
+<div class="layout">
     <form th:action="@{/review/update/{Rev_No}(Rev_No= ${review.Rev_No})}" method="post" enctype="multipart/form-data">
         <div class="mb-3">
             <label for="Rev_Title" class="form-label">제목:</label>
-            <input name="Rev_Title" type="text" class="form-control" id="Rev_Title" th:if="${review != null}" th:value="${review.Rev_Title}" readonly>
+            <input name="Rev_Title" type="text" class="form-control" id="Rev_Title" th:if="${review != null}" th:value="${review.Rev_Title}">
         </div>
 
         <div class="mb-3">
             <label for="Rev_Content" class="form-label">내용:</label>
-            <textarea name="Rev_Content" class="form-control" id="Rev_Content" th:if="${review != null}" th:text="${review.Rev_Content}" readonly></textarea>
+            <textarea name="Rev_Content" class="form-control" id="Rev_Content" th:if="${review != null}" th:text="${review.Rev_Content}"></textarea>
         </div>
 
         <div class="mb-3">
             <label for="file" class="form-label">파일 업로드:</label>
-            <input type="file" class="form-control" name="file" th:if="${review != null}" readonly id="file">
+            <input type="file" class="form-control" name="file" th:if="${review != null}" id="file">
         </div>
 
-        <button type="submit" class="btn btn-primary custom-button" th:if="${review != null}" disabled>수정</button>
+        <button type="submit" class="btn btn-primary custom-button" th:if="${review != null}">수정</button>
     </form>
 </div>
 

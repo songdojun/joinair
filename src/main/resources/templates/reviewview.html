@@ -83,27 +83,24 @@
         </div>
     </div>
 </nav><br>
-<div class="form-container text-center" style="max-width: 50%; margin: 0 auto; padding: 20px;">
-    <h2 class="font-weight-bold ">리뷰 상세페이지</h2>
-    <br>
-    <form action="/review/modifypro" method="post" enctype="multipart/form-data">
-        <div class="mb-3">
-            <label for="Rev_Title" class="form-label">제목:</label>
-            <input name="Rev_Title" type="text" class="form-control" id="Rev_Title">
-        </div>
+<div th:if="${Review != null}" class="review-container">
+    <h1 th:text="${Review.Rev_Title}">제목입니다.</h1>
+    <!-- 상품명 추가 -->
+    <h1 th:text="${Review.product?.Pro_Name} ?: '상품 없음'"></h1>
 
-        <div class="mb-3">
-            <label for="Rev_Content" class="form-label">내용:</label>
-            <textarea name="Rev_Content" class="form-control" id="Rev_Content"></textarea>
-        </div>
+    <img th:if="${Review?.Rev_Filepath}" th:src="@{${Review?.Rev_Filepath}}" alt="미리보기 이미지" class="review-thumbnail">
 
-        <div class="mb-3">
-            <label for="file" class="form-label">파일 업로드:</label>
-            <input type="file" class="form-control" name="file" id="file">
-        </div>
+    <div class="meta-info">
+        <p th:text="'작성자: ' + ${Review.Rev_Writer}"></p>
+        <p th:text="'작성일: ' + ${#dates.format(Review.Rev_Date, 'yyyy-MM-dd HH:mm:ss')}"></p>
+    </div>
+    <p th:text="${Review.Rev_Content}" class="review-content">내용이 들어갈 부분입니다.</p>
+    <a class="download-link" th:href="@{${Review?.Rev_Filepath}}" download>다운로드</a>
 
-        <button type="submit" class="btn btn-primary custom-button">수정하기</button>
-    </form>
+    <div class="action-links">
+        <a th:href="@{/review/delete(Rev_No=${Review.Rev_No})}" class="delete-link">글삭제</a>
+        <a th:href="@{/review/modify/{Rev_No}(Rev_No=${Review.Rev_No})}" class="modify-link">수정</a>
+    </div>
 </div>
 
 <footer class="bg-dark" id="tempaltemo_footer">

@@ -9,7 +9,7 @@
 
     <link rel="stylesheet" href="/assets/css/bootstrap.min.css">
     <link rel="stylesheet" href="/assets/css/templatemo.css">
-    <link rel="stylesheet" href=/assets/css/custom.css">
+<!--    <link rel="stylesheet" href=/assets/css/custom.css">-->
 
     <link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Roboto:wght@100;200;300;400;500;700;900&display=swap">
     <link rel="stylesheet" href="/assets/css/fontawesome.min.css">
@@ -170,16 +170,16 @@
     </div>
 </nav>
 
-
 <div class="form-container text-center" style="max-width: 50%; margin: 0 auto; padding: 20px;">
     <h2 class="font-weight-bold">리뷰 작성페이지</h2>
     <br>
     <form action="/review/writepro" method="post" enctype="multipart/form-data">
-        <label for="Pro_Code" class="form-label">상품 선택:</label>
-        <select name="Pro_Code" id="Pro_Code" class="form-control">
-            <option th:each="product : ${productList}" th:value="${product.Pro_Code}" th:text="${product.Pro_Name}"></option>
-        </select>
-        <br/>
+        <div class="mb-3">
+            <label for="Pro_Code" class="form-label">상품 선택:</label>
+            <select name="Pro_Code" id="Pro_Code" class="form-control">
+                <option th:each="product : ${productList}" th:value="${product.Pro_Code}" th:text="${product.Pro_Name}"></option>
+            </select>
+        </div>
         <div class="mb-3">
             <label for="Rev_Title" class="form-label">제목:</label>
             <input name="Rev_Title" type="text" id="Rev_Title" class="form-control">
@@ -228,6 +228,6 @@
 <script src="assets/js/templatemo.js"></script>
 <script src="assets/js/custom.js"></script>
 <script src="assets/js/membership.js"></script>
-</div>
+
 </body>
 </html>
