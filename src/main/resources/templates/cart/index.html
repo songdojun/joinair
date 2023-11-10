@@ -1,9 +1,33 @@
 <!DOCTYPE html>
-<html lang="en" xmlns:th="http://www.thymeleaf.org">
+<html lang="ko" xmlns:th="http://www.thymeleaf.org">
 <head>
     <meta charset="UTF-8">
     <title>Cart and Order Information</title>
+
+    <link rel="apple-touch-icon" href="/assets/img/apple-icon.png">
+
+    <!-- 다른 장치용 바로 가기 아이콘 -->
+    <link rel="shortcut icon" type="image/x-icon" href="/assets/img/favicon.ico">
+
+    <!-- Bootstrap CSS - 반응형 및 모바일 우선 웹사이트를 구축하기 위한 인기 있는 CSS 프레임워크 -->
     <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/4.5.2/css/bootstrap.min.css">
+
+    <!-- Templatemo CSS - 템플릿을 위한 사용자 지정 CSS -->
+    <link rel="stylesheet" href="/assets/css/templatemo.css">
+
+    <!-- Custom CSS - 웹사이트를 위한 추가적인 사용자 지정 스타일 -->
+    <link rel="stylesheet" href="/assets/css/custom.css">
+
+    <!-- Google Fonts의 Roboto 폰트, 다양한 두께 포함 -->
+    <link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Roboto:wght@100;200;300;400;500;700;900&display=swap">
+
+    <!-- Font Awesome CSS - 아이콘 라이브러리 -->
+    <link rel="stylesheet" href="/assets/css/fontawesome.min.css">
+
+    <!-- Leaflet CSS - 인터랙티브 맵을 위한 Leaflet JavaScript 라이브러리의 스타일시트 -->
+    <link rel="stylesheet" href="https://unpkg.com/leaflet@1.7.1/dist/leaflet.css"
+          integrity="sha512-xodZBNTC5n17Xt2atTPuE1HxjVMSvLVW9ocqUKLsCC5CXdbqCmblAshOMAS6/keqq/sMZMZ19scR4PsZChSR7A==" crossorigin=""/>
+
 </head>
 <style>
 
@@ -50,6 +74,8 @@
     .modal-footer .btn-primary {
         margin-bottom: 10px; /* 결제 버튼 아래 여백 조절, 필요에 따라 조절 가능 */
     }
+
+
 </style>
 <body>
 <!-- 장바구니 -->
@@ -73,15 +99,17 @@
                 <td>
                     <img th:src="${item.product != null ? item.product.Pro_Filepath : ''}" alt="Product Image"
                          style="width: 60px;" />
-                    <span th:text="${item.product.Pro_Name != null ? item.product.Pro_Name : ''}"></span>
+                    <a th:href="@{/productbuy/view(Pro_Code=${item.product.Pro_Code})}">
+                        <span th:text="${item.product.Pro_Name != null ? item.product.Pro_Name : ''}"></span>
+                    </a>
                 </td>
                 <td class="price"
                     th:text="${item.product.Pro_Price != null ? item.product.Pro_Price : ''}"></td>
                 <td>
                     <!-- 각 상품의 수량 입력 필드 이름을 고유하게 변경 -->
-                    <input type="number" name="quantity_${item.product.Pro_Code}" th:value="${item.quantity}" class="form-control" style="width:60px;" oninput="updateSubtotal(this.parentNode.parentNode, '${item.product.Pro_Code}')" />
-
+                    <input type="text" name="quantity_${item.product.Pro_Code}" th:value="${item.quantity}" class="form-control" style="width:60px;" readonly />
                 </td>
+
                 <td th:text="${item.product != null ? item.product.Pro_Weight : ''}"></td>
 
                 <td class="subtotal"
@@ -93,7 +121,7 @@
             </tbody>
             <tfoot>
             <tr>
-            2    <td colspan="3"><strong>총 무게(g)</strong></td>
+                2    <td colspan="3"><strong>총 무게(g)</strong></td>
                 <td colspan="2" id="totalWeight"></td>
                 <td colspan="2"></td> <!-- 추가: 총 가격의 열을 비워둠 -->
             </tr>
@@ -141,9 +169,9 @@
         </div>
         <!-- 주소 입력란 -->
         <div class="form-group">
-            <label for="shippingAddress">주소:</label>
+            <label for="sample4_postcode">주소:</label>
             <div class="input-group">
-                <input type="text" id="sample4_postcode" placeholder="우편번호" class="form-control" id="shippingAddress">
+                <input type="text" id="sample4_postcode" placeholder="우편번호" class="form-control">
                 <div class="input-group-append">
                     <button type="button" class="btn btn-primary" onclick="sample4_execDaumPostcode()">우편번호 찾기</button>
                 </div>
@@ -223,7 +251,7 @@
 <!-- JavaScript 스크립트 및 다음 우편번호 서비스 스크립트 추가 -->
 <script src="https://code.jquery.com/jquery-3.2.1.slim.min.js"></script>
 <script src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.12.9/umd/popper.min.js"></script>
-<script src="https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0/js/bootstrap.min.js"></script>
+
 <script src="//t1.daumcdn.net/mapjsapi/bundle/postcode/prod/postcode.v2.js"></script>
 <script src="https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0/js/bootstrap.min.js"></script>
 <script>
