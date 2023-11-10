@@ -18,6 +18,7 @@ public class ORDER_DETAIL {
 
 
 
+
     private int Orders_Num; // 주문번호    (x)
     private String OD_Location; // 위치             (x)
     private Date OD_Reqtime; // 요청배달시간         (X)
