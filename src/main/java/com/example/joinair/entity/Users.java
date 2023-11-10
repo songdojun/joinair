@@ -84,14 +84,14 @@ public class Users {
     private int User_Mileage;
     private String User_DetailAddress; // 추가: 상세 주소 필드
     private String User_Postcode;
-    private String User_Mode;
+    private String Authority;
 
-    public String getUser_Mode() {
-        return User_Mode;
+    public String getAuthority() {
+        return Authority;
     }
 
-    public void setUser_Mode(String user_Mode) {
-        User_Mode = user_Mode;
+    public void setAuthority(String Authority) {
+        Authority = Authority;
     }
 // 다른 필드, Getter, Setter 및 설정
 }

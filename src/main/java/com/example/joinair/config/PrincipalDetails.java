@@ -1,3 +1,4 @@
+/*
 package com.example.joinair.config;
 
 import com.example.joinair.entity.Users;
@@ -55,8 +56,9 @@ public class PrincipalDetails implements UserDetails {
     public Collection<? extends GrantedAuthority> getAuthorities() {
 
         Collection<GrantedAuthority> collectors = new ArrayList<>();
-        collectors.add(()->{return user.getUser_Mode();}); //add에 들어올 파라미터는 GrantedAuthority밖에 없으니
+        collectors.add(()->{return user.getAuthority().toString();}); //add에 들어올 파라미터는 GrantedAuthority밖에 없으니
 
         return collectors;
     }
 }
+*/

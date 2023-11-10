@@ -7,11 +7,11 @@ import org.springframework.security.core.userdetails.UserDetails;
 import org.springframework.security.core.GrantedAuthority;
 import org.springframework.security.core.authority.SimpleGrantedAuthority;
 
+import java.util.ArrayList;
 import java.util.Collection;
 import java.util.Collections;
 
-@Getter
-@Setter
+
 @Entity
 @Data
 @AllArgsConstructor
@@ -28,11 +28,31 @@ public class USERS implements UserDetails {
     private String User_Postcode;
     public String User_RoadAddress;
     private String User_DetailAddress;
-    private String User_Mode;
+    private String Authority;
 
-    @Override
+    /*@Override
     public Collection<? extends GrantedAuthority> getAuthorities() {
         return Collections.singletonList(new SimpleGrantedAuthority(this.User_Mode));
+    }*/
+    /*@Override//권한 반환                    스프링시큐리티 유저디테일 인터페이스에 정의된 메서드
+    public Collection<? extends GrantedAuthority> getAuthorities() {
+        //권한 컬렉션 선언
+        ArrayList<GrantedAuthority> auth = new ArrayList<GrantedAuthority>();
+        //권한 컬렉션에 Dto의 권한값인 authority를 추가
+        //SimpleGrantedAuthority는 GrantedAuthority인터페이스의 구현체
+        auth.add(new SimpleGrantedAuthority(this.User_Mode));
+        return auth;
+    }*/
+    @Override
+
+    public Collection<? extends GrantedAuthority> getAuthorities() {
+
+        Collection<GrantedAuthority> authorities = new ArrayList<GrantedAuthority>();
+
+        authorities.add(new SimpleGrantedAuthority(this.getAuthority().toString()));
+
+        return authorities;
+
     }
 
     @Override
@@ -129,11 +149,11 @@ public class USERS implements UserDetails {
     }
 
     public String getUser_Mode() {
-        return User_Mode;
+        return Authority;
     }
 
-    public void setUser_Mode(String user_Mode) {
-        User_Mode = user_Mode;
+    public void setUser_Mode(String authority) {
+        Authority = authority;
     }
 
 

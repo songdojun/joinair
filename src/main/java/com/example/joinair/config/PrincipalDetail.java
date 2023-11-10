@@ -59,7 +59,7 @@ public class PrincipalDetail implements UserDetails {
         Collection<GrantedAuthority> authorities = new ArrayList<>();
 
         authorities.add(() -> {
-            return "ROLE_" + user.getUser_Mode().toString();	// ROLE_USER
+            return user.getAuthority();	// ROLE_USER
         });
 
         return authorities;
