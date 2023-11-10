@@ -1,8 +1,8 @@
 package com.example.joinair.entity;
 
 public class Item {
-    private Product product;
-    private int quantity;
+    private Product product;   //Product객체
+    private int quantity; //상품 수량
 
     public Product getProduct() {
         return product;

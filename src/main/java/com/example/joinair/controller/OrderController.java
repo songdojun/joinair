@@ -3,6 +3,8 @@ package com.example.joinair.controller;
 import com.example.joinair.dto.ORDER_DETAIL;
 import com.example.joinair.service.OrderService;
 import jakarta.servlet.http.HttpSession;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.PostMapping;
@@ -13,6 +15,9 @@ import java.util.List;
 @Controller
 @RequestMapping("/order")
 public class OrderController {
+
+
+    private static final Logger logger = LoggerFactory.getLogger(OrderController.class);
 
     private final OrderService orderService;
 
@@ -28,11 +33,15 @@ public class OrderController {
         // 주문이 완료되면 세션의 카트를 비워줄 수도 있습니다. (선택적으로)
         // session.removeAttribute("cart");
 
+        // 로그 추가
+        logger.info("Order placed successfully!");
+
         // 여기서 추가적인 로직을 수행하거나 리다이렉트 없이 그냥 종료
         // ...
 
         // 리다이렉트 없이 현재 페이지에서 유지
-        return null;
+        return ""; // 또는 null
     }
+
 
 }

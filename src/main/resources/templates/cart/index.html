@@ -202,8 +202,9 @@
 
 <!-- 결제 버튼 -->
 <form method="post" action="/order/place">
-    <button type="button" data-toggle="modal" data-target="#paymentModal" class="btn btn-primary" style="margin: auto; display: block;">결제</button><br>
+    <button type="submit" data-toggle="modal" data-target="#paymentModal" class="btn btn-primary" style="margin: auto; display: block;">결제</button><br>
 </form>
+
 
 
 <!-- 결제 모달 -->
@@ -456,6 +457,15 @@ window.addEventListener('load', function () {
     function redirectToBankTransferPage() {
         window.location.href = "/payment/Deposit";
     }
+
+
+
+
+
+
+
+
+
 </script>
 <script src="https://code.jquery.com/jquery-1.12.4.min.js"></script>
 <script src="https://cdn.iamport.kr/js/iamport.payment-1.1.5.js"></script>
