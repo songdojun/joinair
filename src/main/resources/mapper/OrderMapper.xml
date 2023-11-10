@@ -2,22 +2,27 @@
 <!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
 <mapper namespace="com.example.joinair.mapper.OrderMapper">
 
-    <insert id="insertOrderDetail" parameterType="com.example.joinair.dto.ORDER_DETAIL" useGeneratedKeys="true" keyProperty="OD_Num">
+    <insert id="insertOrderDetail" parameterType="com.example.joinair.dto.ORDER_DETAIL">
+        <![CDATA[
         INSERT INTO ORDER_DETAIL (
-        OD_Num, Orders_Num, OD_Request, OD_Date, OD_Qua, OD_Total_Price, OD_Totalweight, OD_Location, OD_Reqtime, OD_Pro_Name, OD_Pro_Price
+            OD_Num, Orders_Num, OD_Request, OD_Date, OD_Qua, OD_Total_Price, OD_Totalweight, OD_Location, OD_Reqtime, OD_Pro_Name, OD_Pro_Price
         )
-        SELECT
-        #{OD_Num, jdbcType=NUMERIC},
-        #{Orders_Num, jdbcType=NUMERIC},
-        #{OD_Request, jdbcType=VARCHAR},
-        #{OD_Date, jdbcType=TIMESTAMP},
-        #{OD_Qua},
-        #{OD_Total_Price},
-        #{OD_Totalweight},
-        #{OD_Location, jdbcType=VARCHAR},
-        #{OD_Reqtime, jdbcType=TIMESTAMP},
-        (SELECT Pro_Name FROM Product WHERE Pro_Name = #{OD_Pro_Name}) as OD_Pro_Name,
-        (SELECT Pro_Price FROM Product WHERE Pro_Name = #{OD_Pro_Name}) as OD_Pro_Price
+        VALUES (
+            OD_NUM_SEQ.NEXTVAL,
+            #{Orders_Num, jdbcType=VARCHAR},
+            #{OD_Request, jdbcType=VARCHAR},
+            #{OD_Date, jdbcType=TIMESTAMP},
+            #{OD_Qua, jdbcType=INTEGER},
+            #{OD_Total_Price, jdbcType=DOUBLE},
+            #{OD_Totalweight, jdbcType=DOUBLE},
+            #{OD_Location, jdbcType=VARCHAR},
+            #{OD_Reqtime, jdbcType=VARCHAR},
+            (SELECT Pro_Name FROM Product WHERE Pro_Name = #{OD_Pro_Name}),
+            (SELECT Pro_Price FROM Product WHERE Pro_Name = #{OD_Pro_Name})
+        )
+    ]]>
     </insert>
+
+
 
 </mapper>

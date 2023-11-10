@@ -29,11 +29,11 @@ public class Item {
         super();
     }
 
-    public double getSubtotal() {
+    public int getSubtotal() {
         if (product != null) {
             return product.getPro_Price() * quantity;
         } else {
-            return 0.0;
+            return (int) 0.0;
         }
     }
 
