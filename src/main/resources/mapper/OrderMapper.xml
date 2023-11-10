@@ -1,0 +1,14 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.example.joinair.mapper.OrderMapper">
+
+    <insert id="insertOrderDetail" parameterType="com.example.joinair.dto.ORDER_DETAIL">
+        INSERT INTO ORDER_DETAIL (
+        OD_Num, OD_Pro_Name, OD_Pro_Price, OD_Qua, OD_Totalweight, OD_Total_Price
+        )
+        VALUES (
+        #{OD_Num}, #{OD_Pro_Name}, #{OD_Pro_Price}, #{OD_Qua}, #{OD_Totalweight}, #{OD_Total_Price}
+        )
+    </insert>
+
+</mapper>

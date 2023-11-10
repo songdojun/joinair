@@ -121,7 +121,7 @@
             </tbody>
             <tfoot>
             <tr>
-                2    <td colspan="3"><strong>총 무게(g)</strong></td>
+                    <td colspan="3"><strong>총 무게(g)</strong></td>
                 <td colspan="2" id="totalWeight"></td>
                 <td colspan="2"></td> <!-- 추가: 총 가격의 열을 비워둠 -->
             </tr>
@@ -199,8 +199,11 @@
         </div>
     </form>
 </div>
+
 <!-- 결제 버튼 -->
-<button data-toggle="modal" data-target="#paymentModal" class="btn btn-primary" style="margin: auto; display: block;">결제</button><br>
+<form method="post" action="/order/place">
+    <button type="button" data-toggle="modal" data-target="#paymentModal" class="btn btn-primary" style="margin: auto; display: block;">결제</button><br>
+</form>
 
 
 <!-- 결제 모달 -->
