@@ -4,138 +4,143 @@
         <meta charset="utf-8">
         <meta content="width=device-width, initial-scale=1" name="viewport">
         <title>주문 목록페이지</title>
-        <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/4.7.0/css/font-awesome.min.css">
-        <link href="/assets/img/apple-icon.png" rel="apple-touch-icon">
-        <link href="../static/assets/img/favicon.ico" rel="shortcut icon" type=" image/x-icon">
 
-        <link href="/assets/css/bootstrap.min.css" rel="stylesheet">
-        <link href="/assets/css/templatemo.css" rel="stylesheet">
-        <link href=/assets/css/custom.css" rel="stylesheet">
+        <link rel="apple-touch-icon" href="/assets/img/apple-icon.png">
+        <link rel="shortcut icon" type="image/x-icon" href="/assets/img/favicon.ico">
+        <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/4.5.2/css/bootstrap.min.css">
+        <link rel="stylesheet" href="/assets/css/templatemo.css">
+        <link rel="stylesheet" href="/assets/css/custom.css">
+        <link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Roboto:wght@100;200;300;400;500;700;900&display=swap">
+        <link rel="stylesheet" href="/assets/css/fontawesome.min.css">
+        <link rel="stylesheet" href="https://unpkg.com/leaflet@1.7.1/dist/leaflet.css"
+              integrity="sha512-xodZBNTC5n17Xt2atTPuE1HxjVMSvLVW9ocqUKLsCC5CXdbqCmblAshOMAS6/keqq/sMZMZ19scR4PsZChSR7A==" crossorigin=""/>
+        <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.2.0/css/all.min.css">
 
-        <link href="https://fonts.googleapis.com/css2?family=Roboto:wght@100;200;300;400;500;700;900&display=swap"
-              rel="stylesheet">
-        <link href="/assets/css/fontawesome.min.css" rel="stylesheet">
         <style>
+            #templatemo_footer {
+       margin-bottom: 0.1px;
+   }
 
-            body {
-               background-color: #f5f5f5;
-               font-family: 'Roboto', sans-serif;
-           }
 
-           .order-list {
-               background-color: #fff;
-               border-radius: 5px;
-               padding: 20px;
-               box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
-               max-width: 600px;
-               margin: 20px auto;
-           }
+   body {
+      background-color: #f5f5f5;
+      font-family: 'Roboto', sans-serif;
+   }
 
-           .order-title {
-               font-size: 24px;
-               font-weight: bold;
-               color: #333;
-           }
+   .order-list {
+      background-color: #fff;
+      border-radius: 5px;
+      padding: 20px;
+      box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
+      max-width: 600px;
+      margin: 20px auto;
+   }
 
-           .order-search-input {
-               width: 100%;
-               max-width: 400px;
-               padding: 10px;
-               border: 1px solid #ccc;
-               border-radius: 5px;
-               font-size: 16px;
-           }
+   .order-title {
+      font-size: 24px;
+      font-weight: bold;
+      color: #333;
+   }
 
-           .order-filters {
-               margin-top: 20px;
-               text-align: center;
-           }
+   .order-search-input {
+      width: 100%;
+      max-width: 400px;
+      padding: 10px;
+      border: 1px solid #ccc;
+      border-radius: 5px;
+      font-size: 16px;
+   }
 
-           .filter-item {
-               display: inline-block;
-               margin: 5px;
-               padding: 5px 10px;
-               background-color: #4CAF50;
-               color: white;
-               border-radius: 5px;
-               cursor: pointer;
-           }
+   .order-filters {
+      margin-top: 20px;
+      text-align: center;
+   }
 
-           .filter-item.active {
-               background-color: #45a049;
-           }
+   .filter-item {
+      display: inline-block;
+      margin: 5px;
+      padding: 5px 10px;
+      background-color: #4CAF50;
+      color: white;
+      border-radius: 5px;
+      cursor: pointer;
+   }
 
-           .order-item {
-               border: 1px solid #ddd;
-               border-radius: 5px;
-               margin-bottom: 20px;
-               padding: 20px;
-               background-color: #fff;
-           }
+   .filter-item.active {
+      background-color: #45a049;
+   }
 
-           .order-status {
-               font-weight: bold;
-               color: #4CAF50;
-           }
+   .order-item {
+      border: 1px solid #ddd;
+      border-radius: 5px;
+      margin-bottom: 20px;
+      padding: 20px;
+      background-color: #fff;
+   }
 
-           .order-arrival {
-               font-weight: bold;
-               color: #333;
-           }
+   .order-status {
+      font-weight: bold;
+      color: #4CAF50;
+   }
 
-           .product-info {
-               display: flex;
-               align-items: center;
-               margin-top: 20px;
-           }
+   .order-arrival {
+      font-weight: bold;
+      color: #333;
+   }
 
-           .product-title {
-               flex-grow: 1;
-               font-size: 20px;
-               color: #333;
-           }
+   .product-info {
+      display: flex;
+      align-items: center;
+      margin-top: 20px;
+   }
 
-           .product-price {
-               font-size: 18px;
-               color: #4CAF50;
-           }
+   .product-title {
+      flex-grow: 1;
+      font-size: 20px;
+      color: #333;
+   }
 
-           .product-quantity {
-               font-size: 18px;
-               color: #333;
-           }
+   .product-price {
+      font-size: 18px;
+      color: #4CAF50;
+   }
 
-           .order-actions {
-               margin-top: 20px;
-               text-align: center;
-           }
+   .product-quantity {
+      font-size: 18px;
+      color: #333;
+   }
 
-           .track-shipping-button {
-               background-color: #4CAF50;
-               color: white;
-               padding: 10px 20px;
-               border: none;
-               border-radius: 5px;
-               cursor: pointer;
-           }
+   .order-actions {
+      margin-top: 20px;
+      text-align: center;
+   }
 
-           .request-return-button {
-               background-color: #f00;
-               color: white;
-               padding: 10px 20px;
-               border: none;
-               border-radius: 5px;
-               cursor: pointer;
-           }
+   .track-shipping-button {
+      background-color: #4CAF50;
+      color: white;
+      padding: 10px 20px;
+      border: none;
+      border-radius: 5px;
+      cursor: pointer;
+   }
 
-           .write-review-button {
-               background-color: #346AFF;
-               color: white;
-               padding: 10px 20px;
-               border: none;
-               border-radius: 5px;
-               cursor: pointer;
-           }
+   .request-return-button {
+      background-color: #f00;
+      color: white;
+      padding: 10px 20px;
+      border: none;
+      border-radius: 5px;
+      cursor: pointer;
+   }
+
+   .write-review-button {
+      background-color: #346AFF;
+      color: white;
+      padding: 10px 20px;
+      border: none;
+      border-radius: 5px;
+      cursor: pointer;
+   }
 
         </style>
     </head>
@@ -222,7 +227,7 @@
     <div class="order-item" style="max-width: 700px; margin: 0 auto; text-align: center;" th:each="order : ${orders}">
         <div class="order-details">
             <span class="order-status" th:text="${order.state}">배송완료</span>
-            <span class="order-arrival" th:text="${ORDER_DETAIL.OD_Date}">10/31(화) 도착</span>
+            <span class="order-arrival" th:text="${ORDER_DETAIL.OD_Date}">주문날짜</span>
         </div>
         <div class="product-info">
             <img alt="상품 이미지" style="max-width: 60px;" th:src="${order.product.proFilepath}">
@@ -250,24 +255,32 @@
 
     </div>
 
-    <div class="w-100 bg-black py-1 fixed-bottom">
+    <!-- 푸터 시작 -->
+    <footer class="bg-dark" id="tempaltemo_footer">
         <div class="container">
-            <div class="row pt-2">
-                <div class="col-12">
-                    <p class="text-left text-light">
-                        저작권 © 2023 Join Air
-                    </p>
+            <div class="row">
+                <div class="col-md-5 pt-4">
+                    <h2 class="h2 text-success border-bottom pb-3 border-light logo">Join Air🪂</h2>
+                    <ul class="list-unstyled text-light footer-link-list">
+                        <li><i class="fas fa-map-marker-alt fa-fw"></i>한국직업전문학교 11층 강의실02 항공4기 2조</li>
+                        <li><i class="fa fa-phone fa-fw"></i><a class="text-decoration-none" href="tel:010-1234-5678">010-1234-5678</a></li>
+                        <li><i class="fa fa-envelope fa-fw"></i><a class="text-decoration-none" href="drone@dronedelivery.com">drone@dronedelivery.com</a></li>
+                    </ul>
+                </div>
+                <div class="col-12 text-light mb-4">
+                    <hr class="border-light">
+                    <p class="text-center">저작권 © 2023 Join Air</p>
                 </div>
             </div>
         </div>
-    </div>
+    </footer>
 
-
-    <script src="assets/js/jquery-migrate-1.2.1.min.js"></script>
-    <script src="assets/js/bootstrap.bundle.min.js"></script>
-    <script src="assets/js/templatemo.js"></script>
-    <script src="assets/js/custom.js"></script>
-    <script src="assets/js/membership.js"></script>
+    <script src="/assets/js/jquery-1.11.0.min.js"></script>
+    <script src="/assets/js/jquery-migrate-1.2.1.min.js"></script>
+    <script src="/assets/js/bootstrap.bundle.min.js"></script>
+    <script src="/assets/js/templatemo.js"></script>
+    <script src="/assets/js/custom.js"></script>
+    <script src="/assets/js/slick.min.js"></script>
 
     </body>
     </html>

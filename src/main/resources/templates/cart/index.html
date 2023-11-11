@@ -3,7 +3,7 @@
 <head>
     <meta charset="UTF-8">
     <title>Cart and Order Information</title>
-    <!-- iOS 장치용 Apple Touch 아이콘 -->
+
     <link rel="apple-touch-icon" href="/assets/img/apple-icon.png">
 
     <!-- 다른 장치용 바로 가기 아이콘 -->
@@ -74,6 +74,8 @@
     .modal-footer .btn-primary {
         margin-bottom: 10px; /* 결제 버튼 아래 여백 조절, 필요에 따라 조절 가능 */
     }
+
+
 </style>
 <body>
 <!-- 장바구니 -->
@@ -97,15 +99,17 @@
                 <td>
                     <img th:src="${item.product != null ? item.product.Pro_Filepath : ''}" alt="Product Image"
                          style="width: 60px;" />
-                    <span th:text="${item.product.Pro_Name != null ? item.product.Pro_Name : ''}"></span>
+                    <a th:href="@{/productbuy/view(Pro_Code=${item.product.Pro_Code})}">
+                        <span th:text="${item.product.Pro_Name != null ? item.product.Pro_Name : ''}"></span>
+                    </a>
                 </td>
                 <td class="price"
                     th:text="${item.product.Pro_Price != null ? item.product.Pro_Price : ''}"></td>
                 <td>
                     <!-- 각 상품의 수량 입력 필드 이름을 고유하게 변경 -->
-                    <input type="number" name="quantity_${item.product.Pro_Code}" th:value="${item.quantity}" class="form-control" style="width:60px;" oninput="updateSubtotal(this.parentNode.parentNode, '${item.product.Pro_Code}')" />
-
+                    <input type="text" name="quantity_${item.product.Pro_Code}" th:value="${item.quantity}" class="form-control" style="width:60px;" readonly />
                 </td>
+
                 <td th:text="${item.product != null ? item.product.Pro_Weight : ''}"></td>
 
                 <td class="subtotal"
@@ -117,7 +121,7 @@
             </tbody>
             <tfoot>
             <tr>
-            2    <td colspan="3"><strong>총 무게(g)</strong></td>
+                <td colspan="3"><strong>총 무게(g)</strong></td>
                 <td colspan="2" id="totalWeight"></td>
                 <td colspan="2"></td> <!-- 추가: 총 가격의 열을 비워둠 -->
             </tr>
