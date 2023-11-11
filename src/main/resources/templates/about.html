@@ -103,40 +103,46 @@
                             </div>
                         </div>
                     </div>
-                    <a class="nav-icon d-none d-lg-inline" href="#" data-bs-toggle="modal" data-bs-target="#templatemo_search">
+                    <a class="nav-icon d-none d-lg-inline" href="#" id="templatemo_search_icon">
                         <i class="fa fa-fw fa-search text-dark mr-2"></i>
                     </a>
-                    <a class="nav-icon position-relative text-decoration-none" href="#">
+                    <a class="nav-icon position-relative text-decoration-none" href="/cart">
                         <i class="fa fa-fw fa-cart-arrow-down text-dark mr-1"></i>
-                        <span class="position-absolute top-0 left-100 translate-middle badge rounded-pill bg-light text-dark"></span>
+                        <span class="position-absolute top-0 left-100 translate-middle badge rounded-pill bg-light text-dark">7</span>&nbsp&nbsp&nbsp
                     </a>
-                    <a class="nav-icon position-relative text-decoration-none" href="#">
+                    <a class="nav-icon position-relative text-decoration-none" href="/mypage">
                         <i class="fa fa-fw fa-user text-dark mr-3"></i>
-                        <span class="position-absolute top-0 left-100 translate-middle badge rounded-pill bg-light text-dark"></span>
+                        <span class="position-absolute top-0 left-100 translate-middle badge rounded-pill bg-light text-dark">+10</span>
                     </a>
                 </div>
             </div>
-
         </div>
     </nav>
-    <!-- 네비 닫기 -->
 
-    <div class="modal fade bg-white" id="templatemo_search" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel" aria-hidden="true">
-        <div class="modal-dialog modal-lg" role="document">
-            <div class="w-100 pt-1 mb-5 text-right">
-                <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
-            </div>
-            <form action="" method="get" class="modal-content modal-body border-0 p-0">
-                <div class="input-group mb-2">
-                    <input type="text" class="form-control" id="inputModalSearch" name="q" placeholder="검색">
-                    <button type="submit" class="input-group-text bg-success text-light">
-                        <i class="fa fa-fw fa-search text-white"></i>
-                    </button>
+    <!-- 검색 모달 -->
+    <div class="modal fade" id="templatemo_search_modal" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel" aria-hidden="true">
+        <div class="modal-dialog modal-dialog-centered modal-lg" role="document">
+            <div class="modal-content">
+                <div class="modal-header">
+                    <h5 class="modal-title" id="exampleModalLabel">검색</h5>
+
                 </div>
-            </form>
+                <div class="modal-body">
+                    <form action="" method="get">
+                        <div class="input-group mb-3">
+                            <input type="text" class="form-control" id="inputModalSearchModal" name="q" placeholder="검색" aria-label="Search" aria-describedby="searchButtonModal">
+                            <button class="btn btn-success" type="button" id="searchButtonModal">
+                                <i class="fa fa-search text-light"></i>
+                            </button>
+                        </div>
+                    </form>
+                </div>
+                <div class="modal-footer">
+                    <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">닫기</button>
+                </div>
+            </div>
         </div>
     </div>
-
     <section class="bg-success py-5">
         <div class="container">
             <div class="row align-items-center py-5">
@@ -287,5 +293,51 @@
     <script src="/assets/js/templatemo.js"></script>
     <script src="/assets/js/custom.js"></script>
     <script src="/assets/js/slick.min.js"></script>
+    <script>
+        $(document).ready(function () {
+            $("#templatemo_search_icon").on("click", function () {
+                $("#templatemo_search").toggle();
+                $("#inputModalSearch").focus();
+            });
+
+            $(document).on("click", function (event) {
+                if (!$(event.target).closest("#templatemo_search").length && !$(event.target).is("#templatemo_search_icon")) {
+                    $("#templatemo_search").hide();
+                }
+            });
+        });
+    </script>
+
+    <!--    검색 아이콘 누르면 모달창 생성-->
+    <script>
+        $(document).ready(function () {
+            // 검색 아이콘 클릭 시 검색 모달 열기
+            $("#templatemo_search_icon").on("click", function () {
+                $("#templatemo_search_modal").modal("show");
+                $("#inputModalSearchModal").focus();
+            });
+
+            // 검색 버튼 클릭 시 검색 수행
+            $("#searchButtonModal").on("click", function () {
+                // 검색어 가져오기
+                var searchTerm = $("#inputModalSearchModal").val();
+
+                // 실제로는 이 부분에서 서버에 Ajax 요청을 보내고 검색 결과를 처리합니다.
+                // 여기서는 간단히 검색어를 콘솔에 출력하는 예제를 보여줍니다.
+                console.log("검색어: " + searchTerm);
+
+                // 검색이 완료되면 모달 닫기
+                $("#templatemo_search_modal").modal("hide");
+
+                // 검색 입력 필드의 내용 지우기
+                $("#inputModalSearchModal").val("");
+            });
+
+            // 모달이 닫힐 때 검색 입력 필드의 내용 지우기
+            $("#templatemo_search_modal").on("hidden.bs.modal", function () {
+                $("#inputModalSearchModal").val("");
+            });
+        });
+    </script>
 </body>
 </html>
