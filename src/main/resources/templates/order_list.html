@@ -1,0 +1,273 @@
+    <!DOCTYPE html>
+    <html lang="en" xmlns:th="http://www.thymeleaf.org">
+    <head>
+        <meta charset="utf-8">
+        <meta content="width=device-width, initial-scale=1" name="viewport">
+        <title>주문 목록페이지</title>
+        <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/4.7.0/css/font-awesome.min.css">
+        <link href="/assets/img/apple-icon.png" rel="apple-touch-icon">
+        <link href="../static/assets/img/favicon.ico" rel="shortcut icon" type=" image/x-icon">
+
+        <link href="/assets/css/bootstrap.min.css" rel="stylesheet">
+        <link href="/assets/css/templatemo.css" rel="stylesheet">
+        <link href=/assets/css/custom.css" rel="stylesheet">
+
+        <link href="https://fonts.googleapis.com/css2?family=Roboto:wght@100;200;300;400;500;700;900&display=swap"
+              rel="stylesheet">
+        <link href="/assets/css/fontawesome.min.css" rel="stylesheet">
+        <style>
+
+            body {
+               background-color: #f5f5f5;
+               font-family: 'Roboto', sans-serif;
+           }
+
+           .order-list {
+               background-color: #fff;
+               border-radius: 5px;
+               padding: 20px;
+               box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
+               max-width: 600px;
+               margin: 20px auto;
+           }
+
+           .order-title {
+               font-size: 24px;
+               font-weight: bold;
+               color: #333;
+           }
+
+           .order-search-input {
+               width: 100%;
+               max-width: 400px;
+               padding: 10px;
+               border: 1px solid #ccc;
+               border-radius: 5px;
+               font-size: 16px;
+           }
+
+           .order-filters {
+               margin-top: 20px;
+               text-align: center;
+           }
+
+           .filter-item {
+               display: inline-block;
+               margin: 5px;
+               padding: 5px 10px;
+               background-color: #4CAF50;
+               color: white;
+               border-radius: 5px;
+               cursor: pointer;
+           }
+
+           .filter-item.active {
+               background-color: #45a049;
+           }
+
+           .order-item {
+               border: 1px solid #ddd;
+               border-radius: 5px;
+               margin-bottom: 20px;
+               padding: 20px;
+               background-color: #fff;
+           }
+
+           .order-status {
+               font-weight: bold;
+               color: #4CAF50;
+           }
+
+           .order-arrival {
+               font-weight: bold;
+               color: #333;
+           }
+
+           .product-info {
+               display: flex;
+               align-items: center;
+               margin-top: 20px;
+           }
+
+           .product-title {
+               flex-grow: 1;
+               font-size: 20px;
+               color: #333;
+           }
+
+           .product-price {
+               font-size: 18px;
+               color: #4CAF50;
+           }
+
+           .product-quantity {
+               font-size: 18px;
+               color: #333;
+           }
+
+           .order-actions {
+               margin-top: 20px;
+               text-align: center;
+           }
+
+           .track-shipping-button {
+               background-color: #4CAF50;
+               color: white;
+               padding: 10px 20px;
+               border: none;
+               border-radius: 5px;
+               cursor: pointer;
+           }
+
+           .request-return-button {
+               background-color: #f00;
+               color: white;
+               padding: 10px 20px;
+               border: none;
+               border-radius: 5px;
+               cursor: pointer;
+           }
+
+           .write-review-button {
+               background-color: #346AFF;
+               color: white;
+               padding: 10px 20px;
+               border: none;
+               border-radius: 5px;
+               cursor: pointer;
+           }
+
+        </style>
+    </head>
+    <body>
+    <nav class="navbar navbar-expand-lg bg-dark navbar-light d-none d-lg-block" id="templatemo_nav_top">
+        <div class="container text-light">
+            <div class="w-100 d-flex justify-content-between">
+                <div>
+                    <i class="fa fa-envelope mx-2"></i>
+                    <a class="navbar-sm-brand text-light text-decoration-none" href="mailto:info@company.com">Doron
+                        delivery@Doron delivery.com</a>
+                    <i class="fa fa-phone mx-2"></i>
+                    <a class="navbar-sm-brand text-light text-decoration-none" href="tel:010-1234-5678">010-1234-5678</a>
+                </div>
+                <div>
+                    <a class="text-light" href="https://fb.com/templatemo" rel="sponsored" target="_blank"><i
+                            class="fab fa-facebook-f fa-sm fa-fw me-2"></i></a>
+                    <a class="text-light" href="https://www.instagram.com/" target="_blank"><i
+                            class="fab fa-instagram fa-sm fa-fw me-2"></i></a>
+                    <a class="text-light" href="https://twitter.com/" target="_blank"><i
+                            class="fab fa-twitter fa-sm fa-fw me-2"></i></a>
+                </div>
+            </div>
+        </div>
+    </nav>
+    <nav class="navbar navbar-expand-lg navbar-light shadow">
+        <div class="container d-flex justify-content between align-items-center">
+            <a class="navbar-brand text-success logo h1 align-self-center" href="../templates/index.html">Join Air🪂</a>
+            <button aria-controls="templatemo_main_nav" aria-expanded="false" aria-label="Toggle navigation"
+                    class="navbar-toggler border-0"
+                    data-bs-target="#templatemo_main_nav" data-bs-toggle="collapse" type="button">
+                <span class="navbar-toggler-icon"></span>
+            </button>
+            <div class="align-self-center collapse navbar-collapse flex-fill d-lg-flex justify-content-lg-between"
+                 id="templatemo_main_nav">
+                <div class="flex-fill">
+                    <ul class="nav navbar-nav d-flex justify-content-between mx-lg-auto">
+                        <li class="nav-item">
+                            <a class="nav-link" href="../templates/index.html">홈</a>
+                        </li>
+                        <li class="nav-item">
+                            <a class="nav-link" href="../templates/about.html">회사 소개</a>
+                        </li>
+                        <li class="nav-item">
+                            <a class="nav-link" href="../templates/shop.html">상품</a>
+                        </li>
+                        <li class="nav-item">
+                            <a class="nav-link" href="../templates/contact.html">문의</a>
+                        </li>
+                        <li class="nav-item">
+                            <a class="nav-link" href="http://localhost:8080/notice/list">공지사항</a>
+                        </li>
+                        <!--                    사용에 따라 사용-->
+                        <!--                    <li class="nav-item">-->
+                        <!--                        <a class="nav-link" href="#">로그인</a>-->
+                        <!--                    </li>-->
+
+                    </ul>
+                </div>
+                <div class="navbar align-self-center d-flex">
+                    <div class="d-lg-none flex-sm-fill mt-3 mb-4 col-7 col-sm-auto pr-3">
+                        <div class="input-group">
+                            <input class="form-control" id="inputMobileSearch" placeholder="검색" type="text">
+                            <div class="input-group-text">
+                                <i class="fa fa-fw fa-search"></i>
+                            </div>
+                        </div>
+                    </div>
+                    <a class="nav-icon d-none d-lg-inline" data-bs-target="#templatemo_search" data-bs-toggle="modal"
+                       href="#">
+                        <i class="fa fa-fw fa-search text-dark mr-2"></i>
+                    </a>
+
+                </div>
+            </div>
+        </div>
+    </nav>
+    <br>
+
+
+    <!-- Thymeleaf 반복문을 사용하여 주문 목록 생성 -->
+    <h2 style="text-align: center">주문목록</h2>
+
+    <div class="order-item" style="max-width: 700px; margin: 0 auto; text-align: center;" th:each="order : ${orders}">
+        <div class="order-details">
+            <span class="order-status" th:text="${order.state}">배송완료</span>
+            <span class="order-arrival" th:text="${ORDER_DETAIL.OD_Date}">10/31(화) 도착</span>
+        </div>
+        <div class="product-info">
+            <img alt="상품 이미지" style="max-width: 60px;" th:src="${order.product.proFilepath}">
+            <div class="product-title" style="font-size: 16px; color: #333;" th:text="${Product.Pro_Name}">상품 제목</div>
+            <div class="product-price" style="font-size: 14px; color: #4CAF50;" th:text="${order.Total_Price + ' 원'}">주문
+                가격
+            </div>
+            <div class="product-quantity" style="font-size: 14px; color: #333;" th:text="${order.total + ' 개'}">주문 수량</div>
+        </div>
+        <div class="order-actions">
+            <a href="/mypage" target="_blank">
+                <button class="track-shipping-button"
+                        style="background-color: #4CAF50; color: white; padding: 8px 16px; border: none; border-radius: 5px; cursor: pointer;">
+                    배송조회
+                </button>
+            </a>
+
+            <a href="/review/list" target="_blank">
+                <button class="write-review-button"
+                        style="background-color: #346AFF; color: white; padding: 8px 16px; border: none; border-radius: 5px; cursor: pointer;">
+                    리뷰 작성하기
+                </button>
+            </a>
+        </div>
+
+    </div>
+
+    <div class="w-100 bg-black py-1 fixed-bottom">
+        <div class="container">
+            <div class="row pt-2">
+                <div class="col-12">
+                    <p class="text-left text-light">
+                        저작권 © 2023 Join Air
+                    </p>
+                </div>
+            </div>
+        </div>
+    </div>
+
+
+    <script src="assets/js/jquery-migrate-1.2.1.min.js"></script>
+    <script src="assets/js/bootstrap.bundle.min.js"></script>
+    <script src="assets/js/templatemo.js"></script>
+    <script src="assets/js/custom.js"></script>
+    <script src="assets/js/membership.js"></script>
+
+    </body>
+    </html>
