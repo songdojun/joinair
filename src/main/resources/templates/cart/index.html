@@ -213,10 +213,42 @@
 </div>
 
 <!-- 결제 버튼 -->
-<form method="post" action="/order/place">
+<!-- 결제 버튼 -->
+<form method="post" action="/order/place" onsubmit="submitOrderForm(event)">
     <button type="submit" data-toggle="modal" data-target="#paymentModal" class="btn btn-primary" style="margin: auto; display: block;">결제</button><br>
 </form>
 
+<script>
+    function submitOrderForm(event) {
+           event.preventDefault(); // 기본 동작(페이지 전환)을 중지 리턴값 무시
+
+           // 여기에서 추가적인 작업을 수행
+           // ...
+
+           // 주문 폼 데이터
+           var formData = new FormData(event.target);
+
+           // 주문 요청 보내기
+           fetch('/order/place', {
+               method: 'POST',
+               body: formData,
+           })
+           .then(response => {
+               if (!response.ok) {
+                   throw new Error(`HTTP error! Status: ${response.status}`);
+               }
+               return response.text();
+           })
+           .then(data => {
+               // 성공적으로 처리된 경우 모달 닫기 및 페이지 리로드
+               $('#paymentModal').modal('hide');
+               location.reload();
+           })
+           .catch((error) => {
+               console.error('Error:', error);
+           });
+       }
+</script>
 
 
 <!-- 결제 모달 -->
@@ -255,11 +287,19 @@
 </div>
 
 </div>
-<script>window.addEventListener("scroll", function () {
-    var scrollBox = document.querySelector("#payment-box");
-    if (scrollBox) {
-        scrollBox.style.transform = "translateX(0)"; // 항상 보이도록 변경
-    }
+<script>
+
+    function openPaymentModal() {
+       // 여기에서 결제 모달을 띄우는 코드를 추가
+       $('#paymentModal').modal('show');
+   }
+
+
+   window.addEventListener("scroll", function () {
+   var scrollBox = document.querySelector("#payment-box");
+   if (scrollBox) {
+       scrollBox.style.transform = "translateX(0)"; // 항상 보이도록 변경
+   }
 });
 </script>
 
