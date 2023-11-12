@@ -238,54 +238,71 @@
 
 <script>
     document.addEventListener('DOMContentLoaded', function() {
-        // 수량 조절 버튼 및 수량 표시 요소 가져오기
-        const quantityElement = document.getElementById('var-value');
-        const minusButton = document.getElementById('btn-minus');
-        const plusButton = document.getElementById('btn-plus');
+     // 수량 조절 버튼 및 수량 표시 요소 가져오기
+     const quantityElement = document.getElementById('var-value');
+     const minusButton = document.getElementById('btn-minus');
+     const plusButton = document.getElementById('btn-plus');
 
-        // 초기 수량 설정
-        let quantity = 1;
-        quantityElement.textContent = quantity;
+     // 초기 수량 설정
+     let quantity = 1;
+     quantityElement.textContent = quantity;
 
-        // 수량 증가 버튼 클릭 시
-        plusButton.addEventListener('click', function() {
-            quantity++;
-            quantityElement.textContent = quantity;
-        });
+     // 수량 증가 및 감소 버튼 클릭 이벤트 리스너 추가
+     plusButton.addEventListener('click', function() {
+         updateQuantity(1);
+     });
 
-        // 수량 감소 버튼 클릭 시 (단, 최소 수량은 1입니다)
-        minusButton.addEventListener('click', function() {
-            if (quantity > 1) {
-                quantity--;
-                quantityElement.textContent = quantity;
-            }
-        });
-    });
+     minusButton.addEventListener('click', function() {
+         updateQuantity(-1);
+     });
 
-function addToCart() {
-    // 제품 코드 가져오기
-    var productCode = [[${Product.Pro_Code}]];
+     // 무게 및 카트 업데이트 함수
+     function updateQuantity(change) {
+         // 현재 수량 가져오기
+         quantity += change;
 
-    // 수량 입력 필드에서 값을 가져오기
-    var quantityInput = document.getElementById('var-value');
-    var quantity = quantityInput.textContent;
+         // 최소 수량은 1로 제한
+         quantity = Math.max(1, quantity);
 
-    if (productCode && quantity) {
-        // 수량과 함께 컨트롤러로 리디렉션
-        window.location.href = "/cart/buy/" + productCode + "?quantity=" + quantity;
-    } else {
-        console.error("제품 코드 또는 수량이 없습니다.");
-    }
-      $.ajax({
-            type: 'POST',
-            url: '/cart/buy/' + productCode + '?quantity=' + quantity,
-            success: function(data) {
-                // 서버에서 업데이트된 총합을 반환받으면 해당 부분 업데이트
-                $('#total').text(data.total);
-            }
-        });
-}
+         // 수량 표시 업데이트
+         quantityElement.textContent = quantity;
 
+         // 무게 업데이트
+         updateWeight();
+
+         // 카트 업데이트
+         addToCart();
+     }
+
+     // 무게 업데이트 함수
+     function updateWeight() {
+         // 무게를 quantity * Pro_Weight로 계산
+         const proWeight = parseFloat([[${Product.Pro_Weight}]]);
+         const weight = quantity * proWeight;
+         document.getElementById('weight').textContent = weight + 'g';
+     }
+ });
+
+ // 나머지 코드는 그대로 유지
+ function addToCart() {
+     var productCode = [[${Product.Pro_Code}]];
+     var quantityInput = document.getElementById('var-value');
+     var quantity = quantityInput.textContent;
+
+     if (productCode && quantity) {
+         window.location.href = "/cart/buy/" + productCode + "?quantity=" + quantity;
+     } else {
+         console.error("제품 코드 또는 수량이 없습니다.");
+     }
+
+     $.ajax({
+         type: 'POST',
+         url: '/cart/buy/' + productCode + '?quantity=' + quantity,
+         success: function(data) {
+             $('#total').text(data.total);
+         }
+     });
+ }
 
 
 </script>
