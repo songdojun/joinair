@@ -1,5 +1,7 @@
 package com.example.joinair.controller;
 
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 import com.sun.security.auth.PrincipalComparator;
 import jakarta.servlet.http.HttpSession;
 import org.springframework.security.core.Authentication;
@@ -19,19 +21,22 @@ public class PageController {
     }
 
     @GetMapping("/index")
-    public String showIndexPage(Model model, HttpSession session) {
-            String userId = (String) session.getAttribute("User_Id");
-//            if (userId == null) {
-//                return "redirect:/login";
-//            }
+    public String showIndexPage(Model model, HttpSession session, Principal principal) {
+        Authentication authentication = SecurityContextHolder.getContext().getAuthentication();
 
-            // Spring Security의 Authentication 객체를 통해 사용자 정보를 가져옵니다.
-            Authentication authentication = SecurityContextHolder.getContext().getAuthentication();
+        // 로그인 여부를 확인하고, 로그인되지 않은 경우 로그인 페이지로 리다이렉트합니다.
+        if (authentication == null || !authentication.isAuthenticated()) {
+            return "redirect:/login";
+        }
 
-            // 여기에서 필요한 사용자 정보를 모델에 추가합니다.
-            model.addAttribute("userId", userId);
-            model.addAttribute("userAuthorities", authentication.getAuthorities());
+        // Principal에서 직접 사용자 정보를 가져옵니다.
+        String username = authentication.getName();
 
-        return "index2"; // "index.html" 파일을 반환
+        // 여기에서 필요한 사용자 정보를 모델에 추가합니다.
+        model.addAttribute("userId", username);
+        model.addAttribute("userAuthorities", authentication.getAuthorities());
+
+
+        return "index2"; // index.html 템플릿 반환
     }
 }
