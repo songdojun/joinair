@@ -45,17 +45,14 @@
 
 
 <div class="container">
-    {{#isAdmin}}
+
         <h1>Admin Welcome!!!!</h1>
         <h2>관리자 페이지 입니다.</h2>
         <p>You have successfully logged in to JoinAir Admin Page.</p>
-    {{/isAdmin}}
-    {{^isAdmin}}
-        <!-- Redirect to login page for non-admin users/// -->
-        <script>
-            window.location.href = "/signInUp"; // Replace with the actual URL of your login page
-        </script>
-    {{/isAdmin}}
+        <p>사용자 ID: {{userId}}</p>
+        <p>사용자 권한: {{userMode}}</p>
+
+
 
 
     <a class="button" href="/adminEditUserList">고객 정보 수정 페이지</a>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;

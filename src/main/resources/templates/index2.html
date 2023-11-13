@@ -6,40 +6,45 @@
     <meta name="viewport" content="width=device-width, initial-scale=1">
 
     <link rel="apple-touch-icon" href="/assets/img/apple-icon.png">
-    <link rel="shortcut icon" type=" image/x-icon" href="/assets/img/favicon.ico">
-
-    <link rel="stylesheet" href="/assets/css/bootstrap.min.css">
+    <link rel="shortcut icon" type="image/x-icon" href="/assets/img/favicon.ico">
+    <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/4.5.2/css/bootstrap.min.css">
     <link rel="stylesheet" href="/assets/css/templatemo.css">
     <link rel="stylesheet" href="/assets/css/custom.css">
-
     <link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Roboto:wght@100;200;300;400;500;700;900&display=swap">
     <link rel="stylesheet" href="/assets/css/fontawesome.min.css">
+    <link rel="stylesheet" href="https://unpkg.com/leaflet@1.7.1/dist/leaflet.css"
+          integrity="sha512-xodZBNTC5n17Xt2atTPuE1HxjVMSvLVW9ocqUKLsCC5CXdbqCmblAshOMAS6/keqq/sMZMZ19scR4PsZChSR7A==" crossorigin=""/>
     <style>
         #tempaltemo_footer {
             margin-bottom: 300px;
         }
+
     </style>
 
 </head>
-<body>
+<!-- 상단 네비게이션 시작 -->
 <nav class="navbar navbar-expand-lg bg-dark navbar-light d-none d-lg-block" id="templatemo_nav_top">
     <div class="container text-light">
         <div class="w-100 d-flex justify-content-between">
             <div>
                 <i class="fa fa-envelope mx-2"></i>
-                <a class="navbar-sm-brand text-light text-decoration-none" href="mailto:info@company.com">Doron delivery@Doron delivery.com</a>
+                <a class="navbar-sm-brand text-light text-decoration-none" href="mailto:info@company.com"> Doron delivery@Doron delivery.com
+
+                </a>
                 <i class="fa fa-phone mx-2"></i>
-                <a href="tel:010-1234-5678" class="navbar-sm-brand text-light text-decoration-none">010-1234-5678</a>
+                <a class="navbar-sm-brand text-light text-decoration-none" href="tel:010-020-0340">010-1234-4567</a>
             </div>
             <div>
+                <span class="connected-id" th:if="${session.User_Id != null}">💫 <span th:text="${session.User_Id}"></span> 님 환영합니다 💫</span>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
                 <a class="text-light" href="https://fb.com/templatemo" target="_blank" rel="sponsored"><i class="fab fa-facebook-f fa-sm fa-fw me-2"></i></a>
                 <a class="text-light" href="https://www.instagram.com/" target="_blank"><i class="fab fa-instagram fa-sm fa-fw me-2"></i></a>
-
                 <a class="text-light" href="https://twitter.com/" target="_blank"><i class="fab fa-twitter fa-sm fa-fw me-2"></i></a>
+
             </div>
         </div>
     </div>
 </nav>
+<!-- 상단 네비게이션 닫기 -->
 <nav class="navbar navbar-expand-lg navbar-light shadow">
     <div class="container d-flex justify-content-between align-items-center">
         <a class="navbar-brand text-success logo h1 align-self-center" href="/index">Join Air🪂</a>
@@ -87,11 +92,11 @@
                 </a>
                 <a class="nav-icon position-relative text-decoration-none" href="http://localhost:8080/cart">
                     <i class="fa fa-fw fa-cart-arrow-down text-dark mr-1"></i>
-                    <span class="position-absolute top-0 left-100 translate-middle badge rounded-pill bg-light text-dark">7</span>
+                    <span class="position-absolute top-0 left-100 translate-middle badge rounded-pill bg-light text-dark"></span>
                 </a>
                 <a class="nav-icon position-relative text-decoration-none" href="#">
                     <i class="fa fa-fw fa-user text-dark mr-3"></i>
-                    <span class="position-absolute top-0 left-100 translate-middle badge rounded-pill bg-light text-dark">+10</span>
+                    <span class="position-absolute top-0 left-100 translate-middle badge rounded-pill bg-light text-dark"></span>
                 </a>
             </div>
         </div>
@@ -382,10 +387,10 @@
 </footer>
 
 
-
+<script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
 <script src="../static/assets/js/bootstrap.bundle.min.js"></script>
 <script src="../static/assets/js/templatemo.js"></script>
-<script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
+
 <script type="text/javascript">
     $(document).ready(function () {
 <!--      문서가 완전히 로드되면 이벤트 핸들러가 실행.-->
@@ -428,22 +433,32 @@
 </script>
 
 <!--로그인 → 로그아웃-->
+<!-- HTML 코드는 그대로 유지 -->
+
 <script>
+    document.addEventListener("DOMContentLoaded", function () {
     // 세션 상태 확인
     var userId = sessionStorage.getItem("User_Id");
 
     // 로그인 및 로그아웃 메뉴 요소 가져오기
     var loginItem = document.querySelector(".nav-item .nav-link[href='/login']");
     var logoutItem = document.querySelector(".nav-item .nav-link[href='/logout']");
+    var userIdDisplay = document.querySelector("#user-id-display"); // 사용자 ID를 표시할 요소
 
     if (userId) {
         // 세션이 있으면 로그인 메뉴 항목을 감추고 로그아웃 메뉴 항목을 표시합니다
         loginItem.style.display = "none";
         logoutItem.style.display = "block";
+
+        // 사용자 ID를 표시
+        userIdDisplay.textContent = "접속된 ID: " + userId;
     } else {
         // 세션이 없으면 로그인 메뉴 항목을 표시하고 로그아웃 메뉴 항목을 감춥니다
         loginItem.style.display = "block";
         logoutItem.style.display = "none";
+
+        // 사용자 ID를 숨김
+        userIdDisplay.style.display = "none";
     }
 
     // 로그아웃 메뉴 항목 클릭 시 세션 삭제
@@ -452,8 +467,13 @@
         // 로그아웃 후 로그인 메뉴 항목을 표시하고 로그아웃 메뉴 항목을 감춥니다
         loginItem.style.display = "block";
         logoutItem.style.display = "none";
+
+        // 사용자 ID를 숨김
+        userIdDisplay.style.display = "none";
     });
+ });
 </script>
+
 
 
 </body>

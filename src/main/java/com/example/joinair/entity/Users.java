@@ -83,5 +83,15 @@ public class Users {
     private String User_Phone;
     private int User_Mileage;
     private String User_DetailAddress; // 추가: 상세 주소 필드
-    // 다른 필드, Getter, Setter 및 설정
+    private String User_Postcode;
+    private String Authority;
+
+    public String getAuthority() {
+        return Authority;
+    }
+
+    public void setAuthority(String Authority) {
+        Authority = Authority;
+    }
+// 다른 필드, Getter, Setter 및 설정
 }

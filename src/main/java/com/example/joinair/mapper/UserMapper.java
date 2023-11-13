@@ -13,6 +13,10 @@ public interface UserMapper {
     void  updateUser(USERS user);
     void adminUpdateUser(USERS user);
     boolean isUserIdExists(String User_Id);
+    USERS getUserAccount(String userId);
+
+    // 회원가입
+    void saveUser(USERS userVo);
     List<USERS> getAllUsers();
 
 

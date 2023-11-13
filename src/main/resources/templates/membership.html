@@ -1,18 +1,21 @@
 <!DOCTYPE html>
-<html lang="ko">
+<html lang="ko" xmlns="http://www.w3.org/1999/html">
 <head>
     <meta charset="utf-8">
     <meta name="viewport" content="width=device-width, initial-scale=1">
     <title>회원가입 페이지</title>
-    <link rel="apple-touch-icon" href="../static/assets/img/apple-icon.png">
-    <link rel="shortcut icon" type="image/x-icon" href="../static/assets/img/favicon.ico">
+    <link rel="apple-touch-icon" href="assets/img/apple-icon.png">
+    <link rel="shortcut icon" type="image/x-icon" href="assets/img/favicon.ico">
     <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/4.5.2/css/bootstrap.min.css">
-    <link rel="stylesheet" href="../static/assets/css/templatemo.css">
-    <link rel="stylesheet" href="../static/assets/css/custom.css">
+    <link rel="stylesheet" href="assets/css/templatemo.css">
+    <link rel="stylesheet" href="assets/css/custom.css">
     <link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Roboto:wght@100;200;300;400;500;700;900&display=swap">
-    <link rel="stylesheet" href="../static/assets/css/fontawesome.min.css">
+    <link rel="stylesheet" href="assets/css/fontawesome.min.css">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/twitter-bootstrap/4.5.0/css/bootstrap.min.css">
     <link rel="stylesheet" href="https://unpkg.com/leaflet@1.7.1/dist/leaflet.css"
           integrity="sha512-xodZBNTC5n17Xt2atTPuE1HxjVMSvLVW9ocqUKLsCC5CXdbqCmblAshOMAS6/keqq/sMZMZ19scR4PsZChSR7A==" crossorigin=""/>
+    <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
+
     <style>
 
         .custom-button {
@@ -36,6 +39,16 @@
             padding: 20px;
             max-width: 400px;
             width: 100%;
+        }
+
+        .error-message {
+        display: block !important;
+        color: red;
+        }
+
+        .success-message {
+        display: block !important;
+        color: blue;
         }
     </style>
 </head>
@@ -63,7 +76,7 @@
 </nav>
 <nav class="navbar navbar-expand-lg navbar-light shadow">
     <div class="container d-flex justify-content between align-items-center">
-        <a class="navbar-brand text-success logo h1 align-self-center" href="/index">Join Air🪂</a>
+        <a class="navbar-brand text-success logo h1 align-self-center" href="index.html">Join Air🪂</a>
         <button class="navbar-toggler border-0" type="button" data-bs-toggle="collapse" data-bs-target="#templatemo_main_nav"
                 aria-controls="templatemo_main_nav" aria-expanded="false" aria-label="Toggle navigation">
             <span class="navbar-toggler-icon"></span>
@@ -72,19 +85,19 @@
             <div class="flex-fill">
                 <ul class="nav navbar-nav d-flex justify-content-between mx-lg-auto">
                     <li class="nav-item">
-                        <a class="nav-link" href="/index">홈</a>
+                        <a class="nav-link" href="index.html">홈</a>
                     </li>
                     <li class="nav-item">
-                        <a class="nav-link" href="/about">회사 소개</a>
+                        <a class="nav-link" href="about.html">회사 소개</a>
                     </li>
                     <li class="nav-item">
-                        <a class="nav-link" href="/productbuy/list">상품</a>
+                        <a class="nav-link" href="shop.html">상품</a>
                     </li>
                     <li class="nav-item">
-                        <a class="nav-link" href="/qna/qnaList">문의</a>
+                        <a class="nav-link" href="contact.html">문의</a>
                     </li>
                     <li class="nav-item">
-                        <a class="nav-link" href="/notice/list">공지사항</a>
+                        <a class="nav-link" href="http://localhost:8080/notice/list">공지사항</a>
                     </li>
 
 
@@ -107,7 +120,7 @@
         </div>
     </div>
 </nav>
-<form method="post" action="/membership" onsubmit="return join_user();">
+<form name="membershipForm" method="post" action="/membership">
     <br>
     <div class="container">
         <h2 class="text-center font-weight-bold">회원 가입</h2>
@@ -115,6 +128,7 @@
             <div class="form-group">
                 <input type="text" id="userid" class="form-control" name="User_Id" placeholder="아이디" required>
             </div>
+                <span id="message"></span>
             <div class="form-group">
                 <input type="text" id="usernm" class="form-control" name="User_Name" placeholder="이름" required>
             </div>
@@ -132,174 +146,251 @@
 
             <div class="form-group">
             <input type="password" id="userpw" class="form-control" name="User_Password" placeholder="비밀번호" required>
-        </div>
+            </div>
             <div class="form-group">
                 <input type="password" id="userpw2" class="form-control" placeholder="비밀번호 확인" required>
+            </div>
+            <div>
+                <span id="passmessage"></span>
+            </div>
+            <div>
                 <input type="text" id="userPhone" class="form-control" name="User_Phone" placeholder="전화번호" required>
             </div>
             <div class="form-group">
                 <div class="address-container">
                     <input type="button" onclick="sample4_execDaumPostcode()" value="주소검색" class="btn btn-primary" style="color: white; text-align: center; margin: 0 auto; display: block; margin-top: 10px;">
                     <div class="form-group">
-                        <input type="text" id="sample4_postcode" class="form-control" name="postcode" placeholder="우편번호">
+                        <input type="text" id="sample4_postcode" class="form-control" name="User_Postcode" placeholder="우편번호">
                     </div>
                     <div class="form-group">
-                        <input type="text" id="sample4_roadAddress" class="form-control" name="roadAddress" placeholder="도로명주소" size="60">
+                        <input type="text" id="sample4_roadAddress" class="form-control" name="User_RoadAddress" placeholder="도로명주소">
                     </div>
-                    <div class="form-group">
-                        <input type="text" id="sample4_jibunAddress" class="form-control" name="jibunAddress" placeholder="지번주소" size="60">
-                    </div>
+                    <!--<div class="form-group">
+                        <input type="text" id="sample4_jibunAddress" class="form-control" name="User_JibunAddress" placeholder="지번주소">
+                    </div>-->
                     <div class="form-group">
                         <span id="guide" style="color: #999; display: none;"></span>
                     </div>
                     <div class="form-group">
-                        <input type="text" id="sample4_detailAddress" class="form-control" placeholder="상세주소" size="60">
+                        <input type="text" id="sample4_detailAddress" class="form-control" name="User_DetailAddress" placeholder="상세주소">
                     </div>
                 </div>
             </div>
-<!--            // 회원가입 버튼 클릭 시-->
-            <button type="submit" class="btn btn-primary custom-button" onclick="join_user()">가입하기</button>
+
+            <button type="submit" id="joinButton" class="btn btn-primary custom-button" onsubmit="join_user()">가입하기</button>
 
         </div>
     </div>
 </form>
+<script>
+    $(function() {
+       $("#userid").on("input", function() {
+           var userId = $("#userid").val();
+           var message = $("#message"); // 새로운 변수 추가
+
+
+
+           // 아이디 중복 확인을 수행할 백엔드 엔드포인트로 요청을 보냅니다.
+           $.ajax({
+               type: "POST",
+               url: "/check-duplicate", // 백엔드에서 처리할 URL로 변경해야 합니다.
+               data: { User_Id: userId },
+               success: function(response) {
+                   if (response === "duplicate") {
+                       $("#message").text("이미 사용 중인 아이디입니다.");
+                       message.removeClass("success-message").addClass("error-message");
+                       $("#joinButton").prop("disabled", true);
+
+                   } else {
+                       $("#message").text("사용 가능한 아이디입니다.");
+                       message.removeClass("error-message").addClass("success-message");
+                       $("#joinButton").prop("disabled", false);
+
+                   }
+               }
+           });
+       });
+   });
+</script>
+<script>
+    $(document).ready(function() {
+        $("#userpw, #userpw2").on("input", function() {
+            var password = $("#userpw").val();
+            var passwordCheck = $("#userpw2").val();
+
+            var passmessage = $("#passmessage");
+
+            if (password === passwordCheck) {
+                passmessage.text("패스워드 일치");
+                passmessage.removeClass("error-message").addClass("success-message");
+                $("#joinButton").prop("disabled", false);
+
+            } else {
+                passmessage.text("패스워드 불일치");
+                passmessage.removeClass("success-message").addClass("error-message");
+                $("#joinButton").prop("disabled", true);
+
+            }
+        });
+    });
+</script>
 
 <!-- 스크립트 -->
 <script type="text/javascript">
-    function join_user() {
-        <!--var userid = document.getElementById("userid");
-        var usernm = document.getElementById("usernm");
-        var userpw = document.getElementById("userpw");
-        var userpw2 = document.getElementById("userpw2");
-        var useraddr = document.getElementById("sample4_postcode");
-        var useremail = document.getElementById("useremail");-->
 
-        var user = {
-        User_Id: document.getElementById("userid").value,
-        User_Name: document.getElementById("usernm").value,
-        User_Email: document.getElementById("useremail").value,
-        User_Password: document.getElementById("userpw").value,
-        User_Phone: document.getElementById("userPhone").value,
-        // 나머지 필드도 추가
-    };
+    var addressPopupOpened = false;
 
-        if (userid.value === "") {
-            alert("아이디를 입력하세요.");
-            userid.focus();
-            return false;
-        }
+function join_user() {
+    var userid = document.getElementById("userid").value;
+    var usernm = document.getElementById("usernm").value;
+    var useremail = document.getElementById("useremail").value;
+    var userpw = document.getElementById("userpw").value;
+    var userPhone = document.getElementById("userPhone").value;
+}
 
-        if (userpw.value === "") {
-            alert("비밀번호를 입력하세요.");
-            userpw.focus();
-            return false;
-        }
+    console.log("User Address: " + userAddress);
 
-        if (userpw2.value === "") {
-            alert("비밀번호 확인을 입력하세요.");
-            userpw2.focus();
-            return false;
-        }
+    alert("User Address: " + userAddress);
 
-        if (userpw.value !== userpw2.value) {
-            alert("비밀번호와 비밀번호 확인이 일치하지 않습니다.");
-            userpw.focus();
-            return false;
-        }
-
-        if (useraddr.value === "") {
-            alert("주소를 입력하세요.");
-            useraddr.focus();
-            return false;
-        }
-
-        var validEmailPattern = /^[A-Za-z0-9_\.\-]+@[A-Za-z0-9\-]+\.[A-Za-z0-9\-]+/;
-        if (!validEmailPattern.test(useremail.value)) {
-            alert("올바른 이메일 주소 형식이 아닙니다.");
-            useremail.focus();
-            return false;
-        }
-        // 서버로 회원 정보 전송 및 DB에 저장하는 로직
-        var data = {
-            User_Id: userid,
-            User_Name: usernm,
-            User_Password: userpw,
-            User_Email: useremail,
-            User_Phone: userPhone,
-            User_Address: userAddress,
-            User_Mode: userMode
-        };
-
-        // 서버로 데이터 전송 (AJAX 사용)
-        // 예: jQuery AJAX를 사용한 POST 요청
-        $.ajax({
-            type: "POST",
-            url: "/membership", // 이 부분은 실제 서버 엔드포인트에 맞게 수정
-            data: JSON.stringify(data),
-            contentType: "application/json; charset=utf-8",
-            success: function(response) {
-                if (response === "success") {
-                    alert("가입이 완료되었습니다!");
-                    window.location.href = "index.html";
-                } else {
-                    alert("회원 가입에 실패했습니다.");
-                }
-            }
-        });
-
+    if (userid.value === "") {
+        alert("아이디를 입력하세요.");
+        userid.focus();
         return false;
-        <!--alert("가입이 완료되었습니다!");
-        // 가입 완료 시 index.html로 리디렉션
-        window.location.href = "index.html";
-        return false;-->
     }
 
-   function updateEmail() {
+    if (userpw.value === "") {
+        alert("비밀번호를 입력하세요.");
+        userpw.focus();
+        return false;
+    }
+
+    if (userpw2.value === "") {
+        alert("비밀번호 확인을 입력하세요.");
+        userpw2.focus();
+        return false;
+    }
+
+   <!-- if (userpw.value !== userpw2.value) {
+        alert("비밀번호와 비밀번호 확인이 일치하지 않습니다.");
+        userpw.focus();
+        return false;
+    }-->
+
+    if (useraddr.value === "") {
+        alert("주소를 입력하세요.");
+        useraddr.focus();
+        return false;
+    }
+
+    var validEmailPattern = /^[A-Za-z0-9_\.\-]+@[A-Za-z0-9\-]+\.[A-Za-z0-9\-]+/;
+    if (!validEmailPattern.test(useremail.value)) {
+        alert("올바른 이메일 주소 형식이 아닙니다.");
+        useremail.focus();
+        return false;
+    }
+    // 서버로 회원 정보 전송 및 DB에 저장하는 로직
+    var data = {
+        User_Id: userid,
+        User_Name: usernm,
+        User_Password: userpw,
+        User_Email: useremail,
+        User_Phone: userPhone,
+        User_Address: userAddress
+    };
+
+    // 서버로 데이터 전송 (AJAX 사용)
+    // 예: jQuery AJAX를 사용한 POST 요청
+    $.ajax({
+        type: "POST",
+        url: "/membership", // 이 부분은 실제 서버 엔드포인트에 맞게 수정
+        data: JSON.stringify(data),
+        contentType: "application/json; charset=utf-8",
+        success: function(response) {
+            if (response === "success") {
+                alert("가입이 완료되었습니다!");
+                window.location.href = "index.html";
+            } else {
+                alert("회원 가입에 실패했습니다.");
+            }
+        }
+    });
+
+    return false;
+    <!--alert("가입이 완료되었습니다!");
+    // 가입 완료 시 index.html로 리디렉션
+    window.location.href = "index.html";
+    return false;-->
+    }
+
+    function updateEmail() {
     var domainDropdown = document.getElementById("emailDomainDropdown");
     var selectedDomain = domainDropdown.options[domainDropdown.selectedIndex].value;
     var emailInput = document.getElementById("useremail");
 
     if (selectedDomain === "") {
-        emailInput.value = "";
+    emailInput.value = "";
     } else {
-        emailInput.value = emailInput.value.replace(/@.*$/, "") + selectedDomain;
+    emailInput.value = emailInput.value.replace(/@.*$/, "") + selectedDomain;
     }
-}
+  }
+</script>>
 
-    function sample4_execDaumPostcode() {
-        // 주소 검색 팝업 실행
-        new daum.Postcode({
-            oncomplete: function(data) {
-                var postcode = data.zonecode;
-                var roadAddress = data.roadAddress;
-                var jibunAddress = data.jibunAddress;
 
-                // 결과를 입력 필드에 설정
-                document.getElementById("sample4_postcode").value = postcode;
-                document.getElementById("sample4_roadAddress").value = roadAddress;
-                document.getElementById("sample4_jibunAddress").value = jibunAddress;
-
-                var guide = document.getElementById("guide");
-                guide.innerHTML = "";
-                guide.style.display = "none";
-            }
-        }).open();
-    }
-</script>
 <footer class="bg-dark" id="tempaltemo_footer">
     <div class="container">
         <div class="row">
-            <div class="col-md-5 pt-4">
+            <div class="col-md-4 pt-5">
                 <h2 class="h2 text-success border-bottom pb-3 border-light logo">Join Air🪂</h2>
                 <ul class="list-unstyled text-light footer-link-list">
-                    <li><i class="fas fa-map-marker-alt fa-fw"></i>한국직업전문학교 11층 강의실02 항공4기 2조</li>
-                    <li><i class="fa fa-phone fa-fw"></i><a class="text-decoration-none" href="tel:010-1234-5678">010-1234-5678</a></li>
-                    <li><i class="fa fa-envelope fa-fw"></i><a class="text-decoration-none" href="mailto:info@dronefood.com">drone@dronedelivery.com</a></li>
+                    <li>
+                        <i class="fas fa-map-marker-alt fa-fw"></i>
+                        한국직업전문학교 11층 강의실02 항공4기 2조
+                    </li>
+                    <li>
+                        <i class="fa fa-phone fa-fw"></i>
+                        <a class="text-decoration-none" href="tel:010-1234-5678">010-1234-5678</a>
+                    </li>
+                    <li>
+                        <i class="fa fa-envelope fa-fw"></i>
+                        <a class="text-decoration-none" href="mailto:info@dronefood.com">drone@dronedelivery.com</a>
+                    </li>
                 </ul>
             </div>
-            <div class="col-12 text-light mb-4">
-                <hr class="border-light">
-                <p class="text-center">저작권 © 2023 Join Air</p>
+            <div class="col-md-4 pt-5">
+                <h2 class="h2 text-light border-bottom pb-3 border-light">메뉴</h2>
+                <ul class="list-unstyled text-light footer-link-list">
+                    <li><a class="text-decoration-none" href="#">주문 하기</a></li>
+                    <li><a class="text-decoration-none" href="#">배달 정보</a></li>
+                    <li><a class="text-decoration-none" href="#">고객 지원</a></li>
+                    <li><a class="text-decoration-none" href="#">드론 정보</a></li>
+                </ul>
+            </div>
+            <div class="col-md-4 pt-5">
+                <h2 class="h2 text-light border-bottom pb-3 border-light">정보</h2>
+                <ul class="list-unstyled text-light footer-link-list">
+                    <li><a class="text-decoration-none" href="http://localhost:63342/joinair/src/main/resources/boot/index.html">홈</a></li>
+                    <li><a class="text-decoration-none" href="http://localhost:63342/joinair/src/main/resources/boot/about.html">회사/소개</a></li>
+                    <li><a class="text-decoration-none" href="http://localhost:63342/joinair/src/main/resources/boot/contact.html">문의</a></li>
+                </ul>
+            </div>
+        </div>
+        <div class="row text-light mb-4">
+            <div class="col-12 mb-3">
+                <div class="w-100 my-3 border-top border-light"></div>
+            </div>
+            <div class="col-auto me-auto">
+
+            </div>
+        </div>
+    </div>
+    <div class="w-100 bg-black py-3">
+        <div class="container">
+            <div class="row pt-2">
+                <div class="col-12">
+                    <p class="text-left text-light">
+                        저작권 © 2023 Join Air
+                    </p>
+                </div>
             </div>
         </div>
     </div>
@@ -307,68 +398,9 @@
 
 <!--  다음 카카오 API 카카오맵 자바스크립트문-->
 <script src="http://dmaps.daum.net/map_js_init/postcode.v2.js"></script>
-<script>
 
 
-    function sample4_execDaumPostcode() {
-        new daum.Postcode({
-            oncomplete: function(data) {
-                // 팝업에서 검색결과 항목을 클릭했을때 실행할 코드를 작성하는 부분.
 
-                // 도로명 주소의 노출 규칙에 따라 주소를 표시한다.
-                // 내려오는 변수가 값이 없는 경우엔 공백('')값을 가지므로, 이를 참고하여 분기 한다.
-                var roadAddr = data.roadAddress; // 도로명 주소 변수
-                var extraRoadAddr = ''; // 참고 항목 변수
-
-                // 법정동명이 있을 경우 추가한다. (법정리는 제외)
-                // 법정동의 경우 마지막 문자가 "동/로/가"로 끝난다.
-                if(data.bname !== '' && /[동|로|가]$/g.test(data.bname)){
-                    extraRoadAddr += data.bname;
-                }
-                // 건물명이 있고, 공동주택일 경우 추가한다.
-                if(data.buildingName !== '' && data.apartment === 'Y'){
-                   extraRoadAddr += (extraRoadAddr !== '' ? ', ' + data.buildingName : data.buildingName);
-                }
-                // 표시할 참고항목이 있을 경우, 괄호까지 추가한 최종 문자열을 만든다.
-                if(extraRoadAddr !== ''){
-                    extraRoadAddr = ' (' + extraRoadAddr + ')';
-                }
-
-                // 우편번호와 주소 정보를 해당 필드에 넣는다.
-                document.getElementById('sample4_postcode').value = data.zonecode;
-                document.getElementById("sample4_roadAddress").value = roadAddr;
-                document.getElementById("sample4_jibunAddress").value = data.jibunAddress;
-
-                document.getElementById("sample4_engAddress").value = data.addressEnglish;
-
-                // 참고항목 문자열이 있을 경우 해당 필드에 넣는다.
-                if(roadAddr !== ''){
-                    document.getElementById("sample4_extraAddress").value = extraRoadAddr;
-                } else {
-                    document.getElementById("sample4_extraAddress").value = '';
-                }
-
-                var guideTextBox = document.getElementById("guide");
-                // 사용자가 '선택 안함'을 클릭한 경우, 예상 주소라는 표시를 해준다.
-                if(data.autoRoadAddress) {
-                    var expRoadAddr = data.autoRoadAddress + extraRoadAddr;
-                    guideTextBox.innerHTML = '(예상 도로명 주소 : ' + expRoadAddr + ')';
-                    guideTextBox.style.display = 'block';
-
-                } else if(data.autoJibunAddress) {
-                    var expJibunAddr = data.autoJibunAddress;
-                    guideTextBox.innerHTML = '(예상 지번 주소 : ' + expJibunAddr + ')';
-                    guideTextBox.style.display = 'block';
-                } else {
-                    guideTextBox.innerHTML = '';
-                    guideTextBox.style.display = 'none';
-                }
-            }
-        }).open();
-
-    }
-
-</script>
 <!--다음카카오 API 주소검색 select 아후 API 자동 창 닫히기-->
 <script>
     // 팝업이 열려있는지 확인하는 변수
@@ -391,12 +423,15 @@
                 // 검색 결과에서 우편번호, 도로명주소, 지번주소를 가져옴
                 var postcode = data.zonecode;
                 var roadAddress = data.roadAddress;
+<!--
                 var jibunAddress = data.jibunAddress;
+-->
+
 
                 // 결과를 입력 필드에 설정
                 document.getElementById("sample4_postcode").value = postcode;
                 document.getElementById("sample4_roadAddress").value = roadAddress;
-                document.getElementById("sample4_jibunAddress").value = jibunAddress;
+
 
                 // 안내 메시지를 초기화하고 숨김
                 var guide = document.getElementById("guide");
@@ -426,30 +461,12 @@
 
 
 
-<!--<script>-->
-<!--    // updateEmail 함수 정의-->
-<!--   function updateEmail() {-->
-<!--       // 이메일 도메인 선택 드롭다운 요소를 가져와 domainDropdown 변수에 할당-->
-<!--       var domainDropdown = document.getElementById("emailDomainDropdown");-->
-
-<!--       // 사용자가 선택한 도메인을 가져오기 위해 현재 선택된 옵션의 값을 selectedDomain 변수에 할당-->
-<!--       var selectedDomain = domainDropdown.options[domainDropdown.selectedIndex].value;-->
-
-<!--       // 이메일 도메인 입력 필드 요소를 가져와 emailDomainInput 변수에 할당-->
-<!--       var emailDomainInput = document.getElementById("emailDomain");-->
-
-<!--       // 사용자가 선택한 도메인(selectedDomain)을 이메일 도메인 입력 필드(emailDomainInput)의 값으로 설정-->
-<!--       emailDomainInput.value = selectedDomain;-->
-<!--   }-->
-
-<!--</script>-->
-
-
-<script src="../static/assets/js/jquery-1.11.0.min.js"></script>
-<script src="../static/assets/js/jquery-migrate-1.2.1.min.js"></script>
-<script src="../static/assets/js/bootstrap.bundle.min.js"></script>
-<script src="../static/assets/js/templatemo.js"></script>
-<script src="../static/assets/js/custom.js"></script>
-<script src="../static/assets/js/membership.js"></script>
+<!--<script src="assets/js/jquery-1.11.0.min.js"></script>-->
+<script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
+<script src="assets/js/jquery-migrate-1.2.1.min.js"></script>
+<script src="assets/js/bootstrap.bundle.min.js"></script>
+<script src="assets/js/templatemo.js"></script>
+<script src="assets/js/custom.js"></script>
+<script src="assets/js/membership.js"></script>
 </body>
 </html>
