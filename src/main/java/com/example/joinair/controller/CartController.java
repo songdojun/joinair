@@ -1,4 +1,3 @@
-/*
 package com.example.joinair.controller;
 
 import com.example.joinair.entity.Item;
@@ -24,7 +23,7 @@ import java.util.List;
 
 @Controller
 @RequestMapping("cart")
-public class cartController {
+public class CartController {
 
     @Autowired
     private ProductService productService;
@@ -221,4 +220,3 @@ public class cartController {
 
 }
 
-*/
