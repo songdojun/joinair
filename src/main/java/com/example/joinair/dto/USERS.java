@@ -148,11 +148,11 @@ public class USERS implements UserDetails {
         User_DetailAddress = user_DetailAddress;
     }
 
-    public String getUser_Mode() {
+    public String getAuthority() {
         return Authority;
     }
 
-    public void setUser_Mode(String authority) {
+    public void setAuthority(String authority) {
         Authority = authority;
     }
 

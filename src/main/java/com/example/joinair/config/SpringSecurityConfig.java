@@ -12,17 +12,18 @@ import org.springframework.security.config.annotation.web.builders.HttpSecurity;
 import org.springframework.security.config.annotation.web.configuration.EnableWebSecurity;
 import org.springframework.security.config.annotation.web.configuration.WebSecurityCustomizer;
 import org.springframework.security.config.annotation.web.configurers.AbstractHttpConfigurer;
+import org.springframework.security.config.annotation.web.configurers.HeadersConfigurer;
 import org.springframework.security.config.http.SessionCreationPolicy;
 import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.security.web.SecurityFilterChain;
+import org.springframework.security.web.authentication.UsernamePasswordAuthenticationFilter;
 import org.springframework.security.web.servlet.util.matcher.MvcRequestMatcher;
 import org.springframework.security.web.util.matcher.AntPathRequestMatcher;
 import org.springframework.web.servlet.handler.HandlerMappingIntrospector;
 
 import static org.springframework.security.config.Customizer.withDefaults;
-
-
+import static org.springframework.security.web.util.matcher.AntPathRequestMatcher.antMatcher;
 
 
 @RequiredArgsConstructor
@@ -45,24 +46,60 @@ public class SpringSecurityConfig {
                 .requestMatchers(new AntPathRequestMatcher("/img/**"))
                 .requestMatchers(new AntPathRequestMatcher("/favicon.ico"));
     }
-
+    /*@Bean
+    public CustomAuthenticationSuccessHandler customAuthenticationSuccessHandler() {
+        return new CustomAuthenticationSuccessHandler();
+    }*/
     @Bean
     protected SecurityFilterChain filterChain(HttpSecurity http, HandlerMappingIntrospector introspector) throws Exception {
-        http.csrf(AbstractHttpConfigurer::disable);
+        http
+                .csrf(AbstractHttpConfigurer::disable)
+//                .formLogin(Customizer.withDefaults())
+                .formLogin(form -> form
+                        .loginPage("/login")
+//                        .loginProcessingUrl("/login")
+                        .failureUrl("/login-error")
+                        .usernameParameter("User_Id")
+                        .passwordParameter("User_Password")
+//                        .successHandler(customAuthenticationSuccessHandler()) // 커스텀 성공 핸들러 설정
+                        .defaultSuccessUrl("/index"))
+//                .formLogin(AbstractHttpConfigurer::disable)
+                .authorizeHttpRequests(authorizeRequest ->
+                        authorizeRequest
+                                .requestMatchers(antMatcher("/admin/sales/report")).hasAuthority("admin")
+                                .requestMatchers(antMatcher("/adminEditUserList")).hasAuthority("admin")
+                                .requestMatchers(antMatcher("/productad/**")).hasAuthority("admin")
+                                .requestMatchers(antMatcher("/dronead/**")).hasAuthority("admin")
+                                .anyRequest().permitAll()
+                )
+
+                .headers(
+                        headersConfigurer ->
+                                headersConfigurer
+                                        .frameOptions(
+                                                HeadersConfigurer.FrameOptionsConfig::sameOrigin
+                                        )
+                );
+        /*http.csrf(AbstractHttpConfigurer::disable);
         http.authorizeHttpRequests(authorize ->
                         authorize
-                                .requestMatchers(new MvcRequestMatcher(introspector, "/adminEditUserList")).hasRole("admin")
+                                .requestMatchers(new MvcRequestMatcher(introspector, "/adminEditUserList")).hasAuthority("admin")
                                 .requestMatchers(new MvcRequestMatcher(introspector, "/admin/sales/Report")).hasRole("admin")
                                 .anyRequest().authenticated())
 
                 .httpBasic(Customizer.withDefaults())
+
                 .logout(logout -> logout
                 .logoutUrl("/logout")
                 .logoutSuccessUrl("/index")
-                .invalidateHttpSession(true));
+                .invalidateHttpSession(true));*/
+
+
+
 
         return http.build();
     }
+
 
 /*
     @Bean
