@@ -1,5 +1,6 @@
 package com.example.joinair.service;
 
+import com.example.joinair.dto.ORDERS;
 import com.example.joinair.dto.ORDER_DETAIL;
 import com.example.joinair.entity.Item;
 import com.example.joinair.mapper.OrderMapper;
@@ -34,11 +35,15 @@ public class OrderServiceImpl implements OrderService {
             orderMapper.insertOrderDetail(orderDetail);
         }
 
+        // 주문 정보를 생성하여 데이터베이스에 저장
+        ORDERS order = convertCartToOrder(cart, session);
+        orderMapper.insertOrder(order);
+
         // 주문 완료 후 장바구니 비우기 (선택적)
         session.removeAttribute("cart");
     }
 
-    // 장바구니 정보를 주문 상세 정보로 변환하는 메서드
+    // 장바구니 정보를 주문 상세 정보 리스트로 변환하는 메서드
     private List<ORDER_DETAIL> convertCartToOrderDetails(List<Item> cart) {
         List<ORDER_DETAIL> orderDetails = new ArrayList<>();
         for (Item item : cart) {
@@ -58,4 +63,31 @@ public class OrderServiceImpl implements OrderService {
         }
         return orderDetails;
     }
+
+
+    // 장바구니 정보를 주문으로 변환하는 메서드
+    private ORDERS convertCartToOrder(List<Item> cart, HttpSession session) {
+        ORDERS order = new ORDERS();
+
+        // 세션에서 사용자 ID 가져오기
+        String userId = (String) session.getAttribute("User_Id");
+        order.setUser_Id(userId);
+
+        int totalWeight = 0;
+        int totalPrice = 0;
+
+        // 각 상품을 주문에 추가
+        for (Item item : cart) {
+            // 주문 상세 정보를 설정
+            totalWeight += item.getProduct().getPro_Weight();
+            totalPrice += item.getSubtotal();
+        }
+
+        // 주문 정보 설정
+        order.setOrders_Totalweight(totalWeight);
+        order.setOrders_Total_Price(totalPrice);
+
+        return order;
+    }
+
 }

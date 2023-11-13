@@ -23,6 +23,9 @@
     ]]>
     </insert>
 
-
+    <insert id="insertOrder" parameterType="com.example.joinair.dto.ORDERS">
+        INSERT INTO ORDERS (Orders_Num, User_Id, Orders_Total_Price, Orders_Totalweight)
+        VALUES (#{Orders_Num}, #{User_Id}, #{Orders_Total_Price}, #{Orders_Totalweight})
+    </insert>
 
 </mapper>
