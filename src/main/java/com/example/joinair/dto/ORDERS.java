@@ -6,12 +6,19 @@ import lombok.Setter;
 @Getter
 @Setter
 public class ORDERS {
-        private int Orders_Num;         // 주문번호
-        private String User_Id;          // UserID
-        private int Pro_Code;           // 상품코드
-        private int Orders_Total_Price; // 총 주문금액
-        private String Orders_State;     // 상태
-        private int Orders_Total;    // 총주문수량
+        private int Orders_Num;         // 주문번호 (1씩 자동증가 생성하는 시퀀스 만들어줘야함 DB)
+
+        private String User_Id;          // UserID(생성함)
+
+        private int Orders_Total_Price; // 총 주문금액 (session에 담긴 Subtotal의 합)
+
+        private int Orders_Totalweight; // 총 무게(session에 담긴 weight의 합)
+
+        private String Pay_Method; //결제 수단
+
+        private int Del_No; //배송 코드
+
+
 
 
 

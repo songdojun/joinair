@@ -11,9 +11,9 @@ import java.util.Date;
 public class DELIVERY {
 
     private int Del_No;         // 배송코드
-    private int Pay_No;         // 결제번호
     private int D_Code;         // 드론식별코드
-    private String Del_State;    // 상태
-    private Date Del_Date;      // 출고날짜 테스트
+    private String Dp_Place; //배송 장소
+    private String D_Phone; //주문자 연락처
+    private String D_Pname; //주문자 성함
 
 }

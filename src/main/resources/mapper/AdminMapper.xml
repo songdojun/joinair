@@ -34,7 +34,7 @@
   <select id="getCustomSales" resultType="com.example.joinair.dto.SALES">
     SELECT User_Id, ORDERS_NUM, amount, sales_Date, Pro_Code
     FROM SALES
-    WHERE User_Id LIKE '%' || #{user} || '%'
+    WHERE User_Id LIKE '%' || #{searchInput} || '%'
     ORDER BY sales_Date DESC
   </select>
 
@@ -63,6 +63,23 @@
         User_Phone LIKE '%' || #{searchInput} || '%'
       </when>
     </choose>
+  </select>
+
+  <select id="searchUsersByUserId" parameterType="String" resultType="com.example.joinair.dto.USERS">
+    SELECT * FROM USERS
+    WHERE User_Id LIKE '%' || #{userId} || '%'
+  </select>
+
+  <!-- User_Name을 사용한 부분 검색 -->
+  <select id="searchUsersByUserName" parameterType="String" resultType="com.example.joinair.dto.USERS">
+    SELECT * FROM USERS
+    WHERE User_Id LIKE '%' || #{userName} || '%'
+  </select>
+
+  <!-- User_Phone을 사용한 부분 검색 -->
+  <select id="searchUsersByUserPhone" parameterType="String" resultType="com.example.joinair.dto.USERS">
+    SELECT * FROM USERS
+    WHERE User_Phone LIKE CONCAT('%', #{userPhone}, '%')
   </select>
 
 </mapper>

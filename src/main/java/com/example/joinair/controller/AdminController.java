@@ -1,11 +1,13 @@
 package com.example.joinair.controller;
 
 import com.example.joinair.dto.SALES;
+import com.example.joinair.dto.USERS;
 import com.example.joinair.service.AdminService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.GetMapping;
+import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestParam;
 
@@ -24,15 +26,15 @@ public class AdminController {
 
     @GetMapping("/sales/report")
     public String showSalesReportPage() {
-        return "salesReport";
+        return "SalesReport";
     }
 
-    @GetMapping("/sales/reportData")
+    @PostMapping("/sales/reportData")
     public String generateSalesReport(
             @RequestParam("reportType") String reportType,
             @RequestParam(value = "year", required = false) Integer year,
             @RequestParam(value = "month", required = false) Integer month,
-            @RequestParam(value = "user", required = false) String user,
+            @RequestParam(value = "searchInput", required = false) String user,
             Model model) {
         List<SALES> salesData = new ArrayList<>(); // 결과 목록 초기화
 
@@ -57,22 +59,23 @@ public class AdminController {
         }
 
         model.addAttribute("salesData", salesData);
-        return "salesReport";
+        return "SalesReport";
     }
 
-    @GetMapping("/admin/searchUsers")
+
+    @GetMapping("/searchUsers")
     public String searchUsers(
             @RequestParam("searchCategory") String searchCategory,
             @RequestParam("searchInput") String searchInput,
             Model model) {
-        List<SALES> searchResults = adminService.searchUsers(searchCategory, searchInput);
+        List<USERS> searchResults = adminService.searchUsers(searchCategory, searchInput);
         model.addAttribute("users", searchResults);
-        model.addAttribute("isAdmin", true); // 현재 사용자가 관리자임을 나타내는 플래그
-        return "adminUserList"; // 사용자 검색 결과를 보여줄 뷰 페이지의 이름으로 교체하세요.
+//        model.addAttribute("isAdmin", true);
+                // 현재 사용자가 관리자임을 나타내는 플래그
+
+
+        return "adminEditUserList"; // 사용자 검색 결과를 보여줄 뷰 페이지의 이름으로 교체하세요.
     }
-
-
-
 }
 
 
