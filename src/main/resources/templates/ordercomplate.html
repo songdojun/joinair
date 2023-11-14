@@ -1,44 +1,9 @@
 <!DOCTYPE html>
-<html lang="ko" xmlns:th="http://www.thymeleaf.org">
+<html lang="en" xmlns:th="http://www.thymeleaf.org">
 <head>
     <meta charset="UTF-8">
     <title>Cart and Order Information</title>
-
-    <link rel="apple-touch-icon" href="/assets/img/apple-icon.png">
-
-    <!-- 다른 장치용 바로 가기 아이콘 -->
-    <link rel="shortcut icon" type="image/x-icon" href="/assets/img/favicon.ico">
-
-    <!-- Bootstrap CSS - 반응형 및 모바일 우선 웹사이트를 구축하기 위한 인기 있는 CSS 프레임워크 -->
     <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/4.5.2/css/bootstrap.min.css">
-
-    <!-- Templatemo CSS - 템플릿을 위한 사용자 지정 CSS -->
-    <link rel="stylesheet" href="/assets/css/templatemo.css">
-
-    <!-- Custom CSS - 웹사이트를 위한 추가적인 사용자 지정 스타일 -->
-    <link rel="stylesheet" href="/assets/css/custom.css">
-
-    <!-- Google Fonts의 Roboto 폰트, 다양한 두께 포함 -->
-    <link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Roboto:wght@100;200;300;400;500;700;900&display=swap">
-
-    <!-- Font Awesome CSS - 아이콘 라이브러리 -->
-    <link rel="stylesheet" href="/assets/css/fontawesome.min.css">
-
-    <!-- Leaflet CSS - 인터랙티브 맵을 위한 Leaflet JavaScript 라이브러리의 스타일시트 -->
-    <link rel="stylesheet" href="https://unpkg.com/leaflet@1.7.1/dist/leaflet.css"
-          integrity="sha512-xodZBNTC5n17Xt2atTPuE1HxjVMSvLVW9ocqUKLsCC5CXdbqCmblAshOMAS6/keqq/sMZMZ19scR4PsZChSR7A==" crossorigin=""/>
-
-    <link rel="apple-touch-icon" href="/assets/img/apple-icon.png">
-    <link rel="shortcut icon" type="image/x-icon" href="/assets/img/favicon.ico">
-    <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/4.5.2/css/bootstrap.min.css">
-    <link rel="stylesheet" href="/assets/css/templatemo.css">
-    <link rel="stylesheet" href="/assets/css/custom.css">
-    <link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Roboto:wght@100;200;300;400;500;700;900&display=swap">
-    <link rel="stylesheet" href="/assets/css/fontawesome.min.css">
-    <link rel="stylesheet" href="https://unpkg.com/leaflet@1.7.1/dist/leaflet.css"
-          integrity="sha512-xodZBNTC5n17Xt2atTPuE1HxjVMSvLVW9ocqUKLsCC5CXdbqCmblAshOMAS6/keqq/sMZMZ19scR4PsZChSR7A==" crossorigin=""/>
-    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.2.0/css/all.min.css">
-
 </head>
 <style>
 
@@ -85,33 +50,8 @@
     .modal-footer .btn-primary {
         margin-bottom: 10px; /* 결제 버튼 아래 여백 조절, 필요에 따라 조절 가능 */
     }
-
-
 </style>
 <body>
-<!-- 상단 네비게이션 시작 -->
-<nav class="navbar navbar-expand-lg bg-dark navbar-light d-none d-lg-block" id="templatemo_nav_top">
-    <div class="container text-light">
-        <div class="w-100 d-flex justify-content-between">
-            <div>
-                <i class="fa fa-envelope mx-2"></i>
-                <a class="navbar-sm-brand text-light text-decoration-none" href="mailto:info@company.com"> Doron delivery@Doron delivery.com
-
-                </a>
-                <i class="fa fa-phone mx-2"></i>
-                <a class="navbar-sm-brand text-light text-decoration-none" href="tel:010-020-0340">010-1234-4567</a>
-            </div>
-            <div>
-                <span class="connected-id" th:if="${session.User_Id != null}">💫 <span th:text="${session.User_Id}"></span> 님 환영합니다 💫</span>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
-                <a class="text-light" href="https://fb.com/templatemo" target="_blank" rel="sponsored"><i class="fab fa-facebook-f fa-sm fa-fw me-2"></i></a>
-                <a class="text-light" href="https://www.instagram.com/" target="_blank"><i class="fab fa-instagram fa-sm fa-fw me-2"></i></a>
-                <a class="text-light" href="https://twitter.com/" target="_blank"><i class="fab fa-twitter fa-sm fa-fw me-2"></i></a>
-
-            </div>
-        </div>
-    </div>
-</nav>
-<!-- 상단 네비게이션 닫기 -->
 <!-- 장바구니 -->
 <div class="container mt-5">
     <h1 class="text-center mb-4">장바구니</h1>
@@ -133,40 +73,24 @@
                 <td>
                     <img th:src="${item.product != null ? item.product.Pro_Filepath : ''}" alt="Product Image"
                          style="width: 60px;" />
-                    <a th:href="@{/productbuy/view(Pro_Code=${item.product.Pro_Code})}">
                     <span th:text="${item.product.Pro_Name != null ? item.product.Pro_Name : ''}"></span>
-                </a>
                 </td>
                 <td class="price"
                     th:text="${item.product.Pro_Price != null ? item.product.Pro_Price : ''}"></td>
                 <td>
-                    <input type="number" name="quantity_${item.product.Pro_Code}" th:value="${item.quantity}" class="form-control" style="width:60px;" readonly />
+                    <!-- 각 상품의 수량 입력 필드 이름을 고유하게 변경 -->
+                    <input type="number" name="quantity_${item.product.Pro_Code}" th:value="${item.quantity}" class="form-control" style="width:60px;" oninput="updateSubtotal(this.parentNode.parentNode, '${item.product.Pro_Code}')" />
+
                 </td>
                 <td th:text="${item.product != null ? item.product.Pro_Weight : ''}"></td>
 
                 <td class="subtotal"
                     th:text="${item.product.Pro_Price != null && item.quantity != null ? item.product.Pro_Price * item.quantity : ''}"></td>
                 <td>
-                    <a th:if="${session.cart != null}" th:attr="data-pro-code=${item.product.Pro_Code}" class="text-danger" onclick="removeItem(this)" href="/cart">X</a>
+                    <a th:if="${session.cart != null}" th:href="${'/cart/remove/' + item.product.Pro_Code}" class="text-danger">X</a>
                 </td>
             </tr>
             </tbody>
-            <script>
-                function removeItem(link) {
-                    var productCode = link.getAttribute('data-pro-code');
-                    $.get('/cart/remove/' + productCode, function (response) {
-                        if (response === 'Success') {
-                            // 성공적으로 삭제되면 해당 행을 삭제
-                            var row = link.closest('tr');
-                            row.remove();
-                        } else {
-                            // 실패하면 원하는 처리를 수행 (예: 오류 메시지 표시)
-                            alert("삭제에 실패하였습니다.");
-                        }
-                    });
-                }
-            </script>
-
             <tfoot>
             <tr>
                 <td colspan="3"><strong>총 무게(g)</strong></td>
@@ -217,9 +141,9 @@
         </div>
         <!-- 주소 입력란 -->
         <div class="form-group">
-            <label for="sample4_postcode">주소:</label>
+            <label for="shippingAddress">주소:</label>
             <div class="input-group">
-                <input type="text" id="sample4_postcode" placeholder="우편번호" class="form-control">
+                <input type="text" id="sample4_postcode" placeholder="우편번호" class="form-control" id="shippingAddress">
                 <div class="input-group-append">
                     <button type="button" class="btn btn-primary" onclick="sample4_execDaumPostcode()">우편번호 찾기</button>
                 </div>
@@ -247,44 +171,8 @@
         </div>
     </form>
 </div>
-
 <!-- 결제 버튼 -->
-<!-- 결제 버튼 -->
-<form method="post" action="/order/place" onsubmit="submitOrderForm(event)">
-    <button type="submit" data-toggle="modal" data-target="#paymentModal" class="btn btn-primary" style="margin: auto; display: block;">결제</button><br>
-</form>
-
-<script>
-    function submitOrderForm(event) {
-           event.preventDefault(); // 기본 동작(페이지 전환)을 중지 리턴값 무시
-
-           // 여기에서 추가적인 작업을 수행
-           // ...
-
-           // 주문 폼 데이터
-           var formData = new FormData(event.target);
-
-           // 주문 요청 보내기
-           fetch('/order/place', {
-               method: 'POST',
-               body: formData,
-           })
-           .then(response => {
-               if (!response.ok) {
-                   throw new Error(`HTTP error! Status: ${response.status}`);
-               }
-               return response.text();
-           })
-           .then(data => {
-               // 성공적으로 처리된 경우 모달 닫기 및 페이지 리로드
-               $('#paymentModal').modal('hide');
-               location.reload();
-           })
-           .catch((error) => {
-               console.error('Error:', error);
-           });
-       }
-</script>
+<button data-toggle="modal" data-target="#paymentModal" class="btn btn-primary" style="margin: auto; display: block;">결제</button><br>
 
 
 <!-- 결제 모달 -->
@@ -323,19 +211,11 @@
 </div>
 
 </div>
-<script>
-
-    function openPaymentModal() {
-       // 여기에서 결제 모달을 띄우는 코드를 추가
-       $('#paymentModal').modal('show');
-   }
-
-
-   window.addEventListener("scroll", function () {
-   var scrollBox = document.querySelector("#payment-box");
-   if (scrollBox) {
-       scrollBox.style.transform = "translateX(0)"; // 항상 보이도록 변경
-   }
+<script>window.addEventListener("scroll", function () {
+    var scrollBox = document.querySelector("#payment-box");
+    if (scrollBox) {
+        scrollBox.style.transform = "translateX(0)"; // 항상 보이도록 변경
+    }
 });
 </script>
 
@@ -343,7 +223,7 @@
 <!-- JavaScript 스크립트 및 다음 우편번호 서비스 스크립트 추가 -->
 <script src="https://code.jquery.com/jquery-3.2.1.slim.min.js"></script>
 <script src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.12.9/umd/popper.min.js"></script>
-
+<script src="https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0/js/bootstrap.min.js"></script>
 <script src="//t1.daumcdn.net/mapjsapi/bundle/postcode/prod/postcode.v2.js"></script>
 <script src="https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0/js/bootstrap.min.js"></script>
 <script>
@@ -532,7 +412,7 @@ window.addEventListener('load', function () {
             if (rsp.success) {
                 var msg = '결제가 완료되었습니다.';
                 alert(msg);
-                location.href = "http://localhost:63342/joinair/src/main/resources/templates/ordercomplate.html?_ijt=qtqh28h3cb4drehrj62ju0b7ti&_ij_reload=RELOAD_ON_SAVE";
+                location.href = "결제 완료 후 이동할 페이지 URL";
             } else {
                 var msg = '결제에 실패하였습니다.';
                 msg += '에러내용 : ' + rsp.error_msg;
@@ -545,15 +425,6 @@ window.addEventListener('load', function () {
     function redirectToBankTransferPage() {
         window.location.href = "/payment/Deposit";
     }
-
-
-
-
-
-
-
-
-
 </script>
 <script src="https://code.jquery.com/jquery-1.12.4.min.js"></script>
 <script src="https://cdn.iamport.kr/js/iamport.payment-1.1.5.js"></script>
