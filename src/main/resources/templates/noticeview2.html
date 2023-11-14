@@ -33,7 +33,7 @@
                 <div>
                     <span th:if="${userId != null and (userId != 'anonymousUser')}">💫 <span th:text="${userId}"></span> 님 환영합니다 💫</span>
                     <span sec:authorize="hasAuthority('admin')">
-                    <a th:href="@{/adminWelcome}" class="nav-link" style="display: inline-block; margin-left: 10px;">관리자 페이지</a></span>
+                        <a th:href="@{/adminWelcome}" class="nav-link" style="display: inline-block; margin-left: 10px;">관리자 페이지</a></span>
                     <a class="text-light" href="https://fb.com/templatemo" target="_blank" rel="sponsored"><i class="fab fa-facebook-f fa-sm fa-fw me-2"></i></a>
                     <a class="text-light" href="https://www.instagram.com/" target="_blank"><i class="fab fa-instagram fa-sm fa-fw me-2"></i></a>
                     <a class="text-light" href="https://twitter.com/" target="_blank"><i class="fab fa-twitter fa-sm fa-fw me-2"></i></a>
@@ -43,7 +43,7 @@
     </nav>
     <nav class="navbar navbar-expand-lg navbar-light shadow">
         <div class="container d-flex justify-content-between align-items-center">
-            <a class="navbar-brand text-success logo h1 align-self-center" href="index.html">Join Air🪂</a>
+            <a class="navbar-brand text-success logo h1 align-self-center" href="/index">Join Air🪂</a>
             <button class="navbar-toggler border-0" type="button" data-bs-toggle="collapse" data-bs-target="#templatemo_main_nav"
                     aria-controls="templatemo_main_nav" aria-expanded="false" aria-label="Toggle navigation">
                 <span class="navbar-toggler-icon"></span>
@@ -52,22 +52,29 @@
                 <div class="flex-fill">
                     <ul class="nav navbar-nav d-flex justify-content-between mx-lg-auto">
                         <li class="nav-item">
-                            <a class="nav-link" href="index.html">홈</a>
+                            <a class="nav-link" href="/index">홈</a>
                         </li>
                         <li class="nav-item">
-                            <a class="nav-link" href="about.html">회사 소개</a>
+                            <a class="nav-link" href="/about">회사 소개</a>
                         </li>
                         <li class="nav-item">
-                            <a class="nav-link" href="shop.html">상품</a>
+                            <a class="nav-link" href="/productbuy/list">상품</a>
                         </li>
                         <li class="nav-item">
-                            <a class="nav-link" href="contact.html">문의</a>
+                            <a class="nav-link" href="/qna/qnaList">문의</a>
                         </li>
                         <li class="nav-item">
-                            <a class="nav-link" href="http://localhost:8080/notice/list">공지사항</a>
+                            <a class="nav-link" href="/notice/list">공지사항</a>
                         </li>
-                        <li class="nav-item">
-                            <a class="nav-link" href="#">로그인</a>
+                        <li class="nav-item" sec:authorize="isAuthenticated()">
+                            <div>
+                                <a th:href="@{/logout}" class="nav-link">로그아웃</a>
+                            </div>
+                        </li>
+                        <li class="nav-item" sec:authorize="!isAuthenticated()">
+                            <div>
+                                <a th:href="@{/login}" class="nav-link">로그인</a>
+                            </div>
                         </li>
                     </ul>
                 </div>
@@ -141,9 +148,9 @@
                 <div class="col-md-4 pt-5">
                     <h2 class="h2 text-light border-bottom pb-3 border-light">정보</h2>
                     <ul class="list-unstyled text-light footer-link-list">
-                        <li><a class="text-decoration-none" href="http://localhost:63342/joinair/src/main/resources/boot/index.html">홈</a></li>
-                        <li><a class="text-decoration-none" href="http://localhost:63342/joinair/src/main/resources/boot/about.html">회사/소개</a></li>
-                        <li><a class="text-decoration-none" href="http://localhost:63342/joinair/src/main/resources/boot/contact.html">문의</a></li>
+                        <li><a class="text-decoration-none" href="/index">홈</a></li>
+                        <li><a class="text-decoration-none" href="/about">회사/소개</a></li>
+                        <li><a class="text-decoration-none" href="/qna/qnaList">문의</a></li>
                     </ul>
                 </div>
             </div>

@@ -13,7 +13,6 @@
     <link rel="stylesheet" href="/assets/css/fontawesome.min.css">
     <link rel="stylesheet" href="https://unpkg.com/leaflet@1.7.1/dist/leaflet.css"
           integrity="sha512-xodZBNTC5n17Xt2atTPuE1HxjVMSvLVW9ocqUKLsCC5CXdbqCmblAshOMAS6/keqq/sMZMZ19scR4PsZChSR7A==" crossorigin=""/>
-    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.2.0/css/all.min.css">
     <script src="/js/searchProductbuy.js"></script>
     <style>
         /* 카테고리 버튼과 간격 조절 및 버튼 크기 키우기 */
@@ -37,7 +36,6 @@
 </head>
 <body>
 <!-- 첫 번째 네브바 -->
-<!-- 상단 네비게이션 시작 -->
 <nav class="navbar navbar-expand-lg bg-dark navbar-light d-none d-lg-block" id="templatemo_nav_top">
     <div class="container text-light">
         <div class="w-100 d-flex justify-content-between">
@@ -50,17 +48,31 @@
                 <a class="navbar-sm-brand text-light text-decoration-none" href="tel:010-020-0340">010-1234-4567</a>
             </div>
             <div>
-                <span class="connected-id" th:if="${session.User_Id != null}">💫 <span th:text="${session.User_Id}"></span> 님 환영합니다 💫</span>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
+                <div>
+                    <span th:if="${userId != null and (userId != 'anonymousUser')}">💫 <span th:text="${userId}"></span> 님 환영합니다 💫</span>
+                    <span sec:authorize="hasAuthority('admin')">
+        <a th:href="@{/adminWelcome}" class="nav-link" style="display: inline-block; margin-left: 10px;">관리자 페이지</a>
+
+
+                        <!--                <span class="connected-id" th:if="${userId != null and userAuthorities == 'admin' }">💫 <span th:text="${userId}"></span> 님1 환영합니다 💫</span>-->
+                        <!--                <span sec:authorize="principal.authorities('admin', 'user') and isAuthenticated()">💫 <span sec:authentication="principal.username"></span> 님 환영합니다 💫</span>-->
+
+
+                        <!-- 사용자 권한에 따라 추가적인 정보 표시 (예: 관리자 여부) -->
+                        <!--                <span sec:authorize="hasRole('ADMIN')"> (관리자) </span>-->
+
+
+                        <!--                <span th:if="${userAuthorities.contains('admin')}"> (관리자) </span>-->
+                        <!--                <span class="connected-id" th:if="${session.User_Id != null}">💫 <span th:text="${session.User_Id}"></span> 님 환영합니다 💫</span>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;-->
                 <a class="text-light" href="https://fb.com/templatemo" target="_blank" rel="sponsored"><i class="fab fa-facebook-f fa-sm fa-fw me-2"></i></a>
                 <a class="text-light" href="https://www.instagram.com/" target="_blank"><i class="fab fa-instagram fa-sm fa-fw me-2"></i></a>
-                <a class="text-light" href="https://twitter.com/" target="_blank"><i class="fab fa-twitter fa-sm fa-fw me-2"></i></a>
+                <a class="text-light" href="https://twitter.com/" target="_blank"><i class="fab fa-twitter fa-sm fa-fw me-2"></i></a></span>
+                </div>
 
             </div>
         </div>
     </div>
 </nav>
-<!-- 상단 네비게이션 닫기 -->
-
 <!-- 두 번째 네브바 -->
 <nav class="navbar navbar-expand-lg navbar-light shadow" id="templatemo_main_na">
     <div class="container d-flex justify-content between align-items-center">
@@ -87,11 +99,15 @@
                     <li class="nav-item">
                         <a class="nav-link" href="/notice/list">공지사항</a>
                     </li>
-                    <li class="nav-item">
-                        <a class="nav-link" th:href="${session.User_Id != null} ? @{/logout} : @{/login}">
-                            <span th:if="${session.User_Id != null}">로그아웃</span>
-                            <span th:unless="${session.User_Id != null}">로그인</span>
-                        </a>
+                    <li class="nav-item" sec:authorize="isAuthenticated()">
+                        <div>
+                            <a th:href="@{/logout}" class="nav-link">로그아웃</a>
+                        </div>
+                    </li>
+                    <li class="nav-item" sec:authorize="!isAuthenticated()">
+                        <div>
+                            <a th:href="@{/login}" class="nav-link">로그인</a>
+                        </div>
                     </li>
                 </ul>
             </div>
@@ -242,12 +258,6 @@
     </div>
 </footer>
 <!--로그인 → 로그아웃-->
-
-<script src="https://code.jquery.com/jquery-3.5.1.slim.min.js"></script>
-<script src="https://cdn.jsdelivr.net/npm/@popperjs/core@2.9.3/dist/umd/popper.min.js"></script>
-<script src="https://stackpath.bootstrapcdn.com/bootstrap/4.5.2/js/bootstrap.min.js"></script>
-<script src="/assets/js/templatemo.js"></script>
-<script src="/assets/js/custom.js"></script>
 <script>
     // 세션 상태 확인
     var userId = sessionStorage.getItem("User_Id");

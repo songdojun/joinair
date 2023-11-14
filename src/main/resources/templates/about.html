@@ -1,5 +1,6 @@
 <!DOCTYPE html>
-<html lang="ko">
+<html lang="ko" xmlns:th="http://www.thymeleaf.org"
+      xmlns:sec="http://www.thymeleaf.org/thymeleaf-extras-springsecurity">
 
 <head>
     <title>회사 소개</title>
@@ -31,7 +32,10 @@
                     <a class="navbar-sm-brand text-light text-decoration-none" href="tel:010-020-0340">010-1234-4567</a>
                 </div>
                 <div>
-                    <span class="connected-id" th:if="${session.User_Id != null}">💫 <span th:text="${session.User_Id}"></span> 님 환영합니다 💫</span>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
+                    <span th:if="${userId != null and (userId != 'anonymousUser')}">💫 <span th:text="${userId}"></span> 님 환영합니다 💫</span>
+                    <span sec:authorize="hasAuthority('admin')">
+                        <a th:href="@{/adminWelcome}" class="nav-link" style="display: inline-block; margin-left: 10px;">관리자 페이지</a></span>
+<!--                    <span class="connected-id" th:if="${session.User_Id != null}">💫 <span th:text="${session.User_Id}"></span> 님 환영합니다 💫</span>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;-->
                     <a class="text-light" href="https://fb.com/templatemo" target="_blank" rel="sponsored"><i class="fab fa-facebook-f fa-sm fa-fw me-2"></i></a>
                     <a class="text-light" href="https://www.instagram.com/" target="_blank"><i class="fab fa-instagram fa-sm fa-fw me-2"></i></a>
                     <a class="text-light" href="https://twitter.com/" target="_blank"><i class="fab fa-twitter fa-sm fa-fw me-2"></i></a>
@@ -73,8 +77,15 @@
                         <li class="nav-item">
                             <a class="nav-link" href="/notice/list">공지사항</a>
                         </li>
-                        <li class="nav-item">
-                            <a class="nav-link" href="/login ">로그인</a>
+                        <li class="nav-item" sec:authorize="isAuthenticated()">
+                            <div>
+                                <a th:href="@{/logout}" class="nav-link">로그아웃</a>
+                            </div>
+                        </li>
+                        <li class="nav-item" sec:authorize="!isAuthenticated()">
+                            <div>
+                                <a th:href="@{/login}" class="nav-link">로그인</a>
+                            </div>
                         </li>
                     </ul>
                 </div>
@@ -92,18 +103,18 @@
                     </a>
                     <a class="nav-icon position-relative text-decoration-none" href="#">
                         <i class="fa fa-fw fa-cart-arrow-down text-dark mr-1"></i>
-                        <span class="position-absolute top-0 left-100 translate-middle badge rounded-pill bg-light text-dark"></span>
+                        <span class="position-absolute top-0 left-100 translate-middle badge rounded-pill bg-light text-dark">7</span>
                     </a>
                     <a class="nav-icon position-relative text-decoration-none" href="#">
                         <i class="fa fa-fw fa-user text-dark mr-3"></i>
-                        <span class="position-absolute top-0 left-100 translate-middle badge rounded-pill bg-light text-dark"></span>
+                        <span class="position-absolute top-0 left-100 translate-middle badge rounded-pill bg-light text-dark">+99</span>
                     </a>
                 </div>
             </div>
 
         </div>
     </nav>
-    <!-- 네비 닫기 -->
+    <!-- 헤더 닫기 -->
 
     <div class="modal fade bg-white" id="templatemo_search" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel" aria-hidden="true">
         <div class="modal-dialog modal-lg" role="document">
@@ -219,30 +230,133 @@
 
 
     <!-- 푸터 시작 -->
-    <footer class="bg-dark" id="tempaltemo_footer" style="padding: px 0;">
+    <footer class="bg-dark" id="tempaltemo_footer">
         <div class="container">
             <div class="row">
-                <div class="col-md-5  pt-1"><br>
-                    <h2 class="h2 text-success border-bottom pb-1 border-light logo">Join Air🪂</h2>
+
+                <div class="col-md-4 pt-5">
+                    <h2 class="h2 text-success border-bottom pb-3 border-light logo">Join Air🪂</h2>
                     <ul class="list-unstyled text-light footer-link-list">
-                        <li><i class="fas fa-map-marker-alt fa-fw"></i>한국직업전문학교 11층 강의실02 항공4기 2조</li>
-                        <li><i class="fa fa-phone fa-fw"></i><a class="text-decoration-none" href="tel:010-1234-5678">010-1234-5678</a>
+                        <li>
+                            <i class="fas fa-map-marker-alt fa-fw"></i>
+                            한국직업전문학교 11층 강의실02 항공4기 2조
                         </li>
-                        <li><i class="fa fa-envelope fa-fw"></i><a class="text-decoration-none"
-                                                                   href="mailto:info@dronefood.com">drone@dronedelivery.com</a>
+                        <li>
+                            <i class="fa fa-phone fa-fw"></i>
+                            <a class="text-decoration-none" href="tel:010-020-0340">010-1234-1234</a>
                         </li>
-                        <div class="col-10 text-center mt-4">
-                            <p class="text-center">저작권 © 2023 Join Air</p>
-                        </div>
+                        <li>
+                            <i class="fa fa-envelope fa-fw"></i>
+                            <a class="text-decoration-none" href="mailto:info@company.com">drone delivery @drone delivery.com</a>
+                        </li>
                     </ul>
+                </div>
+
+                <div class="col-md-4 pt-5">
+                    <h2 class="h2 text-light border-bottom pb-3 border-light">메뉴</h2>
+                    <ul class="list-unstyled text-light footer-link-list">
+                        <li><a class="text-decoration-none" href="#">주문하기</a></li>
+                        <li><a class="text-decoration-none" href="#">베달정보</a></li>
+                        <li><a class="text-decoration-none" href="#">고객지원</a></li>
+                        <li><a class="text-decoration-none" href="#">드론정보</a></li>
+
+                   
+                    </ul>
+                </div>
+
+                <div class="col-md-4 pt-5">
+                    <h2 class="h2 text-light border-bottom pb-3 border-light">추가 정보</h2>
+                    <ul class="list-unstyled text-light footer-link-list">
+                        <li><a class="text-decoration-none" href="/index">홈</a></li>
+                        <li><a class="text-decoration-none" href="/about">회사 소개</a></li>
+                        <li><a class="text-decoration-none" href="#">드론 정보</a></li>
+                        <li><a class="text-decoration-none" href="#">고객센터</a></li>
+                
+                    </ul>
+                </div>
+
+            </div>
+
+            <div class="row text-light mb-4">
+                <div class="col-12 mb-3">
+                    <div class="w-100 my-3 border-top border-light"></div>
+                </div>
+                <div class="col-auto me-auto">
+                    <ul class="list-inline text-left footer-icons">
+                        <li class="list-inline-item border border-light rounded-circle text-center">
+                            <a rel="nofollow" class="text-light text-decoration-none" target="_blank" href="http://fb.com/templatemo"><i class="fab fa-facebook-f fa-lg fa-fw"></i></a>
+                        </li>
+                        <li class="list-inline-item border border-light rounded-circle text-center">
+                            <a class="text-light text-decoration-none" target="_blank" href="https://www.instagram.com/"><i class="fab fa-instagram fa-lg fa-fw"></i></a>
+                        </li>
+                        <li class="list-inline-item border border-light rounded-circle text-center">
+                            <a class="text-light text-decoration-none" target="_blank" href="https://twitter.com/"><i class="fab fa-twitter fa-lg fa-fw"></i></a>
+                        </li>
+
+                    </ul>
+                </div>
+                <div class="col-auto">
+                    <label class="sr-only" for="subscribeEmail">Drone Delivery@drone delivery.com
+
+</label>
+                    <div class="input-group mb-2">
+                        <input type="text" class="form-control bg-dark border-light" id="subscribeEmail" placeholder="">
+                        
+                    </div>
                 </div>
             </div>
         </div>
+
+        <div class="w-100 bg-black py-3">
+            <div class="container">
+                <div class="row pt-2">
+                    <div class="col-12">
+                        <p class="text-left text-light">
+                            저작권 &copy; 2023 Join Air
+                            <a rel="sponsored" href="https://templatemo.com/page/1" target="_blank"></a>
+                        </p>
+                    </div>
+                </div>
+            </div>
+        </div>
+
     </footer>
-    <script src="https://code.jquery.com/jquery-3.5.1.slim.min.js"></script>
-    <script src="https://cdn.jsdelivr.net/npm/@popperjs/core@2.9.3/dist/umd/popper.min.js"></script>
-    <script src="https://stackpath.bootstrapcdn.com/bootstrap/4.5.2/js/bootstrap.min.js"></script>
+    <!-- 푸터 끝 -->
+
+    <!-- 스크립트 시작 -->
+    <script src="../static/assets/js/jquery-1.11.0.min.js"></script>
+    <script src="../static/assets/js/jquery-migrate-1.2.1.min.js"></script>
+    <script src="../static/assets/js/bootstrap.bundle.min.js"></script>
     <script src="../static/assets/js/templatemo.js"></script>
     <script src="../static/assets/js/custom.js"></script>
+    <!--로그인 → 로그아웃-->
+    <script>
+        // 세션 상태 확인
+        var userId = sessionStorage.getItem("User_Id");
+
+        // 로그인 및 로그아웃 메뉴 요소 가져오기
+        var loginItem = document.querySelector(".nav-item .nav-link[href='/login']");
+        var logoutItem = document.querySelector(".nav-item .nav-link[href='/logout']");
+
+        if (userId) {
+            // 세션이 있으면 로그인 메뉴 항목을 감추고 로그아웃 메뉴 항목을 표시합니다
+            loginItem.style.display = "none";
+            logoutItem.style.display = "block";
+        } else {
+            // 세션이 없으면 로그인 메뉴 항목을 표시하고 로그아웃 메뉴 항목을 감춥니다
+            loginItem.style.display = "block";
+            logoutItem.style.display = "none";
+        }
+
+        // 로그아웃 메뉴 항목 클릭 시 세션 삭제
+        logoutItem.addEventListener("click", function() {
+            sessionStorage.removeItem("User_Id");
+            // 로그아웃 후 로그인 메뉴 항목을 표시하고 로그아웃 메뉴 항목을 감춥니다
+            loginItem.style.display = "block";
+            logoutItem.style.display = "none";
+        });
+    </script>
+    <!-- 스크립트 끝 -->
 </body>
+
 </html>
