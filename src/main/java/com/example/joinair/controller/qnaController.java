@@ -103,23 +103,36 @@ public class qnaController {
     }
 
     @GetMapping("/qnaInsert-view")
-    public ModelAndView qnaInsertView() {
+    public ModelAndView qnaInsertView(HttpSession session) {
         ModelAndView mv = new ModelAndView();
+
+        String userId = (String) session.getAttribute("User_Id");
+
+        mv.addObject("userLoggedIn", userId != null);
+        mv.addObject("user_Id", userId);
+
         mv.setViewName("qnaInsert");
         mv.setStatus(HttpStatus.OK);
         mv.addObject("qna", new QNA()); // 모델 객체를 추가합니다.
+
         return mv;
     }
 
-
     @PostMapping("/qnainsert")
-    public String qnainsert(@ModelAttribute QNA qna) {
+    public String qnainsert(@ModelAttribute QNA qna, HttpSession session) {
+        // 세션에서 사용자 ID 가져오기
+        String userId = (String) session.getAttribute("User_Id");
+
+        // 가져온 사용자 ID를 QNA 객체에 설정
+        qna.setUSER_ID(userId);
+
         boolean result = qnaService.qnainsert(qna);
         if (result) {
             // 추가 성공 시 qnaList 페이지로
             return "redirect:/qna/qnaList";
         } else {
-            return "qnaInsert"; // 실패 시 다시 추가 페이지로 유지
+            // 실패 시 다시 추가 페이지로 유지
+            return "qnaInsert";
         }
     }
 

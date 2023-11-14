@@ -101,8 +101,14 @@
         </div>
         <div class="form-group">
             <label for="USER_ID">작성자:</label>
-            <input type="text" class="form-control" name="USER_ID" required>
+            {{#userLoggedIn}}
+                <input type="text" class="form-control" name="USER_ID" value="{{user_Id}}" readonly required>
+            {{/userLoggedIn}}
+            {{^userLoggedIn}}
+                <span>로그인 후 작성 가능합니다.</span>
+            {{/userLoggedIn}}
         </div>
+
         <div class="form-group">
             <label for="PRO_CODE">상품 코드:</label>
             <input type="text" class="form-control" name="PRO_CODE" required>
