@@ -24,8 +24,10 @@
     </insert>
 
     <insert id="insertOrder" parameterType="com.example.joinair.dto.ORDERS">
-        INSERT INTO ORDERS (Orders_Num, User_Id, Orders_Total_Price, Orders_Totalweight)
-        VALUES (#{Orders_Num}, #{User_Id}, #{Orders_Total_Price}, #{Orders_Totalweight})
+        <![CDATA[
+    INSERT INTO ORDERS (Orders_Num, User_Id, Orders_Total_Price, Orders_Totalweight)
+    VALUES (ORDERS_SEQ.NEXTVAL, #{User_Id}, #{Orders_Total_Price}, #{Orders_Totalweight})
+    ]]>
     </insert>
 
 </mapper>
