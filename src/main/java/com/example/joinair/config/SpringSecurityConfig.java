@@ -45,9 +45,8 @@ public class SpringSecurityConfig {
                 .requestMatchers(new AntPathRequestMatcher("/js/**"))
                 .requestMatchers(new AntPathRequestMatcher("/img/**"))
                 .requestMatchers(new AntPathRequestMatcher("/favicon.ico"))
-                .requestMatchers(new AntPathRequestMatcher("/membership"))
+                .requestMatchers(new AntPathRequestMatcher("/membership"));
 
-                .requestMatchers(new AntPathRequestMatcher("/index"));
 
     }
     /*@Bean
