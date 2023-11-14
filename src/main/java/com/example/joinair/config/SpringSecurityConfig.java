@@ -61,9 +61,9 @@ public class SpringSecurityConfig {
 
                 .httpBasic(Customizer.withDefaults())
                 .logout(logout -> logout
-                .logoutUrl("/logout")
-                .logoutSuccessUrl("/index")
-                .invalidateHttpSession(true));
+                        .logoutUrl("/logout")
+                        .logoutSuccessUrl("/index")
+                        .invalidateHttpSession(true));
 
         return http.build();
     }
@@ -99,7 +99,7 @@ public class SpringSecurityConfig {
                         .passwordParameter("pw")
                         .defaultSuccessUrl("/index")
                 )*//*
-                *//*.logout(logout -> logout
+     *//*.logout(logout -> logout
                         .logoutUrl("/login/logout")
                         .logoutSuccessUrl("/index")
                         .invalidateHttpSession(true)
