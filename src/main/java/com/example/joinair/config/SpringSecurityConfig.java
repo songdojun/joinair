@@ -44,7 +44,9 @@ public class SpringSecurityConfig {
                 .requestMatchers(new AntPathRequestMatcher("/css/**"))
                 .requestMatchers(new AntPathRequestMatcher("/js/**"))
                 .requestMatchers(new AntPathRequestMatcher("/img/**"))
-                .requestMatchers(new AntPathRequestMatcher("/favicon.ico"));
+                .requestMatchers(new AntPathRequestMatcher("/favicon.ico"))
+                .requestMatchers(new AntPathRequestMatcher("/membership"));
+
     }
     /*@Bean
     public CustomAuthenticationSuccessHandler customAuthenticationSuccessHandler() {
