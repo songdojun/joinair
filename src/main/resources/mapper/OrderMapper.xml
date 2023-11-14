@@ -9,7 +9,7 @@
         )
         VALUES (
             OD_NUM_SEQ.NEXTVAL,
-            #{Orders_Num, jdbcType=VARCHAR},
+            #{Orders_Num, jdbcType=INTEGER},
             #{OD_Request, jdbcType=VARCHAR},
             #{OD_Date, jdbcType=TIMESTAMP},
             #{OD_Qua, jdbcType=INTEGER},
@@ -24,9 +24,12 @@
     </insert>
 
     <insert id="insertOrder" parameterType="com.example.joinair.dto.ORDERS">
+        <selectKey keyProperty="orders_Num" resultType="int" order="BEFORE">
+            SELECT ORDERS_num_SEQ.NEXTVAL FROM DUAL
+        </selectKey>
         <![CDATA[
     INSERT INTO ORDERS (Orders_Num, User_Id, Orders_Total_Price, Orders_Totalweight)
-    VALUES (ORDERS_SEQ.NEXTVAL, #{User_Id}, #{Orders_Total_Price}, #{Orders_Totalweight})
+    VALUES (#{orders_Num}, #{user_Id}, #{orders_Total_Price}, #{orders_Totalweight})
     ]]>
     </insert>
 
