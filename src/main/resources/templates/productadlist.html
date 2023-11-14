@@ -4,8 +4,95 @@
     <meta charset="UTF-8">
     <title>상품 목록</title>
     <link rel="stylesheet" href="/css/Productadlist.css">
+    <link rel="apple-touch-icon" href="/assets/img/apple-icon.png">
+    <link rel="shortcut icon" type="image/x-icon" href="/assets/img/favicon.ico">
+    <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/4.5.2/css/bootstrap.min.css">
+    <link rel="stylesheet" href="/assets/css/templatemo.css">
+    <link rel="stylesheet" href="/assets/css/custom.css">
+    <link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Roboto:wght@100;200;300;400;500;700;900&display=swap">
+    <link rel="stylesheet" href="/assets/css/fontawesome.min.css">
+    <link rel="stylesheet" href="https://unpkg.com/leaflet@1.7.1/dist/leaflet.css"
+          integrity="sha512-xodZBNTC5n17Xt2atTPuE1HxjVMSvLVW9ocqUKLsCC5CXdbqCmblAshOMAS6/keqq/sMZMZ19scR4PsZChSR7A==" crossorigin=""/>
 </head>
 <body>
+<nav class="navbar navbar-expand-lg bg-dark navbar-light d-none d-lg-block" id="templatemo_nav_top">
+    <div class="container text-light">
+        <div class="w-100 d-flex justify-content-between">
+            <div>
+                <i class="fa fa-envelope mx-2"></i>
+                <a class="navbar-sm-brand text-light text-decoration-none" href="mailto:info@company.com">Doron delivery@Doron delivery.com</a>
+                <i class="fa fa-phone mx-2"></i>
+                <a class="navbar-sm-brand text-light text-decoration-none" href="tel:010-1234-5678">010-1234-5678</a>
+            </div>
+            <div>
+                <span th:if="${userId != null and (userId != 'anonymousUser')}">💫 <span th:text="${userId}"></span> 님 환영합니다 💫</span>
+                <span sec:authorize="hasAuthority('admin')">
+                    <a th:href="@{/adminWelcome}" class="nav-link" style="display: inline-block; margin-left: 10px;">관리자 페이지</a></span>
+                <!--                <span class="connected-id" th:if="${session.User_Id != null}">💫 <span th:text="${session.User_Id}"></span> 님 환영합니다 💫</span>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;-->
+                <a class="text-light" href="https://fb.com/templatemo" target="_blank" rel="sponsored"><i class="fab fa-facebook-f fa-sm fa-fw me-2"></i></a>
+                <a class="text-light" href="https://www.instagram.com/" target="_blank"><i class="fab fa-instagram fa-sm fa-fw me-2"></i></a>
+                <a class="text-light" href="https://twitter.com/" target="_blank"><i class="fab fa-twitter fa-sm fa-fw me-2"></i></a>
+            </div>
+        </div>
+    </div>
+</nav>
+<nav class="navbar navbar-expand-lg navbar-light shadow">
+    <div class="container d-flex justify-content between align-items-center">
+        <a class="navbar-brand text-success logo h1 align-self-center" href="/index">Join Air🪂</a>
+        <button class="navbar-toggler border-0" type="button" data-bs-toggle="collapse" data-bs-target="#templatemo_main_nav"
+                aria-controls="templatemo_main_nav" aria-expanded="false" aria-label="Toggle navigation">
+            <span class="navbar-toggler-icon"></span>
+        </button>
+        <div class="align-self-center collapse navbar-collapse flex-fill d-lg-flex justify-content-lg-between" id="templatemo_main_nav">
+            <div class="flex-fill">
+                <ul class="nav navbar-nav d-flex justify-content-between mx-lg-auto">
+                    <li class="nav-item">
+                        <a class="nav-link" href="/index">홈</a>
+                    </li>
+                    <li class="nav-item">
+                        <a class="nav-link" href="/about">회사 소개</a>
+                    </li>
+                    <li class="nav-item">
+                        <a class="nav-link" href="/productbuy/list">상품</a>
+                    </li>
+                    <li class="nav-item">
+                        <a class="nav-link" href="/qna/qnaList">문의</a>
+                    </li>
+                    <li class="nav-item">
+                        <a class="nav-link" href="/notice/list">공지사항</a>
+                    </li>
+                    <li class="nav-item" sec:authorize="isAuthenticated()">
+                        <div>
+                            <a th:href="@{/logout}" class="nav-link">로그아웃</a>
+                        </div>
+                    </li>
+                    <li class="nav-item" sec:authorize="!isAuthenticated()">
+                        <div>
+                            <a th:href="@{/login}" class="nav-link">로그인</a>
+                        </div>
+                    </li>
+                    <li class="nav-item">
+                        <a class="nav-link" href="#">회원가입</a>
+                    </li>
+                </ul>
+            </div>
+            <div class="navbar align-self-center d-flex">
+                <div class="d-lg-none flex-sm-fill mt-3 mb-4 col-7 col-sm-auto pr-3">
+                    <div class="input-group">
+                        <input type="text" class="form-control" id="inputMobileSearch" placeholder="검색">
+                        <div class="input-group-text">
+                            <i class="fa fa-fw fa-search"></i>
+                        </div>
+                    </div>
+                </div>
+                <a class="nav-icon d-none d-lg-inline" href="#" data-bs-toggle="modal" data-bs-target="#templatemo_search">
+                    <i class="fa fa-fw fa-search text-dark mr-2"></i>
+                </a>
+
+            </div>
+        </div>
+    </div>
+</nav>
 <div class="layout">
     <h1>
         <a th:href="@{/productad/list}">관리자 상품 관리 페이지</a>

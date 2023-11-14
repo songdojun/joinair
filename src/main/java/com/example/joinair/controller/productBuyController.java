@@ -7,6 +7,8 @@ import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
 import org.springframework.data.domain.Sort;
 import org.springframework.data.web.PageableDefault;
+import org.springframework.security.core.Authentication;
+import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.GetMapping;
@@ -54,6 +56,12 @@ public class productBuyController {
         model.addAttribute("searchOption", searchOption);
         model.addAttribute("searchKeyword", searchKeyword); // Pass search keyword to the view
 
+        Authentication authentication = SecurityContextHolder.getContext().getAuthentication();
+        String username = authentication.getName();
+
+        // 여기에서 필요한 사용자 정보를 모델에 추가합니다.
+        model.addAttribute("userId", username);
+        model.addAttribute("userAuthorities", authentication.getAuthorities());
         return "productbuylist"; //페이징 및 검색기능 문제로 기존 productbuylist2였지만 productbuylist로 원복했습니다.
     }
 

@@ -3,11 +3,14 @@ package com.example.joinair.controller;
 
 import com.example.joinair.entity.Product;
 import com.example.joinair.service.ProductAdService;
+import jakarta.servlet.http.HttpSession;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
 import org.springframework.data.domain.Sort;
 import org.springframework.data.web.PageableDefault;
+import org.springframework.security.core.Authentication;
+import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.GetMapping;
@@ -26,11 +29,26 @@ public class ProductAdController {
     private ProductAdService productAdService;
 
     @GetMapping("/productad/regist")
-    public String productadRegistForm(){return "productadregist";}
+    public String productadRegistForm(Model model, HttpSession session){
+        Authentication authentication = SecurityContextHolder.getContext().getAuthentication();
+        String username = authentication.getName();
+
+        // 여기에서 필요한 사용자 정보를 모델에 추가합니다.
+        model.addAttribute("userId", username);
+        model.addAttribute("userAuthorities", authentication.getAuthorities());
+
+        return "productadregist";}
 
     @PostMapping("/productad/registpro")
     public String productadRegistPro(Product product, Model model, MultipartFile file)throws Exception{
         regist(product,file);
+
+        Authentication authentication = SecurityContextHolder.getContext().getAuthentication();
+        String username = authentication.getName();
+
+        // 여기에서 필요한 사용자 정보를 모델에 추가합니다.
+        model.addAttribute("userId", username);
+        model.addAttribute("userAuthorities", authentication.getAuthorities());
 
         model.addAttribute("message", "파일 등록이 완료되었습니다.");
         model.addAttribute("searchUrl","/productad/list");
@@ -56,20 +74,38 @@ public class ProductAdController {
         model.addAttribute("searchOption", searchOption);
         model.addAttribute("searchKeyword", searchKeyword); // Pass search keyword to the view
 
+        Authentication authentication = SecurityContextHolder.getContext().getAuthentication();
+        String username = authentication.getName();
+
+        // 여기에서 필요한 사용자 정보를 모델에 추가합니다.
+        model.addAttribute("userId", username);
+        model.addAttribute("userAuthorities", authentication.getAuthorities());
         return "productadlist";
     }
 
 
 
     @GetMapping("/productad/view")
-    public String productadView(Model model, Integer Pro_Code){
+    public String productadView(Model model, HttpSession session, Integer Pro_Code){
         model.addAttribute("Product",productAdService.productadView(Pro_Code).orElse(null));
+        Authentication authentication = SecurityContextHolder.getContext().getAuthentication();
+        String username = authentication.getName();
+
+        // 여기에서 필요한 사용자 정보를 모델에 추가합니다.
+        model.addAttribute("userId", username);
+        model.addAttribute("userAuthorities", authentication.getAuthorities());
         return "productadview";
     }
 
     @GetMapping("/productad/delete")
-    public String productadDelete(Integer Pro_Code){
+    public String productadDelete(Model model, HttpSession session, Integer Pro_Code){
         productAdService.productadDelete(Pro_Code);
+        Authentication authentication = SecurityContextHolder.getContext().getAuthentication();
+        String username = authentication.getName();
+
+        // 여기에서 필요한 사용자 정보를 모델에 추가합니다.
+        model.addAttribute("userId", username);
+        model.addAttribute("userAuthorities", authentication.getAuthorities());
 
         return "redirect:/productad/list";
     }

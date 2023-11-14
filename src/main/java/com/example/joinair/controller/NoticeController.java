@@ -7,6 +7,8 @@ import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
 import org.springframework.data.domain.Sort;
 import org.springframework.data.web.PageableDefault;
+import org.springframework.security.core.Authentication;
+import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.GetMapping;
@@ -16,6 +18,7 @@ import org.springframework.web.multipart.MultipartFile;
 import static com.example.joinair.service.NoticeService.write;
 @Controller
 public class NoticeController {
+
     @Autowired
     private NoticeService noticeService;
 
@@ -38,6 +41,12 @@ public class NoticeController {
     public String NoticeList(Model model,
                              @PageableDefault(page = 0, size = 10, sort = "Not_No", direction = Sort.Direction.DESC) Pageable pageable,
                              String searchKeyword) {
+        Authentication authentication = SecurityContextHolder.getContext().getAuthentication();
+        String username = authentication.getName();
+
+        // 여기에서 필요한 사용자 정보를 모델에 추가합니다.
+        model.addAttribute("userId", username);
+        model.addAttribute("userAuthorities", authentication.getAuthorities());
 
         Page<Notice> list = null;
 
@@ -62,6 +71,12 @@ public class NoticeController {
 
     @GetMapping("notice/view")  // localhost:8080/notice/view
     public String noticeview(Model model, Integer Not_No) {
+        Authentication authentication = SecurityContextHolder.getContext().getAuthentication();
+        String username = authentication.getName();
+
+        // 여기에서 필요한 사용자 정보를 모델에 추가합니다.
+        model.addAttribute("userId", username);
+        model.addAttribute("userAuthorities", authentication.getAuthorities());
         model.addAttribute("Notice", noticeService.noticeview(Not_No).orElse(null));
         return "noticeview";
     }

@@ -1,5 +1,7 @@
     <!DOCTYPE html>
-    <html lang="ko" xmlns:th="http://www.thymeleaf.org">
+    <html lang="ko" xmlns:th="http://www.thymeleaf.org"
+          xmlns:sec="http://www.thymeleaf.org/thymeleaf-extras-springsecurity">
+
     <head>
         <title>공지사항 보기</title>
         <meta charset="utf-8">
@@ -29,6 +31,9 @@
                     <a class="navbar-sm-brand text-light text-decoration-none" href="tel:010-020-0340">010-1234-5678</a>
                 </div>
                 <div>
+                    <span th:if="${userId != null and (userId != 'anonymousUser')}">💫 <span th:text="${userId}"></span> 님 환영합니다 💫</span>
+                    <span sec:authorize="hasAuthority('admin')">
+                    <a th:href="@{/adminWelcome}" class="nav-link" style="display: inline-block; margin-left: 10px;">관리자 페이지</a></span>
                     <a class="text-light" href="https://fb.com/templatemo" target="_blank" rel="sponsored"><i class="fab fa-facebook-f fa-sm fa-fw me-2"></i></a>
                     <a class="text-light" href="https://www.instagram.com/" target="_blank"><i class="fab fa-instagram fa-sm fa-fw me-2"></i></a>
                     <a class="text-light" href="https://twitter.com/" target="_blank"><i class="fab fa-twitter fa-sm fa-fw me-2"></i></a>

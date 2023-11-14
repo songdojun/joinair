@@ -16,7 +16,15 @@ import java.security.Principal;
 public class PageController {
 
     @GetMapping("/about")
-    public String aboutPage() {
+    public String aboutPage(Model model, HttpSession session, Principal principal) {
+        Authentication authentication = SecurityContextHolder.getContext().getAuthentication();
+        String username = authentication.getName();
+
+        // 여기에서 필요한 사용자 정보를 모델에 추가합니다.
+        model.addAttribute("userId", username);
+        model.addAttribute("userAuthorities", authentication.getAuthorities());
+
+
         return "about"; // "about.html" 파일을 반환
     }
 

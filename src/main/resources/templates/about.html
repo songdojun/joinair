@@ -1,5 +1,6 @@
 <!DOCTYPE html>
-<html lang="ko" xmlns:th="http://www.thymeleaf.org">
+<html lang="ko" xmlns:th="http://www.thymeleaf.org"
+      xmlns:sec="http://www.thymeleaf.org/thymeleaf-extras-springsecurity">
 
 <head>
     <title>회사 소개</title>
@@ -31,8 +32,10 @@
                     <a class="navbar-sm-brand text-light text-decoration-none" href="tel:010-020-0340">010-1234-4567</a>
                 </div>
                 <div>
-
-                    <span class="connected-id" th:if="${session.User_Id != null}">💫 <span th:text="${session.User_Id}"></span> 님 환영합니다 💫</span>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
+                    <span th:if="${userId != null and (userId != 'anonymousUser')}">💫 <span th:text="${userId}"></span> 님 환영합니다 💫</span>
+                    <span sec:authorize="hasAuthority('admin')">
+                        <a th:href="@{/adminWelcome}" class="nav-link" style="display: inline-block; margin-left: 10px;">관리자 페이지</a></span>
+<!--                    <span class="connected-id" th:if="${session.User_Id != null}">💫 <span th:text="${session.User_Id}"></span> 님 환영합니다 💫</span>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;-->
                     <a class="text-light" href="https://fb.com/templatemo" target="_blank" rel="sponsored"><i class="fab fa-facebook-f fa-sm fa-fw me-2"></i></a>
                     <a class="text-light" href="https://www.instagram.com/" target="_blank"><i class="fab fa-instagram fa-sm fa-fw me-2"></i></a>
                     <a class="text-light" href="https://twitter.com/" target="_blank"><i class="fab fa-twitter fa-sm fa-fw me-2"></i></a>
@@ -74,11 +77,15 @@
                         <li class="nav-item">
                             <a class="nav-link" href="/notice/list">공지사항</a>
                         </li>
-                        <li class="nav-item">
-                            <a class="nav-link" th:href="${session.User_Id != null} ? @{/logout} : @{/login}">
-                                <span th:if="${session.User_Id != null}">로그아웃</span>
-                                <span th:unless="${session.User_Id != null}">로그인</span>
-                            </a>
+                        <li class="nav-item" sec:authorize="isAuthenticated()">
+                            <div>
+                                <a th:href="@{/logout}" class="nav-link">로그아웃</a>
+                            </div>
+                        </li>
+                        <li class="nav-item" sec:authorize="!isAuthenticated()">
+                            <div>
+                                <a th:href="@{/login}" class="nav-link">로그인</a>
+                            </div>
                         </li>
                     </ul>
                 </div>
