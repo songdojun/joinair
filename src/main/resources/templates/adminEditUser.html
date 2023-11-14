@@ -1,5 +1,6 @@
 <!DOCTYPE html>
-<html lang="ko" xmlns:th="http://www.thymeleaf.org">
+<html lang="ko" xmlns:th="http://www.thymeleaf.org"
+      xmlns:sec="http://www.thymeleaf.org/thymeleaf-extras-springsecurity">
 <head>
     <meta charset="utf-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
@@ -173,7 +174,16 @@
                         <a class="nav-link" href="/notice/list">공지사항</a>
 
                     </li>
-                    <a class="btn btn-success" th:href="@{/logout}">Logout</a>
+                    <li class="nav-item" sec:authorize="isAuthenticated()">
+                        <div>
+                            <a th:href="@{/logout}" class="nav-link">로그아웃</a>
+                        </div>
+                    </li>
+                    <li class="nav-item" sec:authorize="!isAuthenticated()">
+                        <div>
+                            <a th:href="@{/login}" class="nav-link">로그인</a>
+                        </div>
+                    </li>
                     <a class="btn btn-info" th:href="@{/adminWelcome}">홈 페이지로 가기</a>
                 </ul>
             </div>
