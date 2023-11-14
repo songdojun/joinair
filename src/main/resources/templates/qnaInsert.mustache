@@ -105,6 +105,7 @@
                 <input type="text" class="form-control" name="USER_ID" value="{{user_Id}}" readonly required>
             {{/userLoggedIn}}
             {{^userLoggedIn}}
+                <input type="text" class="form-control" name="USER_ID" readonly disabled>
                 <span>로그인 후 작성 가능합니다.</span>
             {{/userLoggedIn}}
         </div>
