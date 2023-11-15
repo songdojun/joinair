@@ -317,6 +317,15 @@
                 <p>총 상품 주문금액: <span class="total" id="totalAmount"></span></p>
                 <p>할인 금액: <span id="discountAmount">0</span></p>
                 <p>총 적립 금액: <span class="reward" id="rewardAmount"></span></p>
+
+                <p>보유 마일리지: <span class="user-mileage" th:text="${userMileage}"></span> 마일리지</p>
+
+                <label for="mileageInput">사용할 마일리지 입력:</label>
+                <!-- 추가: 사용자가 마일리지 입력할 수 있는 입력란 -->
+                <input type="number" id="mileageInput" name="mileageInput" class="form-control" placeholder="0" min="0" max="${userMileage}" />
+
+                <button onclick="applyMileage()" class="btn btn-primary">마일리지 적용</button>
+
                 <p>최종 결제 금액: <span class="final" id="total1"></span></p>
                 <!-- 기타 결제 관련 정보 및 양식 -->
                 <!-- 예를 들어, 신용카드 정보 입력 폼 등이 들어갈 수 있습니다. -->
@@ -433,13 +442,14 @@
 <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0/css/bootstrap.min.css">
 <script>
     // 수량 증가, 감소 시 소계 및 무게 합계 업데이트
-function updateSubtotal(row, productCode) {
-    var priceCell = row.querySelector('.price');
-    var quantityInput = row.querySelector('[name="quantity_' + productCode + '"]');
-    var subtotalCell = row.querySelector('.subtotal');
-    var weightCell = row.querySelector('td:nth-child(4)'); // 무게를 나타내는 열
+    function updateSubtotal(row, productCode) {
+        var priceCell = row.querySelector('.price');
+        var quantityInput = row.querySelector('[name="quantity_' + productCode + '"]');
+        var subtotalCell = row.querySelector('.subtotal');
+        var weightCell = row.querySelector('td:nth-child(4)'); // 무게를 나타내는 열
 
-    if (priceCell && quantityInput && subtotalCell && weightCell) {
+        if (priceCell && quantityInput && subtotalCell && weightCell) {
+
         var price = parseFloat(priceCell.textContent);
         var quantity = parseInt(quantityInput.value);
         if (quantity <= 0) {
@@ -467,6 +477,50 @@ window.addEventListener('load', function () {
     });
     updateTotal();
 });
+// 추가: 마일리지 적용 함수
+    function applyMileage() {
+        // 입력된 마일리지
+        var mileageInput = parseFloat(document.getElementById('mileageInput').value);
+
+        // 보유 마일리지
+        var userMileage = parseFloat(document.querySelector('.user-mileage').textContent);
+
+        // 총 상품 주문금액
+        var totalAmount = parseFloat(document.querySelector('.total').textContent);
+
+        // 최종 결제 금액
+        var finalAmount = totalAmount;
+
+        // 입력된 마일리지가 보유 마일리지를 초과하지 않도록 제한
+        if (mileageInput > userMileage) {
+            alert("보유 마일리지를 초과하여 입력할 수 없습니다.");
+            return;
+        }
+
+        // 입력된 마일리지가 최대 총 결제 금액을 초과하지 않도록 제한
+        if (mileageInput > totalAmount) {
+        alert("최대 총 결제 금액을 초과하여 입력할 수 없습니다.");
+        return;
+        }
+
+        // 할인 금액은 입력된 마일리지만큼
+        discountAmount = parseFloat(mileageInput);
+
+        // 추가: 총 적립 금액은 총 주문 금액의 일정 비율(예: 5%)로 설정
+        var rewardAmount = totalAmount * 0.05;
+
+        // 최종 결제 금액은 총 주문 금액에서 할인 금액을 뺀 값
+        // 추가: 최종 결제 금액이 마이너스가 되지 않도록 제한
+        finalAmount = Math.max(finalAmount - discountAmount, 0);
+
+        // 추가: 할인 금액과 적립 금액을 모달에 표시
+        document.getElementById('discountAmount').textContent = discountAmount;
+        document.getElementById('rewardAmount').textContent = rewardAmount;
+
+        // 모달 내부에 적용된 마일리지 정보를 적용
+        document.getElementById('totalAmount').textContent = totalAmount - discountAmount;
+        document.getElementById('total1').textContent = finalAmount;
+    }
 
    // 총 무게 및 할인, 적립 등 업데이트
    function updateTotal() {
