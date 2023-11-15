@@ -2,12 +2,16 @@ package com.example.joinair.controller;
 
 import com.example.joinair.dto.QNA;
 import com.example.joinair.dto.QNAPAGE;
+import com.example.joinair.dto.USERS;
 import com.example.joinair.service.UserService;
 import com.example.joinair.service.qnaService;
 import jakarta.servlet.http.HttpSession;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
+import org.springframework.security.core.Authentication;
+import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.stereotype.Controller;
+import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.*;
 import org.springframework.web.servlet.ModelAndView;
 
@@ -26,10 +30,22 @@ public class qnaController {
     private UserService userService;
 
     @GetMapping("/qnaList")
-    public ModelAndView qnaList(@RequestParam(defaultValue = "1") int page, @RequestParam(defaultValue = "10") int pageSize, QNA qnadto, HttpSession session) {
+    public ModelAndView qnaList(Model model,@RequestParam(defaultValue = "1") int page, @RequestParam(defaultValue = "10") int pageSize, QNA qnadto, HttpSession session) {
         ModelAndView mv = new ModelAndView();
-        String userId = (String) session.getAttribute("User_Id");
 
+        Authentication authentication = SecurityContextHolder.getContext().getAuthentication();
+        String username = authentication.getName();
+
+        // 여기에서 필요한 사용자 정보를 모델에 추가합니다.
+        model.addAttribute("userId", username);
+        model.addAttribute("userAuthorities", authentication.getAuthorities());
+
+        // 마일리지 정보를 얻어와 모델에 추가
+        if (authentication.getPrincipal() instanceof USERS) {
+            USERS user = (USERS) authentication.getPrincipal();
+            model.addAttribute("userMileage", user.getUser_Mileage());
+        }
+        String userId = (String) session.getAttribute("User_Id");
         if (userId != null) {
             mv.addObject("userLoggedIn", true); // 사용자 로그인 상태를 true로 설정
         } else {
@@ -68,6 +84,7 @@ public class qnaController {
 
         return mv;
     }
+
 
     @GetMapping("/qnadetail/{QNA_NO}")
     public ModelAndView qnaView(QNA QNA_NO) {
