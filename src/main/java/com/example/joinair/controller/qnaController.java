@@ -139,21 +139,25 @@ public class qnaController {
 
     @PostMapping("/qnainsert")
     public String qnainsert(@ModelAttribute QNA qna, HttpSession session) {
-        // 세션에서 사용자 ID 가져오기
-        String userId = (String) session.getAttribute("User_Id");
+        try {
+            // ... (이하 생략)
 
-        // 가져온 사용자 ID를 QNA 객체에 설정
-        qna.setUSER_ID(userId);
-
-        boolean result = qnaService.qnainsert(qna);
-        if (result) {
-            // 추가 성공 시 qnaList 페이지로
-            return "redirect:/qna/qnaList";
-        } else {
-            // 실패 시 다시 추가 페이지로 유지
-            return "qnaInsert";
+            boolean result = qnaService.qnainsert(qna);
+            if (result) {
+                // 추가 성공 시 qnaList 페이지로
+                return "redirect:/qna/qnaList";
+            } else {
+                // 실패 시 다시 추가 페이지로 유지
+                return "qnaInsert";
+            }
+        } catch (Exception e) {
+            // 예외가 발생하면 로깅하고 원하는 방식으로 처리
+            e.printStackTrace(); // 또는 로깅 프레임워크를 사용하여 로깅
+            return "qnaInsert"; // 예외 발생 시 다시 추가 페이지로 유지
         }
     }
+
+
 
     @GetMapping("/qnaUpdate-view/{QNA_NO}")
     public ModelAndView qnaUpdateView(Model model,QNA QNA_NO) {
