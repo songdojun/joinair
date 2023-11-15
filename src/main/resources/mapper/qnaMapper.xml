@@ -38,7 +38,8 @@
     </delete>
 
 
-<!--    <select id="qnaListWithPaging" resultType="com.example.joinair.dto.QNA">-->
+
+    <!--    <select id="qnaListWithPaging" resultType="com.example.joinair.dto.QNA">-->
 <!--        SELECT *-->
 <!--        FROM (-->
 <!--        SELECT qna.*, ROWNUM AS rnum-->

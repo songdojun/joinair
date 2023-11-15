@@ -71,12 +71,13 @@ public class AdminController {
         List<USERS> searchResults = adminService.searchUsers(searchCategory, searchInput);
         model.addAttribute("users", searchResults);
 //        model.addAttribute("isAdmin", true);
-        // 현재 사용자가 관리자임을 나타내는 플래그
+                // 현재 사용자가 관리자임을 나타내는 플래그
 
 
         return "adminEditUserList"; // 사용자 검색 결과를 보여줄 뷰 페이지의 이름으로 교체하세요.
     }
 }
+
 
 
 

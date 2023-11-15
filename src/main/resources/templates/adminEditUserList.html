@@ -1,20 +1,20 @@
 <!DOCTYPE html>
-<html lang="ko" xmlns:th="http://www.thymeleaf.org">
+<html lang="ko" xmlns:th="http://www.thymeleaf.org"
+      xmlns:sec="http://www.thymeleaf.org/thymeleaf-extras-springsecurity">
 <head>
     <meta charset="utf-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>고객정보수정 (관리자)</title>
-    <link rel="apple-touch-icon" href="/assets/img/apple-icon.png">
-    <link rel="shortcut icon" type="image/x-icon" href="/assets/img/favicon.ico">
+    <link rel="apple-touch-icon" href="assets/img/apple-icon.png">
+    <link rel="shortcut icon" type="image/x-icon" href="assets/img/favicon.ico">
     <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/4.5.2/css/bootstrap.min.css">
-    <link rel="stylesheet" href="/assets/css/templatemo.css">
-    <link rel="stylesheet" href="/assets/css/custom.css">
+    <link rel="stylesheet" href="assets/css/templatemo.css">
+    <link rel="stylesheet" href="assets/css/custom.css">
     <link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Roboto:wght@100;200;300;400;500;700;900&display=swap">
-    <link rel="stylesheet" href="/assets/css/fontawesome.min.css">
+    <link rel="stylesheet" href="assets/css/fontawesome.min.css">
     <link rel="stylesheet" href="https://unpkg.com/leaflet@1.7.1/dist/leaflet.css"
           integrity="sha512-xodZBNTC5n17Xt2atTPuE1HxjVMSvLVW9ocqUKLsCC5CXdbqCmblAshOMAS6/keqq/sMZMZ19scR4PsZChSR7A==" crossorigin=""/>
     <style>
-
         .custom-button {
             background-color: #4CAF50;
             color: white;
@@ -154,12 +154,17 @@
             background-color: #ddd;
         }
     </style>
+    <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
+    <script src="assets/js/bootstrap.bundle.min.js"></script>
+    <script src="assets/js/templatemo.js"></script>
+    <script src="assets/js/custom.js"></script>
+
 </head>
 <body>
 <!-- 네비게이션 바 -->
 <nav class="navbar navbar-expand-lg navbar-light shadow">
     <div class="container d-flex justify-content-between align-items-center">
-        <a class="navbar-brand text-success logo h1 align-self-center" href="/index">Join Air🪂</a>
+        <a class="navbar-brand text-success logo h1 align-self-center" href="index.html">Join Air🪂</a>
         <button class="navbar-toggler border-0" type="button" data-bs-toggle="collapse" data-bs-target="#templatemo_main_nav"
                 aria-controls="templatemo_main_nav" aria-expanded="false" aria-label="Toggle navigation">
             <span class="navbar-toggler-icon"></span>
@@ -183,7 +188,16 @@
                         <a class="nav-link" href="/notice/list">공지사항</a>
 
                     </li>
-                    <a class="btn btn-success" th:href="@{/logout}">Logout</a>
+                    <li class="nav-item" sec:authorize="isAuthenticated()">
+                        <div>
+                            <a th:href="@{/logout}" class="nav-link">로그아웃</a>
+                        </div>
+                    </li>
+                    <li class="nav-item" sec:authorize="!isAuthenticated()">
+                        <div>
+                            <a th:href="@{/login}" class="nav-link">로그인</a>
+                        </div>
+                    </li>
                     <a class="btn btn-info" th:href="@{/adminWelcome}">홈 페이지로 가기</a>
                 </ul>
             </div>
@@ -205,11 +219,8 @@
 </nav>
 
 <!-- isAdmin 변수가 true일 때만 아래의 코드를 표시합니다. -->
-<div th:if="${isAdmin}">
     <div class="container mt-5">
         <h1 class="text-center font-weight-bold">고객 정보 수정</h1>
-
-
 
         <h2 class="text-center">User List</h2>
         <div class="text-center">
@@ -221,7 +232,8 @@
                     <option value="User_Phone">고객 전화번호</option>
                 </select>
                 <input class="form-control" type="text" id="searchInput" placeholder="검색어 입력">
-                <button class="btn btn-primary" id="searchButton">검색</button>
+                <button type="button" class="btn btn-primary" id="searchButton">검색</button>
+
             </div>
         </div>
         <table class="table table-striped">
@@ -236,7 +248,7 @@
                 <th>Actions</th>
             </tr>
             </thead>
-            <tbody>
+            <tbody id="userTableBody">
             <tr th:each="user : ${users}">
                 <td data-category="User_Id" th:text="${user.User_Id}"></td>
                 <td data-category="User_Name" th:text="${user.User_Name}"></td>
@@ -250,42 +262,99 @@
             </tr>
             </tbody>
         </table>
-        <div class="text-center mx-auto">
-<!--            <a class="btn btn-warning font-weight-bold" th:href="@{'/adminEditUser/' + ${user.User_Id}}">수정</a>-->
-        </div>
-
-
-
-        </form>
     </div>
-</div>
-<footer class="bg-dark" id="tempaltemo_footer" style="padding: px 0;">
+
+<footer class="bg-dark" id="templatemo_footer">
     <div class="container">
         <div class="row">
-            <div class="col-md-5  pt-1"><br>
-                <h2 class="h2 text-success border-bottom pb-1 border-light logo">Join Air🪂</h2>
+            <div class="col-md-4 pt-5">
+                <h2 class="h2 text-success border-bottom pb-3 border-light logo">Join Air🪂</h2>
                 <ul class="list-unstyled text-light footer-link-list">
-                    <li><i class="fas fa-map-marker-alt fa-fw"></i>한국직업전문학교 11층 강의실02 항공4기 2조</li>
-                    <li><i class="fa fa-phone fa-fw"></i><a class="text-decoration-none" href="tel:010-1234-5678">010-1234-5678</a>
+                    <li>
+                        <i class="fas fa-map-marker-alt fa-fw"></i>
+                        한국직업전문학교 11층 강의실02 항공4기 2조
                     </li>
-                    <li><i class="fa fa-envelope fa-fw"></i><a class="text-decoration-none"
-                                                               href="mailto:info@dronefood.com">drone@dronedelivery.com</a>
+                    <li>
+                        <i class="fa fa-phone fa-fw"></i>
+                        <a class="text-decoration-none" href="tel:010-1234-5678">010-1234-5678</a>
                     </li>
-                    <div class="col-10 text-center mt-4">
-                        <p class="text-center">저작권 © 2023 Join Air</p>
-                    </div>
+                    <li>
+                        <i class="fa fa-envelope fa-fw"></i>
+                        <a class="text-decoration-none" href="mailto:info@dronefood.com">drone@dronedelivery.com</a>
+                    </li>
                 </ul>
+            </div>
+            <div class="col-md-4 pt-5">
+                <h2 class="h2 text-light border-bottom pb-3 border-light">메뉴</h2>
+                <ul class="list-unstyled text-light footer-link-list">
+                    <li><a class="text-decoration-none" href="#">주문 하기</a></li>
+                    <li><a class="text-decoration-none" href="#">배달 정보</a></li>
+                    <li><a class="text-decoration-none" href="#">고객 지원</a></li>
+                    <li><a class="text-decoration-none" href="#">드론 정보</a></li>
+                </ul>
+            </div>
+            <div class="col-md-4 pt-5">
+                <h2 class="h2 text-light border-bottom pb-3 border-light">정보</h2>
+                <ul class="list-unstyled text-light footer-link-list">
+                    <li><a class="text-decoration-none" href="#">홈</a></li>
+                    <li><a class="text-decoration-none" href="#">회사/소개</a></li>
+                    <li><a class="text-decoration-none" href="#">문의</a></li>
+                </ul>
+            </div>
+        </div>
+        <div class="row text-light mb-4">
+            <div class="col-12 mb-3">
+                <div class="w-100 my-3 border-top border-light"></div>
+            </div>
+            <div class="col-auto me-auto">
             </div>
         </div>
     </div>
 </footer>
+<!-- JavaScript 추가 -->
+<script>
+    $(document).ready(function () {
+        // 검색 버튼과 검색 입력란을 가져옵니다.
+        var searchButton = $("#searchButton");
+        var searchInput = $("#searchInput");
 
-<script src="/assets/js/jquery-1.11.0.min.js"></script>
-<script src="/assets/js/jquery-migrate-1.2.1.min.js"></script>
-<script src="/assets/js/bootstrap.bundle.min.js"></script>
-<script src="/assets/js/templatemo.js"></script>
-<script src="/assets/js/custom.js"></script>
-<script src="/assets/js/slick.min.js"></script>
+        // 검색 버튼에 클릭 이벤트 리스너를 추가합니다.
+        searchButton.click(function () {
+            performSearch();
+        });
+
+        // 검색 입력란에 키보드 이벤트 리스너를 추가하여 Enter 키를 감지합니다.
+        searchInput.keypress(function (e) {
+            if (e.which === 13) {
+                performSearch();
+            }
+        });
+
+        function performSearch() {
+            // 선택한 카테고리와 검색 입력을 가져옵니다.
+            var searchCategory = $("#searchCategory").val();
+            var searchInputValue = searchInput.val().toLowerCase();
+
+            // 사용자 테이블의 각 행을 루프합니다.
+            $("#userTableBody tr").each(function () {
+                var userValue = $(this).find('td[data-category="' + searchCategory + '"]').text().toLowerCase();
+
+                // 사용자 값이 검색 입력을 포함하는지 확인합니다.
+                if (userValue.includes(searchInputValue)) {
+                    // 검색 기준과 일치하는 경우 행을 표시합니다.
+                    $(this).show();
+                } else {
+                    // 검색 기준과 일치하지 않는 경우 행을 숨깁니다.
+                    $(this).hide();
+                }
+            });
+        }
+    });
+</script>
+
+
+
+
+
 </body>
 </html>
-

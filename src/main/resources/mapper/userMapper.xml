@@ -11,7 +11,7 @@
         <result property="User_Address" column="User_Address"/>
         <result property="User_Phone" column="User_Phone"/>
         <result property="User_Mileage" column="User_Mileage"/>
-        <result property="User_Mode" column="User_Mode"/>
+        <result property="Authority" column="User_Mode"/>
     </resultMap>
 
     <select id="getUserById" resultMap="userResultMap">
@@ -23,7 +23,7 @@
     </select>
 
     <insert id="registerUser" parameterType="com.example.joinair.dto.USERS">
-        INSERT INTO USERS (User_Id, User_Name, User_Email, User_Password, User_Address, User_Phone, User_Mileage, User_Mode)
+        INSERT INTO USERS (User_Id, User_Name, User_Email, User_Password, User_Address, User_Phone, User_Mileage, Authority)
         VALUES (#{User_Id}, #{User_Name}, #{User_Email}, #{User_Password}, #{User_Address}, #{User_Phone}, 0, 'user')
     </insert>
 
@@ -50,4 +50,15 @@
     <select id="getAllUsers" resultMap="userResultMap">
         SELECT * FROM USERS
     </select>
+
+    <select id="getUserAccount" resultType="com.example.joinair.dto.USERS">
+        SELECT * FROM USERS
+        WHERE USER_ID= #{userId}
+    </select>
+
+    <!-- 회원가입 -->
+    <insert id="saveUser" parameterType="com.example.joinair.dto.USERS">
+        INSERT INTO USERS (User_Id, User_Name, User_Email, User_Password, User_Address, User_Phone, User_Mileage, Authority)
+        VALUES (#{User_Id}, #{User_Name}, #{User_Email}, #{User_Password}, #{User_Address}, #{User_Phone}, 0, 'user')
+    </insert>
 </mapper>

@@ -17,19 +17,17 @@ function performSearch(page = 0) {
     });
     const fullUrl = url + "?" + params.toString();
 
-   fetch(fullUrl)
-         .then(response => response.text())
-         .then(data => {
-             const layout = document.querySelector(".layout");
-                         const searchResults = new DOMParser().parseFromString(data, "text/html");
-                         layout.innerHTML = searchResults.querySelector(".layout").innerHTML;
-
-             // 검색 결과를 받은 후 다시 초기화하여 검색을 가능하게 합니다.
-             initializeSearch();
-         })
-         .catch(error => console.error("검색 오류: ", error));
- }
-
+    fetch(fullUrl)
+        .then(response => response.text())
+        .then(data => {
+                const layout = document.querySelector(".layout");
+                                   const searchResults = new DOMParser().parseFromString(data, "text/html");
+                                   layout.innerHTML = searchResults.querySelector(".layout").innerHTML;
+            // 검색 결과를 받은 후 다시 초기화하여 검색을 가능하게 합니다.
+            initializeSearch();
+        })
+        .catch(error => console.error("검색 오류: ", error));
+}
 
 // 초기화 함수 (이 함수를 호출하여 페이지가 로드될 때 검색을 초기화)
 function initializeSearch() {

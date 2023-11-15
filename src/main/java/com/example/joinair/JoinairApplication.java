@@ -11,7 +11,4 @@ public class JoinairApplication {
 	public static void main(String[] args) {
 		SpringApplication.run(JoinairApplication.class, args);
 	}
-
-
-
 }

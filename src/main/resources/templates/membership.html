@@ -4,13 +4,14 @@
     <meta charset="utf-8">
     <meta name="viewport" content="width=device-width, initial-scale=1">
     <title>회원가입 페이지</title>
-    <link rel="apple-touch-icon" href="/assets/img/apple-icon.png">
-    <link rel="shortcut icon" type="image/x-icon" href="/assets/img/favicon.ico">
+    <link rel="apple-touch-icon" href="assets/img/apple-icon.png">
+    <link rel="shortcut icon" type="image/x-icon" href="assets/img/favicon.ico">
     <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/4.5.2/css/bootstrap.min.css">
-    <link rel="stylesheet" href="/assets/css/templatemo.css">
-    <link rel="stylesheet" href="/assets/css/custom.css">
+    <link rel="stylesheet" href="assets/css/templatemo.css">
+    <link rel="stylesheet" href="assets/css/custom.css">
     <link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Roboto:wght@100;200;300;400;500;700;900&display=swap">
-    <link rel="stylesheet" href="/assets/css/fontawesome.min.css">
+    <link rel="stylesheet" href="assets/css/fontawesome.min.css">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/twitter-bootstrap/4.5.0/css/bootstrap.min.css">
     <link rel="stylesheet" href="https://unpkg.com/leaflet@1.7.1/dist/leaflet.css"
           integrity="sha512-xodZBNTC5n17Xt2atTPuE1HxjVMSvLVW9ocqUKLsCC5CXdbqCmblAshOMAS6/keqq/sMZMZ19scR4PsZChSR7A==" crossorigin=""/>
     <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
@@ -127,24 +128,24 @@
             <div class="form-group">
                 <input type="text" id="userid" class="form-control" name="User_Id" placeholder="아이디" required>
             </div>
-            <span id="message"></span>
+                <span id="message"></span>
             <div class="form-group">
                 <input type="text" id="usernm" class="form-control" name="User_Name" placeholder="이름" required>
             </div>
             <div class="form-group">
                 <div class="input-group">
                     <input type="text" id="useremail" class="form-control" name="User_Email" placeholder="이메일 주소" required>
-                    <!--                    <select class="custom-select" id="emailDomainDropdown" onchange="updateEmail()">-->
-                    <!--                        <option value="" selected disabled>도메인 선택</option>-->
-                    <!--                        <option value="@gmail.com">gmail.com</option>-->
-                    <!--                        <option value="@naver.com">naver.com</option>-->
-                    <!--                        <option value="@nate.com">nate.com</option>-->
-                    <!--                    </select>-->
+<!--                    <select class="custom-select" id="emailDomainDropdown" onchange="updateEmail()">-->
+<!--                        <option value="" selected disabled>도메인 선택</option>-->
+<!--                        <option value="@gmail.com">gmail.com</option>-->
+<!--                        <option value="@naver.com">naver.com</option>-->
+<!--                        <option value="@nate.com">nate.com</option>-->
+<!--                    </select>-->
                 </div>
             </div>
 
             <div class="form-group">
-                <input type="password" id="userpw" class="form-control" name="User_Password" placeholder="비밀번호" required>
+            <input type="password" id="userpw" class="form-control" name="User_Password" placeholder="비밀번호" required>
             </div>
             <div class="form-group">
                 <input type="password" id="userpw2" class="form-control" placeholder="비밀번호 확인" required>
@@ -335,13 +336,10 @@ function join_user() {
 </script>>
 
 
-
-
-
-<footer class="bg-dark pt-1" id="tempaltemo_footer">
+<footer class="bg-dark" id="tempaltemo_footer">
     <div class="container">
         <div class="row">
-            <div class="col-md-5     pt-3">
+            <div class="col-md-4 pt-5">
                 <h2 class="h2 text-success border-bottom pb-3 border-light logo">Join Air🪂</h2>
                 <ul class="list-unstyled text-light footer-link-list">
                     <li>
@@ -350,39 +348,54 @@ function join_user() {
                     </li>
                     <li>
                         <i class="fa fa-phone fa-fw"></i>
-                        <a class="text-decoration-none" href="tel:010-020-0340">010-1234-1234</a>
+                        <a class="text-decoration-none" href="tel:010-1234-5678">010-1234-5678</a>
                     </li>
                     <li>
                         <i class="fa fa-envelope fa-fw"></i>
-                        <a class="text-decoration-none" href="mailto:info@company.com">drone delivery
-                            @drone delivery
-                            .com</a>
+                        <a class="text-decoration-none" href="mailto:info@dronefood.com">drone@dronedelivery.com</a>
                     </li>
                 </ul>
             </div>
-            <div class="col-md-4 pt-4 text-left">
-                <h2 class="h2 text-light border-bottom pb-3 border-light">정보</h2>
+            <div class="col-md-4 pt-5">
+                <h2 class="h2 text-light border-bottom pb-3 border-light">메뉴</h2>
                 <ul class="list-unstyled text-light footer-link-list">
-                    <li><a class="text-decoration-none" href="/index">홈</a></li>
-                    <li><a class="text-decoration-none" href="/about">회사 소개</a></li>
+                    <li><a class="text-decoration-none" href="#">주문 하기</a></li>
+                    <li><a class="text-decoration-none" href="#">배달 정보</a></li>
+                    <li><a class="text-decoration-none" href="#">고객 지원</a></li>
                     <li><a class="text-decoration-none" href="#">드론 정보</a></li>
                 </ul>
             </div>
+            <div class="col-md-4 pt-5">
+                <h2 class="h2 text-light border-bottom pb-3 border-light">정보</h2>
+                <ul class="list-unstyled text-light footer-link-list">
+                    <li><a class="text-decoration-none" href="http://localhost:63342/joinair/src/main/resources/boot/index.html">홈</a></li>
+                    <li><a class="text-decoration-none" href="http://localhost:63342/joinair/src/main/resources/boot/about.html">회사/소개</a></li>
+                    <li><a class="text-decoration-none" href="http://localhost:63342/joinair/src/main/resources/boot/contact.html">문의</a></li>
+                </ul>
+            </div>
+        </div>
+        <div class="row text-light mb-4">
+            <div class="col-12 mb-3">
+                <div class="w-100 my-3 border-top border-light"></div>
+            </div>
+            <div class="col-auto me-auto">
+
+            </div>
         </div>
     </div>
-    <div class="w-80 bg-black py-1">
+    <div class="w-100 bg-black py-3">
         <div class="container">
-            <div class="row pt-1">
-                <div class="col-3">
+            <div class="row pt-2">
+                <div class="col-12">
                     <p class="text-left text-light">
                         저작권 © 2023 Join Air
-                        <a rel="sponsored" href="https://templatemo.com/page/1" target="_blank"></a>
                     </p>
                 </div>
             </div>
         </div>
     </div>
 </footer>
+
 <!--  다음 카카오 API 카카오맵 자바스크립트문-->
 <script src="http://dmaps.daum.net/map_js_init/postcode.v2.js"></script>
 
@@ -449,11 +462,11 @@ function join_user() {
 
 
 <!--<script src="assets/js/jquery-1.11.0.min.js"></script>-->
-<script src="/assets/js/jquery-1.11.0.min.js"></script>
-<script src="/assets/js/jquery-migrate-1.2.1.min.js"></script>
-<script src="/assets/js/bootstrap.bundle.min.js"></script>
-<script src="/assets/js/templatemo.js"></script>
-<script src="/assets/js/custom.js"></script>
-<script src="/assets/js/slick.min.js"></script>
+<script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
+<script src="assets/js/jquery-migrate-1.2.1.min.js"></script>
+<script src="assets/js/bootstrap.bundle.min.js"></script>
+<script src="assets/js/templatemo.js"></script>
+<script src="assets/js/custom.js"></script>
+<script src="assets/js/membership.js"></script>
 </body>
 </html>

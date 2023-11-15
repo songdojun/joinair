@@ -188,7 +188,7 @@
 
         <div class="mb-3">
             <label for="Rev_Writer" class="form-label">작성자:</label>
-            <input name="Rev_Writer" type="text" id="Rev_Writer" class="form-control">
+            <input name="Rev_Writer" type="text" id="Rev_Writer" class="form-control" th:value="${session.User_Id}" readonly>
         </div>
 
         <div class="mb-3">

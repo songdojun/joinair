@@ -43,6 +43,7 @@ public class CartController {
         if (session.getAttribute("cart") == null) {
             List<Item> cart = new ArrayList<Item>();
             cart.add(new Item(productService.findOne(Pro_Code), quantity));
+            updateWeightInCart(cart); // 장바구니에 상품 추가 시 무게 업데이트
             session.setAttribute("cart", cart);
             // 로그 추가
             logCartDetails("New cart created", cart);
@@ -55,9 +56,7 @@ public class CartController {
                     item.setQuantity(newQuantity);
 
                     // 무게 업데이트
-                    Product product = item.getProduct();
-                    // 상품 무게 = 상품 1개의 무게 * 수량
-                    product.setPro_Weight(productService.findOne(Pro_Code).getPro_Weight() * newQuantity);
+                    updateWeightInItem(item, newQuantity);
                     found = true;
                     break;
                 }
@@ -66,10 +65,11 @@ public class CartController {
             if (!found) {
                 cart.add(new Item(productService.findOne(Pro_Code), quantity));
             }
+
+            updateWeightInCart(cart); // 장바구니에 상품 추가 시 무게 업데이트
             session.setAttribute("cart", cart);
             // 로그 추가
             logCartDetails("Item added to cart 동일상품 카트 추가", cart);
-
         }
 
         // 장바구니에 상품을 추가한 후, total 다시 계산
@@ -79,9 +79,9 @@ public class CartController {
         // 로그 추가
         logger.info("Total updated in 'buy' method - Total: {}", total);
 
-
         return "redirect:../../cart";
     }
+
 
 //    private void logCartDetails(String message, List<Item> cart) {
 //        logger.info("{} - Cart Details:", message);
@@ -190,7 +190,19 @@ public class CartController {
         return s;
     }
 
+    // 장바구니에 있는 모든 상품의 무게를 업데이트
+    private void updateWeightInCart(List<Item> cart) {
+        for (Item item : cart) {
+            updateWeightInItem(item, item.getQuantity());
+        }
+    }
 
+    // 상품의 무게를 수량에 맞게 업데이트
+    private void updateWeightInItem(Item item, int quantity) {
+        Product product = item.getProduct();
+        // 상품 무게 = 상품 1개의 무게 * 수량
+        product.setPro_Weight(productService.findOne(product.getPro_Code()).getPro_Weight() * quantity);
+    }
 
 
 
@@ -207,4 +219,3 @@ public class CartController {
 
 
 }
-
