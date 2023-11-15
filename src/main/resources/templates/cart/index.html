@@ -1,5 +1,6 @@
 <!DOCTYPE html>
-<html lang="ko" xmlns:th="http://www.thymeleaf.org">
+<html lang="ko" xmlns:th="http://www.thymeleaf.org"
+      xmlns:sec="http://www.thymeleaf.org/thymeleaf-extras-springsecurity">
 <head>
     <meta charset="UTF-8">
     <title>Cart and Order Information</title>
@@ -257,20 +258,26 @@
 </div>
 
 <!-- 결제 버튼 -->
-<!-- 결제 버튼 -->
-<form method="post" action="/order/place" onsubmit="submitOrderForm(event)">
-    <button type="submit" data-toggle="modal" data-target="#paymentModal" class="btn btn-primary" style="margin: auto; display: block;">결제</button><br>
-</form>
+<!--<form method="post" action="/order/place" onsubmit="submitOrderForm(event)">-->
+<!--    <button type="submit" data-toggle="modal" data-target="#paymentModal" class="btn btn-primary" style="margin: auto; display: block;">결제</button><br>-->
+<!--</form>-->
+<button type="button" data-toggle="modal" data-target="#paymentModal" class="btn btn-primary" style="margin: auto; display: block;" onclick="openPaymentModal()">결제</button><br>
+
 
 <script>
     function submitOrderForm(event) {
            event.preventDefault(); // 기본 동작(페이지 전환)을 중지 리턴값 무시
 
            // 여기에서 추가적인 작업을 수행
-           // ...
+
 
            // 주문 폼 데이터
            var formData = new FormData(event.target);
+
+           var finalAmount = parseFloat(document.getElementById('total1').textContent);
+
+           // 수정: 최종 결제 금액을 FormData에 추가
+           formData.append('finalAmount', finalAmount);
 
            // 주문 요청 보내기
            fetch('/order/place', {
@@ -286,7 +293,7 @@
            .then(data => {
                // 성공적으로 처리된 경우 모달 닫기 및 페이지 리로드
                $('#paymentModal').modal('hide');
-               location.reload();
+            window.location.href = "/order/orderConfirm/" + data; // 여기서 data는 서버에서 반환한 주문 ID입니다.
            })
            .catch((error) => {
                console.error('Error:', error);
@@ -329,7 +336,15 @@
                 <p>최종 결제 금액: <span class="final" id="total1"></span></p>
                 <!-- 기타 결제 관련 정보 및 양식 -->
                 <!-- 예를 들어, 신용카드 정보 입력 폼 등이 들어갈 수 있습니다. -->
+
+                <!-- 주문 완료 및 결제하기 버튼 -->
+                <form method="post" action="/order/place" onsubmit="submitOrderForm(event)">
+                    <input type="hidden" name="finalAmount" id="finalAmountInput" />
+                    <button type="submit" data-toggle="modal" data-target="#paymentModal" class="btn btn-primary" style="margin: auto; display: block;">주문완료 및 결제하기</button><br>
+                </form>
+<!--                    <button onclick="submitOrderForm(event)" class="btn btn-success">주문완료 및 결제하기</button></form>-->
             </div>
+
             <div class="modal-footer">
                 <!-- 결제 버튼 -->
                 <button onclick="requestCardPayment()" class="btn btn-primary">카드결제</button>
@@ -504,23 +519,25 @@ window.addEventListener('load', function () {
         }
 
         // 할인 금액은 입력된 마일리지만큼
-        discountAmount = parseFloat(mileageInput);
+        var discountAmount = parseFloat(mileageInput);
 
         // 추가: 총 적립 금액은 총 주문 금액의 일정 비율(예: 5%)로 설정
         var rewardAmount = totalAmount * 0.05;
-
-        // 최종 결제 금액은 총 주문 금액에서 할인 금액을 뺀 값
-        // 추가: 최종 결제 금액이 마이너스가 되지 않도록 제한
-        finalAmount = Math.max(finalAmount - discountAmount, 0);
 
         // 추가: 할인 금액과 적립 금액을 모달에 표시
         document.getElementById('discountAmount').textContent = discountAmount;
         document.getElementById('rewardAmount').textContent = rewardAmount;
 
+        // 최종 결제 금액은 총 주문 금액에서 할인 금액을 뺀 값
+        // 추가: 최종 결제 금액이 마이너스가 되지 않도록 제한
+        finalAmount = Math.max(totalAmount - discountAmount, 0);
+
         // 모달 내부에 적용된 마일리지 정보를 적용
-        document.getElementById('totalAmount').textContent = totalAmount - discountAmount;
+        document.getElementById('totalAmount').textContent = totalAmount;
         document.getElementById('total1').textContent = finalAmount;
-    }
+
+        document.getElementById('finalPaymentAmount').value = finalAmount;
+        }
 
    // 총 무게 및 할인, 적립 등 업데이트
    function updateTotal() {
@@ -566,12 +583,7 @@ window.addEventListener('load', function () {
            finalAmountCell.textContent = finalAmount;
        }
    }
-
-
 </script>
-
-
-
 <script>
     // 아임포트 초기화 및 카드결제 요청
     function requestCardPayment() {
@@ -607,14 +619,6 @@ window.addEventListener('load', function () {
     function redirectToBankTransferPage() {
         window.location.href = "/payment/Deposit";
     }
-
-
-
-
-
-
-
-
 
 </script>
 <script src="https://code.jquery.com/jquery-1.12.4.min.js"></script>

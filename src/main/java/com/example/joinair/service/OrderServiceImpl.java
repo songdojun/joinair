@@ -64,6 +64,11 @@ public class OrderServiceImpl implements OrderService {
         }
 
 
+
+        // 주문 정보를 세션에 저장
+        session.setAttribute("order", order);
+        session.setAttribute("orderDetails", orderDetails);
+
         // 주문 완료 후 장바구니 비우기 (선택적)
         session.removeAttribute("cart");
     }
@@ -120,6 +125,16 @@ public class OrderServiceImpl implements OrderService {
         System.out.println(order);
 
         return order;
+    }
+
+    @Override
+    public ORDERS getOrder(int orderId) {
+        return orderMapper.getOrder(orderId);
+    }
+
+    @Override
+    public List<ORDER_DETAIL> getOrderDetails(int orderId) {
+        return orderMapper.getOrderDetails(orderId);
     }
 
 }

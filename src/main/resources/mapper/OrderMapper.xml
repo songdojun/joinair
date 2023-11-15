@@ -33,4 +33,12 @@
     ]]>
     </insert>
 
+    <select id="getOrder" resultType="com.example.joinair.dto.ORDERS">
+        SELECT * FROM ORDERS WHERE Orders_Num = #{orderId}
+    </select>
+
+    <select id="getOrderDetails" resultType="com.example.joinair.dto.ORDER_DETAIL">
+        SELECT * FROM ORDER_DETAIL WHERE Orders_Num = #{orderId}
+    </select>
+
 </mapper>
