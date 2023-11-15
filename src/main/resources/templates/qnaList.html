@@ -140,23 +140,24 @@
         </tbody>
     </table>
     <!-- 페이징 번호 표시 (가운데 정렬) -->
-    <nav aria-label="Page navigation">
+    <nav aria-label="Page navigation" class="text-center">
         <ul class="pagination justify-content-center">
             <li th:class="${currentPage == 1} ? 'page-item disabled' : 'page-item'">
-                <a class="page-link" th:href="@{/qna/qnaList?page=1}" aria-label="Previous">
-                    <span aria-hidden="true">&laquo;</span>
+                <a class="page-link" th:href="@{/qna/qnaList(page=1)}" aria-label="Previous">
+                    <span aria-hidden="true">&laquo;&laquo;</span>
                 </a>
             </li>
-            <li th:each="pageNumber : ${pageNumbers}" th:class="${currentPage == pageNumber} ? 'page-item active' : 'page-item'">
-                <a class="page-link" th:href="@{/qna/qnaList?page=${pageNumber}}" th:text="${pageNumber}"></a>
+            <li th:each="pageNumber : ${pageNumbers}" th:class="${currentPage == pageNumber ? 'page-item active' : 'page-item'}">
+                <a class="page-link" th:href="@{/qna/qnaList(page=${pageNumber})}" th:text="${pageNumber}"></a>
             </li>
             <li th:class="${currentPage == totalPageCount} ? 'page-item disabled' : 'page-item'">
-                <a class="page-link" th:href="@{/qna/qnaList?page=${totalPageCount}}" aria-label="Next">
-                    <span aria-hidden="true">&raquo;</span>
+                <a class="page-link" th:href="@{/qna/qnaList(page=${totalPageCount})}" aria-label="Next">
+                    <span aria-hidden="true">&raquo;&raquo;</span>
                 </a>
             </li>
         </ul>
     </nav>
+
     <a href="/qna/qnaInsert-view" class="btn btn-primary">새로운 게시글 작성</a>
 </div>
 <footer class="bg-dark" id="tempaltemo_footer" style="margin-bottom: -1000px;">

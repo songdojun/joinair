@@ -20,7 +20,7 @@ public interface qnaMapper {
     void qnadelete(QNA QNA_NO);
 
 
-//    public List<QNA> qnaListWithPaging(int startIndex, int endIndex, String keyword);
+    public List<QNA> qnaListWithPaging(int startIndex, int endIndex, String keyword);
 
     int getTotalItemCount();
 }

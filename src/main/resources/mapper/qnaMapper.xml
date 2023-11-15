@@ -38,30 +38,28 @@
     </delete>
 
 
-
-<!--    <select id="qnaListWithPaging" resultType="com.example.joinair.dto.QNA">-->
-<!--        SELECT *-->
-<!--        FROM (-->
-<!--        SELECT qna.*, ROWNUM AS rnum-->
-<!--        FROM (-->
-<!--        SELECT * FROM qna-->
-<!--        where qna_title like '%${keyword}%'-->
-<!--        ORDER BY QNA_NO DESC-->
-<!--        ) qna-->
-<!--        )-->
-<!--        WHERE rnum between #{startIndex} AND #{endIndex}-->
-
-<!--    </select>-->
+    <select id="qnaListWithPaging" resultType="com.example.joinair.dto.QNA">
+        SELECT *
+        FROM (
+        SELECT qna.*, ROWNUM AS rnum
+        FROM (
+        SELECT * FROM qna
+        <if test="keyword != null and keyword != ''">
+            WHERE qna_title like '%${keyword}%'
+        </if>
+        ORDER BY QNA_NO DESC
+        ) qna
+        )
+        WHERE rnum BETWEEN #{startIndex} AND #{endIndex}
+    </select>
 
     <select id="getTotalItemCount" resultType="int">
         SELECT count(QNA_NO) FROM qna
-
         <if test="keyword != null and keyword != ''">
-        WHERE qna_title like '%${keyword}%'
+            WHERE qna_title like '%${keyword}%'
         </if>
-
-        ORDER BY QNA_NO DESC
     </select>
+
 
 
 
