@@ -156,11 +156,12 @@ public class qnaController {
     }
 
     @GetMapping("/qnaUpdate-view/{QNA_NO}")
-    public ModelAndView qnaUpdateView(QNA QNA_NO) {
+    public ModelAndView qnaUpdateView(Model model,QNA QNA_NO) {
         QNA result = qnaService.qna(QNA_NO);
 
 
         ModelAndView mv = new ModelAndView();
+        addUserInfoToModel(model);
         mv.setViewName("qnaUpdate");
         mv.setStatus(HttpStatus.OK);
         mv.addObject("qna", result);

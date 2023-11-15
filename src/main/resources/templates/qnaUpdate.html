@@ -1,19 +1,19 @@
 <!DOCTYPE html>
-<html lang="en">
+<html lang="ko" xmlns:th="http://www.thymeleaf.org"
+      xmlns:sec="http://www.thymeleaf.org/thymeleaf-extras-springsecurity">
 <head>
     <title>JoinAir</title>
     <meta charset="utf-8">
     <meta name="viewport" content="width=device-width, initial-scale=1">
-
-    <link rel="apple-touch-icon" href="../static/assets/img/apple-icon.png">
-    <link rel="shortcut icon" type=" image/x-icon" href="../static/assets/img/favicon.ico">
-
-    <link rel="stylesheet" href="../static/assets/css/bootstrap.min.css">
-    <link rel="stylesheet" href="../static/assets/css/templatemo.css">
-    <link rel="stylesheet" href="../static/assets/css/custom.css">
-
+    <link rel="apple-touch-icon" href="/assets/img/apple-icon.png">
+    <link rel="shortcut icon" type="image/x-icon" href="/assets/img/favicon.ico">
+    <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/4.5.2/css/bootstrap.min.css">
+    <link rel="stylesheet" href="/assets/css/templatemo.css">
+    <link rel="stylesheet" href="/assets/css/custom.css">
     <link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Roboto:wght@100;200;300;400;500;700;900&display=swap">
-    <link rel="stylesheet" href="../static/assets/css/fontawesome.min.css">
+    <link rel="stylesheet" href="/assets/css/fontawesome.min.css">
+    <link rel="stylesheet" href="https://unpkg.com/leaflet@1.7.1/dist/leaflet.css"
+          integrity="sha512-xodZBNTC5n17Xt2atTPuE1HxjVMSvLVW9ocqUKLsCC5CXdbqCmblAshOMAS6/keqq/sMZMZ19scR4PsZChSR7A==" crossorigin=""/>
     <style>
         #tempaltemo_footer {
             margin-bottom: 300px;
@@ -36,9 +36,11 @@
                 <a href="tel:010-1234-5678" class="navbar-sm-brand text-light text-decoration-none">010-1234-5678</a>
             </div>
             <div>
+                <span th:if="${userId != null and (userId != 'anonymousUser')}">💫 <span th:text="${userId}"></span> 님 환영합니다 💫</span>
+                <span sec:authorize="hasAuthority('admin')">
+                    <a th:href="@{/adminWelcome}" class="nav-link" style="display: inline-block; margin-left: 10px;">관리자 페이지</a></span>
                 <a class="text-light" href="https://fb.com/templatemo" target="_blank" rel="sponsored"><i class="fab fa-facebook-f fa-sm fa-fw me-2"></i></a>
                 <a class="text-light" href="https://www.instagram.com/" target="_blank"><i class="fab fa-instagram fa-sm fa-fw me-2"></i></a>
-
                 <a class="text-light" href="https://twitter.com/" target="_blank"><i class="fab fa-twitter fa-sm fa-fw me-2"></i></a>
             </div>
         </div>
@@ -68,42 +70,56 @@
                     <li class="nav-item">
                         <a class="nav-link" href="/notice/list">공지사항</a>
                     </li>
-
-            <div class="navbar align-self-center d-flex">
-                <div class="d-lg-none flex-sm-fill mt-3 mb-4 col-7 col-sm-auto pr-3">
-                    <div class="input-group">
-                        <input type="text" class="form-control" id="inputMobileSearch" placeholder="검색">
-                        <div class="input-group-text">
-                            <i class="fa fa-fw fa-search"></i>
-                        </div>
+                    <div>
+                        <a th:href="@{/logout}" class="nav-link">로그아웃</a>
                     </div>
-                </div>
-                <a class="nav-icon d-none d-lg-inline" href="#" data-bs-toggle="modal" data-bs-target="#templatemo_search">
-                    <i class="fa fa-fw fa-search text-dark mr-2"></i>
-                </a>
+                    </li>
+                    <li class="nav-item" sec:authorize="!isAuthenticated()">
+                        <div>
+                            <a th:href="@{/login}" class="nav-link">로그인</a>
+                        </div>
+                    </li>
+
+                    <div class="navbar align-self-center d-flex">
+                        <div class="d-lg-none flex-sm-fill mt-3 mb-4 col-7 col-sm-auto pr-3">
+                            <div class="input-group">
+                                <input type="text" class="form-control" id="inputMobileSearch" placeholder="검색">
+                                <div class="input-group-text">
+                                    <i class="fa fa-fw fa-search"></i>
+                                </div>
+                            </div>
+                        </div>
+                        <a class="nav-icon d-none d-lg-inline" href="#" data-bs-toggle="modal" data-bs-target="#templatemo_search">
+                            <i class="fa fa-fw fa-search text-dark mr-2"></i>
+                        </a>
+                    </div>
+                </ul>
             </div>
         </div>
     </div>
 </nav>
 <div class="container mt-5">
     <h1>Q&A 수정</h1>
-    <form method="post" action="/qna/qnaUpdate/{{qna.QNA_NO}}">
-        <input type="hidden" name="QNA_NO" value="{{qna.QNA_NO}}">
+    <form method="post" th:action="@{/qna/qnaUpdate/{qnaNo}(qnaNo=${qna.QNA_NO})}">
+        <input type="hidden" name="QNA_NO" th:value="${qna.QNA_NO}">
         <div class="form-group">
             <label for="QNA_TITLE">문의 제목:</label>
-            <input type="text" name="QNA_TITLE" class="form-control" value="{{qna.QNA_TITLE}}">
+            <input type="text" name="QNA_TITLE" class="form-control" th:value="${qna.QNA_TITLE}" id="QNA_TITLE">
         </div>
         <div class="form-group">
             <label for="QNA_CONTENT">문의 내용:</label>
-            <textarea name="QNA_CONTENT" class="form-control">{{qna.QNA_CONTENT}}</textarea>
+            <textarea name="QNA_CONTENT" class="form-control" id="QNA_CONTENT" th:text="${qna.QNA_CONTENT}"></textarea>
         </div>
         <div class="form-group">
             <label for="USER_ID">작성자:</label>
-            <input type="text" READONLY name="USER_ID" class="form-control" value="{{qna.USER_ID}}">
+            <input th:if="${userId != null and (userId != 'anonymousUser')}" type="text" class="form-control" name="USER_ID" th:value="${userId}" id="USER_ID" readonly required>
+            <input th:unless="${userId != null and (userId != 'anonymousUser')}" type="text" class="form-control" name="USER_ID" readonly disabled>
+            <span th:unless="${userId != null and (userId != 'anonymousUser')}">로그인 후 작성 가능합니다.</span>
         </div>
         <div class="form-group">
             <label for="PRO_CODE">상품 코드:</label>
-            <input type="text" READONLY name="PRO_CODE" class="form-control" value="{{qna.PRO_CODE}}">
+            <input type="hidden" name="PRO_CODE" th:value="${qna.PRO_CODE}">
+            <input type="text" class="form-control" id="PRO_CODE" th:value="${qna.PRO_CODE}" readonly>
         </div>
         <button type="submit" class="btn btn-primary">Q&A 수정</button>
     </form>
@@ -204,6 +220,12 @@
 </footer>
 <!-- Mustache.js 라이브러리를 포함합니다 -->
 <script src="https://cdnjs.cloudflare.com/ajax/libs/mustache.js/4.2.0/mustache.min.js"></script>
+
+</body>
+</html>
+</title>
+</head>
+<body>
 
 </body>
 </html>
