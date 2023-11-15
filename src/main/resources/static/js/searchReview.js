@@ -20,7 +20,9 @@ function performSearch(page = 0) {
     fetch(fullUrl)
         .then(response => response.text())
         .then(data => {
-            document.querySelector(".layout").innerHTML = data;
+            const layout = document.querySelector(".layout");
+                        const searchResults = new DOMParser().parseFromString(data, "text/html");
+                        layout.innerHTML = searchResults.querySelector(".layout").innerHTML;
 
             // 검색 결과를 받은 후 다시 초기화하여 검색을 가능하게 합니다.
             initializeSearch();

@@ -217,98 +217,23 @@
 <!-- 콘텐츠 끝 -->
 
 <!-- 푸터 시작 -->
-<footer class="bg-dark" id="tempaltemo_footer" style="margin-bottom: -1000px;">
+<footer class="bg-dark" id="tempaltemo_footer">
     <div class="container">
         <div class="row">
-
-            <div class="col-md-4 pt-5">
+            <div class="col-md-5 pt-4">
                 <h2 class="h2 text-success border-bottom pb-3 border-light logo">Join Air🪂</h2>
                 <ul class="list-unstyled text-light footer-link-list">
-                    <li>
-                        <i class="fas fa-map-marker-alt fa-fw"></i>
-                        한국직업전문학교 11층 강의실02 항공4기 2조
-                    </li>
-                    <li>
-                        <i class="fa fa-phone fa-fw"></i>
-                        <a class="text-decoration-none" href="tel:010-020-0340">010-1234-1234</a>
-                    </li>
-                    <li>
-                        <i class="fa fa-envelope fa-fw"></i>
-                        <a class="text-decoration-none" href="mailto:info@company.com">drone delivery
-                            @drone delivery
-                            .com</a>
-                    </li>
+                    <li><i class="fas fa-map-marker-alt fa-fw"></i>한국직업전문학교 11층 강의실02 항공4기 2조</li>
+                    <li><i class="fa fa-phone fa-fw"></i><a class="text-decoration-none" href="tel:010-1234-5678">010-1234-5678</a></li>
+                    <li><i class="fa fa-envelope fa-fw"></i><a class="text-decoration-none" href="mailto:info@dronefood.com">drone@dronedelivery.com</a></li>
                 </ul>
             </div>
-
-            <div class="col-md-4 pt-5">
-                <h2 class="h2 text-light border-bottom pb-3 border-light">메뉴</h2>
-                <ul class="list-unstyled text-light footer-link-list">
-                    <li><a class="text-decoration-none" href="#">주문하기</a></li>
-                    <li><a class="text-decoration-none" href="#">배달 정보</a></li>
-                    <li><a class="text-decoration-none" href="#">고객지원</a></li>
-
-
-                </ul>
-            </div>
-
-            <div class="col-md-4 pt-5">
-                <h2 class="h2 text-light border-bottom pb-3 border-light">추가 정보</h2>
-                <ul class="list-unstyled text-light footer-link-list">
-                    <li><a class="text-decoration-none" href="/index">홈</a></li>
-                    <li><a class="text-decoration-none" href="/about">회사 소개</a></li>
-                    <li><a class="text-decoration-none" href="#">드론 정보</a></li>
-                    <li><a class="text-decoration-none" href="#">고객센터</a></li>
-
-                </ul>
-            </div>
-
-        </div>
-
-        <div class="row text-light mb-4">
-            <div class="col-12 mb-3">
-                <div class="w-100 my-3 border-top border-light"></div>
-            </div>
-            <div class="col-auto me-auto">
-                <ul class="list-inline text-left footer-icons">
-                    <li class="list-inline-item border border-light rounded-circle text-center">
-                        <a rel="nofollow" class="text-light text-decoration-none" target="_blank" href="http://fb.com/templatemo"><i class="fab fa-facebook-f fa-lg fa-fw"></i></a>
-                    </li>
-                    <li class="list-inline-item border border-light rounded-circle text-center">
-                        <a class="text-light text-decoration-none" target="_blank" href="https://www.instagram.com/"><i class="fab fa-instagram fa-lg fa-fw"></i></a>
-                    </li>
-
-
-                    <li class="list-inline-item border border-light rounded-circle text-center">
-                        <a class="text-light text-decoration-none" target="_blank" href="https://twitter.com/"><i class="fab fa-twitter fa-lg fa-fw"></i></a>
-                    </li>
-                </ul>
-            </div>
-            <div class="col-auto">
-                <label class="sr-only" for="subscribeEmail">Drone Delivery@drone delivery.com
-
-                </label>
-                <div class="input-group mb-2">
-                    <input type="text" class="form-control bg-dark border-light" id="subscribeEmail" placeholder="">
-
-                </div>
+            <div class="col-12 text-light mb-4">
+                <hr class="border-light">
+                <p class="text-center">저작권 © 2023 Join Air</p>
             </div>
         </div>
     </div>
-
-    <div class="w-100 bg-black py-3">
-        <div class="container">
-            <div class="row pt-2">
-                <div class="col-12">
-                    <p class="text-left text-light">
-                        저작권 © 2023 Join Air
-                        <a rel="sponsored" href="https://templatemo.com/page/1" target="_blank"></a>
-                    </p>
-                </div>
-            </div>
-        </div>
-    </div>
-
 </footer>
 <!-- 푸터 끝 -->
 
@@ -324,54 +249,71 @@
 
 <script>
     document.addEventListener('DOMContentLoaded', function() {
-        // 수량 조절 버튼 및 수량 표시 요소 가져오기
-        const quantityElement = document.getElementById('var-value');
-        const minusButton = document.getElementById('btn-minus');
-        const plusButton = document.getElementById('btn-plus');
+     // 수량 조절 버튼 및 수량 표시 요소 가져오기
+     const quantityElement = document.getElementById('var-value');
+     const minusButton = document.getElementById('btn-minus');
+     const plusButton = document.getElementById('btn-plus');
 
-        // 초기 수량 설정
-        let quantity = 1;
-        quantityElement.textContent = quantity;
+     // 초기 수량 설정
+     let quantity = 1;
+     quantityElement.textContent = quantity;
 
-        // 수량 증가 버튼 클릭 시
-        plusButton.addEventListener('click', function() {
-            quantity++;
-            quantityElement.textContent = quantity;
-        });
+     // 수량 증가 및 감소 버튼 클릭 이벤트 리스너 추가
+     plusButton.addEventListener('click', function() {
+         updateQuantity(1);
+     });
 
-        // 수량 감소 버튼 클릭 시 (단, 최소 수량은 1입니다)
-        minusButton.addEventListener('click', function() {
-            if (quantity > 1) {
-                quantity--;
-                quantityElement.textContent = quantity;
-            }
-        });
-    });
+     minusButton.addEventListener('click', function() {
+         updateQuantity(-1);
+     });
 
-function addToCart() {
-    // 제품 코드 가져오기
-    var productCode = [[${Product.Pro_Code}]];
+     // 무게 및 카트 업데이트 함수
+     function updateQuantity(change) {
+         // 현재 수량 가져오기
+         quantity += change;
 
-    // 수량 입력 필드에서 값을 가져오기
-    var quantityInput = document.getElementById('var-value');
-    var quantity = quantityInput.textContent;
+         // 최소 수량은 1로 제한
+         quantity = Math.max(1, quantity);
 
-    if (productCode && quantity) {
-        // 수량과 함께 컨트롤러로 리디렉션
-        window.location.href = "/cart/buy/" + productCode + "?quantity=" + quantity;
-    } else {
-        console.error("제품 코드 또는 수량이 없습니다.");
-    }
-      $.ajax({
-            type: 'POST',
-            url: '/cart/buy/' + productCode + '?quantity=' + quantity,
-            success: function(data) {
-                // 서버에서 업데이트된 총합을 반환받으면 해당 부분 업데이트
-                $('#total').text(data.total);
-            }
-        });
-}
+         // 수량 표시 업데이트
+         quantityElement.textContent = quantity;
 
+         // 무게 업데이트
+         updateWeight();
+
+         // 카트 업데이트
+         addToCart();
+     }
+
+     // 무게 업데이트 함수
+     function updateWeight() {
+         // 무게를 quantity * Pro_Weight로 계산
+         const proWeight = parseFloat([[${Product.Pro_Weight}]]);
+         const weight = quantity * proWeight;
+         document.getElementById('weight').textContent = weight + 'g';
+     }
+ });
+
+ // 나머지 코드는 그대로 유지
+ function addToCart() {
+     var productCode = [[${Product.Pro_Code}]];
+     var quantityInput = document.getElementById('var-value');
+     var quantity = quantityInput.textContent;
+
+     if (productCode && quantity) {
+         window.location.href = "/cart/buy/" + productCode + "?quantity=" + quantity;
+     } else {
+         console.error("제품 코드 또는 수량이 없습니다.");
+     }
+
+     $.ajax({
+         type: 'POST',
+         url: '/cart/buy/' + productCode + '?quantity=' + quantity,
+         success: function(data) {
+             $('#total').text(data.total);
+         }
+     });
+ }
 
 
 </script>

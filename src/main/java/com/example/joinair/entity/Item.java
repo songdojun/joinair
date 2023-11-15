@@ -1,8 +1,8 @@
 package com.example.joinair.entity;
 
 public class Item {
-    private Product product;
-    private int quantity;
+    private Product product;   //Product객체
+    private int quantity; //상품 수량
 
     public Product getProduct() {
         return product;
@@ -29,11 +29,11 @@ public class Item {
         super();
     }
 
-    public double getSubtotal() {
+    public int getSubtotal() {
         if (product != null) {
             return product.getPro_Price() * quantity;
         } else {
-            return 0.0;
+            return (int) 0.0;
         }
     }
 

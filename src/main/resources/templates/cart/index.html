@@ -1,29 +1,117 @@
 <!DOCTYPE html>
-<html lang="en" xmlns:th="http://www.thymeleaf.org">
+<html lang="ko" xmlns:th="http://www.thymeleaf.org">
 <head>
     <meta charset="UTF-8">
     <title>Cart and Order Information</title>
+
+    <link rel="apple-touch-icon" href="/assets/img/apple-icon.png">
+
+    <!-- 다른 장치용 바로 가기 아이콘 -->
+    <link rel="shortcut icon" type="image/x-icon" href="/assets/img/favicon.ico">
+
+    <!-- Bootstrap CSS - 반응형 및 모바일 우선 웹사이트를 구축하기 위한 인기 있는 CSS 프레임워크 -->
     <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/4.5.2/css/bootstrap.min.css">
+
+    <!-- Templatemo CSS - 템플릿을 위한 사용자 지정 CSS -->
+    <link rel="stylesheet" href="/assets/css/templatemo.css">
+
+    <!-- Custom CSS - 웹사이트를 위한 추가적인 사용자 지정 스타일 -->
+    <link rel="stylesheet" href="/assets/css/custom.css">
+
+    <!-- Google Fonts의 Roboto 폰트, 다양한 두께 포함 -->
+    <link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Roboto:wght@100;200;300;400;500;700;900&display=swap">
+
+    <!-- Font Awesome CSS - 아이콘 라이브러리 -->
+    <link rel="stylesheet" href="/assets/css/fontawesome.min.css">
+
+    <!-- Leaflet CSS - 인터랙티브 맵을 위한 Leaflet JavaScript 라이브러리의 스타일시트 -->
+    <link rel="stylesheet" href="https://unpkg.com/leaflet@1.7.1/dist/leaflet.css"
+          integrity="sha512-xodZBNTC5n17Xt2atTPuE1HxjVMSvLVW9ocqUKLsCC5CXdbqCmblAshOMAS6/keqq/sMZMZ19scR4PsZChSR7A==" crossorigin=""/>
+
+    <link rel="apple-touch-icon" href="/assets/img/apple-icon.png">
+    <link rel="shortcut icon" type="image/x-icon" href="/assets/img/favicon.ico">
+    <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/4.5.2/css/bootstrap.min.css">
+    <link rel="stylesheet" href="/assets/css/templatemo.css">
+    <link rel="stylesheet" href="/assets/css/custom.css">
+    <link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Roboto:wght@100;200;300;400;500;700;900&display=swap">
+    <link rel="stylesheet" href="/assets/css/fontawesome.min.css">
+    <link rel="stylesheet" href="https://unpkg.com/leaflet@1.7.1/dist/leaflet.css"
+          integrity="sha512-xodZBNTC5n17Xt2atTPuE1HxjVMSvLVW9ocqUKLsCC5CXdbqCmblAshOMAS6/keqq/sMZMZ19scR4PsZChSR7A==" crossorigin=""/>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.2.0/css/all.min.css">
+
 </head>
 <style>
-    .container {
-    float: left;
-    margin-right: 20px; /* 왼쪽으로 이동한 두 컨테이너 사이의 간격, 필요에 따라 조정 */
-}
-   #payment-box {
-       position: fixed;
-       top: 5%; /* 결제창을 수직 가운데 정렬, 필요에 따라 조정 */
-       right: 20px; /* 원하는 우측 간격 설정, 필요에 따라 조정 */
-       background-color: skyblue;
-       float: right;
-       overflow-y: auto;
-       max-width: 100%; /* 화면 폭에 맞게 최대 너비 설정 */
-       max-height: 100%; /* 화면 높이에 맞게 최대 높이 설정 */
-       width: 350px; /* 너비를 자동으로 설정하여 유동적으로 크기 조절 */
-   }
-</style>
 
+    #payment-box {
+               position: fixed;
+               top: 1%;
+               right: 13px;
+               background-color: skyblue;
+               overflow-y: auto;
+               width: 180px;
+           }
+    .modal-dialog.modal-dialog-fixed-right {
+        position: fixed;
+        margin: 0;
+        top: 0;
+        right: 0;
+        bottom: 0;
+        z-index: 1050;
+        max-width: 100%;
+        width: 500px; /* 모달의 최대 너비 지정, 필요에 따라 조절 가능 */
+    }
+     .centered-button {
+        display: flex;
+        justify-content: center;
+        align-items: center;
+        height: 100vh; /* 버튼이 화면 중앙에 위치하도록 설정 */
+    }
+
+    .modal-dialog.modal-dialog-fixed-right {
+        position: fixed;
+        margin: 0;
+        top: 0;
+        right: 0;
+        bottom: 0;
+        z-index: 1050;
+        max-width: 100%;
+        width: 500px; /* 모달의 최대 너비 지정, 필요에 따라 조절 가능 */
+    }
+
+    .modal-footer {
+        text-align: center; /* 텍스트 중앙 정렬 */
+    }
+
+    .modal-footer .btn-primary {
+        margin-bottom: 10px; /* 결제 버튼 아래 여백 조절, 필요에 따라 조절 가능 */
+    }
+
+
+</style>
 <body>
+<!-- 상단 네비게이션 시작 -->
+<nav class="navbar navbar-expand-lg bg-dark navbar-light d-none d-lg-block" id="templatemo_nav_top">
+    <div class="container text-light">
+        <div class="w-100 d-flex justify-content-between">
+            <div>
+                <i class="fa fa-envelope mx-2"></i>
+                <a class="navbar-sm-brand text-light text-decoration-none" href="mailto:info@company.com"> Doron delivery@Doron delivery.com
+
+                </a>
+                <i class="fa fa-phone mx-2"></i>
+                <a class="navbar-sm-brand text-light text-decoration-none" href="tel:010-020-0340">010-1234-4567</a>
+            </div>
+            <div>
+                <span class="connected-id" th:if="${session.User_Id != null}">💫 <span th:text="${session.User_Id}"></span> 님 환영합니다 💫</span>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
+                <a class="text-light" href="https://fb.com/templatemo" target="_blank" rel="sponsored"><i class="fab fa-facebook-f fa-sm fa-fw me-2"></i></a>
+                <a class="text-light" href="https://www.instagram.com/" target="_blank"><i class="fab fa-instagram fa-sm fa-fw me-2"></i></a>
+                <a class="text-light" href="https://twitter.com/" target="_blank"><i class="fab fa-twitter fa-sm fa-fw me-2"></i></a>
+
+            </div>
+        </div>
+    </div>
+</nav>
+<!-- 상단 네비게이션 닫기 -->
 <!-- 장바구니 -->
 <div class="container mt-5">
     <h1 class="text-center mb-4">장바구니</h1>
@@ -45,14 +133,14 @@
                 <td>
                     <img th:src="${item.product != null ? item.product.Pro_Filepath : ''}" alt="Product Image"
                          style="width: 60px;" />
+                    <a th:href="@{/productbuy/view(Pro_Code=${item.product.Pro_Code})}">
                     <span th:text="${item.product.Pro_Name != null ? item.product.Pro_Name : ''}"></span>
+                </a>
                 </td>
                 <td class="price"
                     th:text="${item.product.Pro_Price != null ? item.product.Pro_Price : ''}"></td>
                 <td>
-                    <!-- 각 상품의 수량 입력 필드 이름을 고유하게 변경 -->
-                    <input type="number" name="quantity_${item.product.Pro_Code}" th:value="${item.quantity}" class="form-control" style="width:60px;" oninput="updateSubtotal(this.parentNode.parentNode, '${item.product.Pro_Code}')" />
-
+                    <input type="number" name="quantity_${item.product.Pro_Code}" th:value="${item.quantity}" class="form-control" style="width:60px;" readonly />
                 </td>
                 <td th:text="${item.product != null ? item.product.Pro_Weight : ''}"></td>
 
@@ -129,7 +217,7 @@
         </div>
         <!-- 주소 입력란 -->
         <div class="form-group">
-            <label for="shippingAddress">주소:</label>
+            <label for="sample4_postcode">주소:</label>
             <div class="input-group">
                 <input type="text" id="sample4_postcode" placeholder="우편번호" class="form-control">
                 <div class="input-group-append">
@@ -159,25 +247,95 @@
         </div>
     </form>
 </div>
-<div id="payment-box" class="scroll-box">
-    <h1 class="text-center">결제창</h1>
-    <!-- 결제 정보 -->
-    <p>총 상품 주문금액: <span class="total" id="totalAmount"></span></p>
-    <p>할인 금액: <span id="discountAmount">0</span></p>
-    <p>총 적립 금액: <span class="reward" id="rewardAmount"></span></p>
-    <p>최종 결제 금액: <span class="final" id="total1"></span></p>
-    <!-- 결제 버튼 -->
-    <button onclick="requestCardPayment()" class="btn btn-primary">카드결제</button>
-    <button onclick="redirectToBankTransferPage()" class="btn btn-primary">무통장입금</button>
-    <!-- 기타 결제 관련 정보 및 양식 -->
-    <!-- 예를 들어, 신용카드 정보 입력 폼 등이 들어갈 수 있습니다. -->
+
+<!-- 결제 버튼 -->
+<!-- 결제 버튼 -->
+<form method="post" action="/order/place" onsubmit="submitOrderForm(event)">
+    <button type="submit" data-toggle="modal" data-target="#paymentModal" class="btn btn-primary" style="margin: auto; display: block;">결제</button><br>
+</form>
+
+<script>
+    function submitOrderForm(event) {
+           event.preventDefault(); // 기본 동작(페이지 전환)을 중지 리턴값 무시
+
+           // 여기에서 추가적인 작업을 수행
+           // ...
+
+           // 주문 폼 데이터
+           var formData = new FormData(event.target);
+
+           // 주문 요청 보내기
+           fetch('/order/place', {
+               method: 'POST',
+               body: formData,
+           })
+           .then(response => {
+               if (!response.ok) {
+                   throw new Error(`HTTP error! Status: ${response.status}`);
+               }
+               return response.text();
+           })
+           .then(data => {
+               // 성공적으로 처리된 경우 모달 닫기 및 페이지 리로드
+               $('#paymentModal').modal('hide');
+               location.reload();
+           })
+           .catch((error) => {
+               console.error('Error:', error);
+           });
+       }
+</script>
+
+
+<!-- 결제 모달 -->
+<div class="modal fade" id="paymentModal" tabindex="-1" role="dialog" aria-labelledby="paymentModalLabel" aria-hidden="true">
+    <!-- 모달 창의 다이얼로그 부분 설정 -->
+    <div class="modal-dialog modal-dialog-fixed-right" role="document">
+        <!-- 모달 창의 내용을 감싸는 컨테이너 -->
+        <div class="modal-content">
+            <!-- 모달 창 상단 부분 (헤더) -->
+            <div class="modal-header">
+                <!-- 모달 창의 제목 -->
+                <h5 class="modal-title" id="paymentModalLabel">결제창</h5>
+                <!-- 모달 닫기 버튼 -->
+                <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                    <!-- 닫기 아이콘 -->
+                    <span aria-hidden="true">&times;</span>
+                </button>
+                <!-- 추가 항목 아래 <div> 태그 추가해서 추가하기 -->
+            </div>
+            <div class="modal-body">
+                <!-- 결제 정보 -->
+                <p>총 상품 주문금액: <span class="total" id="totalAmount"></span></p>
+                <p>할인 금액: <span id="discountAmount">0</span></p>
+                <p>총 적립 금액: <span class="reward" id="rewardAmount"></span></p>
+                <p>최종 결제 금액: <span class="final" id="total1"></span></p>
+                <!-- 기타 결제 관련 정보 및 양식 -->
+                <!-- 예를 들어, 신용카드 정보 입력 폼 등이 들어갈 수 있습니다. -->
+            </div>
+            <div class="modal-footer">
+                <!-- 결제 버튼 -->
+                <button onclick="requestCardPayment()" class="btn btn-primary">카드결제</button>
+                <button onclick="redirectToBankTransferPage()" class="btn btn-primary">무통장입금</button>
+            </div>
+        </div>
+    </div>
 </div>
+
 </div>
-<script>window.addEventListener("scroll", function () {
-    var scrollBox = document.querySelector("#payment-box");
-    if (scrollBox) {
-        scrollBox.style.transform = "translateX(0)"; // 항상 보이도록 변경
-    }
+<script>
+
+    function openPaymentModal() {
+       // 여기에서 결제 모달을 띄우는 코드를 추가
+       $('#paymentModal').modal('show');
+   }
+
+
+   window.addEventListener("scroll", function () {
+   var scrollBox = document.querySelector("#payment-box");
+   if (scrollBox) {
+       scrollBox.style.transform = "translateX(0)"; // 항상 보이도록 변경
+   }
 });
 </script>
 
@@ -185,7 +343,7 @@
 <!-- JavaScript 스크립트 및 다음 우편번호 서비스 스크립트 추가 -->
 <script src="https://code.jquery.com/jquery-3.2.1.slim.min.js"></script>
 <script src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.12.9/umd/popper.min.js"></script>
-<script src="https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0/js/bootstrap.min.js"></script>
+
 <script src="//t1.daumcdn.net/mapjsapi/bundle/postcode/prod/postcode.v2.js"></script>
 <script src="https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0/js/bootstrap.min.js"></script>
 <script>
@@ -374,7 +532,7 @@ window.addEventListener('load', function () {
             if (rsp.success) {
                 var msg = '결제가 완료되었습니다.';
                 alert(msg);
-                location.href = "결제 완료 후 이동할 페이지 URL";
+                location.href = "http://localhost:63342/joinair/src/main/resources/templates/ordercomplate.html?_ijt=qtqh28h3cb4drehrj62ju0b7ti&_ij_reload=RELOAD_ON_SAVE";
             } else {
                 var msg = '결제에 실패하였습니다.';
                 msg += '에러내용 : ' + rsp.error_msg;
@@ -387,6 +545,15 @@ window.addEventListener('load', function () {
     function redirectToBankTransferPage() {
         window.location.href = "/payment/Deposit";
     }
+
+
+
+
+
+
+
+
+
 </script>
 <script src="https://code.jquery.com/jquery-1.12.4.min.js"></script>
 <script src="https://cdn.iamport.kr/js/iamport.payment-1.1.5.js"></script>

@@ -20,4 +20,6 @@ public class ProductController {
         modelMap.put("products", productService.findAll());
         return "product/index";
     }
+
+
 }

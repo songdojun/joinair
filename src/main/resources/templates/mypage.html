@@ -1,0 +1,505 @@
+<html lang="en" xmlns:th="http://www.thymeleaf.org">
+<html lang="ko">
+
+<head>
+    <title>마이페이지</title>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+
+    <link rel="apple-touch-icon" href="../static/assets/img/apple-icon.png">
+    <link rel="shortcut icon" type="image/x-icon" href="../static/assets/img/favicon.ico">
+
+    <link rel="stylesheet" href="../static/assets/css/bootstrap.min.css">
+    <link rel="stylesheet" href="../static/assets/css/templatemo.css">
+    <link rel="stylesheet" href="../static/assets/css/custom.css">
+    <link rel="stylesheet" href="https://fonts.googleapis.com/css?family=Nanum+Gothic&display=swap">
+
+    <!-- 레이아웃 스타일 렌더링 후 글꼴 스타일 로드 -->
+    <link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Roboto:wght@100;200;300;400;500;700;900&display=swap">
+    <link rel="stylesheet" href="../static/assets/css/fontawesome.min.css">
+    <style>
+
+        body{
+  padding: 0;
+  margin: 0;
+}
+div{
+  box-sizing: border-box;
+}
+
+/* alert badge */
+.circle{
+  display: inline-block;
+  width: 5px;
+  height: 5px;
+  border-radius: 2.5px;
+  background-color: #ff0000;
+  position: absolute;
+  top: -5px;
+  left: 110%;
+}
+
+/* 녹색 텍스트 */
+.green{
+  color: #24855b;
+}
+
+.wrap{
+  background-color: #F8F8F8;
+}
+/* 녹색배경 */
+.greenContainer{
+  height: 10px;
+  background-color: #24855b;
+
+  display: flex;
+  align-items: flex-end;
+  padding: 16px;
+}
+
+.greenContainer .name{
+   font-size: 20px;
+  font-weight: bold;
+  color: #ffffff;
+}
+.greenContainer .modify{
+  margin-left: auto;
+}
+body{
+  padding: 0;
+  margin: 0;
+}
+div{
+  box-sizing: border-box;
+}
+
+/* alert badge */
+.circle{
+  display: inline-block;
+  width: 5px;
+  height: 5px;
+  border-radius: 2.5px;
+  background-color: #ff0000;
+  position: absolute;
+  top: -5px;
+  left: 110%;
+}
+
+/* 녹색 텍스트 */
+.green{
+  color: #24855b;
+}
+
+.wrap{
+  background-color: #F8F8F8;
+}
+/* 녹색배경 */
+.greenContainer{
+  height: 70px;
+  background-color: #24855b;
+
+  display: flex;
+  align-items: flex-end;
+  padding: 16px;
+}
+
+.greenContainer .name{
+   font-size: 20px;
+  font-weight: bold;
+  color: #ffffff;
+}
+.greenContainer .modify{
+  margin-left: auto;
+}
+
+/* 단골상점 , 상품후기 , 적립금 박스 */
+.summaryContainer{
+  background-color: white;
+  display: flex;
+  padding: 21px 16px;
+  height: 90px;
+  margin-bottom: 10px;
+}
+/* 단골상점 , 상품후기 , 적립금 */
+.summaryContainer .item{
+  flex-grow: 1
+}
+/* 녹색 숫자 */
+.summaryContainer .number{
+  font-size: 19px;
+  font-weight: bold;
+  color: #24855b;
+}
+/* 텍스트 */
+.summaryContainer .item > div:nth-child(2){
+  font-size: 13px;
+}
+
+/* ================== 주문/배송조회 박스 시작 ==================== */
+.shippingStatusContainer{
+  padding: 21px 16px;
+  background-color: white;
+  margin-bottom: 10px;
+}
+
+/* 주문/배송조회 타이틀 */
+.shippingStatusContainer .title{
+  font-size: 16px;
+  font-weight: bold;
+  margin-bottom: 15px;
+}
+
+/* 장바구니 결제완료 배송중 구매확정 [로우] */
+.shippingStatusContainer .status{
+  display: flex;
+  justify-content: space-between;
+  margin-bottom: 21px;
+}
+/* 장바구니 결제완료 배송중 구매확정 [아이템]  */
+.shippingStatusContainer .item{
+  display: flex;
+}
+
+.shippingStatusContainer .number{
+  font-size: 31px;
+  font-weight: 500;
+  text-align: center;
+}
+.shippingStatusContainer .text{
+  font-size: 12px;
+  font-weight: normal;
+  color: #c2c2c2;
+  text-align: center;
+}
+.shippingStatusContainer .icon{
+  display: flex;
+  align-items: center;
+  padding: 20px;
+  width: 16px;
+  height: 16px;
+}
+
+
+/*=================== 주문목록 ~ 찜한상품 리스트 ==================*/
+.listContainer{
+  padding: 0;
+  background-color: #ffffff;
+  margin-bottom: 10px;
+}
+.listContainer .item{
+  display: flex;
+  align-items: center;
+  padding: 16px;
+  color: black;
+  text-decoration: none;
+  height: 56px;
+  box-sizing: border-box;
+}
+.listContainer .icon{
+  margin-right: 14px;
+}
+.listContainer .text{
+  font-size: 16px;
+  position: relative;
+}
+.listContainer .right{
+  margin-left: auto;
+}
+
+
+/*=================== 내지갑의 보유 적립금 들어가는 부분 ================*/
+.listContainer .smallLight{
+  font-size: 14px;
+  color: #c2c2c2;
+}
+.listContainer .smallLight > span{
+  margin-left: 10px;
+}
+
+.listContainer .right .blct{
+  font-size: 14px;
+  font-weight: bold;
+  margin-right: 5px;
+}
+
+
+
+/* 공지사항 이용안내 고객센터 */
+.infoContainer{
+  background-color: white;
+  display: flex;
+  height: 100px;
+  margin-bottom: 10px;
+}
+
+.infoContainer .item{
+  flex-grow: 1;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  flex-direction: column;
+  font-size: 13px;
+  text-decoration: none;
+  color: black;
+}
+.infoContainer .item > div:first-child{
+  margin-bottom: 2px;
+}
+
+
+
+/*  */
+.listContainer .item:hover{
+/*   background-color: #f8f8f8; */
+}
+.infoContainer .item:hover{
+/*   background-color: #f8f8f8; */
+}
+            .wrap {
+        font-weight: bold; /* 전체 텍스트 굵게 */
+    }
+
+    .greenContainer .name {
+        font-weight: bold; /* 마이페이지 텍스트 굵게 */
+    }
+
+    .shippingStatusContainer .number, .item .green.number {
+
+        font-weight: bold; /* 숫자 텍스트 굵게 */
+    }
+         .shippingStatusContainer .status .number, .shippingStatusContainer .status .text {
+        font-weight: bold; /* 숫자와 텍스트 모두 굵게 */
+    }
+
+
+
+
+
+    </style>
+</head>
+
+<body>
+<!-- 상단 네비게이션 시작 -->
+<nav class="navbar navbar-expand-lg bg-dark navbar-light d-none d-lg-block" id="templatemo_nav_top">
+    <div class="container text-light">
+        <div class="w-100 d-flex justify-content-between">
+            <div>
+                <i class="fa fa-envelope mx-2"></i>
+                <a class="navbar-sm-brand text-light text-decoration-none" href="mailto:info@company.com"> Doron delivery@Doron delivery.com
+
+                </a>
+                <i class="fa fa-phone mx-2"></i>
+                <a class="navbar-sm-brand text-light text-decoration-none" href="tel:010-020-0340">010-1234-4567</a>
+            </div>
+            <div>
+                <a class="text-light" href="https://fb.com/templatemo" target="_blank" rel="sponsored"><i class="fab fa-facebook-f fa-sm fa-fw me-2"></i></a>
+                <a class="text-light" href="https://www.instagram.com/" target="_blank"><i class="fab fa-instagram fa-sm fa-fw me-2"></i></a>
+                <a class="text-light" href="https://twitter.com/" target="_blank"><i class="fab fa-twitter fa-sm fa-fw me-2"></i></a>
+
+            </div>
+        </div>
+    </div>
+</nav>
+<!-- 상단 네비게이션 닫기 -->
+
+
+<!-- 헤더 -->
+<nav class="navbar navbar-expand-lg navbar-light shadow">
+    <div class="container d-flex justify-content-between align-items-center">
+
+        <a class="navbar-brand text-success logo h1 align-self-center" href="/index">
+            Join Air🪂
+        </a>
+
+        <button class="navbar-toggler border-0" type="button" data-bs-toggle="collapse" data-bs-target="#templatemo_main_nav" aria-controls="navbarSupportedContent" aria-expanded="false" aria-label="Toggle navigation">
+            <span class="navbar-toggler-icon"></span>
+        </button>
+
+        <div class="align-self-center collapse navbar-collapse flex-fill  d-lg-flex justify-content-lg-between" id="templatemo_main_nav">
+            <div class="flex-fill">
+                <ul class="nav navbar-nav d-flex justify-content-between mx-lg-auto">
+                    <li class="nav-item">
+                        <a class="nav-link" href="/index">홈</a>
+                    </li>
+                    <li class="nav-item">
+                        <a class="nav-link" href="/about">회사 소개</a>
+                    </li>
+                    <li class="nav-item">
+                        <a class="nav-link" href="/productbuy/list">상품</a>
+                    </li>
+                    <li class="nav-item">
+                        <a class="nav-link" href="/qna/qnaList">문의</a>
+                    </li>
+                    <li class="nav-item">
+                        <a class="nav-link" href="/notice/list">공지사항</a>
+                    </li>
+                    <li class="nav-item">
+                        <a class="nav-link" href="/index">로그아웃</a>
+                    </li>
+                </ul>
+            </div>
+            <div class="navbar align-self-center d-flex">
+                <div class="d-lg-none flex-sm-fill mt-3 mb-4 col-7 col-sm-auto pr-3">
+                    <div class="input-group">
+                        <input type="text" class="form-control" id="inputMobileSearch" placeholder="검색">
+                        <div class="input-group-text">
+                            <i class="fa fa-fw fa-search"></i>
+                        </div>
+                    </div>
+                </div>
+                <a class="nav-icon d-none d-lg-inline" href="#" data-bs-toggle="modal" data-bs-target="#templatemo_search">
+                    <i class="fa fa-fw fa-search text-dark mr-2"></i>
+                </a>
+                <a class="nav-icon position-relative text-decoration-none" href="#">
+                    <i class="fa fa-fw fa-cart-arrow-down text-dark mr-1"></i>
+                    <span class="position-absolute top-0 left-100 translate-middle badge rounded-pill bg-light text-dark"></span>
+                </a>
+
+            </div>
+        </div>
+
+    </div>
+</nav>
+<div class="wrap">
+    <div class="greenContainer">
+        <div>
+            <div class="name">마이페이지</div>
+        </div>
+
+    </div>
+
+    <div class="shippingStatusContainer">
+        <div class="title">
+            주문/배송조회
+        </div><br>
+        <div class="status">
+            <div class="item">
+                <div>
+                    <div class="number">2</div>
+                    <div class="black number">결제완료</div>
+                    <div class="text"> &gt; </div>
+                </div>
+            </div>
+            <div class="item">
+                <div>
+                    <div class="number">0</div>
+                    <div class="black number">상품준비</div>
+                    <div class="text"> &gt; </div>
+                </div>
+            </div>
+            <div class="item">
+                <div>
+                    <div class="green number">1</div>
+                    <div class="black number">배달중</div>
+                    <div class="text"> &gt; </div>
+                </div>
+            </div>
+            <div class="item">
+                <div>
+                    <div class="green number">3</div>
+                    <div class="black number">배달완료</div>
+                    <div class="text"> &gt; </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+
+
+    </div>
+    <div class="listContainer">
+<!--        주문목록 페이지 생성 필요-->
+        <a href="#" class="item">
+            <div class="icon"><i class="fas fa-shopping-cart"></i></div>
+            <div class="text">주문목록<span class="circle"></span></div>
+            <div class="right"> &gt; </div>
+        </a>
+        <a href="/review/list" class="item">
+            <div class="icon"><i class="fas fa-star"></i></div>
+            <div class="text">상품리뷰</div>
+            <div class="right"> &gt; </div>
+        </a>
+        <a href="qna/qnalist" class="item">
+            <div class="icon"><i class="fas fa-question-circle"></i></div>
+            <div class="text">상품문의</div>
+            <div class="right"> &gt;</div>
+        </a>
+        <a href="profile.html" class="item">
+            <div class="icon"><i class="fas fa-user-edit"></i></div>
+            <div class="text">개인정보수정</div>
+            <div class="right">&gt; </div>
+        </a>
+        <a href="#" class="item">
+            <div class="icon"><i class="fas fa-shopping-basket"></i></div>
+            <div class="text">장바구니</div>
+            <div class="right"> &gt; </div>
+        </a>
+    </div>
+    <div class="listContainer">
+        <a href="" class="item">
+            <div class="icon"><i class="fas fa-gift"></i></div>
+            <div class="text">
+                <span>마일리지</span>
+                <span class="smallLight">
+                <span>|</span>
+                <span>보유 적립금</span>
+            </span>
+            </div>
+            <div class="right">
+                <span class="blct">120P</span>
+                &gt;
+            </div>
+        </a>
+        <a href="#" class="item">
+            <div class="icon"><i class="fas fa-bell"></i></div>
+            <div class="text">알림</div>
+            <div class="right"> &gt; </div>
+        </a>
+
+    </div>
+    <div class="infoContainer">
+        <a href="/notice/list" class="item">
+            <div class="icon"><i class="fas fa-bullhorn"></i></div>
+            <div>공지사항</div>
+        </a>
+
+        <a href="/qna/qnaList" class="item">
+            <div class="icon"><i class="fas fa-headset"></i></div>
+            <div>고객센터</div>
+        </a>
+    </div>
+<!-- 푸터 시작 -->
+<footer class="bg-dark" id="tempaltemo_footer">
+    <div class="container">
+        <div class="row">
+            <div class="col-md-5 pt-4">
+                <h2 class="h2 text-success border-bottom pb-3 border-light logo">Join Air🪂</h2>
+                <ul class="list-unstyled text-light footer-link-list">
+                    <li><i class="fas fa-map-marker-alt fa-fw"></i>한국직업전문학교 11층 강의실02 항공4기 2조</li>
+                    <li><i class="fa fa-phone fa-fw"></i><a class="text-decoration-none" href="tel:010-1234-5678">010-1234-5678</a></li>
+                    <li><i class="fa fa-envelope fa-fw"></i><a class="text-decoration-none" href="mailto:info@dronefood.com">drone@dronedelivery.com</a></li>
+                </ul>
+            </div>
+            <div class="col-12 text-light mb-4">
+                <hr class="border-light">
+                <p class="text-center">저작권 © 2023 Join Air</p>
+            </div>
+        </div>
+    </div>
+</footer>
+<!-- 푸터 끝 -->
+
+<!-- 스크립트 시작 -->
+<script src="../static/assets/js/jquery-1.11.0.min.js"></script>
+<script src="../static/assets/js/jquery-migrate-1.2.1.min.js"></script>
+<script src="../static/assets/js/bootstrap.bundle.min.js"></script>
+<script src="../static/assets/js/templatemo.js"></script>
+<script src="../static/assets/js/custom.js"></script>
+<!-- 스크립트 끝 -->
+</div>
+</body>
+
+</html>
+
+</body>
+</html>
