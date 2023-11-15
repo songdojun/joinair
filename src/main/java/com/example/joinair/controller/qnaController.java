@@ -29,29 +29,30 @@ public class qnaController {
     @Autowired
     private UserService userService;
 
-    @GetMapping("/qnaList")
-    public ModelAndView qnaList(Model model,@RequestParam(defaultValue = "1") int page, @RequestParam(defaultValue = "10") int pageSize, QNA qnadto, HttpSession session) {
-        ModelAndView mv = new ModelAndView();
-
+    private void addUserInfoToModel(Model model) { //윗부분 이름 00님 환영합니다 부분임
         Authentication authentication = SecurityContextHolder.getContext().getAuthentication();
         String username = authentication.getName();
 
-        // 여기에서 필요한 사용자 정보를 모델에 추가합니다.
+        // Add necessary user information to the model
         model.addAttribute("userId", username);
         model.addAttribute("userAuthorities", authentication.getAuthorities());
 
-        // 마일리지 정보를 얻어와 모델에 추가
         if (authentication.getPrincipal() instanceof USERS) {
             USERS user = (USERS) authentication.getPrincipal();
             model.addAttribute("userMileage", user.getUser_Mileage());
         }
+    }
+    @GetMapping("/qnaList")
+    public ModelAndView qnaList(Model model,@RequestParam(defaultValue = "1") int page, @RequestParam(defaultValue = "10") int pageSize, QNA qnadto, HttpSession session) {
+        ModelAndView mv = new ModelAndView();
+
         String userId = (String) session.getAttribute("User_Id");
         if (userId != null) {
             mv.addObject("userLoggedIn", true); // 사용자 로그인 상태를 true로 설정
         } else {
             mv.addObject("userLoggedIn", false);
         }
-
+        addUserInfoToModel(model);
         QNAPAGE pagingInfo = new QNAPAGE();
         pagingInfo.setPage(page);
         pagingInfo.setPageSize(pageSize);
@@ -120,17 +121,18 @@ public class qnaController {
     }
 
     @GetMapping("/qnaInsert-view")
-    public ModelAndView qnaInsertView(HttpSession session) {
+    public ModelAndView qnaInsertView(Model model, HttpSession session) {
         ModelAndView mv = new ModelAndView();
 
-        String userId = (String) session.getAttribute("User_Id");
+        addUserInfoToModel(model);
 
+        String userId = (String) session.getAttribute("User_Id");
         mv.addObject("userLoggedIn", userId != null);
         mv.addObject("user_Id", userId);
 
         mv.setViewName("qnaInsert");
         mv.setStatus(HttpStatus.OK);
-        mv.addObject("qna", new QNA()); // 모델 객체를 추가합니다.
+        mv.addObject("qna", new QNA());
 
         return mv;
     }
@@ -156,6 +158,7 @@ public class qnaController {
     @GetMapping("/qnaUpdate-view/{QNA_NO}")
     public ModelAndView qnaUpdateView(QNA QNA_NO) {
         QNA result = qnaService.qna(QNA_NO);
+
 
         ModelAndView mv = new ModelAndView();
         mv.setViewName("qnaUpdate");
