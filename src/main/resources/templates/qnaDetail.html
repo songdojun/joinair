@@ -1,19 +1,19 @@
 <!DOCTYPE html>
-<html lang="en">
+<html lang="ko" xmlns:th="http://www.thymeleaf.org"
+      xmlns:sec="http://www.thymeleaf.org/thymeleaf-extras-springsecurity">
 <head>
     <title>JoinAir</title>
     <meta charset="utf-8">
     <meta name="viewport" content="width=device-width, initial-scale=1">
-
-    <link rel="apple-touch-icon" href="../static/assets/img/apple-icon.png">
-    <link rel="shortcut icon" type=" image/x-icon" href="../static/assets/img/favicon.ico">
-
-    <link rel="stylesheet" href="../static/assets/css/bootstrap.min.css">
-    <link rel="stylesheet" href="../static/assets/css/templatemo.css">
-    <link rel="stylesheet" href="../static/assets/css/custom.css">
-
+    <link rel="apple-touch-icon" href="/assets/img/apple-icon.png">
+    <link rel="shortcut icon" type="image/x-icon" href="/assets/img/favicon.ico">
+    <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/4.5.2/css/bootstrap.min.css">
+    <link rel="stylesheet" href="/assets/css/templatemo.css">
+    <link rel="stylesheet" href="/assets/css/custom.css">
     <link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Roboto:wght@100;200;300;400;500;700;900&display=swap">
-    <link rel="stylesheet" href="../static/assets/css/fontawesome.min.css">
+    <link rel="stylesheet" href="/assets/css/fontawesome.min.css">
+    <link rel="stylesheet" href="https://unpkg.com/leaflet@1.7.1/dist/leaflet.css"
+          integrity="sha512-xodZBNTC5n17Xt2atTPuE1HxjVMSvLVW9ocqUKLsCC5CXdbqCmblAshOMAS6/keqq/sMZMZ19scR4PsZChSR7A==" crossorigin=""/>
     <style>
         #tempaltemo_footer {
             margin-bottom: 300px;
@@ -68,66 +68,73 @@
                     <li class="nav-item">
                         <a class="nav-link" href="/notice/list">공지사항</a>
                     </li>
-
-            <div class="navbar align-self-center d-flex">
-                <div class="d-lg-none flex-sm-fill mt-3 mb-4 col-7 col-sm-auto pr-3">
-                    <div class="input-group">
-                        <input type="text" class="form-control" id="inputMobileSearch" placeholder="검색">
-                        <div class="input-group-text">
-                            <i class="fa fa-fw fa-search"></i>
-                        </div>
+                    <div>
+                        <a th:href="@{/logout}" class="nav-link">로그아웃</a>
                     </div>
-                </div>
-                <a class="nav-icon d-none d-lg-inline" href="#" data-bs-toggle="modal" data-bs-target="#templatemo_search">
-                    <i class="fa fa-fw fa-search text-dark mr-2"></i>
-                </a>
-            </div>
+                    </li>
+                    <li class="nav-item" sec:authorize="!isAuthenticated()">
+                        <div>
+                            <a th:href="@{/login}" class="nav-link">로그인</a>
+                        </div>
+                    </li>
+
+                    <div class="navbar align-self-center d-flex">
+                        <div class="d-lg-none flex-sm-fill mt-3 mb-4 col-7 col-sm-auto pr-3">
+                            <div class="input-group">
+                                <input type="text" class="form-control" id="inputMobileSearch" placeholder="검색">
+                                <div class="input-group-text">
+                                    <i class="fa fa-fw fa-search"></i>
+                                </div>
+                            </div>
+                        </div>
+                        <a class="nav-icon d-none d-lg-inline" href="#" data-bs-toggle="modal" data-bs-target="#templatemo_search">
+                            <i class="fa fa-fw fa-search text-dark mr-2"></i>
+                        </a>
+                    </div>
                 </ul>
-        </div>
+            </div>
         </div>
     </div>
 </nav>
 
-    <meta charset="UTF-8">
-    <title>Q&A 상세 정보</title>
-    <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/4.5.2/css/bootstrap.min.css">
-</head>
+<meta charset="UTF-8">
 <div class="container mt-5">
     <h1 class="text-center">Q&A 상세 정보</h1>
-    <h2>{{qna.QNA_TITLE}}</h2>
-    <p>Q&A 번호: {{qna.QNA_NO}}</p>
-    <p>상품 코드: {{qna.PRO_CODE}}</p>
-    <p>작성자: {{qna.USER_ID}}</p>
+    <h2 th:text="${qna.QNA_TITLE}"></h2>
+    <p>Q&A 번호: <span th:text="${qna.QNA_NO}"></span></p>
+    <p>상품 코드: <span th:text="${qna.PRO_CODE}"></span></p>
+    <p>작성자: <span th:text="${qna.USER_ID}"></span></p>
     <p>문의 내용:</p>
-    <p>{{qna.QNA_CONTENT}}</p>
-    <a href="/qna/qnaList" class="btn btn-primary">뒤로 가기</a>
-    <a href="/qna/qnaUpdate-view/{{qna.QNA_NO}}" class="btn btn-info">수정</a>
-    <a href="/qna/qnadelete/{{qna.QNA_NO}}" class="btn btn-danger">삭제</a>
+    <p th:text="${qna.QNA_CONTENT}"></p>
+    <a th:href="@{/qna/qnaList}" class="btn btn-primary">뒤로 가기</a>
+    <a th:href="@{/qna/qnaUpdate-view/{qnaNo}(qnaNo=${qna.QNA_NO})}" class="btn btn-info">수정</a>
+    <a th:href="@{/qna/qnadelete/{qnaNo}(qnaNo=${qna.QNA_NO})}" class="btn btn-danger">삭제</a>
 
     <!-- 댓글 추가 양식 -->
     <h3>댓글</h3>
     <!-- flag가 true 인 경우에만 댓글 섹션을 표시합니다 -->
-    {{#qna.flag}}
+    <th:block th:if="${qna.flag}">
         <!-- flag가 true 인 경우 댓글 내용을 표시합니다 -->
-        <p>댓글 내용: {{qna.QNA_COMMAND}}</p>
-    {{/qna.flag}}
+        <p>댓글 내용: <span th:text="${qna.QNA_COMMAND}"></span></p>
+    </th:block>
     <!-- flag가 false 이거나 정의되지 않은 경우 (flag가 없거나 false 인 경우) 다른 내용을 표시합니다 -->
-    {{^qna.flag}}
+    <th:block th:unless="${qna.flag}">
         <!-- flag가 false 이거나 정의되지 않은 경우 다른 내용을 표시합니다 -->
         <p>댓글이 없습니다.</p>
-    {{/qna.flag}}
+    </th:block>
 
     <!-- 댓글 추가 양식 -->
     <h3>댓글 추가</h3>
-    <form action="/qna/qnaupdateCommand/{{qna.QNA_NO}}" method="post">
-        <input type="hidden" name="QNA_NO" value="{{qna.QNA_NO}}">
+    <form th:action="@{/qna/qnaupdateCommand/{qnaNo}(qnaNo=${qna.QNA_NO})}" method="post">
+        <input type="hidden" name="QNA_NO" th:value="${qna.QNA_NO}">
         <div class="form-group">
             <textarea name="text" rows="4" cols="50" class="form-control" placeholder="댓글 내용을 입력하세요" required></textarea>
         </div>
-        <br>
         <button type="submit" class="btn btn-primary">댓글 추가</button>
     </form>
 </div>
+
+
 <footer class="bg-dark" id="tempaltemo_footer" style="margin-bottom: -1000px;">
     <div class="container">
         <div class="row">

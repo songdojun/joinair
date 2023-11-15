@@ -88,7 +88,7 @@ public class qnaController {
 
 
     @GetMapping("/qnadetail/{QNA_NO}")
-    public ModelAndView qnaView(QNA QNA_NO) {
+    public ModelAndView qnaView(Model model,QNA QNA_NO) {
         System.out.println(QNA_NO.getQNA_NO());
         QNA result = qnaService.qna(QNA_NO);
 
@@ -102,7 +102,7 @@ public class qnaController {
         } else {
             result.setFlag(true);
         }
-
+        addUserInfoToModel(model);
         ModelAndView mv = new ModelAndView();
         mv.setViewName("qnadetail");
         mv.setStatus(HttpStatus.OK);
