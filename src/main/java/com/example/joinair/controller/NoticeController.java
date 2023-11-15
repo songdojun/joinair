@@ -1,5 +1,6 @@
 package com.example.joinair.controller;
 
+import com.example.joinair.dto.USERS;
 import com.example.joinair.entity.Notice;
 import com.example.joinair.service.NoticeService;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -48,6 +49,12 @@ public class NoticeController {
         model.addAttribute("userId", username);
         model.addAttribute("userAuthorities", authentication.getAuthorities());
 
+        // 마일리지 정보를 얻어와 모델에 추가
+        if (authentication.getPrincipal() instanceof USERS) {
+            USERS user = (USERS) authentication.getPrincipal();
+            model.addAttribute("userMileage", user.getUser_Mileage());
+        }
+
         Page<Notice> list = null;
 
         if (searchKeyword == null) {
@@ -77,6 +84,13 @@ public class NoticeController {
         // 여기에서 필요한 사용자 정보를 모델에 추가합니다.
         model.addAttribute("userId", username);
         model.addAttribute("userAuthorities", authentication.getAuthorities());
+
+        // 마일리지 정보를 얻어와 모델에 추가
+        if (authentication.getPrincipal() instanceof USERS) {
+            USERS user = (USERS) authentication.getPrincipal();
+            model.addAttribute("userMileage", user.getUser_Mileage());
+        }
+
         model.addAttribute("Notice", noticeService.noticeview(Not_No).orElse(null));
         return "noticeview";
     }

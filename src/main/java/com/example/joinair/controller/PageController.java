@@ -1,5 +1,6 @@
 package com.example.joinair.controller;
 
+import com.example.joinair.dto.USERS;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import com.sun.security.auth.PrincipalComparator;
@@ -24,6 +25,12 @@ public class PageController {
         model.addAttribute("userId", username);
         model.addAttribute("userAuthorities", authentication.getAuthorities());
 
+        // 마일리지 정보를 얻어와 모델에 추가
+        if (authentication.getPrincipal() instanceof USERS) {
+            USERS user = (USERS) authentication.getPrincipal();
+            model.addAttribute("userMileage", user.getUser_Mileage());
+        }
+
 
         return "about"; // "about.html" 파일을 반환
     }
@@ -44,6 +51,11 @@ public class PageController {
         model.addAttribute("userId", username);
         model.addAttribute("userAuthorities", authentication.getAuthorities());
 
+        // 마일리지 정보를 얻어와 모델에 추가
+        if (authentication.getPrincipal() instanceof USERS) {
+            USERS user = (USERS) authentication.getPrincipal();
+            model.addAttribute("userMileage", user.getUser_Mileage());
+        }
 
         return "index2"; // index.html 템플릿 반환
     }

@@ -1,5 +1,6 @@
 package com.example.joinair.controller;
 
+import com.example.joinair.dto.USERS;
 import com.example.joinair.entity.Product;
 import com.example.joinair.service.ProductBuyService;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -62,6 +63,13 @@ public class productBuyController {
         // 여기에서 필요한 사용자 정보를 모델에 추가합니다.
         model.addAttribute("userId", username);
         model.addAttribute("userAuthorities", authentication.getAuthorities());
+
+        // 마일리지 정보를 얻어와 모델에 추가
+        if (authentication.getPrincipal() instanceof USERS) {
+            USERS user = (USERS) authentication.getPrincipal();
+            model.addAttribute("userMileage", user.getUser_Mileage());
+        }
+
         return "productbuylist"; //페이징 및 검색기능 문제로 기존 productbuylist2였지만 productbuylist로 원복했습니다.
     }
 
@@ -69,6 +77,20 @@ public class productBuyController {
     @GetMapping("/productbuy/view")
     public String productbuyView(Model model, Integer Pro_Code){
         model.addAttribute("Product",productBuyService.productbuyView(Pro_Code).orElse(null));
+
+        Authentication authentication = SecurityContextHolder.getContext().getAuthentication();
+        String username = authentication.getName();
+
+        // 여기에서 필요한 사용자 정보를 모델에 추가합니다.
+        model.addAttribute("userId", username);
+        model.addAttribute("userAuthorities", authentication.getAuthorities());
+
+        // 마일리지 정보를 얻어와 모델에 추가
+        if (authentication.getPrincipal() instanceof USERS) {
+            USERS user = (USERS) authentication.getPrincipal();
+            model.addAttribute("userMileage", user.getUser_Mileage());
+        }
+
         return "productbuyview2";
     }
 
