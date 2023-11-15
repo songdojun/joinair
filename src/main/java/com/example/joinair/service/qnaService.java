@@ -42,21 +42,30 @@ public class qnaService {
 
 
     public List<QNA> qnaListWithPaging(QNAPAGE pagingInfo, QNA dto) {
-//        // 시작 인덱스 계산
         int startIndex = (pagingInfo.getPage() - 1) * pagingInfo.getPageSize();
-//
-//        // 끝 인덱스 계산
         int endIndex = startIndex + pagingInfo.getPageSize();
-//
         String keyword = dto.getKeyword();
-//
-        return qnaMapper.qnaListWithPaging(startIndex, endIndex, keyword);
+
+        // 해당 키워드에 대한 전체 항목 수 가져오기
+        int totalItemCount = qnaMapper.getTotalItemCountWithKeyword(keyword);
+
+        // 전체 페이지 수 계산
+        int totalPageCount = (int) Math.ceil((double) totalItemCount / pagingInfo.getPageSize());
+
+        // 키워드를 기반으로 한 페이징된 QNA 목록 가져오기
+        List<QNA> qnaList = qnaMapper.qnaListWithPaging(startIndex, endIndex, keyword);
+
+        // QNAPAGE 객체에 페이지 정보 추가
+        pagingInfo.setTotalItemCount(totalItemCount);
+        pagingInfo.setTotalPageCount(totalPageCount);
+
+        return qnaList;
     }
 
-
-    public int getTotalItemCount() {
-        return qnaMapper.getTotalItemCount();
+    public int getTotalItemCountWithKeyword(String keyword) {
+        return qnaMapper.getTotalItemCountWithKeyword(keyword);
     }
+
 
 
     public List<String> pagingList(int totalPageCount, int currentPage) {

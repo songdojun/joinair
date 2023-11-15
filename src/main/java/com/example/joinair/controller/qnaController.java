@@ -43,7 +43,8 @@ public class qnaController {
         }
     }
     @GetMapping("/qnaList")
-    public ModelAndView qnaList(Model model, @RequestParam(defaultValue = "1") int page, @RequestParam(defaultValue = "10") int pageSize, QNA qnadto, HttpSession session) {
+    public ModelAndView qnaList(Model model, @RequestParam(defaultValue = "1") int page,
+                                @RequestParam(defaultValue = "10") int pageSize, QNA qnadto, HttpSession session) {
         ModelAndView mv = new ModelAndView();
 
         String userId = (String) session.getAttribute("User_Id");
@@ -53,6 +54,7 @@ public class qnaController {
             mv.addObject("userLoggedIn", false);
         }
         addUserInfoToModel(model);
+
         QNAPAGE pagingInfo = new QNAPAGE();
         pagingInfo.setPage(page);
         pagingInfo.setPageSize(pageSize);
@@ -60,8 +62,8 @@ public class qnaController {
         // 검색어 + 페이징
         List<QNA> qnaList = qnaService.qnaListWithPaging(pagingInfo, qnadto);
 
-        // 총게물 갯수
-        int totalItemCount = qnaService.getTotalItemCount();
+        // 총게물 갯수 (검색어 포함)
+        int totalItemCount = qnaService.getTotalItemCountWithKeyword(qnadto.getKeyword());
         int totalPageCount = (int) Math.ceil((double) totalItemCount / pageSize);
 
         List<Integer> pageNumbers = IntStream.rangeClosed(1, totalPageCount)
