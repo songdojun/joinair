@@ -29,6 +29,7 @@
         .card {
             margin-bottom: 20px;
         }
+
     </style>
 </head>
 
@@ -95,14 +96,14 @@
                         </div>
                     </div>
                 </div>
-                <a class="nav-icon d-none d-lg-inline" href="#" data-bs-toggle="modal" data-bs-target="#templatemo_search">
+                <a class="nav-icon d-none d-lg-inline" href="#" id="templatemo_search_icon">
                     <i class="fa fa-fw fa-search text-dark mr-2"></i>
                 </a>
-                <a class="nav-icon position-relative text-decoration-none" href="#">
+                <a class="nav-icon position-relative text-decoration-none" href="/cart">
                     <i class="fa fa-fw fa-cart-arrow-down text-dark mr-1"></i>
-                    <span class="position-absolute top-0 left-100 translate-middle badge rounded-pill bg-light text-dark">1</span>
+                    <span class="position-absolute top-0 left-100 translate-middle badge rounded-pill bg-light text-dark">7</span>&nbsp&nbsp&nbsp
                 </a>
-                <a class="nav-icon position-relative text-decoration-none" href="#">
+                <a class="nav-icon position-relative text-decoration-none" href="/mypage">
                     <i class="fa fa-fw fa-user text-dark mr-3"></i>
                     <span class="position-absolute top-0 left-100 translate-middle badge rounded-pill bg-light text-dark">+10</span>
                 </a>
@@ -110,6 +111,31 @@
         </div>
     </div>
 </nav>
+
+<!-- 검색 모달 -->
+<div class="modal fade" id="templatemo_search_modal" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel" aria-hidden="true">
+    <div class="modal-dialog modal-dialog-centered modal-lg" role="document">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h5 class="modal-title" id="exampleModalLabel">검색</h5>
+
+            </div>
+            <div class="modal-body">
+                <form action="" method="get">
+                    <div class="input-group mb-3">
+                        <input type="text" class="form-control" id="inputModalSearchModal" name="q" placeholder="검색" aria-label="Search" aria-describedby="searchButtonModal">
+                        <button class="btn btn-success" type="button" id="searchButtonModal">
+                            <i class="fa fa-search text-light"></i>
+                        </button>
+                    </div>
+                </form>
+            </div>
+            <div class="modal-footer">
+                <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">닫기</button>
+            </div>
+        </div>
+    </div>
+</div>
 
 <div>
     <h3>카테고리 목록</h3>
@@ -261,11 +287,7 @@
     });
 
 
-
-
-
-
-
 </script>
+
 </body>
 </html>

@@ -20,12 +20,14 @@ public class NoticeController {
     private NoticeService noticeService;
 
     @GetMapping("/notice/create")    // "/notice/create" 경로로 GET 요청이 오면 이 메소드가 실행된다는 것을 의미.
-    public String noticeWriteForm() {
+    public String noticeWriteForm()
+    {
         return "noticecreate";
     }
 
     @PostMapping("notice/createpro")
     // 이 메소드는 공지사항을 작성하고 업로드하는 역할을 한다
+    //noticeWritePro 메소드에서 Model을 매개변수로 받아오고, 이를 사용하여 데이터를 뷰에 전달하고 있다
     public String noticeWritePro(Notice notice, Model model, MultipartFile file) throws Exception {
         write(notice,file); //write 메소드를 호출하여 공지사항을 작성하고 파일을 업로드하고
 
@@ -36,10 +38,10 @@ public class NoticeController {
 
     }
 
-    @GetMapping("/notice/list") //"/notice/list" 경로로 GET 요청이 오면 이 메소드가 실행
+    @GetMapping("/notice/list")
     public String NoticeList(Model model,  //매개변수로 Model 객체를 받아오고. 이 객체를 사용하여 뷰에 데이터를 전달
                              @PageableDefault(page = 0, size = 10, sort = "Not_No", direction = Sort.Direction.DESC) Pageable pageable,
-                             ////@PageableDefault 어노테이션을 사용하여 기본적인 페이징 설정을 정의
+                             // @PageableDefault 어노테이션을 사용하여 기본적인 페이징 설정을 정의
                              // 페이지 번호(page), 페이지 크기(size), 정렬 방식(sort), 정렬 방향(direction)을 설정한다.
 
                              String searchKeyword) { //매개변수 검색어 받아옴

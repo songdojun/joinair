@@ -16,8 +16,73 @@
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.2.0/css/all.min.css">
 
     <style>
+        body {
+            background-color: #f8f9fa;
+            font-family: 'Arial', sans-serif;
+        }
 
+        .layout {
+            width: 100%;
+            margin: 50px auto;
+            padding: 20px;
+            border: 2px solid #000;
+            border-radius: 8px;
+            box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+            background-color: #fff;
+        }
+
+        form {
+            display: grid;
+            gap: 15px;
+        }
+
+        label {
+            font-weight: bold;
+        }
+
+        input, button {
+            padding: 10px;
+            border: 1px solid #000;
+            border-radius: 5px;
+            font-size: 14px;
+        }
+
+        input[type="file"] {
+            padding: 5px;
+        }
+
+        button {
+            cursor: pointer;
+            transition: background-color 0.3s;
+        }
+
+        button:hover {
+            background-color: #000;
+        }
+
+        .readonly {
+            background-color: #f8f9fa; /* 리딩온리 배경 색상 */
+            border: 1px solid #ced4da; /* 리딩온리 테두리 스타일 */
+            padding: 0.375rem 0.75rem; /* 리딩온리 안의 패딩 */
+        }
+
+        .edit-button, .delete-button {
+            margin-right: 10px; /* 버튼 간격 조정 */
+        }
+
+        .edit-link, .delete-link {
+            margin-right: 10px; /* 링크 간격 조정 */
+            text-decoration: none; /* 링크에 밑줄 제거 */
+            padding: 8px 16px; /* 링크 안의 패딩 */
+            border-radius: 5px; /* 링크 테두리 모양 */
+            color: #fff; /* 링크 텍스트 색상 */
+        }
+
+        .edit-link:hover, .delete-link:hover {
+            text-decoration: none; /* 호버 상태에서 밑줄 제거 */
+        }
     </style>
+
 </head>
 <body>
 <nav class="navbar navbar-expand-lg bg-dark navbar-light d-none d-lg-block" id="templatemo_nav_top">
@@ -106,39 +171,38 @@
     </div>
 </div>
 <div th:if="${Notice != null}" class="form-container text-center" style="max-width: 50%; margin: 0 auto; padding: 20px;">
-    <h2 class="font-weight-bold">공지사항 상세페이지</h2>
+
     <br>
-    <form action="/notice/modifypro" method="post" enctype="multipart/form-data">
-        <input type="hidden" name="Not_No" th:value="${Notice.Not_No}" />
-        <div class="mb-3">
-            <label for="Not_Title" class="form-label">제목:</label>
-            <input name="Not_Title" type="text" class="form-control" id="Not_Title" th:value="${Notice.Not_Title}" required>
-        </div>
+    <div class="layout">
+        <form action="/notice/modifypro" method="post" enctype="multipart/form-data" class="form-container">
+            <input type="hidden" name="Not_No" th:value="${Notice.Not_No}" />
+            <div class="mb-3">
+                <label for="Not_Title" class="form-label">제목:</label>
+                <input name="Not_Title" type="text" class="form-control readonly" id="Not_Title" th:value="${Notice.Not_Title}" readonly required>
+            </div>
 
-        <div class="mb-3">
-            <label for="Not_Writer" class="form-label">작성자:</label>
-            <input name="Not_Writer" type="text" class="form-control" id="Not_Writer" th:value="${Notice.Not_Writer}" required>
-        </div>
+            <div class="mb-3">
+                <label for="Not_Writer" class="form-label">작성자:</label>
+                <input name="Not_Writer" type="text" class="form-control readonly" id="Not_Writer" th:value="${Notice.Not_Writer}" readonly required>
+            </div>
 
-        <div class="mb-3">
-            <label for="Not_Content" class="form-label">내용:</label>
-            <textarea name="Not_Content" class="form-control" id="Not_Content" required th:text="${Notice.Not_Content}"></textarea>
-        </div>
+            <div class="mb-3">
+                <label for="Not_Content" class="form-label">내용:</label>
+                <textarea name="Not_Content" class="form-control readonly" id="Not_Content" required readonly th:text="${Notice.Not_Content}"></textarea>
+            </div>
 
-        <div class="mb-3">
-            <label for="file" class="form-label">파일 업로드:</label>
-            <input type="file" class="form-control" name="file" id="file">
-        </div>
+            <div class="mb-3">
+                <label for="file" class="form-label">파일 업로드:</label>
+                <input type="file" class="form-control" name="file" id="file">
+            </div>
 
-        <a th:href="@{/notice/modify/{Not_No}(Not_No=${Notice.Not_No})}">수정</a>
-        <a th:href="@{/notice/delete(Not_No=${Notice.Not_No})}">삭제</a>
-
-
-
-    </form>
+            <div class="container mt-3 text-end">
+                <a th:href="@{/notice/modify/{Not_No}(Not_No=${Notice.Not_No})}" class="edit-link btn btn-primary">수정</a>
+                <a th:href="@{/notice/delete(Not_No=${Notice.Not_No})}" class="delete-link btn btn-danger">삭제</a>
+            </div>
+        </form>
+    </div>
 </div>
-
-
 
 
 <footer class="bg-dark" id="tempaltemo_footer">

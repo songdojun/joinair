@@ -1,26 +1,192 @@
 <!DOCTYPE html>
 <html lang="en" xmlns:th="http://www.thymeleaf.org">
 <head>
-    <meta charset="UTF-8">
-    <title>상품 목록</title>
-    <link rel="stylesheet" href="/css/Productadlist.css">
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <title>(관리자)상품 등록 페이지</title>
+    <link rel="apple-touch-icon" href="/assets/img/apple-icon.png">
+    <link rel="shortcut icon" type="image/x-icon" href="/assets/img/favicon.ico">
+    <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/4.5.2/css/bootstrap.min.css">
+    <link rel="stylesheet" href="/assets/css/templatemo.css">
+    <link rel="stylesheet" href="/assets/css/custom.css">
+    <link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Roboto:wght@100;200;300;400;500;700;900&display=swap">
+    <link rel="stylesheet" href="/assets/css/fontawesome.min.css">
+    <link rel="stylesheet" href="https://unpkg.com/leaflet@1.7.1/dist/leaflet.css"
+          integrity="sha512-xodZBNTC5n17Xt2atTPuE1HxjVMSvLVW9ocqUKLsCC5CXdbqCmblAshOMAS6/keqq/sMZMZ19scR4PsZChSR7A==" crossorigin=""/>
+    <style>
+
+        #tempaltemo_footer {
+margin-bottom: 0.1px;
+}
+    .custom-button {
+            background-color: #4CAF50;
+            color: white;
+            padding: 10px 20px;
+           border: 2px solid #000;
+            border-radius: 5px;
+            cursor: pointer;
+        }
+
+        .custom-button:hover {
+            background-color: #45a049;
+        }
+
+        .cotn_principal {
+            background: rgba(255, 255, 255, 0.9);
+            border-radius: 5px;
+            padding: 20px;
+            max-width: 400px;
+            width: 100%;
+        }
+
+        /* Updated styles for the report form and table */
+        #salesReportContainer {
+            padding: 20px;
+            margin: 20px auto;
+            max-width: 800px;
+            background-color: #f8f9fa;
+            border-radius: 5px;
+        }
+
+        #reportForm {
+            margin-bottom: 20px;
+        }
+
+        #reportForm label {
+            font-weight: bold;
+        }
+
+        #reportForm select,
+        #reportForm input[type="number"] {
+            margin: 5px;
+            padding: 5px;
+            border: 1px solid #ced4da;
+            border-radius: 3px;
+        }
+
+        #reportForm button {
+            background-color: #4CAF50;
+            color: white;
+            padding: 10px 20px;
+            border: none;
+            border-radius: 5px;
+            cursor: pointer;
+        }
+
+        #reportForm button:hover {
+            background-color: #45a049;
+        }
+
+        table {
+            width: 100%;
+            border-collapse: collapse;
+        }
+
+        table, th, td {
+            border: 1px solid #ddd;
+        }
+
+        th, td {
+            padding: 8px;
+            text-align: left;
+        }
+
+            th {
+        background-color: black;
+        color: white;
+    }
+
+        tr:nth-child(even) {
+            background-color: #f2f2f2;
+        }
+
+        tr:hover {
+            background-color: #ddd;
+        }
+    </style>
 </head>
 <body>
+<nav class="navbar navbar-expand-lg bg-dark navbar-light d-none d-lg-block" id="templatemo_nav_top">
+    <div class="container text-light">
+        <div class="w-100 d-flex justify-content-between">
+            <div>
+                <i class="fa fa-envelope mx-2"></i>
+                <a class="navbar-sm-brand text-light text-decoration-none" href="mailto:info@company.com">Doron delivery@Doron delivery.com</a>
+                <i class="fa fa-phone mx-2"></i>
+                <a class="navbar-sm-brand text-light text-decoration-none" href="tel:010-1234-5678">010-1234-5678</a>
+            </div>
+            <div>
+                <a class="text-light" href="https://fb.com/templatemo" target="_blank" rel="sponsored"><i class="fab fa-facebook-f fa-sm fa-fw me-2"></i></a>
+                <a class="text-light" href="https://www.instagram.com/" target="_blank"><i class="fab fa-instagram fa-sm fa-fw me-2"></i></a>
+                <a class="text-light" href="https://twitter.com/" target="_blank"><i class="fab fa-twitter fa-sm fa-fw me-2"></i></a>
+            </div>
+        </div>
+    </div>
+</nav>
+<nav class="navbar navbar-expand-lg navbar-light shadow">
+    <div class="container d-flex justify-content between align-items-center">
+        <a class="navbar-brand text-success logo h1 align-self-center" href="../templates/index.html">Join Air🪂</a>
+        <button class="navbar-toggler border-0" type="button" data-bs-toggle="collapse" data-bs-target="#templatemo_main_nav"
+                aria-controls="templatemo_main_nav" aria-expanded="false" aria-label="Toggle navigation">
+            <span class="navbar-toggler-icon"></span>
+        </button>
+        <div class="align-self-center collapse navbar-collapse flex-fill d-lg-flex justify-content-lg-between" id="templatemo_main_nav">
+            <div class="flex-fill">
+                <ul class="nav navbar-nav d-flex justify-content-between mx-lg-auto">
+                    <li class="nav-item">
+                        <a class="nav-link" href="../templates/index.html">홈</a>
+                    </li>
+                    <li class="nav-item">
+                        <a class="nav-link" href="../templates/about.html">회사 소개</a>
+                    </li>
+                    <li class="nav-item">
+                        <a class="nav-link" href="../templates/shop.html">상품</a>
+                    </li>
+                    <li class="nav-item">
+                        <a class="nav-link" href="../templates/contact.html">문의</a>
+                    </li>
+                    <li class="nav-item">
+                        <a class="nav-link" href="http://localhost:8080/notice/list">공지사항</a>
+                    </li>
+                    <!--                    사용에 따라 사용-->
+                    <!--                    <li class="nav-item">-->
+                    <!--                        <a class="nav-link" href="#">로그인</a>-->
+                    <!--                    </li>-->
+
+                </ul>
+            </div>
+            <div class="navbar align-self-center d-flex">
+                <div class="d-lg-none flex-sm-fill mt-3 mb-4 col-7 col-sm-auto pr-3">
+                    <div class="input-group">
+                        <input type="text" class="form-control" id="inputMobileSearch" placeholder="검색">
+                        <div class="input-group-text">
+                            <i class="fa fa-fw fa-search"></i>
+                        </div>
+                    </div>
+                </div>
+                <a class="nav-icon d-none d-lg-inline" href="#" data-bs-toggle="modal" data-bs-target="#templatemo_search">
+                    <i class="fa fa-fw fa-search text-dark mr-2"></i>
+                </a>
+
+            </div>
+        </div>
+    </div>
+</nav>
 <div class="layout">
-    <h1>
-        <a th:href="@{/productad/list}">관리자 상품 관리 페이지</a>
-    </h1>
 
 
 
-    <div>
-        <select id="searchOption">
-            <option value="Pro_Name" selected>상품명</option>
-            <option value="Pro_Code">상품코드</option>
-            <option value="Cate_Name">카테고리</option>
-        </select>
-        <input type="text" name="searchKeyword" id="searchKeyword" placeholder="검색어 입력">
-        <button id="searchButton">검색</button>
+    <div style="text-align: center; margin: 20px auto;">
+        <div style="display: inline-flex; align-items: center;">
+            <select id="searchOption" style="padding: 8px; border: 1px solid #ccc; border-radius: 5px; margin-right: 5px;">
+                <option value="Pro_Name" selected>상품명</option>
+                <option value="Pro_Code">상품코드</option>
+                <option value="Cate_Name">카테고리</option>
+            </select>
+            <input type="text" name="searchKeyword" id="searchKeyword" placeholder="검색어 입력" style="padding: 8px; border: 1px solid #ccc; border-radius: 5px; margin-right: 5px;">
+            <button id="searchButton" style="background-color: black; color: white; padding: 8px 15px; border: none; border-radius: 5px; cursor: pointer;">검색</button>
+
+        </div>
     </div>
 
     <table>
@@ -50,35 +216,43 @@
         </tbody>
     </table>
 
-    <!-- 페이지네이션 -->
-    <div class="pagination" th:if="${list.totalPages > 1 || list.totalElements == 0}">
-        <!-- Adjust pagination links to include search parameters -->
-        <div class="horizontal-pagination">
-            <a th:if="${list.number > 0}" th:href="@{|/productad/list?page=0&size=${list.size}&sort=${list.sort}&searchOption=${searchOption}&searchKeyword=${searchKeyword}|}" aria-label="First">
-                <span aria-hidden="true">첫 페이지</span>
-            </a>
-            <!-- Adjust previous and next links similarly -->
-            <a th:if="${list.number > 0}" th:href="@{|/productad/list?page=${list.number - 1}&size=${list.size}&sort=${list.sort}&searchOption=${searchOption}&searchKeyword=${searchKeyword}|}" aria-label="Previous">
-                <span aria-hidden="true">&laquo; 이전</span>
-            </a>
-            <!-- Add searchOption and searchKeyword to the page number links -->
-            <span th:each="i : ${#numbers.sequence(0, list.totalPages - 1)}">
-            <a th:if="${i == list.number}" th:text="${i + 1}" class="current-page"></a>
-            <a th:unless="${i == list.number}" th:href="@{|/productad/list?page=${i}&size=${list.size}&sort=${list.sort}&searchOption=${searchOption}&searchKeyword=${searchKeyword}|}" th:text="${i + 1}"></a>
-        </span>
-            <a th:if="${list.number < list.totalPages - 1}" th:href="@{|/productad/list?page=${list.number + 1}&size=${list.size}&sort=${list.sort}&searchOption=${searchOption}&searchKeyword=${searchKeyword}|}" aria-label="Next">
-                <span aria-hidden="true">다음 &raquo;</span>
-            </a>
-            <a th:if="${list.number < list.totalPages - 1}" th:href="@{|/productad/list?page=${list.totalPages - 1}&size=${list.size}&sort=${list.sort}&searchOption=${searchOption}&searchKeyword=${searchKeyword}|}" aria-label="Last">
-                <span aria-hidden="true">마지막 페이지</span>
-            </a>
+
+    <div style="text-align: center; margin: 20px auto;">
+        <!-- 페이지네이션 -->
+        <div class="pagination" th:if="${list.totalPages > 1 || list.totalElements == 0}" style="text-align: center; display: inline-block;">
+
+            <div class="horizontal-pagination">
+                <a th:if="${list.number > 0}" th:href="@{|/productad/list?page=0&size=${list.size}&sort=${list.sort}&searchOption=${searchOption}&searchKeyword=${searchKeyword}|}" aria-label="첫 페이지">
+                    <span aria-hidden="true">첫 페이지</span>
+                </a>
+                <a th:if="${list.number > 0}" th:href="@{|/productad/list?page=${list.number - 1}&size=${list.size}&sort=${list.sort}&searchOption=${searchOption}&searchKeyword=${searchKeyword}|}" aria-label="이전">
+                    <span aria-hidden="true">&laquo; 이전</span>
+                </a>
+                <span th:each="i : ${#numbers.sequence(0, list.totalPages - 1)}">
+                <a th:if="${i == list.number}" th:text="${i + 1}" class="current-page" style="border-top: 2px solid black; padding: 5px 10px; margin: 0 5px; background-color: black; color: white; border-radius: 5px;"></a>
+                <a th:unless="${i == list.number}" th:href="@{|/productad/list?page=${i}&size=${list.size}&sort=${list.sort}&searchOption=${searchOption}&searchKeyword=${searchKeyword}|}" th:text="${i + 1}" style="padding: 5px 10px; margin: 0 5px; border: 1px solid black; border-radius: 5px; color: black;"></a>
+            </span>
+                <a th:if="${list.number < list.totalPages - 1}" th:href="@{|/productad/list?page=${list.number + 1}&size=${list.size}&sort=${list.sort}&searchOption=${searchOption}&searchKeyword=${searchKeyword}|}" aria-label="다음">
+                    <span aria-hidden="true">다음 &raquo;</span>
+                </a>
+                <a th:if="${list.number < list.totalPages - 1}" th:href="@{|/productad/list?page=${list.totalPages - 1}&size=${list.size}&sort=${list.sort}&searchOption=${searchOption}&searchKeyword=${searchKeyword}|}" aria-label="마지막 페이지">
+                    <span aria-hidden="true">마지막 페이지</span>
+                </a>
+            </div>
         </div>
     </div>
 
-    <div th:if="${list.totalPages == 0}" class="no-results">검색 결과가 없습니다.</div>
 
-    <!-- 상품 등록 버튼 -->
-    <a href="/productad/regist" class="new-post-button">새 상품 등록</a>
+
+
+
+    <div style="text-align: center; margin: 50px auto;">
+        <div th:if="${list.totalPages == 0}" style="color: red; font-size: 18px;">검색 결과가 없습니다.</div>
+
+        <!-- 상품 등록 버튼 -->
+        <a href="/productad/regist" style="background-color: black; color: white; padding: 10px 20px; text-decoration: none; display: inline-block; border-radius: 5px;">새 상품 등록</a>
+
+    </div>
 </div>
 
 <script src="/js/searchProductad.js"></script>

@@ -16,13 +16,69 @@
           integrity="sha512-xodZBNTC5n17Xt2atTPuE1HxjVMSvLVW9ocqUKLsCC5CXdbqCmblAshOMAS6/keqq/sMZMZ19scR4PsZChSR7A==" crossorigin=""/>
     <style>
         body {
-            display: flex;
-            flex-direction: column;
-            min-height: 100vh;
+            background-color: #f8f9fa;
+            font-family: 'Arial', sans-serif;
         }
 
-        #templatemo_footer {
-            margin-top: auto;
+        .layout {
+            width: 100%;
+            margin: 50px auto;
+            padding: 20px;
+            border: 1px solid #000;
+            border-radius: 8px;
+            box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+            background-color: #fff;
+        }
+
+        form {
+            display: grid;
+            gap: 15px;
+        }
+
+        label {
+            font-weight: bold;
+        }
+
+        input, button {
+            padding: 10px;
+            border: 1px solid #000;
+            border-radius: 5px;
+            font-size: 14px;
+        }
+
+        input[type="file"] {
+            padding: 5px;
+        }
+
+        button {
+            cursor: pointer;
+            transition: background-color 0.3s;
+        }
+
+        button:hover {
+            background-color: #000;
+        }
+
+        .readonly {
+            background-color: #f8f9fa; /* 리딩온리 배경 색상 */
+            border: 1px solid #ced4da; /* 리딩온리 테두리 스타일 */
+            padding: 0.375rem 0.75rem; /* 리딩온리 안의 패딩 */
+        }
+
+        .edit-button, .delete-button {
+            margin-right: 10px; /* 버튼 간격 조정 */
+        }
+
+        .edit-link, .delete-link {
+            margin-right: 10px; /* 링크 간격 조정 */
+            text-decoration: none; /* 링크에 밑줄 제거 */
+            padding: 8px 16px; /* 링크 안의 패딩 */
+            border-radius: 5px; /* 링크 테두리 모양 */
+            color: #fff; /* 링크 텍스트 색상 */
+        }
+
+        .edit-link:hover, .delete-link:hover {
+            text-decoration: none; /* 호버 상태에서 밑줄 제거 */
         }
     </style>
 
@@ -116,30 +172,33 @@
 </div>
 
 <div class="container mt-5">
-    <h1 class="text-center font-weight-bold">공지사항 작성</h1>
-    <form action="/notice/createpro" method="post" enctype="multipart/form-data">
-        <div class="mb-3">
-            <label for="Not_Title" class="form-label">제목:</label>
-            <input name="Not_Title" type="text" class="form-control" id="Not_Title">
-        </div>
+    <div class="layout">
+        <h2 class="text-center mb-4">공지사항 작성</h2>
 
-        <div class="mb-3">
-            <label for="Not_Writer" class="form-label">작성자:</label>
-            <input name="Not_Writer" type="text" class="form-control" id="Not_Writer">
-        </div>
+        <form action="/notice/createpro" method="post" enctype="multipart/form-data">
+            <div class="mb-3">
+                <label for="Not_Title" class="form-label">제목:</label>
+                <input name="Not_Title" type="text" class="form-control" id="Not_Title">
+            </div>
 
-        <div class="mb-3">
-            <label for="Not_Content" class="form-label">내용:</label>
-            <textarea name="Not_Content" class="form-control" id="Not_Content"></textarea>
-        </div>
+            <div class="mb-3">
+                <label for="Not_Writer" class="form-label">작성자:</label>
+                <input name="Not_Writer" type="text" class="form-control" id="Not_Writer">
+            </div>
 
-        <div class="mb-3">
-            <label for="file" class="form-label">파일 업로드:</label>
-            <input type="file" class="form-control" name="file" id="file">
-        </div>
+            <div class="mb-3">
+                <label for="Not_Content" class="form-label">내용:</label>
+                <textarea name="Not_Content" class="form-control" id="Not_Content"></textarea>
+            </div>
 
-        <button type="submit" class="btn btn-primary">작성</button>
-    </form><br>
+            <div class="mb-3">
+                <label for="file" class="form-label">파일 업로드:</label>
+                <input type="file" class="form-control" name="file" id="file">
+            </div>
+
+            <button type="submit" class="btn btn-primary">작성</button>
+        </form>
+    </div>
 </div>
 
 <footer class="bg-dark" id="templatemo_footer">

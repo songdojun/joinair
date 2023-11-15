@@ -1,61 +1,194 @@
 <!DOCTYPE html>
 <html lang="en" xmlns:th="http://www.thymeleaf.org">
 <head>
-    <meta charset="UTF-8">
-    <title>드론 상세 페이지</title>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <title>회원가입 페이지</title>
+    <link rel="apple-touch-icon" href="/assets/img/apple-icon.png">
+    <link rel="shortcut icon" type="image/x-icon" href="/assets/img/favicon.ico">
+    <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/4.5.2/css/bootstrap.min.css">
+    <link rel="stylesheet" href="/assets/css/templatemo.css">
+    <link rel="stylesheet" href="/assets/css/custom.css">
+    <link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Roboto:wght@100;200;300;400;500;700;900&display=swap">
+    <link rel="stylesheet" href="/assets/css/fontawesome.min.css">
+    <link rel="stylesheet" href="https://unpkg.com/leaflet@1.7.1/dist/leaflet.css"
+          integrity="sha512-xodZBNTC5n17Xt2atTPuE1HxjVMSvLVW9ocqUKLsCC5CXdbqCmblAshOMAS6/keqq/sMZMZ19scR4PsZChSR7A==" crossorigin=""/>
+
     <style>
         body {
-            font-family: Arial, sans-serif;
-            margin: 20px;
-            display: flex;
-            justify-content: center;
-            align-items: flex-start; /* Align items to the top */
-            height: 100vh;
-        }
+               background-color: #f8f9fa;
+               font-family: 'Arial', sans-serif;
+           }
 
-        h1, p {
-            margin-bottom: 10px;
-        }
+           .layout {
+               width: 50%;
+               margin: 50px auto;
+               padding: 20px;
+               border: 2px solid #000;
+               border-radius: 8px;
+               box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+               background-color: #fff;
+               text-align: center;
+           }
 
-        .meta-info {
-            color: #666;
-            font-size: 14px;
-            margin-bottom: 20px;
-        }
+           h1 {
+               color: #000;
+               margin-bottom: 20px;
+           }
 
-        .download-link {
-            display: block;
-            margin-top: 10px;
-        }
+           .meta-info p {
+               color: #000;
+               margin-bottom: 10px;
+           }
 
-        .action-links a {
-            margin-right: 10px;
-            text-decoration: none;
-        }
+           .download-link, .action-links a {
+               display: inline-block;
+               margin-top: 20px;
+               color: #fff;
+               text-decoration: none;
+               padding: 10px 20px;
+               border-radius: 5px;
+           }
+
+           .download-link {
+               background-color: #007bff;
+           }
+
+/* 수정 버튼 스타일 */
+.modify-button {
+    background-color: #28a745; /* 초록색 */
+}
+.modify-button:hover {
+    background-color: #218838; /* 수정 버튼에 호버 시 초록색 더 진한 효과 */
+}
+
+/* 삭제 버튼 스타일 */
+.delete-button {
+    background-color: #dc3545; /* 빨간색 */
+}
+.delete-button:hover {
+    background-color: #c82333; /* 삭제 버튼에 호버 시 빨간색 더 진한 효과 */
+}
+
+
     </style>
-</head>
-<body>
 
-<div th:if="${Drone != null}">
-    <h1 th:text="${Drone.D_Name}">드론코드명 입니다.</h1>
-    <div class="meta-info">
-        <p th:text="'드론 명: ' + ${Drone.D_Name}"></p>
-        <p th:text="'페이로드(kg): ' + ${Drone.D_Payload}"></p>
-        <p th:text="'드론 수량: ' + ${Drone.D_Count}"></p>
-        <p th:text="'축간거리(cm): ' + ${Drone.D_Size}"></p>
-        <p th:text="'기체무게(kg): ' + ${Drone.D_Weight}"></p>
-        <p th:text="'속도(m/s): ' + ${Drone.D_Speed}"></p>
 
-        <p th:text="'드론 등록일: ' + ${#dates.format(Drone.D_Reg_Date, 'yyyy-MM-dd HH:mm:ss')}"></p>
-    </div>
 
-    <a class="download-link" th:href="@{${Drone?.D_Filepath}}" download>다운로드</a>
+   </head>
+   <body>
+   <nav class="navbar navbar-expand-lg bg-dark navbar-light d-none d-lg-block" id="templatemo_nav_top">
+       <div class="container text-light">
+           <div class="w-100 d-flex justify-content-between">
+               <div>
+                   <i class="fa fa-envelope mx-2"></i>
+                   <a class="navbar-sm-brand text-light text-decoration-none" href="mailto:info@company.com">Doron delivery@Doron delivery.com</a>
+                   <i class="fa fa-phone mx-2"></i>
+                   <a class="navbar-sm-brand text-light text-decoration-none" href="tel:010-1234-5678">010-1234-5678</a>
+               </div>
+               <div>
+                   <a class="text-light" href="https://fb.com/templatemo" target="_blank" rel="sponsored"><i class="fab fa-facebook-f fa-sm fa-fw me-2"></i></a>
+                   <a class="text-light" href="https://www.instagram.com/" target="_blank"><i class="fab fa-instagram fa-sm fa-fw me-2"></i></a>
+                   <a class="text-light" href="https://twitter.com/" target="_blank"><i class="fab fa-twitter fa-sm fa-fw me-2"></i></a>
+               </div>
+           </div>
+       </div>
+   </nav>
+   <nav class="navbar navbar-expand-lg navbar-light shadow">
+       <div class="container d-flex justify-content between align-items-center">
+           <a class="navbar-brand text-success logo h1 align-self-center" href="../templates/index.html">Join Air🪂</a>
+           <button class="navbar-toggler border-0" type="button" data-bs-toggle="collapse" data-bs-target="#templatemo_main_nav"
+                   aria-controls="templatemo_main_nav" aria-expanded="false" aria-label="Toggle navigation">
+               <span class="navbar-toggler-icon"></span>
+           </button>
+           <div class="align-self-center collapse navbar-collapse flex-fill d-lg-flex justify-content-lg-between" id="templatemo_main_nav">
+               <div class="flex-fill">
+                   <ul class="nav navbar-nav d-flex justify-content-between mx-lg-auto">
+                       <li class="nav-item">
+                           <a class="nav-link" href="../templates/index.html">홈</a>
+                       </li>
+                       <li class="nav-item">
+                           <a class="nav-link" href="../templates/about.html">회사 소개</a>
+                       </li>
+                       <li class="nav-item">
+                           <a class="nav-link" href="../templates/shop.html">상품</a>
+                       </li>
+                       <li class="nav-item">
+                           <a class="nav-link" href="../templates/contact.html">문의</a>
+                       </li>
+                       <li class="nav-item">
+                           <a class="nav-link" href="http://localhost:8080/notice/list">공지사항</a>
+                       </li>
+                       <!--                    사용에 따라 사용-->
+                       <!--                    <li class="nav-item">-->
+                       <!--                        <a class="nav-link" href="#">로그인</a>-->
+                       <!--                    </li>-->
 
-    <div class="action-links">
-        <a th:href="@{/dronead/modify/{D_Code}(D_Code=${Drone.D_Code})}">수정하기</a>
-        <a th:href="@{/dronead/delete(D_Code=${Drone.D_Code})}">삭제하기</a>
-    </div>
-</div>
+                   </ul>
+               </div>
+               <div class="navbar align-self-center d-flex">
+                   <div class="d-lg-none flex-sm-fill mt-3 mb-4 col-7 col-sm-auto pr-3">
+                       <div class="input-group">
+                           <input type="text" class="form-control" id="inputMobileSearch" placeholder="검색">
+                           <div class="input-group-text">
+                               <i class="fa fa-fw fa-search"></i>
+                           </div>
+                       </div>
+                   </div>
+                   <a class="nav-icon d-none d-lg-inline" href="#" data-bs-toggle="modal" data-bs-target="#templatemo_search">
+                       <i class="fa fa-fw fa-search text-dark mr-2"></i>
+                   </a>
 
-</body>
-</html>
+               </div>
+           </div>
+       </div>
+   </nav>
+   <div th:if="${Drone != null}">
+       <div class="layout">
+           <h1 th:text="${Drone.D_Name}">드론코드명 입니다.</h1>
+           <div class="meta-info" style="text-align: center;">
+
+               <div class="half-width">
+                   <label for="D_Payload">페이로드(kg):</label>
+                   <input name="D_Payload" type="text" class="form-control readonly center-input" id="D_Payload" th:value="${Drone.D_Payload}" readonly required>
+               </div>
+               <div class="half-width">
+                   <label for="D_Count">드론 수량:</label>
+                   <input name="D_Count" type="text" class="form-control readonly center-input" id="D_Count" th:value="${Drone.D_Count}" readonly required>
+               </div>
+               <div class="half-width">
+                   <label for="D_Size">축간거리(cm):</label>
+                   <input name="D_Size" type="text" class="form-control readonly center-input" id="D_Size" th:value="${Drone.D_Size}" readonly required>
+               </div>
+               <div class="half-width">
+                   <label for="D_Weight">기체무게(kg):</label>
+                   <input name="D_Weight" type="text" class="form-control readonly center-input" id="D_Weight" th:value="${Drone.D_Weight}" readonly required>
+               </div>
+               <div class="half-width">
+                   <label for="D_Speed">속도(m/s):</label>
+                   <input name="D_Speed" type="text" class="form-control readonly center-input" id="D_Speed" th:value="${Drone.D_Speed}" readonly required>
+               </div>
+
+               <p th:text="'드론 등록일: ' + ${#dates.format(Drone.D_Reg_Date, 'yyyy-MM-dd HH:mm:ss')}"></p>
+           </div>
+
+           <a class="download-link" th:href="@{${Drone?.D_Filepath}}" download>다운로드</a>
+           <div class="action-links">
+               <a th:href="@{/dronead/modify/{D_Code}(D_Code=${Drone.D_Code})}" class="modify-button">수정하기</a>
+               <a th:href="@{/dronead/delete(D_Code=${Drone.D_Code})}" class="delete-button">삭제하기</a>
+           </div>
+
+
+       </div>
+   </div>
+
+
+   <script src="/assets/js/jquery-1.11.0.min.js"></script>
+   <script src="/assets/js/jquery-migrate-1.2.1.min.js"></script>
+   <script src="/assets/js/bootstrap.bundle.min.js"></script>
+   <script src="/assets/js/templatemo.js"></script>
+   <script src="/assets/js/custom.js"></script>
+   <script src="/assets/js/slick.min.js"></script>
+
+   </body>
+   </html>

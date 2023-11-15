@@ -13,7 +13,22 @@
     <link rel="stylesheet" href="/assets/css/fontawesome.min.css">
     <link rel="stylesheet" href="https://unpkg.com/leaflet@1.7.1/dist/leaflet.css"
           integrity="sha512-xodZBNTC5n17Xt2atTPuE1HxjVMSvLVW9ocqUKLsCC5CXdbqCmblAshOMAS6/keqq/sMZMZ19scR4PsZChSR7A==" crossorigin=""/>
+<style>
+    .pagination {
+            display: flex;
+            justify-content: center;
+            margin-top: 20px;
+        }
 
+        .btn-pagination {
+            margin: 0 5px;
+        }
+
+        .btn-pagination.active {
+            background-color: #007bff;
+            color: #fff;
+        }
+</style>
 </head>
 <body>
 <nav class="navbar navbar-expand-lg bg-dark navbar-light d-none d-lg-block" id="templatemo_nav_top">
@@ -27,6 +42,7 @@
                 <a class="navbar-sm-brand text-light text-decoration-none" href="tel:010-020-0340"> 010-1234-5678</a>
             </div>
             <div>
+                <span class="connected-id" th:if="${session.User_Id != null}">💫 <span th:text="${session.User_Id}"></span> 님 환영합니다 💫</span>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
                 <a class="text-light" href="https://fb.com/templatemo" rel="sponsored" target="_blank"><i
                         class="fab fa-facebook-f fa-sm fa-fw me-2"></i></a>
                 <a class="text-light" href="https://www.instagram.com/" target="_blank"><i
@@ -73,28 +89,7 @@
                     </li>
                 </ul>
             </div>
-            <div class="navbar align-self-center d-flex">
-                <div class="d-lg-none flex-sm-fill mt-3 mb-4 col-7 col-sm-auto pr-3">
-                    <div class="input-group">
-                        <input class="form-control" id="inputMobileSearch" placeholder="검색" type="text">
-                        <div class="input-group-text">
-                            <i class="fa fa-fw fa-search"></i>
-                        </div>
-                    </div>
-                </div>
-                <a class="nav-icon d-none d-lg-inline" data-bs-target="#templatemo_search" data-bs-toggle="modal"
-                   href="#">
-                    <i class="fa fa-fw fa-search text-dark mr-2"></i>
-                </a>
-                <a class="nav-icon position-relative text-decoration-none" href="http://localhost:8080/cart">
-                    <i class="fa fa-fw fa-cart-arrow-down text-dark mr-1"></i>
-                    <span class="position-absolute top-0 left-100 translate-middle badge rounded-pill bg-light text-dark"></span>
-                </a>
-                <a class="nav-icon position-relative text-decoration-none" href="#">
-                    <i class="fa fa-fw fa-user text-dark mr-3"></i>
-                    <span class="position-absolute top-0 left-100 translate-middle badge rounded-pill bg-light text-dark"></span>
-                </a>
-            </div>
+
         </div>
     </div>
 </nav>
@@ -129,6 +124,8 @@
             </tr>
             </tbody>
         </table>
+                    <!--페이징-->
+
         <div class="pagination">
             <th:block th:each="page : ${#numbers.sequence(startPage, endPage)}">
                 <a class="btn btn-primary" th:href="@{/notice/list(page=${page-1}, searchKeyword=${param.searchKeyword})}"
@@ -231,5 +228,22 @@
         logoutItem.style.display = "none";
     });
 </script>
+<script>
+    $(document).ready(function () {
+        $("#templatemo_search_icon").on("click", function () {
+            $("#templatemo_search").toggle();
+            $("#inputModalSearch").focus();
+        });
+
+        $(document).on("click", function (event) {
+            if (!$(event.target).closest("#templatemo_search").length && !$(event.target).is("#templatemo_search_icon")) {
+                $("#templatemo_search").hide();
+            }
+        });
+    });
+</script>
+
+
+
 </body>
 </html>

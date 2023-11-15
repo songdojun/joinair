@@ -2,6 +2,7 @@
 <html lang="ko" xmlns:th="http://www.thymeleaf.org">
 <head>
     <title>JoinAir</title>
+
     <meta charset="utf-8">
     <meta name="viewport" content="width=device-width, initial-scale=1">
 
@@ -14,41 +15,41 @@
     <link rel="stylesheet" href="/assets/css/fontawesome.min.css">
     <link rel="stylesheet" href="https://unpkg.com/leaflet@1.7.1/dist/leaflet.css"
           integrity="sha512-xodZBNTC5n17Xt2atTPuE1HxjVMSvLVW9ocqUKLsCC5CXdbqCmblAshOMAS6/keqq/sMZMZ19scR4PsZChSR7A==" crossorigin=""/>
-    <style>
 
+<style>
+
+    #tempaltemo_footer {
+        margin-bottom: 300px;
+    }
         #tempaltemo_footer {
-            margin-bottom: 300px;
-        }
-            #tempaltemo_footer {
-    margin-bottom: 0.1px;
+margin-bottom: 0.1px;
 }
 
-         .card {
-            border: none;
-            background-color: #f8f9fa;
-            transition: transform 0.3s;
-            /* 헤더와 타이틀 부분에 사용할 폰트와 색상을 지정. */
-            font-family: 'Your Chosen Font', sans-serif;
-            color: #2A0A0A;
-        }
+     .card {
+        border: none;
+        background-color: #f8f9fa;
+        transition: transform 0.3s;
+        /* 헤더와 타이틀 부분에 사용할 폰트와 색상을 지정. */
+        font-family: 'Your Chosen Font', sans-serif;
+        color: #2A0A0A;
+    }
 
-        .card:hover {
-            transform: scale(1.05);
-        }
+    .card:hover {
+        transform: scale(1.05);
+    }
 
-        h5.card-title {
-            font-size: 18px;
-            font-weight: bold;
-            /* 각 카드의 타이틀에 대한 폰트 사이즈와 굵기를 지정. */
-        }
+    h5.card-title {
+        font-size: 18px;
+        font-weight: bold;
+        /* 각 카드의 타이틀에 대한 폰트 사이즈와 굵기를 지정. */
+    }
 
-        p.card-text {
-            font-size: 16px;
-            color: #555;
-            /* 각 카드의 텍스트에 대한 폰트 사이즈와 색상을 지정. */
-        }
-    </style>
-
+    p.card-text {
+        font-size: 16px;
+        color: #555;
+        /* 각 카드의 텍스트에 대한 폰트 사이즈와 색상을 지정. */
+    }
+</style>
 </head>
 <body>
 <nav class="navbar navbar-expand-lg bg-dark navbar-light d-none d-lg-block" id="templatemo_nav_top">
