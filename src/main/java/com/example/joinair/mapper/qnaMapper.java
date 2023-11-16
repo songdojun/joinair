@@ -15,7 +15,7 @@ public interface qnaMapper {
 
     int qnaupdate(QNA qna);
 
-    void qnaupdateCommand(QNA qna); //댓글
+    void qnaupdateCommand(QNA qna);
 
     void qnadelete(QNA QNA_NO);
 
