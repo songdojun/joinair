@@ -1,5 +1,5 @@
 <!DOCTYPE html>
-<html lang="ko" xmlns:th="http://www.thymeleaf.org">
+<html lang="ko" xmlns:th="http://www.thymeleaf.org" xmlns:sec="http://www.w3.org/1999/xhtml">
 <head>
     <title>공지사항 페이지</title>
     <meta charset="utf-8">
@@ -43,8 +43,6 @@
                     <!-- 사용자의 마일리지 표시 -->
                     <span th:if="${userMileage != null}">&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
                     <span th:text="${userMileage}"></span> 마일리지 </span>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
-
-<!--                <span class="connected-id" th:if="${session.User_Id != null}">💫 <span th:text="${session.User_Id}"></span> 님 환영합니다 💫</span>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;-->
                 <a class="text-light" href="https://fb.com/templatemo" target="_blank" rel="sponsored"><i class="fab fa-facebook-f fa-sm fa-fw me-2"></i></a>
                 <a class="text-light" href="https://www.instagram.com/" target="_blank"><i class="fab fa-instagram fa-sm fa-fw me-2"></i></a>
                 <a class="text-light" href="https://twitter.com/" target="_blank"><i class="fab fa-twitter fa-sm fa-fw me-2"></i></a>
@@ -163,10 +161,13 @@
 
                             <div class="row pb-3">
 
-                                <div class="col d-grid">
+                                <div th:if="${userId != null and (userId != 'anonymousUser')}">
                                     <button type="button" class="btn btn-success btn-lg" name="submit" onclick="addToCart()">
                                         Add To Cart
                                     </button>
+                                </div>
+                                <div th:if="${userId == null or (userId == 'anonymousUser')}">
+                                    <!-- 사용자가 로그인하지 않은 경우에는 아무것도 표시하지 않음 -->
                                 </div>
                             </div>
                         </form>
@@ -348,13 +349,33 @@
         logoutItem.style.display = "none";
     });
 </script>
+<script>
+    // Add to Cart 버튼의 표시 여부를 업데이트하는 함수
+function updateAddToCartButton() {
+    // 세션 상태 확인
+    var userId = sessionStorage.getItem("User_Id");
 
-<!-- End Slider Script -->
+    // Add to Cart 버튼 요소 가져오기
+    var addToCartButton = document.querySelector(".btn.btn-success.btn-lg");
 
-<!-- Start Slider Script -->
+    if (userId) {
+        // 세션이 있으면 Add to Cart 버튼을 보여줍니다.
+        addToCartButton.style.display = "block";
+    } else {
+        // 세션이 없어도 Add to Cart 버튼을 보여줍니다.
+        addToCartButton.style.display = "block";
+    }
+}
 
+// 페이지 로드 시와 로그인 시에 Add to Cart 버튼 업데이트
+document.addEventListener('DOMContentLoaded', updateAddToCartButton);
 
-<!-- End Slider Script -->
-<!-- 스크립트 끝 -->
+// 로그아웃 버튼 클릭 시 세션 삭제 및 Add to Cart 버튼 업데이트
+var logoutItem = document.querySelector(".nav-item .nav-link[href='/logout']");
+logoutItem.addEventListener("click", function() {
+    sessionStorage.removeItem("User_Id");
+    updateAddToCartButton();
+});
+</script>
 </body>
 </html>
