@@ -167,12 +167,16 @@
                         <label for="file">파일 첨부:</label>
                         <input type="file" name="file" th:if="${notice != null}" class="form-control" id="file">
                     </div>
-                    <button type="submit" th:if="${notice != null}" class="btn btn-primary">수정</button>
+                    <div class="text-center">
+                        <button type="submit" th:if="${notice != null}" class="btn btn-primary">수정</button>
+                        <a href="/notice/list" class="btn btn-success">뒤로 가기</a>
+                    </div>
                 </form>
             </div>
         </div>
     </div>
 </div>
+
 <footer class="bg-dark" id="tempaltemo_footer">
     <div class="container">
         <div class="row">
