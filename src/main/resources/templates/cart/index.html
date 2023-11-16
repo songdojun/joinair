@@ -277,8 +277,9 @@
            var finalAmount = parseFloat(document.getElementById('total1').textContent);
 
            // 수정: 최종 결제 금액을 FormData에 추가
+           alert(finalAmount)
            formData.append('finalAmount', finalAmount);
-
+            alert(finalAmount);
            // 주문 요청 보내기
            fetch('/order/place', {
                method: 'POST',
@@ -288,8 +289,6 @@
                if (!response.ok) {
                    throw new Error(`HTTP error! Status: ${response.status}`);
                }
-               alert(response);
-               console.log(response);
                return response.text();  //추정원인 1 : 여기서 함수가 종료되서 다음께 실행이 안되지 않을까...?
            })
            .then(data => {

@@ -29,9 +29,9 @@ public class OrderController {
 
     @PostMapping("/place")
     @ResponseBody
-    public String placeOrder(HttpSession session, Model model) {
+    public String placeOrder(HttpSession session, Model model, String finalAmount) {
         // 세션에서 카트 정보를 가져와서 ORDER_DETAIL 객체로 변환하여 DB에 저장
-        orderService.placeOrderFromCart(session);
+        orderService.placeOrderFromCart(session, finalAmount);
 
         // 로그 추가
         System.out.println("Order placed successfully!");

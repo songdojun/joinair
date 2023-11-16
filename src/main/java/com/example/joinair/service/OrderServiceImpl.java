@@ -25,9 +25,10 @@ public class OrderServiceImpl implements OrderService {
 
     // 장바구니에서 주문을 처리하는 메서드
     @Override
-    public void placeOrderFromCart(HttpSession session) {
+    public void placeOrderFromCart(HttpSession session, String total) {
         // 세션에서 장바구니 정보를 가져옴
         List<Item> cart = (List<Item>) session.getAttribute("cart");
+
 
         if (cart == null) {
             // cart가 null인 경우: 세션에서 "cart" 속성이 설정되지 않았거나, 값이 null입니다.
@@ -51,6 +52,7 @@ public class OrderServiceImpl implements OrderService {
 
         // 주문 정보를 생성하여 데이터베이스에 저장
         ORDERS order = convertCartToOrder(cart);
+        order.setOrders_Total_Price(total);
         orderMapper.insertOrder(order);
 
         // orders_Num을 가져와서 order_detail에 설정
