@@ -11,10 +11,12 @@
     <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/4.5.2/css/bootstrap.min.css">
     <link rel="stylesheet" href="/assets/css/templatemo.css">
     <link rel="stylesheet" href="/assets/css/custom.css">
-    <link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Roboto:wght@100;200;300;400;500;700;900&display=swap">
+    <link rel="stylesheet"
+          href="https://fonts.googleapis.com/css2?family=Roboto:wght@100;200;300;400;500;700;900&display=swap">
     <link rel="stylesheet" href="/assets/css/fontawesome.min.css">
     <link rel="stylesheet" href="https://unpkg.com/leaflet@1.7.1/dist/leaflet.css"
-          integrity="sha512-xodZBNTC5n17Xt2atTPuE1HxjVMSvLVW9ocqUKLsCC5CXdbqCmblAshOMAS6/keqq/sMZMZ19scR4PsZChSR7A==" crossorigin=""/>
+          integrity="sha512-xodZBNTC5n17Xt2atTPuE1HxjVMSvLVW9ocqUKLsCC5CXdbqCmblAshOMAS6/keqq/sMZMZ19scR4PsZChSR7A=="
+          crossorigin=""/>
     <script src="/js/searchProductbuy.js"></script>
     <style>
         /* 카테고리 버튼과 간격 조절 및 버튼 크기 키우기 */
@@ -42,7 +44,8 @@
         <div class="w-100 d-flex justify-content-between">
             <div>
                 <i class="fa fa-envelope mx-2"></i>
-                <a class="navbar-sm-brand text-light text-decoration-none" href="mailto:info@company.com"> Doron delivery@Doron delivery.com
+                <a class="navbar-sm-brand text-light text-decoration-none" href="mailto:info@company.com"> Doron
+                    delivery@Doron delivery.com
 
                 </a>
                 <i class="fa fa-phone mx-2"></i>
@@ -65,9 +68,12 @@
 
                         <!--                <span th:if="${userAuthorities.contains('admin')}"> (관리자) </span>-->
                         <!--                <span class="connected-id" th:if="${session.User_Id != null}">💫 <span th:text="${session.User_Id}"></span> 님 환영합니다 💫</span>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;-->
-                <a class="text-light" href="https://fb.com/templatemo" target="_blank" rel="sponsored"><i class="fab fa-facebook-f fa-sm fa-fw me-2"></i></a>
-                <a class="text-light" href="https://www.instagram.com/" target="_blank"><i class="fab fa-instagram fa-sm fa-fw me-2"></i></a>
-                <a class="text-light" href="https://twitter.com/" target="_blank"><i class="fab fa-twitter fa-sm fa-fw me-2"></i></a></span>
+                <a class="text-light" href="https://fb.com/templatemo" target="_blank" rel="sponsored"><i
+                        class="fab fa-facebook-f fa-sm fa-fw me-2"></i></a>
+                <a class="text-light" href="https://www.instagram.com/" target="_blank"><i
+                        class="fab fa-instagram fa-sm fa-fw me-2"></i></a>
+                <a class="text-light" href="https://twitter.com/" target="_blank"><i
+                        class="fab fa-twitter fa-sm fa-fw me-2"></i></a></span>
                 </div>
 
             </div>
@@ -79,11 +85,13 @@
 <nav class="navbar navbar-expand-lg navbar-light shadow" id="templatemo_main_na">
     <div class="container d-flex justify-content between align-items-center">
         <a class="navbar-brand text-success logo h1 align-self-center" href="/index">Join Air🪂</a>
-        <button class="navbar-toggler border-0" type="button" data-bs-toggle="collapse" data-bs-target="#templatemo_main_nav"
+        <button class="navbar-toggler border-0" type="button" data-bs-toggle="collapse"
+                data-bs-target="#templatemo_main_nav"
                 aria-controls="templatemo_main_nav" aria-expanded="false" aria-label="Toggle navigation">
             <span class="navbar-toggler-icon"></span>
         </button>
-        <div class="align-self-center collapse navbar-collapse flex-fill d-lg-flex justify-content-lg-between" id="templatemo_main_nav">
+        <div class="align-self-center collapse navbar-collapse flex-fill d-lg-flex justify-content-lg-between"
+             id="templatemo_main_nav">
             <div class="flex-fill">
                 <ul class="nav navbar-nav d-flex justify-content-between mx-lg-auto">
                     <li class="nav-item">
@@ -122,7 +130,8 @@
                         </div>
                     </div>
                 </div>
-                <a class="nav-icon d-none d-lg-inline" href="#" data-bs-toggle="modal" data-bs-target="#templatemo_search">
+                <a class="nav-icon d-none d-lg-inline" href="#" data-bs-toggle="modal"
+                   data-bs-target="#templatemo_search">
                     <i class="fa fa-fw fa-search text-dark mr-2"></i>
                 </a>
                 <a class="nav-icon position-relative text-decoration-none" href="#">
@@ -149,7 +158,8 @@
     </ul>
 </div>
 
-<div class="modal fade bg-white" id="templatemo_search" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel" aria-hidden="true">
+<div class="modal fade bg-white" id="templatemo_search" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel"
+     aria-hidden="true">
     <div class="modal-dialog modal-lg" role="document">
         <div class="w-100 pt-1 mb-5 text-right">
             <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
@@ -183,12 +193,14 @@
             <div class="col-md-4 mb-4" th:each="product : ${list}">
                 <div class="card">
                     <a th:href="@{|/productbuy/view?Pro_Code=${product.Pro_Code}|}">
-                        <img class="card-img img-fluid" th:src="${product != null} ? ${product.Pro_Filepath} : ''" alt="상품 이미지">
+                        <img class="card-img img-fluid" th:src="${product != null} ? ${product.Pro_Filepath} : ''"
+                             alt="상품 이미지">
 
                         <div class="card-body">
                             <h5 class="card-title" th:text="${product.Pro_Name}"></h5>
                             <p class="card-text" style="text-align: right; font-size: 1.2em; font-weight: bold;">
-                                가격: <span th:text="${product.Pro_Price != null ? #numbers.formatDecimal(product.Pro_Price, 3, 0) + '원' : '가격 없음'}"></span>
+                                가격: <span
+                                    th:text="${product.Pro_Price != null ? #numbers.formatDecimal(product.Pro_Price, 3, 0) + '원' : '가격 없음'}"></span>
                             </p>
                         </div>
                     </a>
@@ -201,20 +213,30 @@
     <div class="container mt-4 text-center">
         <div class="pagination" th:if="${list.totalPages > 1 || list.totalElements == 0}">
             <div class="horizontal-pagination">
-                <a th:if="${list.number > 0}" th:href="@{|/productbuy/list?page=0&size=${list.size}&sort=${list.sort}&searchOption=${searchOption}&searchKeyword=${searchKeyword}|}" aria-label="First">
+                <a th:if="${list.number > 0}"
+                   th:href="@{|/productbuy/list?page=0&size=${list.size}&sort=${list.sort}&searchOption=${searchOption}&searchKeyword=${searchKeyword}|}"
+                   aria-label="First">
                     <span aria-hidden="true">첫 페이지</span>
                 </a>
-                <a th:if="${list.number > 0}" th:href="@{|/productbuy/list?page=${list.number - 1}&size=${list.size}&sort=${list.sort}&searchOption=${searchOption}&searchKeyword=${searchKeyword}|}" aria-label="Previous">
+                <a th:if="${list.number > 0}"
+                   th:href="@{|/productbuy/list?page=${list.number - 1}&size=${list.size}&sort=${list.sort}&searchOption=${searchOption}&searchKeyword=${searchKeyword}|}"
+                   aria-label="Previous">
                     <span aria-hidden="true">&laquo; 이전</span>
                 </a>
                 <span th:each="i : ${#numbers.sequence(0, list.totalPages - 1)}">
                 <a th:if="${i == list.number}" th:text="${i + 1}" class="current-page"></a>
-                <a th:unless="${i == list.number}" th:href="@{|/productbuy/list?page=${i}&size=${list.size}&sort=${list.sort}&searchOption=${searchOption}&searchKeyword=${searchKeyword}|}" th:text="${i + 1}"></a>
+                <a th:unless="${i == list.number}"
+                   th:href="@{|/productbuy/list?page=${i}&size=${list.size}&sort=${list.sort}&searchOption=${searchOption}&searchKeyword=${searchKeyword}|}"
+                   th:text="${i + 1}"></a>
             </span>
-                <a th:if="${list.number < list.totalPages - 1}" th:href="@{|/productbuy/list?page=${list.number + 1}&size=${list.size}&sort=${list.sort}&searchOption=${searchOption}&searchKeyword=${searchKeyword}|}" aria-label="Next">
+                <a th:if="${list.number < list.totalPages - 1}"
+                   th:href="@{|/productbuy/list?page=${list.number + 1}&size=${list.size}&sort=${list.sort}&searchOption=${searchOption}&searchKeyword=${searchKeyword}|}"
+                   aria-label="Next">
                     <span aria-hidden="true">다음 &raquo;</span>
                 </a>
-                <a th:if="${list.number < list.totalPages - 1}" th:href="@{|/productbuy/list?page=${list.totalPages - 1}&size=${list.size}&sort=${list.sort}&searchOption=${searchOption}&searchKeyword=${searchKeyword}|}" aria-label="Last">
+                <a th:if="${list.number < list.totalPages - 1}"
+                   th:href="@{|/productbuy/list?page=${list.totalPages - 1}&size=${list.size}&sort=${list.sort}&searchOption=${searchOption}&searchKeyword=${searchKeyword}|}"
+                   aria-label="Last">
                     <span aria-hidden="true">마지막 페이지</span>
                 </a>
             </div>
@@ -222,14 +244,12 @@
     </div>
 
 
-
     <div th:if="${list.totalPages == 0}" class="no-results">검색 결과가 없습니다.</div>
-
 
 
 </div>
 <footer class="bg-dark" id="tempaltemo_footer">
-    <div class= "container">
+    <div class="container">
         <div class="row">
             <div class="col-md-4 pt-5">
                 <h2 class="h2 text-success border-bottom pb-3 border-light logo">Join Air🪂</h2>
@@ -286,11 +306,6 @@
         loginItem.style.display = "block";
         logoutItem.style.display = "none";
     });
-
-
-
-
-
 
 
 </script>

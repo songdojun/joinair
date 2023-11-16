@@ -1,0 +1,151 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <meta charset="UTF-8">
+    <title>naverMaps</title>
+    <script type="text/javascript"
+            src="https://openapi.map.naver.com/openapi/v3/maps.js?ncpClientId=s9t5ppermu"></script>
+
+    <script src="http://code.jquery.com/jquery-1.11.2.min.js"></script>
+    <script src="http://code.jquery.com/jquery-migrate-1.2.1.min.js"></script>
+
+</head>
+<body>
+
+<div id="map" style="width:100%; height:800px;"></div>
+
+<script>
+    var dronMarker;
+    var dronLatitude = 37.79788586946026;
+    var dronLongitude  =128.9086556407083;
+
+    var endLatitude = 37.79788586946026;
+    var endLontitude = 128.9086556407083;
+
+    var intervalValue ;
+
+    // 1초에 한번씩 들어옴
+        function calDronLocation() {
+            $.ajax({
+                type : "POST",
+                // controller 에 매핑된 url
+                url : "/shipping/cal/location",
+                dataType : "json",
+                data: {
+                    dronLat: dronLatitude,
+                    dronLon: dronLongitude,
+                    endLat: endLatitude,
+                    endLon: endLontitude
+                },
+                error : function(){
+                    alert('error');
+                },
+                success : function(data){
+
+
+                  // 현재 드론의 위치와, 목적지를 api 서버로 올려주면
+                  // 응답으로 계산된 드론의 위치를 내려준다.
+
+                  dronLatitude = data.format.dronLat;
+                  dronLongitude = data.format.dronLon;
+
+                  if(data.format.isDest === true ) {
+                    clearInterval(intervalValue);
+                  }
+
+                  dronMarker.setPosition( new naver.maps.LatLng(dronLatitude, dronLongitude)  );
+
+
+                  var eta = data.format.eta;
+                  console.log("eta : " + eta);
+
+                }
+            });
+
+
+
+        }
+
+        // 이페이지가 로드되면 실행되는 곳
+        $(document).ready(function(){
+            $.ajax({
+                type : "POST",
+                // controller 에 매핑된 url
+                url : "/shipping/doc",
+                dataType : "json",
+                data: {
+                    userId: "admin",
+                    orderId: 12345
+                },
+                error : function(){
+                    alert('error');
+                },
+                success : function(data){
+
+                    console.log(data);
+
+
+                    var startLatitude = data.format.startLat;
+                    var startLontitude = data.format.startLon;
+                    endLatitude = data.format.endLat;
+                    endLontitude = data.format.endLon;
+
+                    dronLatitude = startLatitude;
+                    dronLongitude = startLontitude;
+
+                    console.log(startLatitude);
+                    console.log(startLontitude);
+                    console.log(endLatitude);
+                    console.log(endLontitude);
+
+
+                    // 지도 그려주고
+                    var map = new naver.maps.Map('map', {
+                    center: new naver.maps.LatLng(startLatitude, startLontitude),
+                    zoom: 15
+                    });
+
+                    // 시작점과 마지막 점까지 1자 선을 그리자
+                    var polyline = new naver.maps.Polyline({
+                            map: map,
+                            path: [
+                                new naver.maps.LatLng(startLatitude, startLontitude),
+                                new naver.maps.LatLng(endLatitude, endLontitude)
+                            ]
+                        });
+
+                        // 시작점
+                        var startMarker = new naver.maps.Marker({
+                            position: new naver.maps.LatLng(startLatitude, startLontitude),
+                            map: map
+
+                        });
+
+                        var endMarker = new naver.maps.Marker({
+                            position: new naver.maps.LatLng(endLatitude, endLontitude),
+                            map: map
+                        });
+
+                        dronMarker = new naver.maps.Marker({
+                            position: new naver.maps.LatLng(dronLatitude, dronLongitude),
+                            map: map,
+                            icon: {
+                            url: '/assets/dron.png',
+                            size: new naver.maps.Size(24, 24),
+                            origin: new naver.maps.Point(0, 0),
+                            anchor: new naver.maps.Point(12, 12)
+                        }
+                        });
+                       intervalValue = setInterval("calDronLocation()", 1000);
+                }
+            });
+        });
+
+
+
+
+</script>
+
+
+</body>
+</html>
