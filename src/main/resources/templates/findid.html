@@ -1,0 +1,199 @@
+<!DOCTYPE html>
+<html lang="en" xmlns:th="http://www.thymeleaf.org">
+<head>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <title>회원가입 페이지</title>
+    <link rel="apple-touch-icon" href="/assets/img/apple-icon.png">
+    <link rel="shortcut icon" type="image/x-icon" href="/assets/img/favicon.ico">
+    <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/4.5.2/css/bootstrap.min.css">
+    <link rel="stylesheet" href="/assets/css/templatemo.css">
+    <link rel="stylesheet" href="/assets/css/custom.css">
+    <link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Roboto:wght@100;200;300;400;500;700;900&display=swap">
+    <link rel="stylesheet" href="/assets/css/fontawesome.min.css">
+    <link rel="stylesheet" href="https://unpkg.com/leaflet@1.7.1/dist/leaflet.css"
+          integrity="sha512-xodZBNTC5n17Xt2atTPuE1HxjVMSvLVW9ocqUKLsCC5CXdbqCmblAshOMAS6/keqq/sMZMZ19scR4PsZChSR7A==" crossorigin=""/>
+    <style>
+
+        .custom-button {
+           background-color: #4CAF50;
+           color: white;
+           padding: 10px 20px;
+           border: none;
+           border-radius: 5px;
+           cursor: pointer;
+       }
+
+       .custom-button:hover {
+           background-color: #45a049;
+       }
+
+       .cotn_principal {
+           background: rgba(255, 255, 255, 0.9);
+           border-radius: 5px;
+           padding: 20px;
+           max-width: 400px;
+           width: 100%;
+       }
+
+       .error-message {
+           display: block !important;
+           color: red;
+       }
+
+       .success-message {
+           display: block !important;
+           color: blue;
+       }
+    </style>
+</head>
+<body>
+<nav class="navbar navbar-expand-lg bg-dark navbar-light d-none d-lg-block" id="templatemo_nav_top">
+    <div class="container text-light">
+        <div class="w-100 d-flex justify-content-between">
+            <div>
+                <i class="fa fa-envelope mx-2"></i>
+                <a class="navbar-sm-brand text-light text-decoration-none" href="mailto:info@company.com">Doron delivery@Doron delivery.com</a>
+                <i class="fa fa-phone mx-2"></i>
+                <a class="navbar-sm-brand text-light text-decoration-none" href="tel:010-1234-5678">010-1234-5678</a>
+            </div>
+            <div>
+                <a class="text-light" href="https://fb.com/templatemo" target="_blank" rel="sponsored"><i class="fab fa-facebook-f fa-sm fa-fw me-2"></i></a>
+                <a class="text-light" href="https://www.instagram.com/" target="_blank"><i class="fab fa-instagram fa-sm fa-fw me-2"></i></a>
+                <a class="text-light" href="https://twitter.com/" target="_blank"><i class="fab fa-twitter fa-sm fa-fw me-2"></i></a>
+            </div>
+        </div>
+    </div>
+</nav>
+<nav class="navbar navbar-expand-lg navbar-light shadow">
+    <div class="container d-flex justify-content between align-items-center">
+        <a class="navbar-brand text-success logo h1 align-self-center" href="../templates/index.html">Join Air🪂</a>
+        <button class="navbar-toggler border-0" type="button" data-bs-toggle="collapse" data-bs-target="#templatemo_main_nav"
+                aria-controls="templatemo_main_nav" aria-expanded="false" aria-label="Toggle navigation">
+            <span class="navbar-toggler-icon"></span>
+        </button>
+        <div class="align-self-center collapse navbar-collapse flex-fill d-lg-flex justify-content-lg-between" id="templatemo_main_nav">
+            <div class="flex-fill">
+                <ul class="nav navbar-nav d-flex justify-content-between mx-lg-auto">
+                    <li class="nav-item">
+                        <a class="nav-link" href="../templates/index.html">홈</a>
+                    </li>
+                    <li class="nav-item">
+                        <a class="nav-link" href="../templates/about.html">회사 소개</a>
+                    </li>
+                    <li class="nav-item">
+                        <a class="nav-link" href="../templates/shop.html">상품</a>
+                    </li>
+                    <li class="nav-item">
+                        <a class="nav-link" href="../templates/contact.html">문의</a>
+                    </li>
+                    <li class="nav-item">
+                        <a class="nav-link" href="http://localhost:8080/notice/list">공지사항</a>
+                    </li>
+                    <!--                    사용에 따라 사용-->
+                    <!--                    <li class="nav-item">-->
+                    <!--                        <a class="nav-link" href="#">로그인</a>-->
+                    <!--                    </li>-->
+
+                </ul>
+            </div>
+            <div class="navbar align-self-center d-flex">
+                <div class="d-lg-none flex-sm-fill mt-3 mb-4 col-7 col-sm-auto pr-3">
+                    <div class="input-group">
+                        <input type="text" class="form-control" id="inputMobileSearch" placeholder="검색">
+                        <div class="input-group-text">
+                            <i class="fa fa-fw fa-search"></i>
+                        </div>
+                    </div>
+                </div>
+                <a class="nav-icon d-none d-lg-inline" href="#" data-bs-toggle="modal" data-bs-target="#templatemo_search">
+                    <i class="fa fa-fw fa-search text-dark mr-2"></i>
+                </a>
+
+            </div>
+        </div>
+    </div>
+</nav>
+
+<form name="findIdForm" method="post" action="/find-id">
+    <br>
+    <div class="container">
+        <h2 class="text-center font-weight-bold">아이디 찾기</h2>
+        <div class="form-container cotn_principal">
+            <!-- 아이디 찾기 폼 부분 -->
+            <div class="form-group">
+                <input type="text" id="findIdName" class="form-control" name="findIdName" placeholder="이름" required>
+            </div>
+            <div class="form-group">
+                <input type="text" id="findIdEmail" class="form-control" name="findIdEmail" placeholder="이메일 주소" required>
+            </div>
+            <div class="form-group">
+                <input type="text" id="findIdPhone" class="form-control" name="findIdPhone" placeholder="전화번호" required>
+            </div>
+            <button type="submit" class="btn btn-primary custom-button">아이디 찾기</button>
+
+            <!-- 결과를 표시하는 부분 -->
+            <div th:if="${foundUserId}" class="success-message">
+                <p th:text="'찾은 아이디: ' + ${foundUserId}"></p>
+            </div>
+
+            <div th:if="${notFoundMessage}" class="error-message">
+                <p th:text="${notFoundMessage}"></p>
+            </div>
+        </div>
+    </div>
+</form>
+<footer class="bg-dark pt-1" id="tempaltemo_footer">
+    <div class="container">
+        <div class="row">
+            <div class="col-md-5     pt-3">
+                <h2 class="h2 text-success border-bottom pb-3 border-light logo">Join Air🪂</h2>
+                <ul class="list-unstyled text-light footer-link-list">
+                    <li>
+                        <i class="fas fa-map-marker-alt fa-fw"></i>
+                        한국직업전문학교 11층 강의실02 항공4기 2조
+                    </li>
+                    <li>
+                        <i class="fa fa-phone fa-fw"></i>
+                        <a class="text-decoration-none" href="tel:010-020-0340">010-1234-1234</a>
+                    </li>
+                    <li>
+                        <i class="fa fa-envelope fa-fw"></i>
+                        <a class="text-decoration-none" href="mailto:info@company.com">drone delivery
+                            @drone delivery
+                            .com</a>
+                    </li>
+                </ul>
+            </div>
+            <div class="col-md-4 pt-4 text-left">
+                <h2 class="h2 text-light border-bottom pb-3 border-light">정보</h2>
+                <ul class="list-unstyled text-light footer-link-list">
+                    <li><a class="text-decoration-none" href="/index">홈</a></li>
+                    <li><a class="text-decoration-none" href="/about">회사 소개</a></li>
+                    <li><a class="text-decoration-none" href="#">드론 정보</a></li>
+                </ul>
+            </div>
+        </div>
+    </div>
+    <div class="w-80 bg-black py-1">
+        <div class="container">
+            <div class="row pt-1">
+                <div class="col-3">
+                    <p class="text-left text-light">
+                        저작권 © 2023 Join Air
+                        <a rel="sponsored" href="https://templatemo.com/page/1" target="_blank"></a>
+                    </p>
+                </div>
+            </div>
+        </div>
+    </div>
+</footer>
+
+<script src="/assets/js/jquery-1.11.0.min.js"></script>
+<script src="/assets/js/jquery-migrate-1.2.1.min.js"></script>
+<script src="/assets/js/bootstrap.bundle.min.js"></script>
+<script src="/assets/js/templatemo.js"></script>
+<script src="/assets/js/custom.js"></script>
+<script src="/assets/js/slick.min.js"></script>
+</body>
+</html>

@@ -15,6 +15,40 @@
     <link rel="stylesheet" href="https://unpkg.com/leaflet@1.7.1/dist/leaflet.css"
           integrity="sha512-xodZBNTC5n17Xt2atTPuE1HxjVMSvLVW9ocqUKLsCC5CXdbqCmblAshOMAS6/keqq/sMZMZ19scR4PsZChSR7A==" crossorigin=""/>
 </head>
+<style>
+    .pagination {
+        display: flex;
+        justify-content: center;
+        align-items: center;
+        margin-top: 20px;
+    }
+
+    .pagination a {
+        text-decoration: none;
+        display: inline-block;
+        padding: 10px 15px;
+        margin: 5px;
+        border-radius: 5px;
+        background-color: #3498db;
+        color: #fff;
+        transition: background-color 0.3s;
+    }
+
+    .pagination a:hover {
+        background-color: #2980b9;
+    }
+
+    .pagination strong {
+        text-decoration: none;
+        display: inline-block;
+        padding: 10px 15px;
+        margin: 5px;
+        border-radius: 5px;
+        background-color: #e74c3c;
+        color: #fff;
+    }
+</style>
+
 <body>
 <nav class="navbar navbar-expand-lg bg-dark navbar-light d-none d-lg-block" id="templatemo_nav_top">
     <div class="container text-light">
@@ -110,68 +144,46 @@
             </tr>
             </tbody>
         </table>
-        <div class="pagination">
-            <th:block th:each="page : ${#numbers.sequence(startPage, endPage)}">
-                <a class="btn btn-primary" th:if="${page != nowPage}" th:href="@{/notice/list(page=${page-1}, searchKeyword=${param.searchKeyword})}" th:text="${page}"></a>
-                <strong th:if="${page == nowPage}" th:text="${page}" style="color: red"></strong>
-            </th:block>
-        </div>
-        <div class="search-form my-3">
-            <form th:action="@{/notice/list}" method="get">
-                <div class="input-group">
-                    <input type="text" class="form-control search-input" name="searchKeyword" placeholder="검색어를 입력하세요">
-                    <div class="input-group-append">
-                        <button type="submit" class="btn btn-success search-button">검색</button>
+        <div class="container mt-3">
+            <nav aria-label="Page navigation">
+                <ul class="pagination justify-content-center">
+                    <th:block th:each="page : ${#numbers.sequence(startPage, endPage)}">
+                        <li class="page-item" th:class="${page == nowPage} ? 'active' : ''">
+                            <a th:if="${page != nowPage}" th:href="@{/notice/list(page=${page-1}, searchKeyword=${param.searchKeyword})}" th:text="${page}" class="page-link" style="background-color: inherit; border: none; color: inherit; text-decoration: underline;"></a>
+                            <strong th:if="${page == nowPage}" th:text="${page}" style="text-decoration: underline;"></strong>
+                        </li>
+                    </th:block>
+                </ul>
+            </nav>
+
+
+            <div class="search-form my-3">
+                <form th:action="@{/notice/list}" method="get">
+                    <div class="input-group">
+                        <input type="text" class="form-control search-input" name="searchKeyword" placeholder="검색어를 입력하세요">
+                        <div class="input-group-append">
+                            <button type="submit" class="btn btn-success">검색</button>
+                        </div>
                     </div>
-                </div>
-            </form>
+                </form>
+            </div>
         </div>
     </div>
 </div>
-<footer class="bg-dark" id="tempaltemo_footer">
+        <footer class="bg-dark" id="tempaltemo_footer">
     <div class="container">
         <div class="row">
-            <div class="col-md-4 pt-5">
+            <div class="col-md-5 pt-4">
                 <h2 class="h2 text-success border-bottom pb-3 border-light logo">Join Air🪂</h2>
                 <ul class="list-unstyled text-light footer-link-list">
-                    <li>
-                        <i class="fas fa-map-marker-alt fa-fw"></i>
-                        한국직업전문학교 11층 강의실02 항공4기 2조
-                    </li>
-                    <li>
-                        <i class="fa fa-phone fa-fw"></i>
-                        <a class="text-decoration-none" href="tel:010-1234-5678">010-1234-5678</a>
-                    </li>
-                    <li>
-                        <i class="fa fa-envelope fa-fw"></i>
-                        <a class="text-decoration-none" href="mailto:info@dronefood.com">drone@dronedelivery.com</a>
-                    </li>
+                    <li><i class="fas fa-map-marker-alt fa-fw"></i>한국직업전문학교 11층 강의실02 항공4기 2조</li>
+                    <li><i class="fa fa-phone fa-fw"></i><a class="text-decoration-none" href="tel:010-1234-5678">010-1234-5678</a></li>
+                    <li><i class="fa fa-envelope fa-fw"></i><a class="text-decoration-none" href="mailto:info@dronefood.com">drone@dronedelivery.com</a></li>
                 </ul>
             </div>
-            <div class="col-md-4 pt-5">
-                <h2 class="h2 text-light border-bottom pb-3 border-light">메뉴</h2>
-                <ul class="list-unstyled text-light footer-link-list">
-                    <li><a class="text-decoration-none" href="#">주문 하기</a></li>
-                    <li><a class="text-decoration-none" href="#">배달 정보</a></li>
-                    <li><a class="text-decoration-none" href="#">고객 지원</a></li>
-                    <li><a class="text-decoration-none" href="#">드론 정보</a></li>
-                </ul>
-            </div>
-            <div class="col-md-4 pt-5">
-                <h2 class="h2 text-light border-bottom pb-3 border-light">정보</h2>
-                <ul class="list-unstyled text-light footer-link-list">
-                    <li><a class="text-decoration-none" href="/index">홈</a></li>
-                    <li><a class="text-decoration-none" href="/about">회사/소개</a></li>
-                    <li><a class="text-decoration-none" href="#">문의</a></li>
-                </ul>
-            </div>
-        </div>
-        <div class="row text-light mb-4">
-            <div class="col-12 mb-3">
-                <div class="w-100 my-3 border-top border-light"></div>
-            </div>
-            <div class="col-auto me-auto">
-
+            <div class="col-12 text-light mb-4">
+                <hr class="border-light">
+                <p class="text-center">저작권 © 2023 Join Air</p>
             </div>
         </div>
     </div>
