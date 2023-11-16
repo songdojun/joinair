@@ -224,30 +224,20 @@
             <label for="recipientName">받는 사람:</label>
             <input type="text" id="recipientName" name="recipientName" class="form-control">
         </div>
-        <!-- 주소 입력란 -->
         <div class="form-group">
-            <label for="sample4_postcode">주소:</label>
-            <div class="input-group">
-                <input type="text" id="sample4_postcode" placeholder="우편번호" class="form-control">
-                <div class="input-group-append">
-                    <button type="button" class="btn btn-primary" onclick="sample4_execDaumPostcode()">우편번호 찾기</button>
-                </div>
-            </div>
-        </div>
-        <div class="form-group">
-            <input type="text" id="sample4_roadAddress" placeholder="도로명주소" class="form-control">
-        </div>
-        <div class="form-group">
-            <input type="text" id="sample4_jibunAddress" placeholder="지번주소" class="form-control">
-        </div>
-        <div class="form-group">
-            <span id="guide" style="color:#999;display:none"></span>
-        </div>
-        <div class="form-group">
-            <input type="text" id="sample4_detailAddress" placeholder="상세주소" class="form-control">
-        </div>
-        <div class="form-group">
-            <input type="text" id="sample4_extraAddress" placeholder="참고항목" class="form-control">
+            <label for="pensionDropdown">목적지:</label>
+            <select class="form-control" id="pensionDropdown" onchange="selectPension(this.value)">
+                <option value="" selected>목적지를 선택해주세요.</option>
+                <option value="경포 그곳에 가면 펜션">경포 그곳에 가면 펜션</option>
+                <option value="산타 비치 펜션">산타 비치 펜션</option>
+                <option value="강릉 에스구 펜션">강릉 에스구 펜션</option>
+                <option value="블루스테이펜션">블루스테이펜션</option>
+                <option value="라미아까사">라미아까사</option>
+                <option value="리치문펜션">리치문펜션</option>
+                <option value="탑스파펜션">탑스파펜션</option>
+                <option value="경포오션힐펜션">경포오션힐펜션</option>
+                <option value="포시즌호텔엔펜션">포시즌호텔엔펜션</option>
+            </select>
         </div>
 
         <div class="form-group">
