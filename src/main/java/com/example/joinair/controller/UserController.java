@@ -235,7 +235,7 @@ public class UserController {
             //model.addAttribute("isAdmin", true);
             // 여기에 필요한 모델 데이터를 추가하십시오.
             userService.adminUpdateUser(user);
-            return "adminEditList"; // adminEditUser.html 템플릿 반환
+            return "redirect:/adminEditUserList";
         } else {
             // 관리자 권한이 없으면 로그인 페이지로 리다이렉트
             return "redirect:/login";

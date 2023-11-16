@@ -1,5 +1,6 @@
 <!DOCTYPE html>
-<html lang="ko" xmlns:th="http://www.thymeleaf.org">
+<html lang="ko" xmlns:th="http://www.thymeleaf.org"
+      xmlns:sec="http://www.thymeleaf.org/thymeleaf-extras-springsecurity">
 <head>
     <meta charset="UTF-8">
     <title>Cart and Order Information</title>
@@ -102,7 +103,15 @@
                 <a class="navbar-sm-brand text-light text-decoration-none" href="tel:010-020-0340">010-1234-4567</a>
             </div>
             <div>
-                <span class="connected-id" th:if="${session.User_Id != null}">💫 <span th:text="${session.User_Id}"></span> 님 환영합니다 💫</span>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
+                <span th:if="${userId != null and (userId != 'anonymousUser')}">💫 <span th:text="${userId}"></span> 님 환영합니다 💫</span>
+                <span sec:authorize="hasAuthority('admin')">
+                    <a th:href="@{/adminWelcome}" class="nav-link" style="display: inline-block; margin-left: 10px;">관리자 페이지</a></span>
+
+                <!-- 사용자의 마일리지 표시 -->
+                <span th:if="${userMileage != null}">&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
+                    <span th:text="${userMileage}"></span> 마일리지 </span>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
+
+                &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
                 <a class="text-light" href="https://fb.com/templatemo" target="_blank" rel="sponsored"><i class="fab fa-facebook-f fa-sm fa-fw me-2"></i></a>
                 <a class="text-light" href="https://www.instagram.com/" target="_blank"><i class="fab fa-instagram fa-sm fa-fw me-2"></i></a>
                 <a class="text-light" href="https://twitter.com/" target="_blank"><i class="fab fa-twitter fa-sm fa-fw me-2"></i></a>
@@ -249,21 +258,28 @@
 </div>
 
 <!-- 결제 버튼 -->
-<!-- 결제 버튼 -->
-<form method="post" action="/order/place" onsubmit="submitOrderForm(event)">
-    <button type="submit" data-toggle="modal" data-target="#paymentModal" class="btn btn-primary" style="margin: auto; display: block;">결제</button><br>
-</form>
+<!--<form method="post" action="/order/place" onsubmit="submitOrderForm(event)">-->
+<!--    <button type="submit" data-toggle="modal" data-target="#paymentModal" class="btn btn-primary" style="margin: auto; display: block;">결제</button><br>-->
+<!--</form>-->
+<button type="button" data-toggle="modal" data-target="#paymentModal" class="btn btn-primary" style="margin: auto; display: block;" onclick="openPaymentModal()">결제</button><br>
+
 
 <script>
     function submitOrderForm(event) {
            event.preventDefault(); // 기본 동작(페이지 전환)을 중지 리턴값 무시
 
            // 여기에서 추가적인 작업을 수행
-           // ...
+
 
            // 주문 폼 데이터
            var formData = new FormData(event.target);
 
+           var finalAmount = parseFloat(document.getElementById('total1').textContent);
+
+           // 수정: 최종 결제 금액을 FormData에 추가
+           alert(finalAmount)
+           formData.append('finalAmount', finalAmount);
+            alert(finalAmount);
            // 주문 요청 보내기
            fetch('/order/place', {
                method: 'POST',
@@ -273,17 +289,20 @@
                if (!response.ok) {
                    throw new Error(`HTTP error! Status: ${response.status}`);
                }
-               return response.text();
+               return response.text();  //추정원인 1 : 여기서 함수가 종료되서 다음께 실행이 안되지 않을까...?
            })
            .then(data => {
                // 성공적으로 처리된 경우 모달 닫기 및 페이지 리로드
-               $('#paymentModal').modal('hide');
-               location.reload();
+               //$('#paymentModal').modal('hide');
+
+            window.location.href = "/order/orderConfirm/" + data; // 여기서 data는 서버에서 반환한 주문 ID입니다.
            })
            .catch((error) => {
                console.error('Error:', error);
            });
        }
+
+
 </script>
 
 
@@ -309,10 +328,27 @@
                 <p>총 상품 주문금액: <span class="total" id="totalAmount"></span></p>
                 <p>할인 금액: <span id="discountAmount">0</span></p>
                 <p>총 적립 금액: <span class="reward" id="rewardAmount"></span></p>
+
+                <p>보유 마일리지: <span class="user-mileage" th:text="${userMileage}"></span> 마일리지</p>
+
+                <label for="mileageInput">사용할 마일리지 입력:</label>
+                <!-- 추가: 사용자가 마일리지 입력할 수 있는 입력란 -->
+                <input type="number" id="mileageInput" name="mileageInput" class="form-control" placeholder="0" min="0" max="${userMileage}" />
+
+                <button onclick="applyMileage()" class="btn btn-primary">마일리지 적용</button>
+
                 <p>최종 결제 금액: <span class="final" id="total1"></span></p>
                 <!-- 기타 결제 관련 정보 및 양식 -->
                 <!-- 예를 들어, 신용카드 정보 입력 폼 등이 들어갈 수 있습니다. -->
+
+                <!-- 주문 완료 및 결제하기 버튼 -->
+                <form method="post" action="/order/place" onsubmit="submitOrderForm(event)">
+                    <input type="hidden" name="finalAmount" id="finalAmountInput" />
+                    <button type="submit" data-toggle="modal" data-target="#paymentModal" class="btn btn-primary" style="margin: auto; display: block;">주문완료 및 결제하기</button><br>
+                </form>
+<!--                    <button onclick="submitOrderForm(event)" class="btn btn-success">주문완료 및 결제하기</button></form>-->
             </div>
+
             <div class="modal-footer">
                 <!-- 결제 버튼 -->
                 <button onclick="requestCardPayment()" class="btn btn-primary">카드결제</button>
@@ -425,13 +461,14 @@
 <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0/css/bootstrap.min.css">
 <script>
     // 수량 증가, 감소 시 소계 및 무게 합계 업데이트
-function updateSubtotal(row, productCode) {
-    var priceCell = row.querySelector('.price');
-    var quantityInput = row.querySelector('[name="quantity_' + productCode + '"]');
-    var subtotalCell = row.querySelector('.subtotal');
-    var weightCell = row.querySelector('td:nth-child(4)'); // 무게를 나타내는 열
+    function updateSubtotal(row, productCode) {
+        var priceCell = row.querySelector('.price');
+        var quantityInput = row.querySelector('[name="quantity_' + productCode + '"]');
+        var subtotalCell = row.querySelector('.subtotal');
+        var weightCell = row.querySelector('td:nth-child(4)'); // 무게를 나타내는 열
 
-    if (priceCell && quantityInput && subtotalCell && weightCell) {
+        if (priceCell && quantityInput && subtotalCell && weightCell) {
+
         var price = parseFloat(priceCell.textContent);
         var quantity = parseInt(quantityInput.value);
         if (quantity <= 0) {
@@ -459,6 +496,52 @@ window.addEventListener('load', function () {
     });
     updateTotal();
 });
+// 추가: 마일리지 적용 함수
+    function applyMileage() {
+        // 입력된 마일리지
+        var mileageInput = parseFloat(document.getElementById('mileageInput').value);
+
+        // 보유 마일리지
+        var userMileage = parseFloat(document.querySelector('.user-mileage').textContent);
+
+        // 총 상품 주문금액
+        var totalAmount = parseFloat(document.querySelector('.total').textContent);
+
+        // 최종 결제 금액
+        var finalAmount = totalAmount;
+
+        // 입력된 마일리지가 보유 마일리지를 초과하지 않도록 제한
+        if (mileageInput > userMileage) {
+            alert("보유 마일리지를 초과하여 입력할 수 없습니다.");
+            return;
+        }
+
+        // 입력된 마일리지가 최대 총 결제 금액을 초과하지 않도록 제한
+        if (mileageInput > totalAmount) {
+        alert("최대 총 결제 금액을 초과하여 입력할 수 없습니다.");
+        return;
+        }
+
+        // 할인 금액은 입력된 마일리지만큼
+        var discountAmount = parseFloat(mileageInput);
+
+        // 추가: 총 적립 금액은 총 주문 금액의 일정 비율(예: 5%)로 설정
+        var rewardAmount = totalAmount * 0.05;
+
+        // 추가: 할인 금액과 적립 금액을 모달에 표시
+        document.getElementById('discountAmount').textContent = discountAmount;
+        document.getElementById('rewardAmount').textContent = rewardAmount;
+
+        // 최종 결제 금액은 총 주문 금액에서 할인 금액을 뺀 값
+        // 추가: 최종 결제 금액이 마이너스가 되지 않도록 제한
+        finalAmount = Math.max(totalAmount - discountAmount, 0);
+
+        // 모달 내부에 적용된 마일리지 정보를 적용
+        document.getElementById('totalAmount').textContent = totalAmount;
+        document.getElementById('total1').textContent = finalAmount;
+
+        document.getElementById('finalPaymentAmount').value = finalAmount;
+        }
 
    // 총 무게 및 할인, 적립 등 업데이트
    function updateTotal() {
@@ -504,12 +587,7 @@ window.addEventListener('load', function () {
            finalAmountCell.textContent = finalAmount;
        }
    }
-
-
 </script>
-
-
-
 <script>
     // 아임포트 초기화 및 카드결제 요청
     function requestCardPayment() {
@@ -545,14 +623,6 @@ window.addEventListener('load', function () {
     function redirectToBankTransferPage() {
         window.location.href = "/payment/Deposit";
     }
-
-
-
-
-
-
-
-
 
 </script>
 <script src="https://code.jquery.com/jquery-1.12.4.min.js"></script>

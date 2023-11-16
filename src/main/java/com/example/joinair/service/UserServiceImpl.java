@@ -84,6 +84,7 @@ public class UserServiceImpl implements UserService {
             if (users == null){
                 throw new UsernameNotFoundException("User not authorized.");
             }
+
             return users;
         }
     }
