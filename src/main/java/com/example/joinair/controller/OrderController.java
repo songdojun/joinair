@@ -28,11 +28,15 @@ public class OrderController {
     }
 
     @PostMapping("/place")
-    @ResponseBody
+    @ResponseBody                                               //fetche에서 받아온 마일리지 값(문자열 콤마가 붙어있음)
     public String placeOrder(HttpSession session, Model model, String finalAmount) {
-        // 세션에서 카트 정보를 가져와서 ORDER_DETAIL 객체로 변환하여 DB에 저장
-        orderService.placeOrderFromCart(session, finalAmount);
 
+        // finalAmount = 마일리지 적용 값(문자열 인데 앞에 콤마가 붙어있음 // 서브스트링으로 콤마를 제거
+        String total = finalAmount.substring(1);
+
+        // 세션에서 카트 정보를 가져와서 ORDER_DETAIL 객체로 변환하여 DB에 저장
+        orderService.placeOrderFromCart(session, total);
+                                                //total = db저장함수에 마일리지가 적용된 값을 같이 넘겨줌
         // 로그 추가
         System.out.println("Order placed successfully!");
 

@@ -52,7 +52,9 @@ public class OrderServiceImpl implements OrderService {
 
         // 주문 정보를 생성하여 데이터베이스에 저장
         ORDERS order = convertCartToOrder(cart);
-        order.setOrders_Total_Price(total);
+
+        //toal이 마일리지가 적용된 값인데 문자열이니까 int형으로 바꿔서 order객체 안에 가격으로 넣음
+        order.setOrders_Total_Price(Integer.parseInt(total));
         orderMapper.insertOrder(order);
 
         // orders_Num을 가져와서 order_detail에 설정
