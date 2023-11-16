@@ -23,7 +23,7 @@ public class ShippingInfoApiService {
 
 
     public ResDronLocation calDronPosition( ReqDronLocation reqDronLocation  ){
-//        System.out.println( "getDronLat => "  + reqDronLocation.getDronLat());
+// /       System.out.println( "getDronLat => "  + reqDronLocation.getDronLat());
 //        System.out.println("getDronLon =>  "  + reqDronLocation.getDronLon());
 //
 //        System.out.println( "getEndLat => "  + reqDronLocation.getEndLat());
