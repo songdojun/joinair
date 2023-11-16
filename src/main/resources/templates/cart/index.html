@@ -288,17 +288,22 @@
                if (!response.ok) {
                    throw new Error(`HTTP error! Status: ${response.status}`);
                }
-               return response.text();
+               alert(response);
+               console.log(response);
+               return response.text();  //추정원인 1 : 여기서 함수가 종료되서 다음께 실행이 안되지 않을까...?
            })
            .then(data => {
                // 성공적으로 처리된 경우 모달 닫기 및 페이지 리로드
-               $('#paymentModal').modal('hide');
+               //$('#paymentModal').modal('hide');
+
             window.location.href = "/order/orderConfirm/" + data; // 여기서 data는 서버에서 반환한 주문 ID입니다.
            })
            .catch((error) => {
                console.error('Error:', error);
            });
        }
+
+
 </script>
 
 
