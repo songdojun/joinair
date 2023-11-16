@@ -2,6 +2,7 @@ package com.example.joinair.mapper;
 
 import com.example.joinair.dto.QNA;
 import org.apache.ibatis.annotations.Mapper;
+import org.apache.ibatis.annotations.Param;
 
 import java.util.List;
 
@@ -20,7 +21,8 @@ public interface qnaMapper {
     void qnadelete(QNA QNA_NO);
 
 
-    List<QNA> qnaListWithPaging(int startIndex, int endIndex, String keyword);
+    public List<QNA> qnaListWithPaging(@Param("startIndex") int startIndex, @Param("endIndex") int endIndex, @Param("keyword") String keyword);
+
 
     int getTotalItemCountWithKeyword(String keyword);
 

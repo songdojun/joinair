@@ -53,7 +53,8 @@ public class qnaService {
         int totalPageCount = (int) Math.ceil((double) totalItemCount / pagingInfo.getPageSize());
 
         // 키워드를 기반으로 한 페이징된 QNA 목록 가져오기
-        List<QNA> qnaList = qnaMapper.qnaListWithPaging(startIndex, endIndex, keyword);
+        List<QNA> qnaList = qnaMapper.qnaListWithPaging(startIndex, endIndex, dto.getKeyword());
+
 
         // QNAPAGE 객체에 페이지 정보 추가
         pagingInfo.setTotalItemCount(totalItemCount);

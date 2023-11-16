@@ -39,7 +39,7 @@
         DELETE FROM qna WHERE QNA_NO = #{QNA_NO}
     </delete>
 
-    <select id="qnaListWithPaging" resultType="com.example.joinair.dto.QNA">
+    <select id="qnaListWithPaging" resultType="com.example.joinair.dto.QNA" parameterType="map">
         SELECT *
         FROM (
         SELECT qna.*, ROWNUM AS rnum
