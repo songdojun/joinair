@@ -1,9 +1,11 @@
 package com.example.joinair.service;
 
 import com.example.joinair.dto.QNA;
+import com.example.joinair.dto.QNAPAGE;
 import com.example.joinair.mapper.qnaMapper;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
+import org.springframework.transaction.annotation.Transactional;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -21,6 +23,7 @@ public class qnaService {
         return qnaMapper.qna(qna_No);
     }
 
+    @Transactional
     public boolean qnainsert(QNA qna) {
         int cnt = qnaMapper.qnainsert(qna);
         return cnt > 0;
@@ -38,49 +41,59 @@ public class qnaService {
     }
 
 
-//    public List<QNA> qnaListWithPaging(QNAPAGE pagingInfo, QNA dto) {
-//        // 시작 인덱스 계산
-//        int startIndex = (pagingInfo.getPage() - 1) * pagingInfo.getPageSize();
-//
-//        // 끝 인덱스 계산
-//        int endIndex = startIndex + pagingInfo.getPageSize();
-//
-//        String keyword = dto.getKeyword();
-//
-//        return qnaMapper.qnaListWithPaging(startIndex, endIndex, keyword);
-//    }
+    public List<QNA> qnaListWithPaging(QNAPAGE pagingInfo, QNA dto) {
+        int startIndex = (pagingInfo.getPage() - 1) * pagingInfo.getPageSize();
+        int endIndex = startIndex + pagingInfo.getPageSize();
+        String keyword = dto.getKeyword();
+
+        // 해당 키워드에 대한 전체 항목 수 가져오기
+        int totalItemCount = qnaMapper.getTotalItemCountWithKeyword(keyword);
+
+        // 전체 페이지 수 계산
+        int totalPageCount = (int) Math.ceil((double) totalItemCount / pagingInfo.getPageSize());
+
+        // 키워드를 기반으로 한 페이징된 QNA 목록 가져오기
+        List<QNA> qnaList = qnaMapper.qnaListWithPaging(startIndex, endIndex, dto.getKeyword());
 
 
-    public int getTotalItemCount() {
-        return qnaMapper.getTotalItemCount();
+        // QNAPAGE 객체에 페이지 정보 추가
+        pagingInfo.setTotalItemCount(totalItemCount);
+        pagingInfo.setTotalPageCount(totalPageCount);
+
+        return qnaList;
     }
+
+    public int getTotalItemCountWithKeyword(String keyword) {
+        return qnaMapper.getTotalItemCountWithKeyword(keyword);
+    }
+
 
 
     public List<String> pagingList(int totalPageCount, int currentPage) {
         List<String> pageList = new ArrayList<>();
 
         if (totalPageCount > 0) {
-            // 현재 페이지 기준으로 버튼 표시 범위 설정
-            int startPage = Math.max(1, currentPage - 2); // 수정: maxButtons를 2로 설정
-            int endPage = Math.min(totalPageCount, startPage + 4); // 수정: maxButtons를 4로 설정
-
             // 이전 버튼 추가
             if (currentPage > 1) {
-                pageList.add("이전");
+                pageList.add("/qna/qnaList?page=" + (currentPage - 1));
             }
 
             // 숫자 버튼 추가
-            for (int i = startPage; i <= endPage; i++) {
-                pageList.add(String.valueOf(i));
+            for (int i = 1; i <= totalPageCount; i++) {
+                // Thymeleaf 표현식 사용
+                String pageUrl = "/qna/qnaList?page=" + i;
+                pageList.add(pageUrl);
             }
 
             // 다음 버튼 추가
             if (currentPage < totalPageCount) {
-                pageList.add("다음");
+                pageList.add("/qna/qnaList?page=" + (currentPage + 1));
             }
         }
 
         return pageList;
     }
+
+
 
 }

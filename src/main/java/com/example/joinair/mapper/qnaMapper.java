@@ -2,6 +2,7 @@ package com.example.joinair.mapper;
 
 import com.example.joinair.dto.QNA;
 import org.apache.ibatis.annotations.Mapper;
+import org.apache.ibatis.annotations.Param;
 
 import java.util.List;
 
@@ -15,12 +16,16 @@ public interface qnaMapper {
 
     int qnaupdate(QNA qna);
 
-    void qnaupdateCommand(QNA qna); //댓글
+    void qnaupdateCommand(QNA qna);
 
     void qnadelete(QNA QNA_NO);
 
 
-//    public List<QNA> qnaListWithPaging(int startIndex, int endIndex, String keyword);
+    public List<QNA> qnaListWithPaging(@Param("startIndex") int startIndex, @Param("endIndex") int endIndex, @Param("keyword") String keyword);
 
-    int getTotalItemCount();
+
+    int getTotalItemCountWithKeyword(String keyword);
+
+    // 새로운 메서드 추가
+    void qnaupdateView(QNA QNA_NO);
 }

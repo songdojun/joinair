@@ -25,11 +25,17 @@ public class UserController {
     }
 
     @GetMapping("/login")
-    public String showSignInUpPage(Model model) {
+    public String showSignInUpPage(Model model, HttpSession session) {
         System.out.println("Show Login Page");
         model.addAttribute("loginUser", new USERS()); // 수정: login 폼 데이터를 저장할 모델 추가
+
+        // 로그인 상태를 클라이언트로 전달
+        String userId = (String) session.getAttribute("User_Id");
+        model.addAttribute("userLoggedIn", userId != null);
+
         return "login";
     }
+
 
     @GetMapping("/membership")
     public String showMembershipPage(Model model) {
