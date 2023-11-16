@@ -110,8 +110,11 @@
     <p>문의 내용:</p>
     <p th:text="${qna.QNA_CONTENT}"></p>
     <a th:href="@{/qna/qnaList}" class="btn btn-primary">뒤로 가기</a>
-    <a th:href="@{/qna/qnaUpdate-view/{qnaNo}(qnaNo=${qna.QNA_NO})}" class="btn btn-info">수정</a>
-    <a th:href="@{/qna/qnadelete/{qnaNo}(qnaNo=${qna.QNA_NO})}" class="btn btn-danger">삭제</a>
+    <th:block th:if="${userId != null and userId == qna.USER_ID}">
+        <!-- "수정" 및 "삭제" 버튼을 표시합니다 -->
+        <a th:href="@{/qna/qnaUpdate-view/{qnaNo}(qnaNo=${qna.QNA_NO})}" class="btn btn-info">수정</a>
+        <a th:href="@{/qna/qnadelete/{qnaNo}(qnaNo=${qna.QNA_NO})}" class="btn btn-danger">삭제</a>
+    </th:block>
 
     <!-- 댓글 추가 양식 -->
     <h3>댓글</h3>
