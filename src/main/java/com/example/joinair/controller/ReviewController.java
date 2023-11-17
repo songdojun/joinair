@@ -1,16 +1,18 @@
 package com.example.joinair.controller;
 
 
+import com.example.joinair.dto.USERS;
 import com.example.joinair.entity.Product;
 import com.example.joinair.entity.Review;
 import com.example.joinair.service.ProductBuyService;
-import com.example.joinair.service.ProductService;
 import com.example.joinair.service.ReviewService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
 import org.springframework.data.domain.Sort;
 import org.springframework.data.web.PageableDefault;
+import org.springframework.security.core.Authentication;
+import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.GetMapping;
@@ -18,7 +20,6 @@ import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.multipart.MultipartFile;
-import jakarta.servlet.http.HttpSession;
 
 import java.util.List;
 
@@ -35,17 +36,11 @@ public class ReviewController {
     private ProductBuyService productBuyService;
 
     @GetMapping("/review/write")
-    public String showReviewForm(Model model, HttpSession session) {
-        List<Product> productList = productBuyService.productbuyList();
-        model.addAttribute("productList", productList);
-
-        // 세션에서 User_Id를 가져와서 revWriter 설정
-        String user_Id = (String) session.getAttribute("User_Id");
-        model.addAttribute("revWriter", user_Id);
-
-        return "reviewwrite";
+    public String showReviewForm(Model model) {
+        List<Product> productList = productBuyService.productbuyList(); // productBuyRepository를 통해 상품 목록을 가져옴
+        model.addAttribute("productList", productList); // 모델에 productList를 추가
+        return "reviewwrite"; // 리뷰 작성 페이지로 이동
     }
-
 
     @PostMapping("review/writepro")
     public String reviewWritePro(Review review, Model model, MultipartFile file) throws Exception {
@@ -77,6 +72,19 @@ public class ReviewController {
         model.addAttribute("searchOption", searchOption);
         model.addAttribute("searchKeyword", searchKeyword); // Pass search keyword to the view
 
+        Authentication authentication = SecurityContextHolder.getContext().getAuthentication();
+        String username = authentication.getName();
+
+        // 여기에서 필요한 사용자 정보를 모델에 추가합니다.
+        model.addAttribute("userId", username);
+        model.addAttribute("userAuthorities", authentication.getAuthorities());
+
+        // 마일리지 정보를 얻어와 모델에 추가
+        if (authentication.getPrincipal() instanceof USERS) {
+            USERS user = (USERS) authentication.getPrincipal();
+            model.addAttribute("userMileage", user.getUser_Mileage());
+        }
+
         return "reviewlist";
     }
 
@@ -85,6 +93,22 @@ public class ReviewController {
     @GetMapping("/review/view")
     public String reviewView(Model model, Integer Rev_No) {
         model.addAttribute("Review", reviewService.reviewView(Rev_No).orElse(null));
+
+
+        Authentication authentication = SecurityContextHolder.getContext().getAuthentication();
+        String username = authentication.getName();
+
+        // 여기에서 필요한 사용자 정보를 모델에 추가합니다.
+        model.addAttribute("userId", username);
+        model.addAttribute("userAuthorities", authentication.getAuthorities());
+
+        // 마일리지 정보를 얻어와 모델에 추가
+        if (authentication.getPrincipal() instanceof USERS) {
+            USERS user = (USERS) authentication.getPrincipal();
+            model.addAttribute("userMileage", user.getUser_Mileage());
+        }
+
+
         return "reviewview";
     }
 
