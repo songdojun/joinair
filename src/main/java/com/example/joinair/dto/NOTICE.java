@@ -14,6 +14,4 @@ public class NOTICE {
     private String Not_Content;  // 공지사항 내용
     private Date Not_Date;       // 공지사항 날짜
     private String Not_Writer;   // 작성자
-
-
 }

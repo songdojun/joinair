@@ -15,10 +15,14 @@
     <link rel="stylesheet" href="/assets/css/fontawesome.min.css">
     <link rel="stylesheet" href="https://unpkg.com/leaflet@1.7.1/dist/leaflet.css"
           integrity="sha512-xodZBNTC5n17Xt2atTPuE1HxjVMSvLVW9ocqUKLsCC5CXdbqCmblAshOMAS6/keqq/sMZMZ19scR4PsZChSR7A==" crossorigin=""/>
+
+
     <style>
-        #tempaltemo_footer {
-            margin-bottom: 300px;
-        }
+        .navbar-toggler-icon {
+
+            float: right; /* 우측으로 이동 */
+            margin-right: 10px; /* 우측으로 여백 추가 */
+          }
     </style>
 
     <meta charset="UTF-8">
@@ -111,13 +115,19 @@
 </nav>
 
 <div class="container">
-    <h1 class="mt-4">Q&A 목록</h1>
+    <div class="container mt-5 text-center">
+        <h1 class="mt-3">Q&A 목록</h1>
+        <h5 style="font-size: 0.8rem;">고객센터를 통해 궁금증을 해결하세요✍️</h5>
+
+
+    </div>
     <!-- 검색 창 (우측 상단) -->
+    <div class="container mt- text-left">
+      <a href="/qna/qnaInsert-view" class="btn btn-primary d-inline-block mt-4">새로운 게시글 작성</a>
+     </div>
     <div class="float-right mt-2">
-        <form class="form-inline" id="search-form" action="/qna/qnaList">
-            <input class="form-control" type="text" id="search-input" name="keyword" placeholder="제목 검색">
-            <button class="btn btn-outline-success" type="submit">검색</button>
-        </form>
+
+
     </div>
     <table class="table table-striped" id="qna-table">
         <!-- 테이블 헤더 -->
@@ -156,15 +166,28 @@
                 </a>
             </li>
         </ul>
-    </nav>
+    </nav><br>
+    <div class="container">
+        <div class="row justify-content-center">
+            <div class="col-4 text-center">
+                <form class="form-inline" id="search-form" action="/qna/qnaList">
+                    <div class="form-group">
+                        <input class="form-control" type="text" id="search-input" name="keyword" placeholder="제목 검색">
+                    </div>
+                    <button class="btn btn-outline-success" type="submit">검색</button>
+                </form>
+            </div>
+        </div>
+    </div><br>
 
-    <a href="/qna/qnaInsert-view" class="btn btn-primary">새로운 게시글 작성</a>
+
+
 </div>
-<footer class="bg-dark" id="tempaltemo_footer" style="margin-bottom: -1000px;">
+
+<footer class="bg-dark pt-1" id="tempaltemo_footer">
     <div class="container">
         <div class="row">
-
-            <div class="col-md-4 pt-5">
+            <div class="col-md-5 pt-3">
                 <h2 class="h2 text-success border-bottom pb-3 border-light logo">Join Air🪂</h2>
                 <ul class="list-unstyled text-light footer-link-list">
                     <li>
@@ -183,86 +206,40 @@
                     </li>
                 </ul>
             </div>
-
-            <div class="col-md-4 pt-5">
-                <h2 class="h2 text-light border-bottom pb-3 border-light">메뉴</h2>
-                <ul class="list-unstyled text-light footer-link-list">
-                    <li><a class="text-decoration-none" href="#">주문하기</a></li>
-                    <li><a class="text-decoration-none" href="#">배달 정보</a></li>
-                    <li><a class="text-decoration-none" href="#">고객지원</a></li>
-
-
-                </ul>
-            </div>
-
-            <div class="col-md-4 pt-5">
-                <h2 class="h2 text-light border-bottom pb-3 border-light">추가 정보</h2>
+            <div class="col-md-4 pt-4 text-left">
+                <h2 class="h2 text-light border-bottom pb-3 border-light">정보</h2>
                 <ul class="list-unstyled text-light footer-link-list">
                     <li><a class="text-decoration-none" href="/index">홈</a></li>
                     <li><a class="text-decoration-none" href="/about">회사 소개</a></li>
                     <li><a class="text-decoration-none" href="#">드론 정보</a></li>
-                    <li><a class="text-decoration-none" href="#">고객센터</a></li>
-
                 </ul>
-            </div>
-
-        </div>
-
-        <div class="row text-light mb-4">
-            <div class="col-12 mb-3">
-                <div class="w-100 my-3 border-top border-light"></div>
-            </div>
-            <div class="col-auto me-auto">
-                <ul class="list-inline text-left footer-icons">
-                    <li class="list-inline-item border border-light rounded-circle text-center">
-                        <a rel="nofollow" class="text-light text-decoration-none" target="_blank"
-                           href="http://fb.com/templatemo"><i class="fab fa-facebook-f fa-lg fa-fw"></i></a>
-                    </li>
-                    <li class="list-inline-item border border-light rounded-circle text-center">
-                        <a class="text-light text-decoration-none" target="_blank" href="https://www.instagram.com/"><i
-                                class="fab fa-instagram fa-lg fa-fw"></i></a>
-                    </li>
-
-
-                    <li class="list-inline-item border border-light rounded-circle text-center">
-                        <a class="text-light text-decoration-none" target="_blank" href="https://twitter.com/"><i
-                                class="fab fa-twitter fa-lg fa-fw"></i></a>
-                    </li>
-                </ul>
-            </div>
-            <div class="col-auto">
-                <label class="sr-only" for="subscribeEmail">Drone Delivery@drone delivery.com
-
-                </label>
-                <div class="input-group mb-2">
-                    <input type="text" class="form-control bg-dark border-light" id="subscribeEmail" placeholder="">
-
-                </div>
             </div>
         </div>
     </div>
-
-    <div class="w-100 bg-black py-3">
+    <div class="w-100 bg-black py-1 mt-0">
         <div class="container">
-            <div class="row pt-2">
-                <div class="col-12">
-                    <p class="text-left text-light">
+            <div class="row pt-1">
+                <div class="col-3">
+                    <p class="text-left text-light mb-0">
                         저작권 © 2023 Join Air
-                        <a rel="sponsored" href="https://templatemo.com/page/1" target="_blank"></a>
                     </p>
                 </div>
             </div>
         </div>
     </div>
-
 </footer>
-<!-- Add Bootstrap JavaScript and jQuery -->
+
+
 <script src="https://code.jquery.com/jquery-3.5.1.slim.min.js"></script>
-<script src="https://cdn.jsdelivr.net/npm/@popperjs/core@2.9.2/dist/umd/popper.min.js"></script>
-<script src="https://maxcdn.bootstrapcdn.com/bootstrap/4.5.2/js/bootstrap.min.js"></script>
-<script src="../static/assets/js/bootstrap.bundle.min.js"></script>
-<script src="../static/assets/js/templatemo.js"></script>
-<script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
+<script src="https://cdn.jsdelivr.net/npm/@popperjs/core@2.9.3/dist/umd/popper.min.js"></script>
+<script src="https://stackpath.bootstrapcdn.com/bootstrap/4.5.2/js/bootstrap.min.js"></script>
+<script src="/assets/js/jquery-1.11.0.min.js"></script>
+<script src="/assets/js/jquery-migrate-1.2.1.min.js"></script>
+<script src="/assets/js/bootstrap.bundle.min.js"></script>
+<script src="/assets/js/templatemo.js"></script>
+<script src="/assets/js/custom.js"></script>
+<script src="/assets/js/slick.min.js"></script>
+
 
 
 <!-- Mustache.js 라이브러리를 포함합니다 -->
@@ -289,7 +266,7 @@
     // 로그아웃 메뉴 항목 클릭 시 세션 삭제
     logoutItem.addEventListener("click", function() {
         sessionStorage.removeItem("User_Id");
-        // 로그아웃 후 로그인 메뉴 항목을 표시하고 로그아웃 메뉴 항목을 감춥니다
+
         loginItem.style.display = "block";
         logoutItem.style.display = "none";
     });

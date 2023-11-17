@@ -15,6 +15,8 @@
     <link rel="stylesheet" href="/assets/css/fontawesome.min.css">
     <link rel="stylesheet" href="https://unpkg.com/leaflet@1.7.1/dist/leaflet.css"
           integrity="sha512-xodZBNTC5n17Xt2atTPuE1HxjVMSvLVW9ocqUKLsCC5CXdbqCmblAshOMAS6/keqq/sMZMZ19scR4PsZChSR7A==" crossorigin=""/>
+    <script src="https://code.jquery.com/jquery-3.6.4.min.js"></script>
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@4.6.0/dist/js/bootstrap.min.js"></script>
     <style>
 
         .custom-button {
@@ -98,9 +100,7 @@
                             <a th:href="@{/login}" class="nav-link">로그인</a>
                         </div>
                     </li>
-                    <li class="nav-item">
-                        <a class="nav-link" href="#">회원가입</a>
-                    </li>
+
                 </ul>
             </div>
             <div class="navbar align-self-center d-flex">
@@ -135,34 +135,187 @@
         </form>
     </div>
 </div>
+<!-- 기존 로그인 폼 -->
 <div class="cotn_principal mx-auto my-5">
     <div class="cont_centrar">
         <div class="cont_login">
-            <div class="cont_info_log_sign_up">
-                <div class="col_md_login">
-                    <form name="loginForm" method="post" action="/login" autocomplete="off">
-                        <div class="cont_form_login">
-                            <h2 class="text-center font-weight-bold">로그인</h2>
-                            <div class="form-group">
-                                <input type="text" name="User_Id" class="form-control" placeholder="User ID" required>
-                            </div>
-                            <div class="form-group">
-                                <input type="password" name="User_Password" class="form-control" placeholder="Password" required>
-                            </div>
-                            <button class="btn btn-primary btn-block" type="submit" onclick="window.location.href='/login'">로그인</button>
-                            <a href="membership" class="nav-link custom-button-register">회원가입</a>
-                            <div class="text-center mt-2">
-                                <a href="#" class="custom-link" style="color: black;">아이디 찾기</a>
-                                <span class="mx-2 text-dark">|</span>
-                                <a href="#" class="custom-link" style="color: black;">비밀번호 찾기</a>
-                            </div>
+            <div class="col_md_login">
+                <form name="loginForm" method="post" action="/login" autocomplete="off">
+                    <div class="cont_form_login">
+                        <h2 class="text-center font-weight-bold">로그인</h2>
+                        <div class="form-group">
+                            <input type="text" name="User_Id" class="form-control" placeholder="User ID" required>
                         </div>
-                    </form>
-                </div>
+                        <div class="form-group">
+                            <input type="password" name="User_Password" class="form-control" placeholder="Password" required>
+                        </div>
+                        <button class="btn btn-primary btn-block" type="submit">로그인</button>
+                        <a href="membership" class="nav-link custom-button-register">회원가입</a>
+                        <div class="text-center mt-2">
+                            <a href="#" class="custom-link" style="color: black;" data-toggle="modal" data-target="#findIdModal">아이디 찾기</a>
+                            <span class="mx-2 text-dark">|</span>
+                            <a href="#" class="custom-link" style="color: black;" data-toggle="modal" data-target="#findPasswordModal">비밀번호 찾기</a>
+                        </div>
+                    </div>
+                </form>
             </div>
         </div>
     </div>
 </div>
+
+<!-- 아이디 찾기 모달 -->
+<div class="modal fade" id="findIdModal" tabindex="-1" role="dialog" aria-labelledby="findIdModalLabel" aria-hidden="true">
+    <div class="modal-dialog" role="document">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h5 class="modal-title" id="findIdModalLabel">아이디 찾기</h5>
+                <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                    <span aria-hidden="true">&times;</span>
+                </button>
+            </div>
+            <div class="modal-body">
+                <form id="findIdForm">
+                    <div class="form-group">
+                        <label for="findIdName">이름</label>
+                        <input type="text" class="form-control" id="findIdName" required>
+                    </div>
+                    <div class="form-group">
+                        <label for="findIdPhone">전화번호</label>
+                        <input type="tel" class="form-control" id="findIdPhone" required>
+                    </div>
+                    <div class="form-group">
+                        <label for="findIdEmail">이메일</label>
+                        <input type="email" class="form-control" id="findIdEmail" required>
+                    </div>
+                    <button type="button" class="btn btn-primary" onclick="findId()">아이디 찾기</button>
+                </form>
+            </div>
+        </div>
+    </div>
+</div>
+
+<!-- 비밀번호 찾기 모달 -->
+<div class="modal fade" id="findPasswordModal" tabindex="-1" role="dialog" aria-labelledby="findPasswordModalLabel" aria-hidden="true">
+    <div class="modal-dialog" role="document">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h5 class="modal-title" id="findPasswordModalLabel">비밀번호 찾기</h5>
+                <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                    <span aria-hidden="true">&times;</span>
+                </button>
+            </div>
+            <div class="modal-body">
+                <form id="findPasswordForm">
+                    <div class="form-group">
+                        <label for="findPasswordId">아이디</label>
+                        <input type="text" class="form-control" id="findPasswordId" required>
+                    </div>
+                    <div class="form-group">
+                        <label for="findPasswordPhone">전화번호</label>
+                        <input type="tel" class="form-control" id="findPasswordPhone" required>
+                    </div>
+                    <div class="form-group">
+                        <label for="findPasswordEmail">이메일</label>
+                        <input type="email" class="form-control" id="findPasswordEmail" required>
+                    </div>
+                    <button type="button" class="btn btn-primary" onclick="findPassword()">비밀번호 찾기</button>
+                </form>
+            </div>
+        </div>
+    </div>
+</div>
+
+<script>
+    // 아이디 찾기 모달이 열릴 때 실행되는 스크립트
+    $('#findIdModal').on('show.bs.modal', function (event) {
+        // 여기에 모달이 열릴 때 실행할 동작 작성
+        console.log('아이디 찾기 모달이 열렸습니다.');
+    });
+
+    // 아이디 찾기 모달이 닫힐 때 실행되는 스크립트
+    $('#findIdModal').on('hidden.bs.modal', function (event) {
+        // 여기에 모달이 닫힐 때 실행할 동작 작성
+        // 입력된 데이터 초기화
+        $('#findIdForm')[0].reset();
+    });
+
+    // 아이디 찾기 버튼 클릭 시 실행되는 함수
+    function findId() {
+        // 사용자로부터 입력받은 정보 가져오기
+        var name = $('#findIdName').val();
+        var phone = $('#findIdPhone').val();
+        var email = $('#findIdEmail').val();
+
+        // AJAX를 이용해 서버에 데이터 전송
+        $.ajax({
+            type: 'POST',
+            url: '/findId', // 서버의 처리 로직에 따라 경로를 수정하세요
+            data: {
+                name: name,
+                phone: phone,
+                email: email
+            },
+            success: function (response) {
+                // 서버로부터 받은 응답 처리
+                if (response.success) {
+                    // 찾은 아이디를 모달 내에 특정 위치에 표시 (예: id="foundId")
+                    $('#foundId').text(response.foundId);
+                } else {
+                    // 아이디를 찾지 못한 경우 메시지를 표시 (예: id="notFoundMessage")
+                    $('#notFoundMessage').text('일치하는 정보로 등록된 아이디가 없습니다.');
+                }
+            },
+            error: function (error) {
+                console.error('AJAX 오류:', error);
+            }
+        });
+    }
+
+    // 비밀번호 찾기 모달이 열릴 때 실행되는 스크립트
+    $('#findPasswordModal').on('show.bs.modal', function (event) {
+        // 여기에 모달이 열릴 때 실행할 동작 작성
+        console.log('비밀번호 찾기 모달이 열렸습니다.');
+    });
+
+    // 비밀번호 찾기 모달이 닫힐 때 실행되는 스크립트
+    $('#findPasswordModal').on('hidden.bs.modal', function (event) {
+        // 여기에 모달이 닫힐 때 실행할 동작 작성
+        // 입력된 데이터 초기화
+        $('#findPasswordForm')[0].reset();
+    });
+
+    // 비밀번호 찾기 버튼 클릭 시 실행되는 함수
+    function findPassword() {
+        // 사용자로부터 입력받은 정보 가져오기
+        var id = $('#findPasswordId').val();
+        var phone = $('#findPasswordPhone').val();
+        var email = $('#findPasswordEmail').val();
+
+        // AJAX를 이용해 서버에 데이터 전송
+        $.ajax({
+            type: 'POST',
+            url: '/findPassword', // 서버의 처리 로직에 따라 경로를 수정하세요
+            data: {
+                id: id,
+                phone: phone,
+                email: email
+            },
+            success: function (response) {
+                // 서버로부터 받은 응답 처리
+                if (response.success) {
+                    // 찾은 비밀번호를 모달 내에 특정 위치에 표시 (예: id="foundPassword")
+                    $('#foundPassword').text(response.foundPassword);
+                } else {
+                    // 비밀번호를 찾지 못한 경우 메시지를 표시 (예: id="notFoundMessagePassword")
+                    $('#notFoundMessagePassword').text('일치하는 정보로 등록된 비밀번호가 없습니다.');
+                }
+            },
+            error: function (error) {
+                console.error('AJAX 오류:', error);
+            }
+        });
+    }
+</script>
 
 <footer class="bg-dark" id="tempaltemo_footer">
     <div class="container">
@@ -175,7 +328,7 @@
                     <li><i class="fa fa-envelope fa-fw"></i><a class="text-decoration-none" href="mailto:info@dronefood.com">drone@dronedelivery.com</a></li>
                 </ul>
             </div>
-            <div class="col-12 text-light mb-4">
+            <div class="col-12 text-light mb-1">
                 <hr class="border-light">
                 <p class="text-center">저작권 © 2023 Join Air</p>
             </div>
@@ -187,6 +340,7 @@
 <script src="/assets/js/bootstrap.bundle.min.js"></script>
 <script src="/assets/js/templatemo.js"></script>
 <script src="/assets/js/custom.js"></script>
+<script src="/assets/js/slick.min.js"></script>
 <script>
     function toggleLoginLogout() {
         const loginButton = document.querySelector("button.btn-primary");

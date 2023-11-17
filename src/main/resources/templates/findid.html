@@ -14,62 +14,37 @@
     <link rel="stylesheet" href="https://unpkg.com/leaflet@1.7.1/dist/leaflet.css"
           integrity="sha512-xodZBNTC5n17Xt2atTPuE1HxjVMSvLVW9ocqUKLsCC5CXdbqCmblAshOMAS6/keqq/sMZMZ19scR4PsZChSR7A==" crossorigin=""/>
     <style>
-        body {
-               background-color: #f8f9fa;
-               font-family: 'Arial', sans-serif;
-           }
 
-           .layout {
-               width: 40%;
-               margin: 50px auto;
-               padding: 20px;
-               border: 2px solid #000;
-               border-radius: 8px;
-               box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
-               background-color: #fff;
-               text-align: center;
-           }
+        .custom-button {
+           background-color: #4CAF50;
+           color: white;
+           padding: 10px 20px;
+           border: none;
+           border-radius: 5px;
+           cursor: pointer;
+       }
 
-           h1 {
-               color: #000;
-               margin-bottom: 20px;
-           }
+       .custom-button:hover {
+           background-color: #45a049;
+       }
 
-           .meta-info p {
-               color: #000;
-               margin-bottom: 10px;
-           }
+       .cotn_principal {
+           background: rgba(255, 255, 255, 0.9);
+           border-radius: 5px;
+           padding: 20px;
+           max-width: 400px;
+           width: 100%;
+       }
 
-           .download-link, .action-links a {
-               display: inline-block;
-               margin-top: 20px;
-               color: #fff;
-               text-decoration: none;
-               padding: 10px 20px;
-               border-radius: 5px;
-           }
+       .error-message {
+           display: block !important;
+           color: red;
+       }
 
-           .download-link {
-               background-color: #007bff;
-           }
-
-/* 수정 버튼 스타일 */
-.modify-button {
-    background-color: #28a745; /* 초록색 */
-}
-.modify-button:hover {
-    background-color: #218838; /* 수정 버튼에 호버 시 초록색 더 진한 효과 */
-}
-
-/* 삭제 버튼 스타일 */
-.delete-button {
-    background-color: #dc3545; /* 빨간색 */
-}
-.delete-button:hover {
-    background-color: #c82333; /* 삭제 버튼에 호버 시 빨간색 더 진한 효과 */
-}
-
-
+       .success-message {
+           display: block !important;
+           color: blue;
+       }
     </style>
 </head>
 <body>
@@ -139,54 +114,80 @@
         </div>
     </div>
 </nav>
-<div class="layout">
-    <form th:action="@{/dronead/update/{D_Code}(D_Code=${drone.D_Code})}" method="post" enctype="multipart/form-data">
 
-        <!-- 상품 정보를 수정할 수 있는 입력 필드 추가 -->
-        <div class="form-group">
-            <label for="D_Code">드론 코드(변경불가):</label>
-            <input name="D_Code" type="text" id="D_Code" th:value="${drone.D_Code}" th:readonly="true" class="form-control">
-        </div>
+<form name="findIdForm" method="post" action="/find-id">
+    <br>
+    <div class="container">
+        <h2 class="text-center font-weight-bold">아이디 찾기</h2>
+        <div class="form-container cotn_principal">
+            <!-- 아이디 찾기 폼 부분 -->
+            <div class="form-group">
+                <input type="text" id="findIdName" class="form-control" name="findIdName" placeholder="이름" required>
+            </div>
+            <div class="form-group">
+                <input type="text" id="findIdEmail" class="form-control" name="findIdEmail" placeholder="이메일 주소" required>
+            </div>
+            <div class="form-group">
+                <input type="text" id="findIdPhone" class="form-control" name="findIdPhone" placeholder="전화번호" required>
+            </div>
+            <button type="submit" class="btn btn-primary custom-button">아이디 찾기</button>
 
-        <div class="form-group">
-            <label for="D_Name">드론 명:</label>
-            <input name="D_Name" type="text" id="D_Name" th:value="${drone.D_Name}" class="form-control">
-        </div>
+            <!-- 결과를 표시하는 부분 -->
+            <div th:if="${foundUserId}" class="success-message">
+                <p th:text="'찾은 아이디: ' + ${foundUserId}"></p>
+            </div>
 
-        <div class="form-group">
-            <label for="D_Payload">페이로드(kg):</label>
-            <input name="D_Payload" type="text" id="D_Payload" th:value="${drone.D_Payload}" class="form-control">
+            <div th:if="${notFoundMessage}" class="error-message">
+                <p th:text="${notFoundMessage}"></p>
+            </div>
         </div>
-
-        <div class="form-group">
-            <label for="D_Count">수량:</label>
-            <input name="D_Count" type="text" id="D_Count" th:value="${drone.D_Count}" class="form-control">
+    </div>
+</form>
+<footer class="bg-dark pt-1" id="tempaltemo_footer">
+    <div class="container">
+        <div class="row">
+            <div class="col-md-5     pt-3">
+                <h2 class="h2 text-success border-bottom pb-3 border-light logo">Join Air🪂</h2>
+                <ul class="list-unstyled text-light footer-link-list">
+                    <li>
+                        <i class="fas fa-map-marker-alt fa-fw"></i>
+                        한국직업전문학교 11층 강의실02 항공4기 2조
+                    </li>
+                    <li>
+                        <i class="fa fa-phone fa-fw"></i>
+                        <a class="text-decoration-none" href="tel:010-020-0340">010-1234-1234</a>
+                    </li>
+                    <li>
+                        <i class="fa fa-envelope fa-fw"></i>
+                        <a class="text-decoration-none" href="mailto:info@company.com">drone delivery
+                            @drone delivery
+                            .com</a>
+                    </li>
+                </ul>
+            </div>
+            <div class="col-md-4 pt-4 text-left">
+                <h2 class="h2 text-light border-bottom pb-3 border-light">정보</h2>
+                <ul class="list-unstyled text-light footer-link-list">
+                    <li><a class="text-decoration-none" href="/index">홈</a></li>
+                    <li><a class="text-decoration-none" href="/about">회사 소개</a></li>
+                    <li><a class="text-decoration-none" href="#">드론 정보</a></li>
+                </ul>
+            </div>
         </div>
-
-        <div class="form-group">
-            <label for="D_Size">축간거리(cm):</label>
-            <input name="D_Size" type="text" id="D_Size" th:value="${drone.D_Size}" class="form-control">
+    </div>
+    <div class="w-80 bg-black py-1">
+        <div class="container">
+            <div class="row pt-1">
+                <div class="col-3">
+                    <p class="text-left text-light">
+                        저작권 © 2023 Join Air
+                        <a rel="sponsored" href="https://templatemo.com/page/1" target="_blank"></a>
+                    </p>
+                </div>
+            </div>
         </div>
-
-        <div class="form-group">
-            <label for="D_Weight">무게(kg):</label>
-            <input name="D_Weight" type="text" id="D_Weight" th:value="${drone.D_Weight}" class="form-control">
-        </div>
-
-        <div class="form-group">
-            <label for="D_Speed">속도(m/s):</label>
-            <input name="D_Speed" type="text" id="D_Speed" th:value="${drone.D_Speed}" class="form-control">
-        </div>
-
-        <div class="form-group" >
-            <input type="file" name="file" th:if="${drone != null}" class="form-control-file">
-        </div>
-
-        <div class="form-group">
-            <button type="submit" th:if="${drone != null}" class="btn btn-primary">수정</button>
-        </div>
-    </form>
-</div>
+    </div>
+</footer>
 
 <script src="/assets/js/jquery-1.11.0.min.js"></script>
 <script src="/assets/js/jquery-migrate-1.2.1.min.js"></script>
@@ -194,6 +195,5 @@
 <script src="/assets/js/templatemo.js"></script>
 <script src="/assets/js/custom.js"></script>
 <script src="/assets/js/slick.min.js"></script>
-
 </body>
 </html>

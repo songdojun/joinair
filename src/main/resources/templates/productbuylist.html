@@ -1,5 +1,5 @@
 <!DOCTYPE html>
-<html lang="ko" xmlns:th="http://www.thymeleaf.org">
+<html lang="ko" xmlns:th="http://www.thymeleaf.org" xmlns:sec="http://www.w3.org/1999/xhtml">
 <head>
     <title>상품 페이지</title>
     <meta charset="utf-8">
@@ -175,10 +175,11 @@
     <!-- 상품 목록 컨테이너 시작 -->
     <div class="container mt-5">
         <div class="row">
-            <div class="col-md-4 mb-4" th:each="product : ${list}">
+            <div th:each="product, iterStat : ${list}" class="col-md-3 mb-3" th:if="${iterStat.index < 10}">
+                <!-- 한 줄에 4개씩 -->
                 <div class="card">
                     <a th:href="@{|/productbuy/view?Pro_Code=${product.Pro_Code}|}">
-                        <img class="card-img img-fluid" th:src="${product != null} ? ${product.Pro_Filepath} : ''" alt="상품 이미지">
+                        <img class="card-img img-fluid" th:src="${product != null} ? ${product.Pro_Filepath} : ''" alt="상품 이미지" style="max-height: 150px; object-fit: cover;">
 
                         <div class="card-body">
                             <h5 class="card-title" th:text="${product.Pro_Name}"></h5>
@@ -188,6 +189,9 @@
                         </div>
                     </a>
                 </div>
+
+                <!-- 한 줄에 4개씩이므로 4번째 상품마다 새로운 줄 시작 -->
+                <div th:if="${iterStat.index % 4 == 3}" class="w-100"></div>
             </div>
         </div>
     </div>
