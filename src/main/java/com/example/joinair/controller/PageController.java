@@ -47,4 +47,22 @@ public class PageController {
 
         return "index2"; // index.html 템플릿 반환
     }
+    @GetMapping("/mypage")
+    public String showMyPage(Model model, HttpSession session, Principal principal) {
+        Authentication authentication = SecurityContextHolder.getContext().getAuthentication();
+
+        // 로그인 여부를 확인하고, 로그인되지 않은 경우 로그인 페이지로 리다이렉트합니다.
+        if (authentication == null || !authentication.isAuthenticated()) {
+            return "redirect:/login";
+        }
+
+        // Principal에서 직접 사용자 정보를 가져옵니다.
+        String username = authentication.getName();
+
+        // 여기에서 필요한 사용자 정보를 모델에 추가합니다.
+        model.addAttribute("userId", username);
+        model.addAttribute("userAuthorities", authentication.getAuthorities());
+
+        return "mypage"; // mypage.html 템플릿 반환
+    }
 }
