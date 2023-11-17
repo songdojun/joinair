@@ -16,85 +16,70 @@
     <link rel="stylesheet" href="https://unpkg.com/leaflet@1.7.1/dist/leaflet.css"
           integrity="sha512-xodZBNTC5n17Xt2atTPuE1HxjVMSvLVW9ocqUKLsCC5CXdbqCmblAshOMAS6/keqq/sMZMZ19scR4PsZChSR7A=="
           crossorigin=""/>
+    <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/4.5.2/css/bootstrap.min.css">
 
 </head>
 <body>
-<!-- 첫 번째 네브바 -->
 <nav class="navbar navbar-expand-lg bg-dark navbar-light d-none d-lg-block" id="templatemo_nav_top">
     <div class="container text-light">
         <div class="w-100 d-flex justify-content-between">
             <div>
                 <i class="fa fa-envelope mx-2"></i>
-                <a class="navbar-sm-brand text-light text-decoration-none" href="mailto:info@company.com"> Doron
-                    delivery@Doron delivery.com
-
-                </a>
+                <a class="navbar-sm-brand text-light text-decoration-none" href="mailto:info@company.com">Doron delivery@Doron delivery.com</a>
                 <i class="fa fa-phone mx-2"></i>
-                <a class="navbar-sm-brand text-light text-decoration-none" href="tel:010-020-0340">010-1234-4567</a>
+                <a href="tel:010-1234-5678" class="navbar-sm-brand text-light text-decoration-none">010-1234-5678</a>
+
             </div>
+
             <div>
-                <div>
-                    <span th:if="${userId != null and (userId != 'anonymousUser')}">💫 <span th:text="${userId}"></span> 님 환영합니다 💫</span>
-                    <span sec:authorize="hasAuthority('admin')">
-                        <a th:href="@{/adminWelcome}" class="nav-link" style="display: inline-block; margin-left: 10px;">관리자 페이지</a></span>
+                <span th:if="${userId != null and (userId != 'anonymousUser')}">💫 <span th:text="${userId}"></span> 님 환영합니다 💫</span>
+                <span sec:authorize="hasAuthority('admin')">
+                    <a th:href="@{/adminWelcome}" class="nav-link" style="display: inline-block; margin-left: 10px;">관리자 페이지</a></span>
 
-                    <!-- 사용자의 마일리지 표시 -->
-                    <span th:if="${userMileage != null}">&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
+                <!-- 사용자의 마일리지 표시 -->
+                <span th:if="${userMileage != null}">&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
                     <span th:text="${userMileage}"></span> 마일리지 </span>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
-
-
-                    <!--                <span class="connected-id" th:if="${userId != null and userAuthorities == 'admin' }">💫 <span th:text="${userId}"></span> 님1 환영합니다 💫</span>-->
-                    <!--                <span sec:authorize="principal.authorities('admin', 'user') and isAuthenticated()">💫 <span sec:authentication="principal.username"></span> 님 환영합니다 💫</span>-->
-
-
-                    <!-- 사용자 권한에 따라 추가적인 정보 표시 (예: 관리자 여부) -->
-                    <!--                <span sec:authorize="hasRole('ADMIN')"> (관리자) </span>-->
-
-
-                    <!--                <span th:if="${userAuthorities.contains('admin')}"> (관리자) </span>-->
-                    <!--                <span class="connected-id" th:if="${session.User_Id != null}">💫 <span th:text="${session.User_Id}"></span> 님 환영합니다 💫</span>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;-->
-                    <a class="text-light" href="https://fb.com/templatemo" target="_blank" rel="sponsored"><i
-                            class="fab fa-facebook-f fa-sm fa-fw me-2"></i></a>
-                    <a class="text-light" href="https://www.instagram.com/" target="_blank"><i
-                            class="fab fa-instagram fa-sm fa-fw me-2"></i></a>
-                    <a class="text-light" href="https://twitter.com/" target="_blank"><i
-                            class="fab fa-twitter fa-sm fa-fw me-2"></i></a></span>
-                </div>
-
+                <a class="text-light" href="https://fb.com/templatemo" target="_blank" rel="sponsored"><i class="fab fa-facebook-f fa-sm fa-fw me-2"></i></a>
+                <a class="text-light" href="https://www.instagram.com/" target="_blank"><i class="fab fa-instagram fa-sm fa-fw me-2"></i></a>
+                <a class="text-light" href="https://twitter.com/" target="_blank"><i class="fab fa-twitter fa-sm fa-fw me-2"></i></a>
             </div>
         </div>
     </div>
 </nav>
 <nav class="navbar navbar-expand-lg navbar-light shadow">
-    <div class="container d-flex justify-content between align-items-center">
-        <a class="navbar-brand text-success logo h1 align-self-center" href="../templates/index.html">Join Air🪂</a>
-        <button class="navbar-toggler border-0" type="button" data-bs-toggle="collapse" data-bs-target="#templatemo_main_nav"
-                aria-controls="templatemo_main_nav" aria-expanded="false" aria-label="Toggle navigation">
+    <div class="container d-flex justify-content-between align-items-center">
+        <a class="navbar-brand text-success logo h1 align-self-center" href="/index">Join Air🪂</a>
+        <button class="navbar-toggler border-0" type="button" data-bs-toggle="collapse" data-bs-target="#templatemo_main_nav" aria-controls="templatemo_main_nav" aria-expanded="false" aria-label="Toggle navigation">
             <span class="navbar-toggler-icon"></span>
         </button>
         <div class="align-self-center collapse navbar-collapse flex-fill d-lg-flex justify-content-lg-between" id="templatemo_main_nav">
             <div class="flex-fill">
                 <ul class="nav navbar-nav d-flex justify-content-between mx-lg-auto">
                     <li class="nav-item">
-                        <a class="nav-link" href="../templates/index.html">홈</a>
+                        <a class="nav-link" href="/index">홈</a>
                     </li>
                     <li class="nav-item">
-                        <a class="nav-link" href="../templates/about.html">회사 소개</a>
+                        <a class="nav-link" href="/about">회사 소개</a>
                     </li>
                     <li class="nav-item">
-                        <a class="nav-link" href="../templates/shop.html">상품</a>
+                        <a class="nav-link" href="/productbuy/list">상품</a>
                     </li>
                     <li class="nav-item">
-                        <a class="nav-link" href="../templates/contact.html">문의</a>
+                        <a class="nav-link" href="/qna/qnaList">문의</a>
                     </li>
                     <li class="nav-item">
-                        <a class="nav-link" href="http://localhost:8080/notice/list">공지사항</a>
+                        <a class="nav-link" href="/notice/list">공지사항</a>
                     </li>
-                    <!--                    사용에 따라 사용-->
-                    <!--                    <li class="nav-item">-->
-                    <!--                        <a class="nav-link" href="#">로그인</a>-->
-                    <!--                    </li>-->
-
+                    <li class="nav-item" sec:authorize="isAuthenticated()">
+                        <div>
+                            <a th:href="@{/logout}" class="nav-link">로그아웃</a>
+                        </div>
+                    </li>
+                    <li class="nav-item" sec:authorize="!isAuthenticated()">
+                        <div>
+                            <a th:href="@{/login}" class="nav-link">로그인</a>
+                        </div>
+                    </li>
                 </ul>
             </div>
             <div class="navbar align-self-center d-flex">
@@ -109,30 +94,64 @@
                 <a class="nav-icon d-none d-lg-inline" href="#" data-bs-toggle="modal" data-bs-target="#templatemo_search">
                     <i class="fa fa-fw fa-search text-dark mr-2"></i>
                 </a>
-
             </div>
         </div>
     </div>
-</nav><br>
-<div th:if="${Review != null}" class="review-container">
-    <h1 th:text="${Review.Rev_Title}">제목입니다.</h1>
-    <!-- 상품명 추가 -->
-    <h1 th:text="${Review.product?.Pro_Name} ?: '상품 없음'"></h1>
+</nav>
 
-    <img th:if="${Review?.Rev_Filepath}" th:src="@{${Review?.Rev_Filepath}}" alt="미리보기 이미지" class="review-thumbnail">
+<!DOCTYPE html>
+<html lang="ko" xmlns:th="http://www.thymeleaf.org"
+      xmlns:sec="http://www.thymeleaf.org/thymeleaf-extras-springsecurity">
+<head>
+    <!-- head 내용은 동일 -->
+</head>
+<body>
+<!-- 네브바 등은 동일 -->
 
-    <div class="meta-info">
-        <p th:text="'작성자: ' + ${#authentication.principal.User_Id}"></p>
-        <p th:text="'작성일: ' + ${#dates.format(Review.Rev_Date, 'yyyy-MM-dd HH:mm:ss')}"></p>
-    </div>
-    <p th:text="${Review.Rev_Content}" class="review-content">내용이 들어갈 부분입니다.</p>
-    <a class="download-link" th:href="@{${Review?.Rev_Filepath}}" download>다운로드</a>
+<!-- 이하 동일 -->
+<!-- 이하 동일 -->
+<!-- 이하 동일 -->
+<div class="container mt-5">
+    <div th:if="${Review != null}" class="review-container">
+        <div class="row">
+            <!-- 이미지 카드 -->
+            <div class="col-md-3 mb-3 mb-md-0 mt-3">
+                <div class="text-center">
+                    <img th:if="${Review?.Rev_Filepath}" th:src="@{${Review?.Rev_Filepath}}" alt="미리보기 이미지" class="review-thumbnail" style="width: 300px; height: 300px;">
+                </div>
+            </div>
+            <!-- 리뷰 내용 -->
+            <div class="col-md-9 mt-3">
+                <div class="text-center">
+                    <h1 th:text="${Review.Rev_Title}">제목입니다.</h1>
+                    <!-- 상품명 추가 -->
+                    <h2 th:text="${Review.product?.Pro_Name} ?: '상품 없음'"></h2>
+                </div>
 
-    <div class="action-links">
-        <a th:href="@{/review/delete(Rev_No=${Review.Rev_No})}" class="delete-link">글삭제</a>
-        <a th:href="@{/review/modify/{Rev_No}(Rev_No=${Review.Rev_No})}" class="modify-link">수정</a>
+                <div class="meta-info text-center mt-3">
+                    <p th:text="'작성자: ' + ${#authentication.principal.User_Id}"></p>
+                    <p th:text="'작성일: ' + ${#dates.format(Review.Rev_Date, 'yyyy-MM-dd HH:mm:ss')}"></p>
+                </div>
+
+                <p th:text="${Review.Rev_Content}" class="review-content mt-3 text-center">내용이 들어갈 부분입니다.</p>
+
+                <div class="action-links text-center mt-3">
+                    <!-- 수정 및 삭제 버튼 -->
+                    <a th:href="@{/review/modify/{Rev_No}(Rev_No=${Review.Rev_No})}" class="modify-link btn btn-outline-primary">수정</a>
+                    <a th:href="@{/review/delete(Rev_No=${Review.Rev_No})}" class="delete-link btn btn-outline-danger">삭제</a>
+                </div>
+            </div>
+        </div>
     </div>
 </div>
+
+
+
+
+<!-- 이하 동일 -->
+</body>
+</html>
+
 
 <footer class="bg-dark" id="tempaltemo_footer">
     <div class="container">
