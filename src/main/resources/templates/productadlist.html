@@ -14,6 +14,108 @@
     <link rel="stylesheet" href="https://unpkg.com/leaflet@1.7.1/dist/leaflet.css"
           integrity="sha512-xodZBNTC5n17Xt2atTPuE1HxjVMSvLVW9ocqUKLsCC5CXdbqCmblAshOMAS6/keqq/sMZMZ19scR4PsZChSR7A==" crossorigin=""/>
 </head>
+<style>
+    #tempaltemo_footer {
+margin-bottom: 0.1px;
+}
+  .custom-button {
+          background-color: #4CAF50;
+          color: white;
+          padding: 10px 20px;
+         border: 2px solid #000;
+          border-radius: 5px;
+          cursor: pointer;
+      }
+
+      .custom-button:hover {
+          background-color: #45a049;
+      }
+
+      .cotn_principal {
+          background: rgba(255, 255, 255, 0.9);
+          border-radius: 5px;
+          padding: 20px;
+          max-width: 400px;
+          width: 100%;
+      }
+
+      /* Updated styles for the report form and table */
+      #salesReportContainer {
+          padding: 20px;
+          margin: 20px auto;
+          max-width: 800px;
+          background-color: #f8f9fa;
+          border-radius: 5px;
+      }
+
+      #reportForm {
+          margin-bottom: 20px;
+      }
+
+      #reportForm label {
+          font-weight: bold;
+      }
+
+      #reportForm select,
+      #reportForm input[type="number"] {
+          margin: 5px;
+          padding: 5px;
+          border: 1px solid #ced4da;
+          border-radius: 3px;
+      }
+
+      #reportForm button {
+          background-color: #4CAF50;
+          color: white;
+          padding: 10px 20px;
+          border: none;
+          border-radius: 5px;
+          cursor: pointer;
+      }
+
+      #reportForm button:hover {
+          background-color: #45a049;
+      }
+
+      table {
+          width: 100%;
+          border-collapse: collapse;
+      }
+
+      table, th, td {
+          border: 1px solid #ddd;
+      }
+
+      th, td {
+          padding: 8px;
+          text-align: left;
+      }
+
+          th {
+      background-color: black;
+      color: white;
+  }
+
+      tr:nth-child(even) {
+          background-color: #f2f2f2;
+      }
+
+      tr:hover {
+          background-color: #ddd;
+      }
+      .pagination .page-item.active .page-link {
+        background-color: #000;
+        border-color: #000;
+    }
+
+    .pagination .page-link {
+        color: #000;
+    }
+
+    .pagination .page-link:hover {
+        color: #333;
+    }
+</style>
 <body>
 <nav class="navbar navbar-expand-lg bg-dark navbar-light d-none d-lg-block" id="templatemo_nav_top">
     <div class="container text-light">
@@ -94,9 +196,9 @@
     </div>
 </nav>
 <div class="layout">
-    <h1>
-        <a th:href="@{/productad/list}">관리자 상품 관리 페이지</a>
-    </h1>
+<!--    <h4>-->
+<!--        <a th:href="@{/productad/list}" >관리자 상품 관리 페이지</a>-->
+<!--    </h4>-->
 
 
 
@@ -107,7 +209,7 @@
             <option value="Cate_Name">카테고리</option>
         </select>
         <input type="text" name="searchKeyword" id="searchKeyword" placeholder="검색어 입력">
-        <button id="searchButton">검색</button>
+        <button id="searchButton" class="btn btn-light">검색</button>
     </div>
 
     <table>
@@ -138,35 +240,43 @@
     </table>
 
     <!-- 페이지네이션 -->
-    <div class="pagination" th:if="${list.totalPages > 1 || list.totalElements == 0}">
+    <div class="pagination justify-content-center" th:if="${list.totalPages > 1 || list.totalElements == 0}">
         <!-- Adjust pagination links to include search parameters -->
-        <div class="horizontal-pagination">
-            <a th:if="${list.number > 0}" th:href="@{|/productad/list?page=0&size=${list.size}&sort=${list.sort}&searchOption=${searchOption}&searchKeyword=${searchKeyword}|}" aria-label="First">
-                <span aria-hidden="true">첫 페이지</span>
-            </a>
+        <ul class="pagination">
+            <li class="page-item" th:if="${list.number > 0}">
+                <a class="page-link" th:href="@{|/productad/list?page=0&size=${list.size}&sort=${list.sort}&searchOption=${searchOption}&searchKeyword=${searchKeyword}|}" aria-label="First">
+                    <span aria-hidden="true">첫 페이지</span>
+                </a>
+            </li>
             <!-- Adjust previous and next links similarly -->
-            <a th:if="${list.number > 0}" th:href="@{|/productad/list?page=${list.number - 1}&size=${list.size}&sort=${list.sort}&searchOption=${searchOption}&searchKeyword=${searchKeyword}|}" aria-label="Previous">
-                <span aria-hidden="true">&laquo; 이전</span>
-            </a>
+            <li class="page-item" th:if="${list.number > 0}">
+                <a class="page-link" th:href="@{|/productad/list?page=${list.number - 1}&size=${list.size}&sort=${list.sort}&searchOption=${searchOption}&searchKeyword=${searchKeyword}|}" aria-label="Previous">
+                    <span aria-hidden="true">&laquo; 이전</span>
+                </a>
+            </li>
             <!-- Add searchOption and searchKeyword to the page number links -->
-            <span th:each="i : ${#numbers.sequence(0, list.totalPages - 1)}">
-            <a th:if="${i == list.number}" th:text="${i + 1}" class="current-page"></a>
-            <a th:unless="${i == list.number}" th:href="@{|/productad/list?page=${i}&size=${list.size}&sort=${list.sort}&searchOption=${searchOption}&searchKeyword=${searchKeyword}|}" th:text="${i + 1}"></a>
-        </span>
-            <a th:if="${list.number < list.totalPages - 1}" th:href="@{|/productad/list?page=${list.number + 1}&size=${list.size}&sort=${list.sort}&searchOption=${searchOption}&searchKeyword=${searchKeyword}|}" aria-label="Next">
-                <span aria-hidden="true">다음 &raquo;</span>
-            </a>
-            <a th:if="${list.number < list.totalPages - 1}" th:href="@{|/productad/list?page=${list.totalPages - 1}&size=${list.size}&sort=${list.sort}&searchOption=${searchOption}&searchKeyword=${searchKeyword}|}" aria-label="Last">
-                <span aria-hidden="true">마지막 페이지</span>
-            </a>
-        </div>
+            <li th:each="i : ${#numbers.sequence(0, list.totalPages - 1)}" th:class="${i == list.number} ? 'page-item active' : 'page-item'">
+                <a class="page-link" th:href="@{|/productad/list?page=${i}&size=${list.size}&sort=${list.sort}&searchOption=${searchOption}&searchKeyword=${searchKeyword}|}" th:text="${i + 1}"></a>
+            </li>
+            <li class="page-item" th:if="${list.number < list.totalPages - 1}">
+                <a class="page-link" th:href="@{|/productad/list?page=${list.number + 1}&size=${list.size}&sort=${list.sort}&searchOption=${searchOption}&searchKeyword=${searchKeyword}|}" aria-label="Next">
+                    <span aria-hidden="true">다음 &raquo;</span>
+                </a>
+            </li>
+            <li class="page-item" th:if="${list.number < list.totalPages - 1}">
+                <a class="page-link" th:href="@{|/productad/list?page=${list.totalPages - 1}&size=${list.size}&sort=${list.sort}&searchOption=${searchOption}&searchKeyword=${searchKeyword}|}" aria-label="Last">
+                    <span aria-hidden="true">마지막 페이지</span>
+                </a>
+            </li>
+        </ul>
     </div>
+
 
     <div th:if="${list.totalPages == 0}" class="no-results">검색 결과가 없습니다.</div>
 
     <!-- 상품 등록 버튼 -->
-    <a href="/productad/regist" class="new-post-button">새 상품 등록</a>
-</div>
+    <a href="/productad/regist" class="btn btn-dark">새 상품 등록</a>
+</div><br>
 
 <script src="/js/searchProductad.js"></script>
 </body>

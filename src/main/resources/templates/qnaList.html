@@ -122,15 +122,12 @@
 
     </div>
     <!-- 검색 창 (우측 상단) -->
-    <div class="container mt-5 text-center">
-      <a href="/qna/qnaInsert-view" class="btn btn-primary d-inline-block mt-3">새로운 게시글 작성</a>
+    <div class="container mt- text-left">
+      <a href="/qna/qnaInsert-view" class="btn btn-primary d-inline-block mt-4">새로운 게시글 작성</a>
      </div>
     <div class="float-right mt-2">
 
-        <form class="form-inline" id="search-form" action="/qna/qnaList">
-            <input class="form-control" type="text" id="search-input" name="keyword" placeholder="제목 검색">
-            <button class="btn btn-outline-success" type="submit">검색</button>
-        </form>
+
     </div>
     <table class="table table-striped" id="qna-table">
         <!-- 테이블 헤더 -->
@@ -169,7 +166,20 @@
                 </a>
             </li>
         </ul>
-    </nav>
+    </nav><br>
+    <div class="container">
+        <div class="row justify-content-center">
+            <div class="col-4 text-center">
+                <form class="form-inline" id="search-form" action="/qna/qnaList">
+                    <div class="form-group">
+                        <input class="form-control" type="text" id="search-input" name="keyword" placeholder="제목 검색">
+                    </div>
+                    <button class="btn btn-outline-success" type="submit">검색</button>
+                </form>
+            </div>
+        </div>
+    </div><br>
+
 
 
 </div>
@@ -218,7 +228,7 @@
         </div>
     </div>
 </footer>
-<!-- Add Bootstrap JavaScript and jQuery -->
+
 
 <script src="https://code.jquery.com/jquery-3.5.1.slim.min.js"></script>
 <script src="https://cdn.jsdelivr.net/npm/@popperjs/core@2.9.3/dist/umd/popper.min.js"></script>
@@ -256,7 +266,7 @@
     // 로그아웃 메뉴 항목 클릭 시 세션 삭제
     logoutItem.addEventListener("click", function() {
         sessionStorage.removeItem("User_Id");
-        // 로그아웃 후 로그인 메뉴 항목을 표시하고 로그아웃 메뉴 항목을 감춥니다
+
         loginItem.style.display = "block";
         logoutItem.style.display = "none";
     });
