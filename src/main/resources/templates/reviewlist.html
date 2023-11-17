@@ -118,7 +118,7 @@
                 <td class="title-column">
                     <a th:href="@{/review/view(Rev_No=${review.Rev_No})}" th:text="${review.Rev_Title}"></a>
                 </td>
-                <td class="small-column" th:text="${review.Rev_Writer}"></td>
+                <td class="small-column" th:text="${#authentication.principal.User_Id}"></td>
                 <td class="date-column" th:text="${#dates.format(review.Rev_Date, 'yyyy-MM-dd HH:mm:ss')}"></td>
                 <td class="title-column">
                     <span th:text="${review.product?.Pro_Name} ?: '상품 없음'"></span>

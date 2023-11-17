@@ -180,6 +180,12 @@
         </div>
 
         <div class="mb-3">
+            <label for="Rev_Writer" class="form-label">작성자:</label>
+            <input name="Rev_Writer" type="text" class="form-control" id="Rev_Writer" th:if="${review != null}" th:value="${#authentication.principal.User_Id}" readonly>
+        </div>
+
+
+        <div class="mb-3">
             <label for="Rev_Content" class="form-label">내용:</label>
             <textarea name="Rev_Content" class="form-control" id="Rev_Content" th:if="${review != null}" th:text="${review.Rev_Content}"></textarea>
         </div>
