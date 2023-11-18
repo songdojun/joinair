@@ -1,9 +1,8 @@
 <!DOCTYPE html>
-<html lang="ko" xmlns:th="http://www.thymeleaf.org"
-      xmlns:sec="http://www.thymeleaf.org/thymeleaf-extras-springsecurity">
-
+<html lang="ko" xmlns:th="http://www.thymeleaf.org" xmlns:sec="http://www.w3.org/1999/xhtml">
 <head>
     <title>JoinAir</title>
+
     <meta charset="utf-8">
     <meta name="viewport" content="width=device-width, initial-scale=1">
 
@@ -16,64 +15,64 @@
     <link rel="stylesheet" href="/assets/css/fontawesome.min.css">
     <link rel="stylesheet" href="https://unpkg.com/leaflet@1.7.1/dist/leaflet.css"
           integrity="sha512-xodZBNTC5n17Xt2atTPuE1HxjVMSvLVW9ocqUKLsCC5CXdbqCmblAshOMAS6/keqq/sMZMZ19scR4PsZChSR7A==" crossorigin=""/>
+
     <style>
+
         #tempaltemo_footer {
             margin-bottom: 300px;
         }
+            #tempaltemo_footer {
+    margin-bottom: 0.1px;
+    }
 
+         .card {
+            border: none;
+            background-color: #f8f9fa;
+            transition: transform 0.3s;
+            /* 헤더와 타이틀 부분에 사용할 폰트와 색상을 지정. */
+            font-family: 'Your Chosen Font', sans-serif;
+            color: #2A0A0A;
+        }
+
+        .card:hover {
+            transform: scale(1.05);
+        }
+
+        h5.card-title {
+            font-size: 18px;
+            font-weight: bold;
+            /* 각 카드의 타이틀에 대한 폰트 사이즈와 굵기를 지정. */
+        }
+
+        p.card-text {
+            font-size: 16px;
+            color: #555;
+            /* 각 카드의 텍스트에 대한 폰트 사이즈와 색상을 지정. */
+        }
     </style>
-
 </head>
-<!-- 상단 네비게이션 시작 -->
+<body>
 <nav class="navbar navbar-expand-lg bg-dark navbar-light d-none d-lg-block" id="templatemo_nav_top">
     <div class="container text-light">
         <div class="w-100 d-flex justify-content-between">
             <div>
                 <i class="fa fa-envelope mx-2"></i>
-                <a class="navbar-sm-brand text-light text-decoration-none" href="mailto:info@company.com"> Doron delivery@Doron delivery.com
-
-                </a>
+                <a class="navbar-sm-brand text-light text-decoration-none" href="mailto:info@company.com">Doron delivery@Doron delivery.com</a>
                 <i class="fa fa-phone mx-2"></i>
-                <a class="navbar-sm-brand text-light text-decoration-none" href="tel:010-020-0340">010-1234-4567</a>
+                <a class="navbar-sm-brand text-light text-decoration-none" href="tel:010-1234-5678">010-1234-5678</a>
             </div>
             <div>
-                <div>
-                    <span th:if="${userId != null and (userId != 'anonymousUser')}">
-                        💫 <span th:text="${userId}"></span> 님 환영합니다 💫</span>
-
-                    <!-- 사용자의 마일리지 표시 -->
-                    <span th:if="${userMileage != null}">&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
-                    <span th:text="${userMileage}"></span> 마일리지 </span>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
-
-
-                    <span sec:authorize="hasAuthority('admin')">
-                        <a th:href="@{/adminWelcome}" class="nav-link" style="display: inline-block; margin-left: 10px;">관리자 페이지</a></span>
-
-            <!-- 사용자의 마일리지 표시 -->
-
-
-
-<!--                <span class="connected-id" th:if="${userId != null and userAuthorities == 'admin' }">💫 <span th:text="${userId}"></span> 님1 환영합니다 💫</span>-->
-<!--                <span sec:authorize="principal.authorities('admin', 'user') and isAuthenticated()">💫 <span sec:authentication="principal.username"></span> 님 환영합니다 💫</span>-->
-
-
-                <!-- 사용자 권한에 따라 추가적인 정보 표시 (예: 관리자 여부) -->
-<!--                <span sec:authorize="hasRole('ADMIN')"> (관리자) </span>-->
-
-
-                <!--                <span th:if="${userAuthorities.contains('admin')}"> (관리자) </span>-->
-<!--                <span class="connected-id" th:if="${session.User_Id != null}">💫 <span th:text="${session.User_Id}"></span> 님 환영합니다 💫</span>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;-->
+                <span th:if="${userId != null and (userId != 'anonymousUser')}">💫 <span th:text="${userId}"></span> 님 환영합니다 💫</span>
+                <span sec:authorize="hasAuthority('admin')">
+                    <a th:href="@{/adminWelcome}" class="nav-link" style="display: inline-block; margin-left: 10px;">관리자 페이지</a></span>
+                <!--                <span class="connected-id" th:if="${session.User_Id != null}">💫 <span th:text="${session.User_Id}"></span> 님 환영합니다 💫</span>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;-->
                 <a class="text-light" href="https://fb.com/templatemo" target="_blank" rel="sponsored"><i class="fab fa-facebook-f fa-sm fa-fw me-2"></i></a>
                 <a class="text-light" href="https://www.instagram.com/" target="_blank"><i class="fab fa-instagram fa-sm fa-fw me-2"></i></a>
-                <a class="text-light" href="https://twitter.com/" target="_blank"><i class="fab fa-twitter fa-sm fa-fw me-2"></i></a></span>
-                </div>
-
-
+                <a class="text-light" href="https://twitter.com/" target="_blank"><i class="fab fa-twitter fa-sm fa-fw me-2"></i></a>
             </div>
         </div>
     </div>
 </nav>
-<!-- 상단 네비게이션 닫기 -->
 <nav class="navbar navbar-expand-lg navbar-light shadow">
     <div class="container d-flex justify-content-between align-items-center">
         <a class="navbar-brand text-success logo h1 align-self-center" href="/index">Join Air🪂</a>
@@ -97,21 +96,17 @@
                         <a class="nav-link" href="/qna/qnaList">문의</a>
                     </li>
                     <li class="nav-item">
-                        <a class="nav-link" href="/notice/list">공지사항</a>
+                        <a class="nav-link" href="/notice/list ">공지사항</a>
                     </li>
-                    <li class="nav-item" sec:authorize="isAuthenticated()">
-                        <div>
-                            <a th:href="@{/logout}" class="nav-link">로그아웃</a>
-                        </div>
-                    </li>
-                    <li class="nav-item" sec:authorize="!isAuthenticated()">
-                        <div>
-                            <a th:href="@{/login}" class="nav-link">로그인</a>
-                        </div>
+                    <li class="nav-item">
+                        <a class="nav-link" th:href="${session.User_Id != null} ? @{/logout} : @{/login}">
+                            <span th:if="${session.User_Id != null}">로그아웃</span>
+                            <span th:unless="${session.User_Id != null}">로그인</span>
+                        </a>
                     </li>
                 </ul>
             </div>
-             <div class="navbar align-self-center d-flex">
+            <div class="navbar align-self-center d-flex">
                 <div class="d-lg-none flex-sm-fill mt-3 mb-4 col-7 col-sm-auto pr-3">
                     <div class="input-group">
                         <input type="text" class="form-control" id="inputMobileSearch" placeholder="검색">
@@ -120,14 +115,14 @@
                         </div>
                     </div>
                 </div>
-                <a class="nav-icon d-none d-lg-inline" href="#" data-bs-toggle="modal" data-bs-target="#templatemo_search">
+                <a class="nav-icon d-none d-lg-inline" href="#" id="templatemo_search_icon">
                     <i class="fa fa-fw fa-search text-dark mr-2"></i>
                 </a>
-                <a class="nav-icon position-relative text-decoration-none" href="http://localhost:8080/cart">
+                <a class="nav-icon position-relative text-decoration-none" href="/cart">
                     <i class="fa fa-fw fa-cart-arrow-down text-dark mr-1"></i>
-                    <span class="position-absolute top-0 left-100 translate-middle badge rounded-pill bg-light text-dark"></span>
+                    <span class="position-absolute top-0 left-100 translate-middle badge rounded-pill bg-light text-dark"></span>&nbsp&nbsp&nbsp
                 </a>
-                <a class="nav-icon position-relative text-decoration-none" href="#">
+                <a class="nav-icon position-relative text-decoration-none" href="/mypage">
                     <i class="fa fa-fw fa-user text-dark mr-3"></i>
                     <span class="position-absolute top-0 left-100 translate-middle badge rounded-pill bg-light text-dark"></span>
                 </a>
@@ -135,21 +130,48 @@
         </div>
     </div>
 </nav>
+
+<!-- 검색 모달 -->
+<div class="modal fade" id="templatemo_search_modal" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel" aria-hidden="true">
+    <div class="modal-dialog modal-dialog-centered modal-lg" role="document">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h5 class="modal-title" id="exampleModalLabel">검색</h5>
+
+            </div>
+            <div class="modal-body">
+                <form action="" method="get">
+                    <div class="input-group mb-3">
+                        <input type="text" class="form-control" id="inputModalSearchModal" name="q" placeholder="검색" aria-label="Search" aria-describedby="searchButtonModal">
+                        <button class="btn btn-success" type="button" id="searchButtonModal">
+                            <i class="fa fa-search text-light"></i>
+                        </button>
+                    </div>
+                </form>
+            </div>
+            <div class="modal-footer">
+                <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">닫기</button>
+            </div>
+        </div>
+    </div>
+</div>
+
 <div class="modal fade bg-white" id="templatemo_search" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel" aria-hidden="true">
     <div class="modal-dialog modal-lg" role="document">
         <div class="w-100 pt-1 mb-5 text-right">
             <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
         </div>
         <form action="" method="get" class="modal-content modal-body border-0 p-0">
-            <div class="input-group mb-2">
-                <input type="text" class="form-control" id="inputModalSearch" name="q" placeholder="검색 ">
-                <button type="submit" class="input-group-text bg-success text-light">
-                    <i class="fa fa-fw fa-search text-white"></i>
+            <div class="input-group mb-3">
+                <input type="text" class="form-control rounded-start" id="inputModalSearch" name="q" placeholder="검색" aria-label="Search" aria-describedby="searchButton">
+                <button class="btn btn-success rounded-end" type="button" id="searchButton">
+                    <i class="fa fa-search text-light"></i>
                 </button>
             </div>
         </form>
     </div>
 </div>
+
 
 <div id="template-mo-zay-hero-carousel" class="carousel slide" data-bs-ride="carousel">
     <ol class="carousel-indicators">
@@ -182,28 +204,30 @@
         <div class="carousel-item" style="background: url('image/드론배달3.png') center center; background-size: cover;">
 
         </div>
-            <div class="container">
-                <div class="row p-5">
-                    <div class="col-lg-6 mb-0 d-flex align-items-center">
-                        <!--                        <div class="text-align-left align-self-center">-->
-                        <!--                            <h1 class="h1">추가도 가능함</h1>-->
-                        <!--                            <h3 class="h2">추가도 가능함 추후 대화 이후 추가 예정</h3>-->
-                        <!--                            <p>이 부분도 동일</p>-->
-                        <!--                        </div>-->
-                    </div>
+        <div class="container">
+            <div class="row p-5">
+                <div class="col-lg-6 mb-0 d-flex align-items-center">
+                    <!--                        <div class="text-align-left align-self-center">-->
+                    <!--                            <h1 class="h1">추가도 가능함</h1>-->
+                    <!--                            <h3 class="h2">추가도 가능함 추후 대화 이후 추가 예정</h3>-->
+                    <!--                            <p>이 부분도 동일</p>-->
+                    <!--                        </div>-->
                 </div>
             </div>
         </div>
     </div>
 </div>
+</div>
 
 <!-- 핫이슈 컨텐츠 시작 편의점 음식 신상(CU편의점 기준) -->
 <div class="container">
     <div class="row">
-        <div class="col-lg-12">
-            <h2 class="text-center" style="font-size: 32px; font-weight: bold; color:#2A0A0A; text-transform: uppercase;">핫이슈</h2>
+        <div class="col-lg-12"><br>
+            <h2 class="text-center" style="font-size: 36px; font-weight: bold; color: #3498db; text-transform: uppercase; font-family: 'Your Chosen Font', sans-serif;">🔥 핫이슈 🔥</h2>
 
-            <p class="text-center">지금 가장 핫한 편의점 음식을 만나보세요. 입맛을 돋우는 신제품이 등장했습니다.</p>
+            <p class="text-center" style="font-size: 22px; color: #6c757d; font-family: 'Your Chosen Font', sans-serif; font-style: italic;">이제 가장 핫한 편의점 음식을 즐겨보세요! 입맛을 사로잡는 새로운 제품이 나왔답니다.</p>
+
+
 
             <div class="row">
                 <div class="col-lg-4">
@@ -243,10 +267,7 @@
 <div class="container">
     <div class="row">
         <div class="col-lg-12">
-
             <br>
-
-
             <div class="row">
                 <div class="col-lg-4">
                     <div class="card">
@@ -268,7 +289,6 @@
                         </div>
                     </div>
                 </div>
-
                 <div class="col-lg-4">
                     <div class="card">
                         <img src="https://tqklhszfkvzk6518638.cdn.ntruss.com/product/8809948342362.jpg" class="card-img-top" alt="편의점 음식 3" width="200" height="300">
@@ -322,16 +342,15 @@
     </div>
 </div>
 
-
+<br>
 <!-- 핫이슈 끝 -->
 
 
 <!-- 푸터 -->
-<footer class="bg-dark" id="tempaltemo_footer" style="margin-bottom: -1000px;">
+<footer class="bg-dark pt-1" id="tempaltemo_footer">
     <div class="container">
         <div class="row">
-
-            <div class="col-md-4 pt-5">
+            <div class="col-md-5 pt-3">
                 <h2 class="h2 text-success border-bottom pb-3 border-light logo">Join Air🪂</h2>
                 <ul class="list-unstyled text-light footer-link-list">
                     <li>
@@ -350,85 +369,39 @@
                     </li>
                 </ul>
             </div>
-
-            <div class="col-md-4 pt-5">
-                <h2 class="h2 text-light border-bottom pb-3 border-light">메뉴</h2>
-                <ul class="list-unstyled text-light footer-link-list">
-                    <li><a class="text-decoration-none" href="#">주문하기</a></li>
-                    <li><a class="text-decoration-none" href="#">배달 정보</a></li>
-                    <li><a class="text-decoration-none" href="#">고객지원</a></li>
-
-
-                </ul>
-            </div>
-
-            <div class="col-md-4 pt-5">
-                <h2 class="h2 text-light border-bottom pb-3 border-light">추가 정보</h2>
+            <div class="col-md-4 pt-4 text-left">
+                <h2 class="h2 text-light border-bottom pb-3 border-light">정보</h2>
                 <ul class="list-unstyled text-light footer-link-list">
                     <li><a class="text-decoration-none" href="/index">홈</a></li>
                     <li><a class="text-decoration-none" href="/about">회사 소개</a></li>
                     <li><a class="text-decoration-none" href="#">드론 정보</a></li>
-                    <li><a class="text-decoration-none" href="#">고객센터</a></li>
-
                 </ul>
-            </div>
-
-        </div>
-
-        <div class="row text-light mb-4">
-            <div class="col-12 mb-3">
-                <div class="w-100 my-3 border-top border-light"></div>
-            </div>
-            <div class="col-auto me-auto">
-                <ul class="list-inline text-left footer-icons">
-                    <li class="list-inline-item border border-light rounded-circle text-center">
-                        <a rel="nofollow" class="text-light text-decoration-none" target="_blank" href="http://fb.com/templatemo"><i class="fab fa-facebook-f fa-lg fa-fw"></i></a>
-                    </li>
-                    <li class="list-inline-item border border-light rounded-circle text-center">
-                        <a class="text-light text-decoration-none" target="_blank" href="https://www.instagram.com/"><i class="fab fa-instagram fa-lg fa-fw"></i></a>
-                    </li>
-
-
-                    <li class="list-inline-item border border-light rounded-circle text-center">
-                        <a class="text-light text-decoration-none" target="_blank" href="https://twitter.com/"><i class="fab fa-twitter fa-lg fa-fw"></i></a>
-                    </li>
-                </ul>
-            </div>
-            <div class="col-auto">
-                <label class="sr-only" for="subscribeEmail">Drone Delivery@drone delivery.com
-
-                </label>
-                <div class="input-group mb-2">
-                    <input type="text" class="form-control bg-dark border-light" id="subscribeEmail" placeholder="">
-
-                </div>
             </div>
         </div>
     </div>
-
-    <div class="w-100 bg-black py-3">
+    <div class="w-100 bg-black py-1 mt-0">
         <div class="container">
-            <div class="row pt-2">
-                <div class="col-12">
-                    <p class="text-left text-light">
+            <div class="row pt-1">
+                <div class="col-3">
+                    <p class="text-left text-light mb-0">
                         저작권 © 2023 Join Air
-                        <a rel="sponsored" href="https://templatemo.com/page/1" target="_blank"></a>
                     </p>
                 </div>
             </div>
         </div>
     </div>
-
 </footer>
 
 
-<script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
-<script src="../static/assets/js/bootstrap.bundle.min.js"></script>
-<script src="../static/assets/js/templatemo.js"></script>
-
-<script type="text/javascript">
+<script src="/assets/js/jquery-1.11.0.min.js"></script>
+<script src="/assets/js/jquery-migrate-1.2.1.min.js"></script>
+<script src="/assets/js/bootstrap.bundle.min.js"></script>
+<script src="/assets/js/templatemo.js"></script>
+<script src="/assets/js/custom.js"></script>
+<script src="/assets/js/slick.min.js"></script>
+<script>
     $(document).ready(function () {
-<!--      문서가 완전히 로드되면 이벤트 핸들러가 실행.-->
+<!--      문서가 완전히 로드되면 이벤트 핸들러가 실행..-->
 <!--      이를 통해 JavaScript 코드가 HTML 문서의 로딩을 기다리지 않고 실행함.-->
 
         //슬라이드 전환 함수
@@ -468,39 +441,81 @@
 </script>
 
 <!--로그인 → 로그아웃-->
-<!-- HTML 코드는 그대로 유지 -->
-<script th:inline="javascript">
-    var userAuthorities = [[${userAuthorities}]];
+<script>
+    // 세션 상태 확인
+    var userId = sessionStorage.getItem("User_Id");
+
+    // 로그인 및 로그아웃 메뉴 요소 가져오기
+    var loginItem = document.querySelector(".nav-item .nav-link[href='/login']");
+    var logoutItem = document.querySelector(".nav-item .nav-link[href='/logout']");
+
+    if (userId) {
+        // 세션이 있으면 로그인 메뉴 항목을 감추고 로그아웃 메뉴 항목을 표시합니다
+        loginItem.style.display = "none";
+        logoutItem.style.display = "block";
+    } else {
+        // 세션이 없으면 로그인 메뉴 항목을 표시하고 로그아웃 메뉴 항목을 감춥니다
+        loginItem.style.display = "block";
+        logoutItem.style.display = "none";
+    }
+
+    // 로그아웃 메뉴 항목 클릭 시 세션 삭제
+    logoutItem.addEventListener("click", function() {
+        sessionStorage.removeItem("User_Id");
+        // 로그아웃 후 로그인 메뉴 항목을 표시하고 로그아웃 메뉴 항목을 감춥니다
+        loginItem.style.display = "block";
+        logoutItem.style.display = "none";
+    });
+
+</script>
+<script>
+    $(document).ready(function () {
+        $("#templatemo_search_icon").on("click", function () {
+            $("#templatemo_search").toggle();
+            $("#inputModalSearch").focus();
+        });
+
+        $(document).on("click", function (event) {
+            if (!$(event.target).closest("#templatemo_search").length && !$(event.target).is("#templatemo_search_icon")) {
+                $("#templatemo_search").hide();
+            }
+        });
+    });
 </script>
 
+<!--    검색 아이콘 누르면 모달창 생성-->
 <script>
-    document.addEventListener("DOMContentLoaded", function () {
-        // 세션 상태 확인
-<!--       var userAuthorities = [[${userAuthorities}]];-->
+    $(document).ready(function () {
+        // 검색 아이콘 클릭 시 검색 모달 열기
+        $("#templatemo_search_icon").on("click", function () {
+            $("#templatemo_search_modal").modal("show");
+            $("#inputModalSearchModal").focus();
+        });
 
-        // 로그인 및 로그아웃 메뉴 요소 가져오기
-        var loginItem = document.querySelector(".nav-item .nav-link[href='/login']");
-        var logoutItem = document.querySelector(".nav-item .nav-link[href='/logout']");
- if (userAuthorities.includes('user') || userAuthorities.includes('admin')) {
-            // 'user' 또는 'admin' 권한이 있는 경우
-            loginItem.parentNode.style.display = "none"; // 부모 요소를 감추도록 수정
-            logoutItem.parentNode.style.display = "block"; // 부모 요소를 표시하도록 수정
-        } else {
-            // 'user' 또는 'admin' 권한이 없는 경우 (anonymous 등)
-            loginItem.parentNode.style.display = "block"; // 부모 요소를 표시하도록 수정
-            logoutItem.parentNode.style.display = "none"; // 부모 요소를 감추도록 수정
-        }
+        // 검색 버튼 클릭 시 검색 수행
+        $("#searchButtonModal").on("click", function () {
+            // 검색어 가져오기
+            var searchTerm = $("#inputModalSearchModal").val();
 
-        // 로그아웃 메뉴 항목 클릭 시 세션 삭제
-        logoutItem.addEventListener("click", function () {
-            // 로그아웃 후 로그인 메뉴 항목을 표시하고 로그아웃 메뉴 항목을 감춥니다
-            loginItem.parentNode.style.display = "block"; // 부모 요소를 표시하도록 수정
-            logoutItem.parentNode.style.display = "none"; // 부모 요소를 감추도록 수정
+            // 실제로는 이 부분에서 서버에 Ajax 요청을 보내고 검색 결과를 처리합니다.
+            // 여기서는 간단히 검색어를 콘솔에 출력하는 예제를 보여줍니다.
+            console.log("검색어: " + searchTerm);
+
+            // 검색이 완료되면 모달 닫기
+            $("#templatemo_search_modal").modal("hide");
+
+            // 검색 입력 필드의 내용 지우기
+            $("#inputModalSearchModal").val("");
+        });
+
+        // 모달이 닫힐 때 검색 입력 필드의 내용 지우기
+        $("#templatemo_search_modal").on("hidden.bs.modal", function () {
+            $("#inputModalSearchModal").val("");
         });
     });
 </script>
 
 
-
+</footer>
 </body>
 </html>
