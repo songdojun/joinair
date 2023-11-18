@@ -51,8 +51,29 @@
         </div>
     </div>
     <div class="modal-footer">
-        <button onclick="requestCardPayment()" class="btn btn-primary">카드결제</button>
+        <button onclick="openPaymentModal()" class="btn btn-primary">완료</button>
     </div>
+
+    <!-- 모달 추가 -->
+    <div class="modal fade" id="paymentCompleteModal" tabindex="-1" role="dialog" aria-labelledby="paymentCompleteModalLabel" aria-hidden="true">
+        <div class="modal-dialog" role="document">
+            <div class="modal-content">
+                <div class="modal-header">
+                    <h5 class="modal-title" id="paymentCompleteModalLabel">결제 완료</h5>
+                    <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                        <span aria-hidden="true">&times;</span>
+                    </button>
+                </div>
+                <div class="modal-body">
+                    결제가 완료되었습니다.
+                </div>
+                <div class="modal-footer">
+                    <button type="button" class="btn btn-primary" data-dismiss="modal">결제하기</button>
+                </div>
+            </div>
+        </div>
+    </div>
+
     <div class="text-center mt-4">
         <a href="/" class="btn btn-primary">홈으로 돌아가기</a>
     </div>
@@ -61,37 +82,18 @@
 <script src="https://code.jquery.com/jquery-3.2.1.slim.min.js"></script>
 <script src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.12.9/umd/popper.min.js"></script>
 <script src="https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0/js/bootstrap.min.js"></script>
-<script src="https://cdn.iamport.kr/js/iamport.payment-1.1.5.js"></script>
-<script>
-    // 아임포트 초기화 및 카드결제 요청
-    function requestCardPayment() {
-        var finalPaymentAmount = parseFloat(document.querySelector('.final').textContent);
-        var merchant_uid = 'merchant_' + new Date().getTime();
 
-        IMP.init('iamport');
-        IMP.request_pay({
-            pg: "inicis",
-            pay_method: "card",
-            merchant_uid: merchant_uid,
-            name: 'joinair',
-            amount: finalPaymentAmount,
-            buyer_email: 'iamport@siot.do',
-            buyer_name: '구매자',
-            buyer_tel: '010-1234-5678',
-            buyer_addr: '서울특별시 강남구 삼성동',
-            buyer_postcode: '123-456'
-        }, function (rsp) {
-            if (rsp.success) {
-                var msg = '결제가 완료되었습니다.';
-                alert(msg);
-                location.href = "http://localhost:63342/joinair/src/main/resources/templates/ordercomplate.html?_ijt=qtqh28h3cb4drehrj62ju0b7ti&_ij_reload=RELOAD_ON_SAVE";
-            } else {
-                var msg = '결제에 실패하였습니다.';
-                msg += '에러내용 : ' + rsp.error_msg;
-                alert(msg);
-            }
-        });
+<script>
+    function openPaymentModal() {
+        // 여기에서 결제 모달을 띄우는 코드를 추가
+        $('#paymentCompleteModal').modal('show');
     }
+    window.addEventListener("scroll", function () {
+        var scrollBox = document.querySelector("#payment-box");
+        if (scrollBox) {
+            scrollBox.style.transform = "translateX(0)"; // 항상 보이도록 변경
+        }
+    });
 </script>
 </body>
 </html>
