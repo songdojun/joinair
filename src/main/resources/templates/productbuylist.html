@@ -205,9 +205,9 @@
                     <span aria-hidden="true">&laquo; 이전</span>
                 </a>
             </li>
-            <th:block th:each="i : ${#numbers.sequence(startPage, endPage - 1)}">
-                <li th:classappend="${i == list.number} ? 'page-item active' : 'page-item'">
-                    <a th:href="@{|/productbuy/list?page=${i}&size=${list.size}&sort=${list.sort}&searchOption=${searchOption}&searchKeyword=${searchKeyword}|}" th:text="${i + 1}" class="page-link"></a>
+            <th:block th:each="i : ${#numbers.sequence(startPage, endPage)}">
+                <li th:classappend="${i == nowPage} ? 'page-item active' : 'page-item'">
+                    <a th:href="@{|/productbuy/list?page=${i - 1}&size=${list.size}&sort=${list.sort}&searchOption=${searchOption}&searchKeyword=${searchKeyword}|}" th:text="${i}" class="page-link"></a>
                 </li>
             </th:block>
             <li th:if="${list.number < list.totalPages - 1}" class="page-item">
@@ -222,6 +222,9 @@
             </li>
         </ul>
     </nav>
+
+    <div th:if="${list.totalPages == 0}" class="no-results">검색 결과가 없습니다.</div>
+
 
     <div th:if="${list.totalPages == 0}" class="no-results">검색 결과가 없습니다.</div>
 

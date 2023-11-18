@@ -45,9 +45,9 @@ public class productBuyController {
                                  @RequestParam(name = "searchKeyword", required = false) String searchKeyword) {
         Page<Product> list = productBuyService.productbuySearchList(searchOption, searchKeyword, pageable);
 
-        int nowPage = list.getPageable().getPageNumber() + 1;
-        int startPage = Math.max(nowPage - 4, 1);
-        int endPage = Math.min(nowPage + 9, list.getTotalPages());
+        int nowPage = list.getNumber() + 1; // 현재 페이지 번호
+        int startPage = Math.max(nowPage - 5, 1);
+        int endPage = Math.min(startPage + 9, list.getTotalPages());
 
         // Add search parameters to the model
         model.addAttribute("list", list);
@@ -55,12 +55,11 @@ public class productBuyController {
         model.addAttribute("startPage", startPage);
         model.addAttribute("endPage", endPage);
         model.addAttribute("searchOption", searchOption);
-        model.addAttribute("searchKeyword", searchKeyword); // Pass search keyword to the view
+        model.addAttribute("searchKeyword", searchKeyword);
 
         Authentication authentication = SecurityContextHolder.getContext().getAuthentication();
         String username = authentication.getName();
 
-        // 여기에서 필요한 사용자 정보를 모델에 추가합니다.
         model.addAttribute("userId", username);
         model.addAttribute("userAuthorities", authentication.getAuthorities());
 
@@ -70,8 +69,9 @@ public class productBuyController {
             model.addAttribute("userMileage", user.getUser_Mileage());
         }
 
-        return "productbuylist"; //페이징 및 검색기능 문제로 기존 productbuylist2였지만 productbuylist로 원복했습니다.
+        return "productbuylist";
     }
+
 
 
     @GetMapping("/productbuy/view")
