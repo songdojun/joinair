@@ -47,7 +47,7 @@ public class productBuyController {
 
         int nowPage = list.getPageable().getPageNumber() + 1;
         int startPage = Math.max(nowPage - 4, 1);
-        int endPage = Math.min(nowPage + 5, list.getTotalPages());
+        int endPage = Math.min(nowPage + 9, list.getTotalPages());
 
         // Add search parameters to the model
         model.addAttribute("list", list);

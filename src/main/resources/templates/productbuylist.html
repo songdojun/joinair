@@ -205,7 +205,7 @@
                     <span aria-hidden="true">&laquo; 이전</span>
                 </a>
             </li>
-            <th:block th:each="i : ${#numbers.sequence(0, list.totalPages - 1)}">
+            <th:block th:each="i : ${#numbers.sequence(startPage, endPage - 1)}">
                 <li th:classappend="${i == list.number} ? 'page-item active' : 'page-item'">
                     <a th:href="@{|/productbuy/list?page=${i}&size=${list.size}&sort=${list.sort}&searchOption=${searchOption}&searchKeyword=${searchKeyword}|}" th:text="${i + 1}" class="page-link"></a>
                 </li>
