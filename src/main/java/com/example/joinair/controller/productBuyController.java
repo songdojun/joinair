@@ -40,7 +40,7 @@ public class productBuyController {
 
     @GetMapping("/productbuy/list")
     public String productbuyList(Model model,
-                                 @PageableDefault(page = 0, size = 10, sort = "Pro_Code", direction = Sort.Direction.DESC) Pageable pageable,
+                                 @PageableDefault(page = 0, size = 9, sort = "Pro_Code", direction = Sort.Direction.DESC) Pageable pageable,
                                  @RequestParam(name = "searchOption", required = false) String searchOption,
                                  @RequestParam(name = "searchKeyword", required = false) String searchKeyword) {
         Page<Product> list = productBuyService.productbuySearchList(searchOption, searchKeyword, pageable);
