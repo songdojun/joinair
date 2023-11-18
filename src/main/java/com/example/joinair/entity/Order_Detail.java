@@ -19,6 +19,8 @@ public class Order_Detail {
     private String OD_Request; // 배송요청사항
     private Date OD_Date; // 주문날짜
     private Integer OD_Qua; // 수량
+    private String OD_Pro_Name;
+    private int OD_Pro_Price;
     private Integer OD_Total_Price; // 총 소계금액
     private Integer OD_Totalweight; // 총 무게
     private String OD_Location; // 위치

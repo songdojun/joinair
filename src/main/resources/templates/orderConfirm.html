@@ -18,21 +18,23 @@
             <thead>
             <tr>
                 <th scope="col">주문번호</th>
+                <th scope="col">주문상세번호</th>
                 <th scope="col">상품명</th>
                 <th scope="col">가격</th>
                 <th scope="col">수량</th>
                 <th scope="col">무게(g)</th>
-                <th scope="col">소계</th>
+                <th scope="col">금액</th>
             </tr>
             </thead>
             <tbody th:each="detail : ${orderDetails}">
             <tr>
                 <td th:text="${detail.orders_Num}"></td>
-                <td th:text="${detail.oD_Pro_Name}"></td>
-                <td th:text="${detail.oD_Pro_Price}"></td>
-                <td th:text="${detail.oD_Qua}"></td>
-                <td th:text="${detail.oD_Totalweight}"></td>
-                <td th:text="${detail.oD_Total_Price}"></td>
+                <td th:text="${detail.OD_Num}"></td>
+                <td th:text="${detail.OD_Pro_Name}"></td>
+                <td th:text="${detail.OD_Pro_Price}"></td>
+                <td th:text="${detail.OD_Qua}"></td>
+                <td th:text="${detail.OD_Totalweight}"></td>
+                <td th:text="${detail.OD_Total_Price}"></td>
             </tr>
             </tbody>
         </table>
@@ -49,11 +51,24 @@
                     TOTAL PRICE
                     <span class="badge badge-primary badge-pill" th:text="${order.orders_Total_Price}"></span>
                 </li>
+                <!--<li class="list-group-item d-flex justify-content-between align-items-center">
+                    보유 마일리지
+                    <span id="user-mileage" class="badge badge-primary badge-pill" th:text="${userMileage}"></span>
+                </li>
+                <li class="list-group-item d-flex justify-content-between align-items-center">
+                    사용할 마일리지 입력
+&lt;!&ndash;                    <span id=""user-mileage"" class="badge badge-primary badge-pill" th:text="${userMileage}"></span>&ndash;&gt;
+                    <input type="number" id="mileageInput" name="mileageInput" class="form-control" placeholder="0" min="0" max="${userMileage}" />
+                    <button onclick="applyMileage()" class="btn btn-primary">마일리지 적용</button>
+                </li> -->
+
             </ul>
         </div>
     </div>
     <div class="text-center mt-4">
         <a href="/index" class="btn btn-primary">홈으로 돌아가기</a>
+        <button onclick="requestCardPayment()" class="btn btn-primary">카드결제</button>
+        <button onclick="redirectToBankTransferPage()" class="btn btn-primary">무통장입금</button>
     </div>
 </div>
 <!-- 부트스트랩 및 기타 스크립트 추가 -->
