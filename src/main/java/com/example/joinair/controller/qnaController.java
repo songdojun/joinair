@@ -139,7 +139,6 @@ public class qnaController {
     @PostMapping("/qnainsert")
     public String qnainsert(@ModelAttribute QNA qna, HttpSession session) {
         try {
-            // ... (이하 생략)
 
             boolean result = qnaService.qnainsert(qna);
             if (result) {
