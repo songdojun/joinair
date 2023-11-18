@@ -79,6 +79,7 @@
         .edit-link:hover, .delete-link:hover {
             text-decoration: none; /* 호버 상태에서 밑줄 제거 */
         }
+
     </style>
 
 
@@ -175,37 +176,33 @@
         <h2 class="text-center mb-4">공지사항 작성</h2>
 
         <form action="/notice/createpro" method="post" enctype="multipart/form-data">
-            <div class="mb-3">
+            <div class="form-group">
                 <label for="Not_Title" class="form-label">제목:</label>
                 <input name="Not_Title" type="text" class="form-control" id="Not_Title">
             </div>
 
-            <div class="mb-3">
+            <div class="form-group">
                 <label for="Not_Writer" class="form-label">작성자:</label>
                 <input name="Not_Writer" type="text" class="form-control" id="Not_Writer">
             </div>
 
-            <div class="mb-3">
+            <div class="form-group">
                 <label for="Not_Content" class="form-label">내용:</label>
                 <textarea name="Not_Content" class="form-control" id="Not_Content"></textarea>
             </div>
 
-            <div class="mb-3">
+            <div class="form-group">
                 <label for="file" class="form-label">파일 업로드:</label>
                 <input type="file" class="form-control" name="file" id="file">
             </div>
 
-
-
+            <div class="button-group">
+                <button type="submit" class="btn btn-primary">작성</button>
+                <a href="/notice/list" class="btn btn-success">뒤로 가기</a>
+            </div>
         </form>
-        <div class="text-center">
-        <button type="submit" class="btn btn-primary" >작성</button>
-
-        <a href="/notice/list" class="btn btn-success">뒤로 가기</a>
-        </div>
     </div>
 </div>
-
 <footer class="bg-dark" id="tempaltemo_footer">
     <div class="container">
         <div class="row">

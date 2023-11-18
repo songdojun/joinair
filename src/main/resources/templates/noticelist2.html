@@ -133,8 +133,14 @@
             </tr>
             </thead>
             <tbody>
-            <!-- 공지사항 목록 반복 출력 -->
+
+<!--         공지사항 목록을 출력하는 부분입니다. 타임리프에서 th:each 디렉티브를 사용하여-->
+<!--         반복 작업을 할 수있습니다.-->
+
+            <!-- 공지사항 목록 반복 출력 타임리프 사용 -->
             <tr th:each="notice : ${list}">
+
+
                 <td class="small-column" th:text="${notice.Not_No}">1</td>
                 <td class="title-column">
                     <a th:href="@{/notice/view(Not_No=${notice.Not_No})}" th:text="${notice.Not_Title}"></a>
@@ -144,6 +150,10 @@
             </tr>
             </tbody>
         </table>
+
+<!--        다음은 페이지 네이션 부분입니다. 여기서  th:each로 페이지 번호 생성 페이지 번호 클릭시 해당 페이지 이동-->
+<!--        th:each: 페이지 번호를 생성하기 위해 사용-->
+<!--        th: class : 현제 페이지인 경우 'active' 클래스 추가 시작적 표현-->
         <div class="container mt-3">
             <nav aria-label="Page navigation">
                 <ul class="pagination justify-content-center">
@@ -157,6 +167,11 @@
             </nav>
 
 
+<!--            검색 - th:action-->
+<!--            사용자가 입력한 검색어로 공지사항을 동적으로 필터링합니다-->
+
+<!--            th:action: 검색 폼의 액션 URL을 설정 => notice/list-->
+<!--            method="get" : HTTP GET 메서드로 검색 요청-->
             <div class="search-form my-3">
                 <form th:action="@{/notice/list}" method="get">
                     <div class="input-group">
