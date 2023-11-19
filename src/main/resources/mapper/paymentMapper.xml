@@ -16,4 +16,18 @@
         VALUES (#{PAY_NO}, #{ORDERS_NUM}, #{PAY_PRICE}, #{PAY_METHOD}, #{PAY_STATUS})
     </insert>
 
+    <insert id="insertPayment" parameterType="com.example.joinair.dto.PAYMENT">
+        <![CDATA[
+        INSERT INTO PAYMENT (
+            PAY_NO, ORDERS_NUM, PAY_PRICE, PAY_METHOD, PAY_STATUS
+        )
+        VALUES (
+            PAY_NO_SEQ.NEXTVAL,
+            #{orderId, jdbcType=INTEGER},
+            #{PAY_PRICE, jdbcType=INTEGER},
+            #{PAY_METHOD, jdbcType=VARCHAR},
+            #{PAY_STATUS, jdbcType=VARCHAR}
+        )
+        ]]>
+    </insert>
 </mapper>

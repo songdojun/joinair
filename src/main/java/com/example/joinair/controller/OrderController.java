@@ -50,6 +50,15 @@ public class OrderController {
             // 에러 처리 또는 로깅 필요
             System.out.println("Failed to retrieve orderId from session.");
         }
+
+        session.setAttribute("order", order);
+
+        // 결제 정보 저장
+        orderService.savePaymentInformation(orderId, order.getOrders_Total_Price());
+
+        // 주문 완료 후 장바구니 비우기 (선택적)
+        session.removeAttribute("cart");
+
         // 리다이렉트 없이 현재 페이지에서 유지 => 콘솔창에서는 에러 뜸 /
         return String.valueOf(orderId);
 

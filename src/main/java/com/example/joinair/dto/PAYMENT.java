@@ -7,6 +7,7 @@ import lombok.Setter;
 @Setter
 public class PAYMENT {
     private int PAY_NO;
+    private int orderId;
     private int ORDERS_NUM;
     private int PAY_PRICE;
     private String PAY_METHOD;

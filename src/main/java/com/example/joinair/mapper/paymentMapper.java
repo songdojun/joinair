@@ -11,4 +11,6 @@ public interface paymentMapper {
     int getNextPaymentNumber();
 
     void savePayment(PAYMENT payment);
+
+    void insertPayment(PAYMENT payment);
 }
