@@ -143,8 +143,8 @@
                     <img th:src="${item.product != null ? item.product.Pro_Filepath : ''}" alt="Product Image"
                          style="width: 60px;" />
                     <a th:href="@{/productbuy/view(Pro_Code=${item.product.Pro_Code})}">
-                    <span th:text="${item.product.Pro_Name != null ? item.product.Pro_Name : ''}"></span>
-                </a>
+                        <span th:text="${item.product.Pro_Name != null ? item.product.Pro_Name : ''}"></span>
+                    </a>
                 </td>
                 <td class="price"
                     th:text="${item.product.Pro_Price != null ? item.product.Pro_Price : ''}"></td>
@@ -329,7 +329,7 @@
 
                 <label for="mileageInput">사용할 마일리지 입력:</label>
                 <!-- 추가: 사용자가 마일리지 입력할 수 있는 입력란 -->
-                <input type="number" id="mileageInput" name="mileageInput" class="form-control" placeholder="0" min="0" max="${userMileage}" />
+                <input type="number" id="mileageInput" value="" onKeyup="this.value=this.value.replace(/[^0-9]/g,'');" name="mileageInput" class="form-control" placeholder="0" min="0" max="${userMileage}" />
 
                 <button onclick="applyMileage()" class="btn btn-primary">마일리지 적용</button>
 
@@ -346,9 +346,10 @@
                     <input type="hidden" id="orderPname"  name="orderPname"  value=""/>
                     <input type="hidden" id="orderDest1"  name="orderDest1"  value=""/>
                     <input type="hidden" id="orderPhone1"  name="orderPhone1"  value=""/>
+                    <input type="hidden" id="afuserMileage" name="afuserMileage" value="">
                     <button type="submit" data-toggle="modal" data-target="#paymentModal" class="btn btn-primary" style="margin: auto; display: block;">주문완료 및 결제하기</button><br>
                 </form>
-<!--                    <button onclick="submitOrderForm(event)" class="btn btn-success">주문완료 및 결제하기</button></form>-->
+                <!--                    <button onclick="submitOrderForm(event)" class="btn btn-success">주문완료 및 결제하기</button></form>-->
             </div>
 
             <div class="modal-footer">
@@ -437,10 +438,15 @@ window.addEventListener('load', function () {
 // 추가: 마일리지 적용 함수
     function applyMileage() {
         // 입력된 마일리지
-        var mileageInput = parseFloat(document.getElementById('mileageInput').value);
+        var mileageInput = document.getElementById('mileageInput').value;
 
         // 보유 마일리지
         var userMileage = parseFloat(document.querySelector('.user-mileage').textContent);
+        console.log('입력된 마일리지:' + mileageInput +', 보유 마일리지:'+ userMileage);
+
+        // 적용후 남은 마일리지
+        var sumMileage = userMileage - mileageInput;
+        document.getElementById('afuserMileage').value = sumMileage;
 
         // 총 상품 주문금액
         var totalAmount = parseFloat(document.querySelector('.total').textContent);
@@ -452,6 +458,9 @@ window.addEventListener('load', function () {
         if (mileageInput > userMileage) {
             alert("보유 마일리지를 초과하여 입력할 수 없습니다.");
             return;
+        }
+        if (mileageInput == 0) {
+            document.getElementById('discountAmount').textContent = 0;
         }
 
         // 입력된 마일리지가 최대 총 결제 금액을 초과하지 않도록 제한
@@ -477,8 +486,7 @@ window.addEventListener('load', function () {
         // 모달 내부에 적용된 마일리지 정보를 적용
         document.getElementById('totalAmount').textContent = totalAmount;
         document.getElementById('total1').textContent = finalAmount;
-
-        document.getElementById('finalPaymentAmount').value = finalAmount;
+        console.log('최종 결제 금액:' + finalAmount);
         }
 
    // 총 무게 및 할인, 적립 등 업데이트

@@ -61,4 +61,10 @@
         INSERT INTO USERS (User_Id, User_Name, User_Email, User_Password, User_Address, User_Phone, User_Mileage, Authority)
         VALUES (#{User_Id}, #{User_Name}, #{User_Email}, #{User_Password}, #{User_Address}, #{User_Phone}, 0, 'user')
     </insert>
+
+    <update id="updateUserMileage">
+        UPDATE users
+        SET user_mileage = #{newMileage}
+        WHERE user_id = #{userId}
+    </update>
 </mapper>
