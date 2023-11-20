@@ -4,13 +4,16 @@
         <meta charset="utf-8">
         <meta name="viewport" content="width=device-width, initial-scale=1">
         <title>주문 완료 페이지</title>
+        <link rel="apple-touch-icon" href="/assets/img/apple-icon.png">
+        <link rel="shortcut icon" type="image/x-icon" href="/assets/img/favicon.ico">
         <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/4.5.2/css/bootstrap.min.css">
         <link rel="stylesheet" href="/assets/css/templatemo.css">
         <link rel="stylesheet" href="/assets/css/custom.css">
         <link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Roboto:wght@100;200;300;400;500;700;900&display=swap">
         <link rel="stylesheet" href="/assets/css/fontawesome.min.css">
+        <link rel="stylesheet" href="https://unpkg.com/leaflet@1.7.1/dist/leaflet.css"
+              integrity="sha512-xodZBNTC5n17Xt2atTPuE1HxjVMSvLVW9ocqUKLsCC5CXdbqCmblAshOMAS6/keqq/sMZMZ19scR4PsZChSR7A==" crossorigin=""/>
         <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.2.0/css/all.min.css">
-
         <style>
             .cotn_principal {
                 background: rgba(255, 255, 255, 0.9);
@@ -20,6 +23,16 @@
                 margin: 0 auto;
 
             }
+            body {
+           font-family: 'Malgun Gothic', sans-serif;
+       }
+
+       .nav-link strong {
+           font-family: 'Malgun Gothic', sans-serif;
+           font-weight: bold;
+       }
+
+
       #additionalInfoBox {
             display: none;
             background-color: #f2f2f2;
@@ -58,25 +71,29 @@
                 <div class="flex-fill">
                     <ul class="nav navbar-nav d-flex justify-content-between mx-lg-auto">
                         <li class="nav-item">
-                            <a class="nav-link" href="/index">홈</a>
+                            <a class="nav-link" href="/index"><strong>홈</strong></a>
                         </li>
                         <li class="nav-item">
-                            <a class="nav-link" href="/about">회사 소개</a>
+                            <a class="nav-link" href="/about"><strong style="">회사소개</strong></a>
                         </li>
                         <li class="nav-item">
-                            <a class="nav-link" href="/productbuy/list">상품</a>
+                            <a class="nav-link" href="/productbuy/list"><strong>상품</strong></a>
                         </li>
                         <li class="nav-item">
-                            <a class="nav-link" href="/qna/qnaList">문의</a>
+                            <a class="nav-link" href="/qna/qnaList"><strong>문의</strong></a>
                         </li>
                         <li class="nav-item">
-                            <a class="nav-link" href="/notice/list">공지사항</a>
+                            <a class="nav-link" href="/notice/list"><strong>공지사항</strong></a>
                         </li>
                         <li class="nav-item">
-                            <a class="nav-link" href="/index">로그아웃</a>
+                            <a class="nav-link" th:href="${session.User_Id != null} ? @{/logout} : @{/login}">
+                                <span th:if="${session.User_Id != null}"><strong>로그아웃</strong></span>
+                                <span th:unless="${session.User_Id != null}"><strong>로그인</strong></span>
+                            </a>
                         </li>
                     </ul>
                 </div>
+
                 <div class="navbar align-self-center d-flex">
                     <div class="d-lg-none flex-sm-fill mt-3 mb-4 col-7 col-sm-auto pr-3">
                         <div class="input-group">
@@ -153,13 +170,39 @@
     <footer class="bg-dark" id="tempaltemo_footer">
         <!-- 푸터 내용 -->
     </footer>
-    <script src="assets/js/jquery-migrate-1.2.1.min.js"></script>
-    <script src="assets/js/bootstrap.bundle.min.js"></script>
-    <script src="assets/js/templatemo.js"></script>
-    <script src="assets/js/custom.js"></script>
-    <script src="assets/js/membership.js"></script>
-    <script src="https://code.jquery.com/jquery-3.2.1.slim.min.js"></script>
-    <script src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.12.9/umd/popper.min.js"></script>
-    <script src="https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0/js/bootstrap.min.js"></script>
+                    <script src="/assets/js/jquery-1.11.0.min.js"></script>
+                    <script src="/assets/js/jquery-migrate-1.2.1.min.js"></script>
+                    <script src="/assets/js/bootstrap.bundle.min.js"></script>
+                    <script src="/assets/js/templatemo.js"></script>
+                    <script src="/assets/js/custom.js"></script>
+                    <script src="/assets/js/slick.min.js"></script>
+                    <!--로그인 → 로그아웃-->
+                    <script>
+                        // 세션 상태 확인
+                        var userId = sessionStorage.getItem("User_Id");
+
+                        // 로그인 및 로그아웃 메뉴 요소 가져오기
+                        var loginItem = document.querySelector(".nav-item .nav-link[href='/login']");
+                        var logoutItem = document.querySelector(".nav-item .nav-link[href='/logout']");
+
+                        if (userId) {
+                            // 세션이 있으면 로그인 메뉴 항목을 감추고 로그아웃 메뉴 항목을 표시합니다
+                            loginItem.style.display = "none";
+                            logoutItem.style.display = "block";
+                        } else {
+                            // 세션이 없으면 로그인 메뉴 항목을 표시하고 로그아웃 메뉴 항목을 감춥니다
+                            loginItem.style.display = "block";
+                            logoutItem.style.display = "none";
+                        }
+
+                        // 로그아웃 메뉴 항목 클릭 시 세션 삭제
+                        logoutItem.addEventListener("click", function() {
+                            sessionStorage.removeItem("User_Id");
+                            // 로그아웃 후 로그인 메뉴 항목을 표시하고 로그아웃 메뉴 항목을 감춥니다
+                            loginItem.style.display = "block";
+                            logoutItem.style.display = "none";
+                        });
+
+                    </script>
     </body>
     </html>

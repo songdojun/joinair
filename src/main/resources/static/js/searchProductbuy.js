@@ -16,6 +16,7 @@ function performSearch(page = 0) {
         "searchKeyword": currentSearchKeyword,
         "page": page
     });
+
     const fullUrl = url + "?" + params.toString();
 
     fetch(fullUrl)

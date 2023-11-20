@@ -1,11 +1,11 @@
 <!DOCTYPE html>
-<html lang="ko" xmlns:th="http://www.thymeleaf.org"
-      xmlns:sec="http://www.thymeleaf.org/thymeleaf-extras-springsecurity"><head>
+<html lang="ko" xmlns:th="http://www.thymeleaf.org">
+<head>
     <meta charset="utf-8">
     <meta name="viewport" content="width=device-width, initial-scale=1">
     <title>회원정보 수정 페이지</title>
     <link rel="apple-touch-icon" href="/assets/img/apple-icon.png">
-    <link rel="shortcut icon" type="image/x-icon" href="../static/assets/img/favicon.ico">
+    <link rel="shortcut icon" type="image/x-icon" href="/assets/img/favicon.ico">
     <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/4.5.2/css/bootstrap.min.css">
     <link rel="stylesheet" href="/assets/css/templatemo.css">
     <link rel="stylesheet" href="/assets/css/custom.css">
@@ -13,6 +13,7 @@
     <link rel="stylesheet" href="/assets/css/fontawesome.min.css">
     <link rel="stylesheet" href="https://unpkg.com/leaflet@1.7.1/dist/leaflet.css"
           integrity="sha512-xodZBNTC5n17Xt2atTPuE1HxjVMSvLVW9ocqUKLsCC5CXdbqCmblAshOMAS6/keqq/sMZMZ19scR4PsZChSR7A==" crossorigin=""/>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.2.0/css/all.min.css">
     <style>
         .custom-button {
             background-color: #4CAF50;
@@ -112,16 +113,7 @@
                 <a class="navbar-sm-brand text-light text-decoration-none" href="tel:010-020-0340">010-1234-5678</a>
             </div>
             <div>
-                <span th:if="${userId != null and (userId != 'anonymousUser')}">💫 <span th:text="${userId}"></span> 님 환영합니다 💫</span>
-                <span sec:authorize="hasAuthority('admin')">
-                    <a th:href="@{/adminWelcome}" class="nav-link" style="display: inline-block; margin-left: 10px;">관리자 페이지</a></span>
-
-                <!-- 사용자의 마일리지 표시 -->
-                <span th:if="${userMileage != null}">&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
-                    <span th:text="${userMileage}"></span> 마일리지 </span>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
-
-
-<!--                <span class="connected-id" th:if="${session.User_Id != null}">💫 <span th:text="${session.User_Id}"></span> 님 환영합니다 💫</span>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;-->
+                <span class="connected-id" th:if="${session.User_Id != null}">💫 <span th:text="${session.User_Id}"></span> 님 환영합니다 💫</span>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
                 <a class="text-light" href="https://fb.com/templatemo" target="_blank" rel="sponsored"><i class="fab fa-facebook-f fa-sm fa-fw me-2"></i></a>
                 <a class="text-light" href="https://www.instagram.com/" target="_blank"><i class="fab fa-instagram fa-sm fa-fw me-2"></i></a>
                 <a class="text-light" href="https://twitter.com/" target="_blank"><i class="fab fa-twitter fa-sm fa-fw me-2"></i></a>
@@ -154,17 +146,6 @@
                     </li>
                     <li class="nav-item">
                         <a class="nav-link" href="/notice/list">공지사항</a>
-                    </li>
-                    <li class="nav-item" sec:authorize="isAuthenticated()">
-                        <div>
-                            <a th:href="@{/logout}" class="nav-link">로그아웃</a>
-                        </div>
-                    </li>
-                    <li class="nav-item" sec:authorize="!isAuthenticated()">
-                        <div>
-                            <a th:href="@{/login}" class="nav-link">로그인</a>
-                        </div>
-                    </li>
                 </ul>
             </div>
             <div class="navbar align-self-center d-flex">
@@ -221,13 +202,13 @@
         </div>
     </form>
 </div>
->
 
 
-<footer class="bg-dark" id="tempaltemo_footer">
+
+<footer class="bg-dark pt-1" id="tempaltemo_footer">
     <div class="container">
         <div class="row">
-            <div class="col-md-4 pt-5">
+            <div class="col-md-5     pt-3">
                 <h2 class="h2 text-success border-bottom pb-3 border-light logo">Join Air🪂</h2>
                 <ul class="list-unstyled text-light footer-link-list">
                     <li>
@@ -236,46 +217,33 @@
                     </li>
                     <li>
                         <i class="fa fa-phone fa-fw"></i>
-                        <a class="text-decoration-none" href="tel:010-1234-5678">010-1234-5678</a>
+                        <a class="text-decoration-none" href="tel:010-020-0340">010-1234-1234</a>
                     </li>
                     <li>
                         <i class="fa fa-envelope fa-fw"></i>
-                        <a class="text-decoration-none" href="mailto:info@dronefood.com">drone@dronedelivery.com</a>
+                        <a class="text-decoration-none" href="mailto:info@company.com">drone delivery
+                            @drone delivery
+                            .com</a>
                     </li>
                 </ul>
             </div>
-            <div class="col-md-4 pt-5">
-                <h2 class="h2 text-light border-bottom pb-3 border-light">메뉴</h2>
-                <ul class="list-unstyled text-light footer-link-list">
-                    <li><a class="text-decoration-none" href="#">주문 하기</a></li>
-                    <li><a class="text-decoration-none" href="#">배달 정보</a></li>
-                    <li><a class="text-decoration-none" href="#">고객 지원</a></li>
-                    <li><a class="text-decoration-none" href="#">드론 정보</a></li>
-                </ul>
-            </div>
-            <div class="col-md-4 pt-5">
+            <div class="col-md-4 pt-4 text-left">
                 <h2 class="h2 text-light border-bottom pb-3 border-light">정보</h2>
                 <ul class="list-unstyled text-light footer-link-list">
                     <li><a class="text-decoration-none" href="/index">홈</a></li>
-                    <li><a class="text-decoration-none" href="/about">회사/소개</a></li>
-                    <li><a class="text-decoration-none" href="/qna/qnaList">문의</a></li>
+                    <li><a class="text-decoration-none" href="/about">회사 소개</a></li>
+                    <li><a class="text-decoration-none" href="#">드론 정보</a></li>
                 </ul>
             </div>
         </div>
-        <div class="row text-light mb-4">
-            <div class="col-12 mb-3">
-                <div class="w-100 my-3 border-top border-light"></div>
-            </div>
-            <div class="col-auto me-auto">
-            </div>
-        </div>
     </div>
-    <div class="w-100 bg-black py-3">
+    <div class="w-80 bg-black py-1">
         <div class="container">
-            <div class="row pt-2">
-                <div class="col-12">
+            <div class="row pt-1">
+                <div class="col-3">
                     <p class="text-left text-light">
                         저작권 © 2023 Join Air
+                        <a rel="sponsored" href="https://templatemo.com/page/1" target="_blank"></a>
                     </p>
                 </div>
             </div>
@@ -284,27 +252,27 @@
 </footer>
 <script>
 
-<!-- 주소 검색시 선택한 주소를 고객 주소 Input 창에 데이터 삽입 -->
-function sample4_execDaumPostcode() {
-    new daum.Postcode({
-        oncomplete: function(data) {
-            // 도로명 주소가 선택된 경우
-            if (data.userSelectedType === 'R') {
-                document.getElementById("User_Address").value = data.roadAddress;
+    <!-- 주소 검색시 선택한 주소를 고객 주소 Input 창에 데이터 삽입 -->
+    function sample4_execDaumPostcode() {
+        new daum.Postcode({
+            oncomplete: function(data) {
+                // 도로명 주소가 선택된 경우
+                if (data.userSelectedType === 'R') {
+                    document.getElementById("User_Address").value = data.roadAddress;
+                }
+                // 지번 주소가 선택된 경우
+                else if (data.userSelectedType === 'J') {
+                    document.getElementById("User_Address").value = data.jibunAddress;
+                }
             }
-            // 지번 주소가 선택된 경우
-            else if (data.userSelectedType === 'J') {
-                document.getElementById("User_Address").value = data.jibunAddress;
-            }
-        }
-    }).open();
-}
+        }).open();
+    }
 </script>
-<script src="https://spi.maps.daum.net/imap/map_js_init/postcode.v2.js"></script>
-<script src="../static/assets/js/jquery-1.11.0.min.js"></script>
-<script src="../static/assets/js/jquery-migrate-1.2.1.min.js"></script>
-<script src="../static/assets/js/bootstrap.bundle.min.js"></script>
-<script src="../static/assets/js/templatemo.js"></script>
-<script src="../static/assets/js/custom.js"></script>
+<script src="/assets/js/jquery-1.11.0.min.js"></script>
+<script src="/assets/js/jquery-migrate-1.2.1.min.js"></script>
+<script src="/assets/js/bootstrap.bundle.min.js"></script>
+<script src="/assets/js/templatemo.js"></script>
+<script src="/assets/js/custom.js"></script>
+<script src="/assets/js/slick.min.js"></script>
 </body>
 </html>

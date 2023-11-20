@@ -30,7 +30,7 @@ public class OrderServiceImpl implements OrderService {
 
     // 장바구니에서 주문을 처리하는 메서드
     @Override
-    public void placeOrderFromCart(HttpSession session, String total) {
+    public void placeOrderFromCart(HttpSession session, String total, String orderPname, String orderDest1, String orderPhone1) {
         // 세션에서 장바구니 정보를 가져옴
         List<Item> cart = (List<Item>) session.getAttribute("cart");
 
@@ -57,22 +57,32 @@ public class OrderServiceImpl implements OrderService {
 
         // 주문 정보를 생성하여 데이터베이스에 저장
         ORDERS order = convertCartToOrder(cart);
+        System.out.println("cart정보를 바꾼 order에는 뭐가 들었나 getOrders_Pname" + order.getOrders_Pname());
+        System.out.println("cart정보를 바꾼 order에는 뭐가 들었나 getOrders_Dest" + order.getOrders_Dest());
+        System.out.println("cart정보를 바꾼 order에는 뭐가 들었나 getOrders_Phone" + order.getOrders_Phone());
+        System.out.println("cart정보를 order정보로 교환 성공");
 
-        //toal이 마일리지가 적용된 값인데 문자열이니까 int형으로 바꿔서 order객체 안에 가격으로 넣음
+
+        //total이 마일리지가 적용된 값인데 문자열이니까 int형으로 바꿔서 order객체 안에 가격으로 넣음
         order.setOrders_Total_Price(Integer.parseInt(total));
+        order.setOrders_Pname(orderPname);
+        order.setOrders_Dest(orderDest1);
+        order.setOrders_Phone(orderPhone1);
+
         orderMapper.insertOrder(order);
+        System.out.println("주문정보를 생성하여 데이터 베이스에 저장 성공");
+
 
         // orders_Num을 가져와서 order_detail에 설정
         int orderId = order.getOrders_Num();
 
         // 주문 상세 정보를 데이터베이스에 저장
         for (ORDER_DETAIL orderDetail : orderDetails) {
+            System.out.println("cart정보를 orderDeatil정보로 교환 성공");
 
             orderDetail.setOrders_Num(orderId);
             orderMapper.insertOrderDetail(orderDetail);
         }
-
-
 
         // 주문 정보를 세션에 저장
         session.setAttribute("order", order);

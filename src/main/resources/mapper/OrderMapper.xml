@@ -28,8 +28,8 @@
             SELECT ORDERS_num_SEQ.NEXTVAL FROM DUAL
         </selectKey>
         <![CDATA[
-    INSERT INTO ORDERS (Orders_Num, User_Id, Orders_Total_Price, Orders_Totalweight)
-    VALUES (#{orders_Num}, #{user_Id}, #{orders_Total_Price}, #{orders_Totalweight})
+    INSERT INTO ORDERS (Orders_Num, User_Id, Orders_Total_Price, Orders_Totalweight, Orders_state, Orders_Pname, Orders_Dest, Orders_Phone)
+    VALUES (#{orders_Num}, #{user_Id}, #{orders_Total_Price}, #{orders_Totalweight}, '결제 대기', #{Orders_Pname}, #{Orders_Dest}, #{Orders_Phone})
     ]]>
     </insert>
 

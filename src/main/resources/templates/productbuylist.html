@@ -1,5 +1,5 @@
 <!DOCTYPE html>
-<html lang="ko" xmlns:th="http://www.thymeleaf.org">
+<html lang="ko" xmlns:th="http://www.thymeleaf.org" xmlns:sec="http://www.w3.org/1999/xhtml">
 <head>
     <title>상품 페이지</title>
     <meta charset="utf-8">
@@ -15,21 +15,31 @@
           integrity="sha512-xodZBNTC5n17Xt2atTPuE1HxjVMSvLVW9ocqUKLsCC5CXdbqCmblAshOMAS6/keqq/sMZMZ19scR4PsZChSR7A==" crossorigin=""/>
     <script src="/js/searchProductbuy.js"></script>
     <style>
-        /* 카테고리 버튼과 간격 조절 및 버튼 크기 키우기 */
-        .card-body h5 {
-            margin-bottom: 15px;
-        }
 
-          .card-body .btn {
-            display: inline-block; /* 가로로 배치되도록 설정 */
-            margin-right: 10px; /* 버튼 간 간격 조절 */
-            margin-bottom: 10px;
-        }
 
-        /* 선택 사항: 카테고리 버튼과 카드 가장자리 사이에 더 많은 여백을 원하면 */
-        .card {
-            margin-bottom: 20px;
-        }
+        body {
+                   font-family: 'Malgun Gothic', sans-serif;
+               }
+
+               .nav-link strong {
+                   font-family: 'Malgun Gothic', sans-serif;
+                   font-weight: bold;
+               }
+                /* 카테고리 버튼과 간격 조절 및 버튼 크기 키우기 */
+                .card-body h5 {
+                    margin-bottom: 15px;
+                }
+
+                  .card-body .btn {
+                    display: inline-block; /* 가로로 배치되도록 설정 */
+                    margin-right: 10px; /* 버튼 간 간격 조절 */
+                    margin-bottom: 10px;
+                }
+
+                /* 선택 사항: 카테고리 버튼과 카드 가장자리 사이에 더 많은 여백을 원하면 */
+                .card {
+                    margin-bottom: 20px;
+                }
 
 
     </style>
@@ -58,19 +68,19 @@
                     <span th:text="${userMileage}"></span> 마일리지 </span>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
 
 
-                        <!--                <span class="connected-id" th:if="${userId != null and userAuthorities == 'admin' }">💫 <span th:text="${userId}"></span> 님1 환영합니다 💫</span>-->
-                        <!--                <span sec:authorize="principal.authorities('admin', 'user') and isAuthenticated()">💫 <span sec:authentication="principal.username"></span> 님 환영합니다 💫</span>-->
+                    <!--                <span class="connected-id" th:if="${userId != null and userAuthorities == 'admin' }">💫 <span th:text="${userId}"></span> 님1 환영합니다 💫</span>-->
+                    <!--                <span sec:authorize="principal.authorities('admin', 'user') and isAuthenticated()">💫 <span sec:authentication="principal.username"></span> 님 환영합니다 💫</span>-->
 
 
-                        <!-- 사용자 권한에 따라 추가적인 정보 표시 (예: 관리자 여부) -->
-                        <!--                <span sec:authorize="hasRole('ADMIN')"> (관리자) </span>-->
+                    <!-- 사용자 권한에 따라 추가적인 정보 표시 (예: 관리자 여부) -->
+                    <!--                <span sec:authorize="hasRole('ADMIN')"> (관리자) </span>-->
 
 
-                        <!--                <span th:if="${userAuthorities.contains('admin')}"> (관리자) </span>-->
-                        <!--                <span class="connected-id" th:if="${session.User_Id != null}">💫 <span th:text="${session.User_Id}"></span> 님 환영합니다 💫</span>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;-->
-                <a class="text-light" href="https://fb.com/templatemo" target="_blank" rel="sponsored"><i class="fab fa-facebook-f fa-sm fa-fw me-2"></i></a>
-                <a class="text-light" href="https://www.instagram.com/" target="_blank"><i class="fab fa-instagram fa-sm fa-fw me-2"></i></a>
-                <a class="text-light" href="https://twitter.com/" target="_blank"><i class="fab fa-twitter fa-sm fa-fw me-2"></i></a></span>
+                    <!--                <span th:if="${userAuthorities.contains('admin')}"> (관리자) </span>-->
+                    <!--                <span class="connected-id" th:if="${session.User_Id != null}">💫 <span th:text="${session.User_Id}"></span> 님 환영합니다 💫</span>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;-->
+                    <a class="text-light" href="https://fb.com/templatemo" target="_blank" rel="sponsored"><i class="fab fa-facebook-f fa-sm fa-fw me-2"></i></a>
+                    <a class="text-light" href="https://www.instagram.com/" target="_blank"><i class="fab fa-instagram fa-sm fa-fw me-2"></i></a>
+                    <a class="text-light" href="https://twitter.com/" target="_blank"><i class="fab fa-twitter fa-sm fa-fw me-2"></i></a></span>
                 </div>
 
             </div>
@@ -89,32 +99,33 @@
             <div class="flex-fill">
                 <ul class="nav navbar-nav d-flex justify-content-between mx-lg-auto">
                     <li class="nav-item">
-                        <a class="nav-link" href="/index">홈</a>
+                        <a class="nav-link" href="/index"><strong>홈</strong></a>
                     </li>
                     <li class="nav-item">
-                        <a class="nav-link" href="/about">회사 소개</a>
+                        <a class="nav-link" href="/about"><strong style="">회사소개</strong></a>
                     </li>
                     <li class="nav-item">
-                        <a class="nav-link" href="/productbuy/list">상품</a>
+                        <a class="nav-link" href="/productbuy/list"><strong>상품</strong></a>
                     </li>
                     <li class="nav-item">
-                        <a class="nav-link" href="/qna/qnaList">문의</a>
+                        <a class="nav-link" href="/qna/qnaList"><strong>문의</strong></a>
                     </li>
                     <li class="nav-item">
-                        <a class="nav-link" href="/notice/list">공지사항</a>
+                        <a class="nav-link" href="/notice/list"><strong>공지사항</strong></a>
                     </li>
                     <li class="nav-item" sec:authorize="isAuthenticated()">
                         <div>
-                            <a th:href="@{/logout}" class="nav-link">로그아웃</a>
+                            <a th:href="@{/logout}" class="nav-link"><strong>로그아웃</strong></a>
                         </div>
                     </li>
                     <li class="nav-item" sec:authorize="!isAuthenticated()">
                         <div>
-                            <a th:href="@{/login}" class="nav-link">로그인</a>
+                            <a th:href="@{/login}" class="nav-link"><strong>로그인</strong></a>
                         </div>
                     </li>
                 </ul>
             </div>
+
             <div class="navbar align-self-center d-flex">
                 <div class="d-lg-none flex-sm-fill mt-3 mb-4 col-7 col-sm-auto pr-3">
                     <div class="input-group">
@@ -124,16 +135,16 @@
                         </div>
                     </div>
                 </div>
-                <a class="nav-icon d-none d-lg-inline" href="#" data-bs-toggle="modal" data-bs-target="#templatemo_search">
+                <a class="nav-icon d-none d-lg-inline" href="#" id="templatemo_search_icon">
                     <i class="fa fa-fw fa-search text-dark mr-2"></i>
                 </a>
-                <a class="nav-icon position-relative text-decoration-none" href="#">
+                <a class="nav-icon position-relative text-decoration-none" href="/cart">
                     <i class="fa fa-fw fa-cart-arrow-down text-dark mr-1"></i>
-                    <span class="position-absolute top-0 left-100 translate-middle badge rounded-pill bg-light text-dark">1</span>
+                    <span class="position-absolute top-0 left-100 translate-middle badge rounded-pill bg-light text-dark"></span>&nbsp&nbsp&nbsp
                 </a>
-                <a class="nav-icon position-relative text-decoration-none" href="#">
+                <a class="nav-icon position-relative text-decoration-none" href="/mypage">
                     <i class="fa fa-fw fa-user text-dark mr-3"></i>
-                    <span class="position-absolute top-0 left-100 translate-middle badge rounded-pill bg-light text-dark">+10</span>
+                    <span class="position-absolute top-0 left-100 translate-middle badge rounded-pill bg-light text-dark"></span>
                 </a>
             </div>
         </div>
@@ -205,9 +216,9 @@
                     <span aria-hidden="true">&laquo; 이전</span>
                 </a>
             </li>
-            <th:block th:each="i : ${#numbers.sequence(0, list.totalPages - 1)}">
-                <li th:classappend="${i == list.number} ? 'page-item active' : 'page-item'">
-                    <a th:href="@{|/productbuy/list?page=${i}&size=${list.size}&sort=${list.sort}&searchOption=${searchOption}&searchKeyword=${searchKeyword}|}" th:text="${i + 1}" class="page-link"></a>
+            <th:block th:each="i : ${#numbers.sequence(startPage, endPage)}">
+                <li th:classappend="${i == nowPage} ? 'page-item active' : 'page-item'">
+                    <a th:href="@{|/productbuy/list?page=${i - 1}&size=${list.size}&sort=${list.sort}&searchOption=${searchOption}&searchKeyword=${searchKeyword}|}" th:text="${i}" class="page-link"></a>
                 </li>
             </th:block>
             <li th:if="${list.number < list.totalPages - 1}" class="page-item">
@@ -288,13 +299,12 @@
         logoutItem.style.display = "none";
     });
 
-
-
-
-
-
-
 </script>
-
+<script src="/assets/js/jquery-1.11.0.min.js"></script>
+<script src="/assets/js/jquery-migrate-1.2.1.min.js"></script>
+<script src="/assets/js/bootstrap.bundle.min.js"></script>
+<script src="/assets/js/templatemo.js"></script>
+<script src="/assets/js/custom.js"></script>
+<script src="/assets/js/slick.min.js"></script>
 </body>
 </html>

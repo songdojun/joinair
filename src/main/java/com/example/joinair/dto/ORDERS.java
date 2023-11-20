@@ -3,6 +3,8 @@ package com.example.joinair.dto;
 import lombok.Getter;
 import lombok.Setter;
 
+import java.math.BigDecimal;
+
 @Getter
 @Setter
 public class ORDERS {
@@ -15,6 +17,12 @@ public class ORDERS {
         private int Orders_Totalweight; // 총 무게(session에 담긴 weight의 합)
 
         private String Pay_Method; //결제 수단
+
+        private String Orders_Pname;
+
+        private String Orders_Dest;
+
+        private String Orders_Phone;
 
         private int Del_No; //배송 코드
 

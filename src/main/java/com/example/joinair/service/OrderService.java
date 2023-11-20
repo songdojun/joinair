@@ -10,7 +10,7 @@ import org.apache.ibatis.annotations.Param;
 import java.util.List;
 
 public interface OrderService {
-    void placeOrderFromCart(HttpSession session, String total);
+    void placeOrderFromCart(HttpSession session, String total, String orderPname, String orderDest1, String orderPhone1);
     ORDERS getOrder(@Param("orderId") int orderId);
 
     List<ORDER_DETAIL> getOrderDetails(@Param("orderId") int orderId);

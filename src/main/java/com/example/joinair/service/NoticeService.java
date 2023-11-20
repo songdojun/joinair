@@ -57,16 +57,16 @@ public class NoticeService {
     }
 
 
-    public List<Notice> noticeList(){ //모든 공지사항 목록 가져오는 역할
+    public List<Notice> noticeList(){      //모든 공지사항 목록 가져오는 역할
 
-        return noticeRepository.findAll();//호출하여 DB모든 공지사항 가져옴
+        return noticeRepository.findAll(); //호출하여 DB모든 공지사항 가져옴
     }   //List<Notice>로 형태 변환한다
 
 
     public Page<Notice> NoticeSearchList(String searchKeyword, Pageable pageable) {
         //NoticeSearchList 메소드는 검색어를 사용하여 공지사항에서 검색하는 역할, searchKeyword, pageable 매개변수
         return noticeRepository.findNoticesByTitleContaining(searchKeyword, pageable);
-        //noticeRepository.findNoticesByTitleContaining(searchKeyword, pageable);를 호출하여 검색결과를 반환한다,
+        //noticeRepository.findNoticesByTitleContaining(searchKeyword, pageable);를 호출하여 검색결과를 반환    ,
     }
 
     //특정 게시글 불러오기

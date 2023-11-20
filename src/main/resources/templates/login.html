@@ -15,30 +15,39 @@
     <link rel="stylesheet" href="/assets/css/fontawesome.min.css">
     <link rel="stylesheet" href="https://unpkg.com/leaflet@1.7.1/dist/leaflet.css"
           integrity="sha512-xodZBNTC5n17Xt2atTPuE1HxjVMSvLVW9ocqUKLsCC5CXdbqCmblAshOMAS6/keqq/sMZMZ19scR4PsZChSR7A==" crossorigin=""/>
+    <script src="https://code.jquery.com/jquery-3.6.4.min.js"></script>
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@4.6.0/dist/js/bootstrap.min.js"></script>
     <style>
+        body {
+                   font-family: 'Malgun Gothic', sans-serif;
+               }
 
-        .custom-button {
-            background-color: #4CAF50;
-            color: white;
-            padding: 10px 20px;
-            border: none;
-            border-radius: 5px;
-            cursor: pointer;
-        }
+               .nav-link strong {
+                   font-family: 'Malgun Gothic', sans-serif;
+                   font-weight: bold;
+               }
+                .custom-button {
+                    background-color: #4CAF50;
+                    color: white;
+                    padding: 10px 20px;
+                    border: none;
+                    border-radius: 5px;
+                    cursor: pointer;
+                }
 
-        /* 추가 스타일 예시 */
-        .custom-button:hover {
-            background-color: #45a049;
-        }
+                /* 추가 스타일 예시 */
+                .custom-button:hover {
+                    background-color: #45a049;
+                }
 
-        /* 로그인 폼 스타일 */
-        .cotn_principal {
-            background: rgba(255, 255, 255, 0.9);
-            border-radius: 5px;
-            padding: 20px;
-            max-width: 400px;
-            width: 100%;
-        }
+                /* 로그인 폼 스타일 */
+                .cotn_principal {
+                    background: rgba(255, 255, 255, 0.9);
+                    border-radius: 5px;
+                    padding: 20px;
+                    max-width: 400px;
+                    width: 100%;
+                }
     </style>
 </head>
 <body>
@@ -74,33 +83,31 @@
             <div class="flex-fill">
                 <ul class="nav navbar-nav d-flex justify-content-between mx-lg-auto">
                     <li class="nav-item">
-                        <a class="nav-link" href="/index">홈</a>
+                        <a class="nav-link" href="/index"><strong>홈</strong></a>
                     </li>
                     <li class="nav-item">
-                        <a class="nav-link" href="/about">회사 소개</a>
+                        <a class="nav-link" href="/about"><strong>회사 소개</strong></a>
                     </li>
                     <li class="nav-item">
-                        <a class="nav-link" href="/productbuy/list">상품</a>
+                        <a class="nav-link" href="/productbuy/list"><strong>상품</strong></a>
                     </li>
                     <li class="nav-item">
-                        <a class="nav-link" href="/qna/qnaList">문의</a>
+                        <a class="nav-link" href="/qna/qnaList"><strong>문의</strong></a>
                     </li>
                     <li class="nav-item">
-                        <a class="nav-link" href="/notice/list">공지사항</a>
+                        <a class="nav-link" href="/notice/list"><strong>공지사항</strong></a>
                     </li>
                     <li class="nav-item" sec:authorize="isAuthenticated()">
                         <div>
-                            <a th:href="@{/logout}" class="nav-link">로그아웃</a>
+                            <a th:href="@{/logout}" class="nav-link"><strong>로그아웃</strong></a>
                         </div>
                     </li>
                     <li class="nav-item" sec:authorize="!isAuthenticated()">
                         <div>
-                            <a th:href="@{/login}" class="nav-link">로그인</a>
+                            <a th:href="@{/login}" class="nav-link"><strong>로그인</strong></a>
                         </div>
                     </li>
-                    <li class="nav-item">
-                        <a class="nav-link" href="#">회원가입</a>
-                    </li>
+
                 </ul>
             </div>
             <div class="navbar align-self-center d-flex">
@@ -135,34 +142,124 @@
         </form>
     </div>
 </div>
+<!-- 기존 로그인 폼 -->
 <div class="cotn_principal mx-auto my-5">
     <div class="cont_centrar">
         <div class="cont_login">
-            <div class="cont_info_log_sign_up">
-                <div class="col_md_login">
-                    <form name="loginForm" method="post" action="/login" autocomplete="off">
-                        <div class="cont_form_login">
-                            <h2 class="text-center font-weight-bold">로그인</h2>
-                            <div class="form-group">
-                                <input type="text" name="User_Id" class="form-control" placeholder="User ID" required>
-                            </div>
-                            <div class="form-group">
-                                <input type="password" name="User_Password" class="form-control" placeholder="Password" required>
-                            </div>
-                            <button class="btn btn-primary btn-block" type="submit" onclick="window.location.href='/login'">로그인</button>
-                            <a href="membership" class="nav-link custom-button-register">회원가입</a>
-                            <div class="text-center mt-2">
-                                <a href="#" class="custom-link" style="color: black;">아이디 찾기</a>
-                                <span class="mx-2 text-dark">|</span>
-                                <a href="#" class="custom-link" style="color: black;">비밀번호 찾기</a>
-                            </div>
+            <div class="col_md_login">
+                <form name="loginForm" method="post" action="/login" autocomplete="off">
+                    <div class="cont_form_login">
+                        <h2 class="text-center font-weight-bold">로그인</h2>
+                        <div class="form-group">
+                            <input type="text" name="User_Id" class="form-control" placeholder="User ID" required>
                         </div>
-                    </form>
-                </div>
+                        <div class="form-group">
+                            <input type="password" name="User_Password" class="form-control" placeholder="Password" required>
+                        </div>
+                        <button class="btn btn-primary btn-block" type="submit">로그인</button>
+                        <a href="membership" class="nav-link custom-button-register">회원가입</a>
+                        <div class="text-center mt-2">
+                            <a href="#" class="custom-link" style="color: black;" data-toggle="modal" data-target="#findIdModal">아이디 찾기</a>
+                            <span class="mx-2 text-dark">|</span>
+                            <a href="#" class="custom-link" style="color: black;" data-toggle="modal" data-target="#findPasswordModal">비밀번호 찾기</a>
+                        </div>
+                    </div>
+                </form>
             </div>
         </div>
     </div>
 </div>
+
+<!-- 아이디 찾기 모달 -->
+<div class="modal fade" id="findIdModal" tabindex="-1" role="dialog" aria-labelledby="findIdModalLabel" aria-hidden="true">
+    <div class="modal-dialog" role="document">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h5 class="modal-title" id="findIdModalLabel">아이디 찾기</h5>
+                <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                    <span aria-hidden="true">&times;</span>
+                </button>
+            </div>
+            <div class="modal-body">
+                <form id="findIdForm">
+                    <div class="form-group">
+                        <label for="findIdName">이름</label>
+                        <input type="text" class="form-control" id="findIdName" required>
+                    </div>
+                    <div class="form-group">
+                        <label for="findIdPhone">전화번호</label>
+                        <input type="tel" class="form-control" id="findIdPhone" required>
+                    </div>
+                    <div class="form-group">
+                        <label for="findIdEmail">이메일</label>
+                        <input type="email" class="form-control" id="findIdEmail" required>
+                    </div>
+                    <button type="button" class="btn btn-primary" onclick="findId()">아이디 찾기</button>
+                </form>
+            </div>
+        </div>
+    </div>
+</div>
+
+<!-- 비밀번호 찾기 모달 -->
+<div class="modal fade" id="findPasswordModal" tabindex="-1" role="dialog" aria-labelledby="findPasswordModalLabel" aria-hidden="true">
+    <div class="modal-dialog" role="document">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h5 class="modal-title" id="findPasswordModalLabel">비밀번호 찾기</h5>
+                <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                    <span aria-hidden="true">&times;</span>
+                </button>
+            </div>
+            <div class="modal-body">
+                <form id="findPasswordForm">
+                    <div class="form-group">
+                        <label for="findPasswordId">아이디</label>
+                        <input type="text" class="form-control" id="findPasswordId" required>
+                    </div>
+                    <div class="form-group">
+                        <label for="findPasswordPhone">전화번호</label>
+                        <input type="tel" class="form-control" id="findPasswordPhone" required>
+                    </div>
+                    <div class="form-group">
+                        <label for="findPasswordEmail">이메일</label>
+                        <input type="email" class="form-control" id="findPasswordEmail" required>
+                    </div>
+                    <button type="button" class="btn btn-primary" onclick="findPassword()">비밀번호 찾기</button>
+                </form>
+            </div>
+        </div>
+    </div>
+</div>
+
+<!--로그인 → 로그아웃-->
+<script>
+    // 세션 상태 확인
+    var userId = sessionStorage.getItem("User_Id");
+
+    // 로그인 및 로그아웃 메뉴 요소 가져오기
+    var loginItem = document.querySelector(".nav-item .nav-link[href='/login']");
+    var logoutItem = document.querySelector(".nav-item .nav-link[href='/logout']");
+
+    if (userId) {
+        // 세션이 있으면 로그인 메뉴 항목을 감추고 로그아웃 메뉴 항목을 표시합니다
+        loginItem.style.display = "none";
+        logoutItem.style.display = "block";
+    } else {
+        // 세션이 없으면 로그인 메뉴 항목을 표시하고 로그아웃 메뉴 항목을 감춥니다
+        loginItem.style.display = "block";
+        logoutItem.style.display = "none";
+    }
+
+    // 로그아웃 메뉴 항목 클릭 시 세션 삭제
+    logoutItem.addEventListener("click", function() {
+        sessionStorage.removeItem("User_Id");
+        // 로그아웃 후 로그인 메뉴 항목을 표시하고 로그아웃 메뉴 항목을 감춥니다
+        loginItem.style.display = "block";
+        logoutItem.style.display = "none";
+    });
+
+</script>
 
 <footer class="bg-dark" id="tempaltemo_footer">
     <div class="container">
@@ -175,7 +272,7 @@
                     <li><i class="fa fa-envelope fa-fw"></i><a class="text-decoration-none" href="mailto:info@dronefood.com">drone@dronedelivery.com</a></li>
                 </ul>
             </div>
-            <div class="col-12 text-light mb-4">
+            <div class="col-12 text-light mb-1">
                 <hr class="border-light">
                 <p class="text-center">저작권 © 2023 Join Air</p>
             </div>
@@ -187,6 +284,7 @@
 <script src="/assets/js/bootstrap.bundle.min.js"></script>
 <script src="/assets/js/templatemo.js"></script>
 <script src="/assets/js/custom.js"></script>
+<script src="/assets/js/slick.min.js"></script>
 <script>
     function toggleLoginLogout() {
         const loginButton = document.querySelector("button.btn-primary");
