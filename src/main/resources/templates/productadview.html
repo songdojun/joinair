@@ -14,81 +14,89 @@
     <link rel="stylesheet" href="https://unpkg.com/leaflet@1.7.1/dist/leaflet.css"
           integrity="sha512-xodZBNTC5n17Xt2atTPuE1HxjVMSvLVW9ocqUKLsCC5CXdbqCmblAshOMAS6/keqq/sMZMZ19scR4PsZChSR7A==" crossorigin=""/>
     <style>
-
         body {
-               background-color: #f8f9fa;
-               font-family: 'Arial', sans-serif;
+               font-family: 'Malgun Gothic', sans-serif;
            }
 
-           .layout {
-               width: 40%;
-               margin: 50px auto;
-               padding: 20px;
-               border: 2px solid #000;
-               border-radius: 8px;
-               box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
-               background-color: #fff;
-               text-align: center;
+           .nav-link strong {
+               font-family: 'Malgun Gothic', sans-serif;
+               font-weight: bold;
            }
 
-           h1 {
-               color: #000;
-               margin-bottom: 20px;
-           }
+            body {
+                   background-color: #f8f9fa;
+                   font-family: 'Arial', sans-serif;
+               }
 
-           .meta-info p {
-               color: #000;
-               margin-bottom: 10px;
-           }
+               .layout {
+                   width: 40%;
+                   margin: 50px auto;
+                   padding: 20px;
+                   border: 2px solid #000;
+                   border-radius: 8px;
+                   box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+                   background-color: #fff;
+                   text-align: center;
+               }
 
-           .download-link, .action-links a {
-               display: inline-block;
-               margin-top: 20px;
-               color: #fff;
-               text-decoration: none;
-               padding: 10px 20px;
-               border-radius: 5px;
-           }
+               h1 {
+                   color: #000;
+                   margin-bottom: 20px;
+               }
 
-           .download-link {
-               background-color: #007bff;
-           }
+               .meta-info p {
+                   color: #000;
+                   margin-bottom: 10px;
+               }
 
-/* 수정 버튼 스타일 */
-.modify-button {
-    background-color: #28a745; /* 초록색 */
-}
-.modify-button:hover {
-    background-color: #218838; /* 수정 버튼에 호버 시 초록색 더 진한 효과 */
-}
+               .download-link, .action-links a {
+                   display: inline-block;
+                   margin-top: 20px;
+                   color: #fff;
+                   text-decoration: none;
+                   padding: 10px 20px;
+                   border-radius: 5px;
+               }
 
-/* 삭제 버튼 스타일 */
-.delete-button {
-    background-color: #dc3545; /* 빨간색 */
-}
-.delete-button:hover {
-    background-color: #c82333; /* 삭제 버튼에 호버 시 빨간색 더 진한 효과 */
-}
-    .action-links a {
-        display: inline-block;
-        margin-right: 10px;
-        padding: 8px;
-        color: #fff;
-        text-decoration: none;
-        border-radius: 5px;
-    }
+               .download-link {
+                   background-color: #007bff;
+               }
 
     /* 수정 버튼 스타일 */
-    .action-links a:first-child {
-        background-color: #4CAF50; /* 초록색 */
-        border: 1px solid #4CAF50;
+    .modify-button {
+        background-color: #28a745; /* 초록색 */
+    }
+    .modify-button:hover {
+        background-color: #218838; /* 수정 버튼에 호버 시 초록색 더 진한 효과 */
     }
 
     /* 삭제 버튼 스타일 */
-    .action-links a:last-child {
-        background-color: #FF5733; /* 빨간색 */
-        border: 1px solid #FF5733;
+    .delete-button {
+        background-color: #dc3545; /* 빨간색 */
     }
+    .delete-button:hover {
+        background-color: #c82333; /* 삭제 버튼에 호버 시 빨간색 더 진한 효과 */
+    }
+        .action-links a {
+            display: inline-block;
+            margin-right: 10px;
+            padding: 8px;
+            color: #fff;
+            text-decoration: none;
+            border-radius: 5px;
+        }
+
+        /* 수정 버튼 스타일 */
+        .action-links a:first-child {
+            background-color: #4CAF50; /* 초록색 */
+            border: 1px solid #4CAF50;
+        }
+
+        /* 삭제 버튼 스타일 */
+        .action-links a:last-child {
+            background-color: #FF5733; /* 빨간색 */
+            border: 1px solid #FF5733;
+        }
 
 
 
@@ -123,25 +131,26 @@
             <div class="flex-fill">
                 <ul class="nav navbar-nav d-flex justify-content-between mx-lg-auto">
                     <li class="nav-item">
-                        <a class="nav-link" href="../templates/index.html">홈</a>
+                        <a class="nav-link" href="/index"><strong>홈</strong></a>
                     </li>
                     <li class="nav-item">
-                        <a class="nav-link" href="../templates/about.html">회사 소개</a>
+                        <a class="nav-link" href="/about"><strong style="">회사소개</strong></a>
                     </li>
                     <li class="nav-item">
-                        <a class="nav-link" href="../templates/shop.html">상품</a>
+                        <a class="nav-link" href="/productbuy/list"><strong>상품</strong></a>
                     </li>
                     <li class="nav-item">
-                        <a class="nav-link" href="../templates/contact.html">문의</a>
+                        <a class="nav-link" href="/qna/qnaList"><strong>문의</strong></a>
                     </li>
                     <li class="nav-item">
-                        <a class="nav-link" href="http://localhost:8080/notice/list">공지사항</a>
+                        <a class="nav-link" href="/notice/list"><strong>공지사항</strong></a>
                     </li>
-                    <!--                    사용에 따라 사용-->
-                    <!--                    <li class="nav-item">-->
-                    <!--                        <a class="nav-link" href="#">로그인</a>-->
-                    <!--                    </li>-->
-
+                    <li class="nav-item">
+                        <a class="nav-link" th:href="${session.User_Id != null} ? @{/logout} : @{/login}">
+                            <span th:if="${session.User_Id != null}"><strong>로그아웃</strong></span>
+                            <span th:unless="${session.User_Id != null}"><strong>로그인</strong></span>
+                        </a>
+                    </li>
                 </ul>
             </div>
             <div class="navbar align-self-center d-flex">
@@ -202,4 +211,32 @@
 </div>
 
 </body>
+<!--로그인 → 로그아웃-->
+<script>
+    // 세션 상태 확인
+    var userId = sessionStorage.getItem("User_Id");
+
+    // 로그인 및 로그아웃 메뉴 요소 가져오기
+    var loginItem = document.querySelector(".nav-item .nav-link[href='/login']");
+    var logoutItem = document.querySelector(".nav-item .nav-link[href='/logout']");
+
+    if (userId) {
+        // 세션이 있으면 로그인 메뉴 항목을 감추고 로그아웃 메뉴 항목을 표시합니다
+        loginItem.style.display = "none";
+        logoutItem.style.display = "block";
+    } else {
+        // 세션이 없으면 로그인 메뉴 항목을 표시하고 로그아웃 메뉴 항목을 감춥니다
+        loginItem.style.display = "block";
+        logoutItem.style.display = "none";
+    }
+
+    // 로그아웃 메뉴 항목 클릭 시 세션 삭제
+    logoutItem.addEventListener("click", function() {
+        sessionStorage.removeItem("User_Id");
+        // 로그아웃 후 로그인 메뉴 항목을 표시하고 로그아웃 메뉴 항목을 감춥니다
+        loginItem.style.display = "block";
+        logoutItem.style.display = "none";
+    });
+
+</script>
 </html>

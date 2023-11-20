@@ -16,37 +16,49 @@
           integrity="sha512-xodZBNTC5n17Xt2atTPuE1HxjVMSvLVW9ocqUKLsCC5CXdbqCmblAshOMAS6/keqq/sMZMZ19scR4PsZChSR7A==" crossorigin=""/>
 </head>
 <style>
-    .pagination {
-        display: flex;
-        justify-content: center;
-        align-items: center;
-        margin-top: 20px;
-    }
 
-    .pagination a {
-        text-decoration: none;
-        display: inline-block;
-        padding: 10px 15px;
-        margin: 5px;
-        border-radius: 5px;
-        background-color: #3498db;
-        color: #fff;
-        transition: background-color 0.3s;
-    }
+    body {
+               font-family: 'Malgun Gothic', sans-serif;
+           }
 
-    .pagination a:hover {
-        background-color: #2980b9;
-    }
+           .nav-link strong {
+               font-family: 'Malgun Gothic', sans-serif;
+               font-weight: bold;
+           }
 
-    .pagination strong {
-        text-decoration: none;
-        display: inline-block;
-        padding: 10px 15px;
-        margin: 5px;
-        border-radius: 5px;
-        background-color: #e74c3c;
-        color: #fff;
-    }
+
+
+        .pagination {
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            margin-top: 20px;
+        }
+
+        .pagination a {
+            text-decoration: none;
+            display: inline-block;
+            padding: 10px 15px;
+            margin: 5px;
+            border-radius: 5px;
+            background-color: #3498db;
+            color: #fff;
+            transition: background-color 0.3s;
+        }
+
+        .pagination a:hover {
+            background-color: #2980b9;
+        }
+
+        .pagination strong {
+            text-decoration: none;
+            display: inline-block;
+            padding: 10px 15px;
+            margin: 5px;
+            border-radius: 5px;
+            background-color: #e74c3c;
+            color: #fff;
+        }
 </style>
 
 <body>
@@ -87,31 +99,27 @@
         </button>
         <div class="align-self-center collapse navbar-collapse flex-fill d-lg-flex justify-content-lg-between" id="templatemo_main_nav">
             <div class="flex-fill">
-                <ul class="navbar-nav d-flex justify-content-between mx-lg-auto">
+                <ul class="nav navbar-nav d-flex justify-content-between mx-lg-auto">
                     <li class="nav-item">
-                        <a class="nav-link" href="/index">홈</a>
-                    </li>
-                    <li class="nav-item">
-                        <a class="nav-link" href="/about">회사 소개</a>
+                        <a class="nav-link" href="/index"><strong>홈</strong></a>
                     </li>
                     <li class="nav-item">
-                        <a class="nav-link" href="/productbuy/list">상품</a>
+                        <a class="nav-link" href="/about"><strong style="">회사소개</strong></a>
                     </li>
                     <li class="nav-item">
-                        <a class="nav-link" href="/qna/qnaList">문의</a>
+                        <a class="nav-link" href="/productbuy/list"><strong>상품</strong></a>
                     </li>
                     <li class="nav-item">
-                        <a class="nav-link" href="/notice/list">공지사항</a>
+                        <a class="nav-link" href="/qna/qnaList"><strong>문의</strong></a>
                     </li>
-                    <li class="nav-item" sec:authorize="isAuthenticated()">
-                        <div>
-                            <a th:href="@{/logout}" class="nav-link">로그아웃</a>
-                        </div>
+                    <li class="nav-item">
+                        <a class="nav-link" href="/notice/list"><strong>공지사항</strong></a>
                     </li>
-                    <li class="nav-item" sec:authorize="!isAuthenticated()">
-                        <div>
-                            <a th:href="@{/login}" class="nav-link">로그인</a>
-                        </div>
+                    <li class="nav-item">
+                        <a class="nav-link" th:href="${session.User_Id != null} ? @{/logout} : @{/login}">
+                            <span th:if="${session.User_Id != null}"><strong>로그아웃</strong></span>
+                            <span th:unless="${session.User_Id != null}"><strong>로그인</strong></span>
+                        </a>
                     </li>
                 </ul>
             </div>

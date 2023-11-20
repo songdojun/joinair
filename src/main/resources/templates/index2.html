@@ -18,38 +18,48 @@
 
     <style>
 
-        #tempaltemo_footer {
-            margin-bottom: 300px;
-        }
-            #tempaltemo_footer {
-    margin-bottom: 0.1px;
-    }
+    body {
+           font-family: 'Malgun Gothic', sans-serif;
+       }
 
-         .card {
-            border: none;
-            background-color: #f8f9fa;
-            transition: transform 0.3s;
-            /* 헤더와 타이틀 부분에 사용할 폰트와 색상을 지정. */
-            font-family: 'Your Chosen Font', sans-serif;
-            color: #2A0A0A;
-        }
+       .nav-link strong {
+           font-family: 'Malgun Gothic', sans-serif;
+           font-weight: bold;
+       }
 
-        .card:hover {
-            transform: scale(1.05);
-        }
 
-        h5.card-title {
-            font-size: 18px;
-            font-weight: bold;
-            /* 각 카드의 타이틀에 대한 폰트 사이즈와 굵기를 지정. */
-        }
+      #tempaltemo_footer {
+          margin-bottom: 300px;
+      }
+          #tempaltemo_footer {
+  margin-bottom: 0.1px;
+  }
 
-        p.card-text {
-            font-size: 16px;
-            color: #555;
-            /* 각 카드의 텍스트에 대한 폰트 사이즈와 색상을 지정. */
-        }
-    </style>
+       .card {
+          border: none;
+          background-color: #f8f9fa;
+          transition: transform 0.3s;
+          /* 헤더와 타이틀 부분에 사용할 폰트와 색상을 지정. */
+          font-family: 'Your Chosen Font', sans-serif;
+          color: #2A0A0A;
+      }
+
+      .card:hover {
+          transform: scale(1.05);
+      }
+
+      h5.card-title {
+          font-size: 18px;
+          font-weight: bold;
+          /* 각 카드의 타이틀에 대한 폰트 사이즈와 굵기를 지정. */
+      }
+
+      p.card-text {
+          font-size: 16px;
+          color: #555;
+          /* 각 카드의 텍스트에 대한 폰트 사이즈와 색상을 지정. */
+      }
+</style>
 </head>
 <body>
 <!-- 첫 번째 네브바 -->
@@ -106,19 +116,19 @@
             <div class="flex-fill">
                 <ul class="nav navbar-nav d-flex justify-content-between mx-lg-auto">
                     <li class="nav-item">
-                        <a class="nav-link" href="/index">홈</a>
+                        <a class="nav-link" href="/index"><strong>홈</strong></a>
                     </li>
                     <li class="nav-item">
-                        <a class="nav-link" href="/about">회사 소개</a>
+                        <a class="nav-link" href="/about"><strong style="">회사소개</strong></a>
                     </li>
                     <li class="nav-item">
-                        <a class="nav-link" href="/productbuy/list">상품</a>
+                        <a class="nav-link" href="/productbuy/list"><strong>상품</strong></a>
                     </li>
                     <li class="nav-item">
-                        <a class="nav-link" href="/qna/qnaList">문의</a>
+                        <a class="nav-link" href="/qna/qnaList"><strong>문의</strong></a>
                     </li>
                     <li class="nav-item">
-                        <a class="nav-link" href="/notice/list">공지사항</a>
+                        <a class="nav-link" href="/notice/list"><strong>공지사항</strong></a>
                     </li>
                     <li class="nav-item" sec:authorize="isAuthenticated()">
                         <div>
@@ -132,6 +142,7 @@
                     </li>
                 </ul>
             </div>
+
             <div class="navbar align-self-center d-flex">
                 <div class="d-lg-none flex-sm-fill mt-3 mb-4 col-7 col-sm-auto pr-3">
                     <div class="input-group">
@@ -141,16 +152,16 @@
                         </div>
                     </div>
                 </div>
-                <a class="nav-icon d-none d-lg-inline" href="#" data-bs-toggle="modal" data-bs-target="#templatemo_search">
+                <a class="nav-icon d-none d-lg-inline" href="#" id="templatemo_search_icon">
                     <i class="fa fa-fw fa-search text-dark mr-2"></i>
                 </a>
-                <a class="nav-icon position-relative text-decoration-none" href="#">
+                <a class="nav-icon position-relative text-decoration-none" href="/cart">
                     <i class="fa fa-fw fa-cart-arrow-down text-dark mr-1"></i>
-                    <span class="position-absolute top-0 left-100 translate-middle badge rounded-pill bg-light text-dark">1</span>
+                    <span class="position-absolute top-0 left-100 translate-middle badge rounded-pill bg-light text-dark"></span>&nbsp&nbsp&nbsp
                 </a>
-                <a class="nav-icon position-relative text-decoration-none" href="#">
+                <a class="nav-icon position-relative text-decoration-none" href="/mypage">
                     <i class="fa fa-fw fa-user text-dark mr-3"></i>
-                    <span class="position-absolute top-0 left-100 translate-middle badge rounded-pill bg-light text-dark">+10</span>
+                    <span class="position-absolute top-0 left-100 translate-middle badge rounded-pill bg-light text-dark"></span>
                 </a>
             </div>
         </div>

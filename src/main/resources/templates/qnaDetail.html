@@ -15,6 +15,16 @@
     <link rel="stylesheet" href="https://unpkg.com/leaflet@1.7.1/dist/leaflet.css"
           integrity="sha512-xodZBNTC5n17Xt2atTPuE1HxjVMSvLVW9ocqUKLsCC5CXdbqCmblAshOMAS6/keqq/sMZMZ19scR4PsZChSR7A==" crossorigin=""/>
     <style>
+        body {
+           font-family: 'Malgun Gothic', sans-serif;
+       }
+
+       .nav-link strong {
+           font-family: 'Malgun Gothic', sans-serif;
+           font-weight: bold;
+       }
+
+
         #tempaltemo_footer {
             margin-top: 50px; /* 기존에 있던 margin-bottom 속성을 삭제하고, margin-top을 추가합니다. */
             padding: 20px 0; /* 푸터의 상단과 하단에 padding을 추가합니다. */
@@ -59,28 +69,28 @@
             <div class="flex-fill">
                 <ul class="nav navbar-nav d-flex justify-content-between mx-lg-auto">
                     <li class="nav-item">
-                        <a class="nav-link" href="http://localhost:63342/joinair/src/main/resources/templates/index.html">홈</a>
+                        <a class="nav-link" href="/index"><strong>홈</strong></a>
                     </li>
                     <li class="nav-item">
-                        <a class="nav-link" href="http://localhost:63342/joinair/src/main/resources/templates/about.html">회사 소개</a>
+                        <a class="nav-link" href="/about"><strong style="">회사소개</strong></a>
                     </li>
                     <li class="nav-item">
-                        <a class="nav-link" href="/productbuy/list">상품</a>
+                        <a class="nav-link" href="/productbuy/list"><strong>상품</strong></a>
                     </li>
                     <li class="nav-item">
-                        <a class="nav-link" href="/qna/qnaList">문의</a>
+                        <a class="nav-link" href="/qna/qnaList"><strong>문의</strong></a>
                     </li>
                     <li class="nav-item">
-                        <a class="nav-link" href="/notice/list">공지사항</a>
+                        <a class="nav-link" href="/notice/list"><strong>공지사항</strong></a>
                     </li>
-                    <div>
-                        <a th:href="@{/logout}" class="nav-link">로그아웃</a>
-                    </div>
+                    <li class="nav-item">
+                        <a class="nav-link" th:href="${session.User_Id != null} ? @{/logout} : @{/login}">
+                            <span th:if="${session.User_Id != null}"><strong>로그아웃</strong></span>
+                            <span th:unless="${session.User_Id != null}"><strong>로그인</strong></span>
+                        </a>
                     </li>
-                    <li class="nav-item" sec:authorize="!isAuthenticated()">
-                        <div>
-                            <a th:href="@{/login}" class="nav-link">로그인</a>
-                        </div>
+                </ul>
+            </div>
                     </li>
 
                     <div class="navbar align-self-center d-flex">

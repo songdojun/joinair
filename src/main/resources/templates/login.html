@@ -18,29 +18,36 @@
     <script src="https://code.jquery.com/jquery-3.6.4.min.js"></script>
     <script src="https://cdn.jsdelivr.net/npm/bootstrap@4.6.0/dist/js/bootstrap.min.js"></script>
     <style>
+        body {
+                   font-family: 'Malgun Gothic', sans-serif;
+               }
 
-        .custom-button {
-            background-color: #4CAF50;
-            color: white;
-            padding: 10px 20px;
-            border: none;
-            border-radius: 5px;
-            cursor: pointer;
-        }
+               .nav-link strong {
+                   font-family: 'Malgun Gothic', sans-serif;
+                   font-weight: bold;
+               }
+                .custom-button {
+                    background-color: #4CAF50;
+                    color: white;
+                    padding: 10px 20px;
+                    border: none;
+                    border-radius: 5px;
+                    cursor: pointer;
+                }
 
-        /* 추가 스타일 예시 */
-        .custom-button:hover {
-            background-color: #45a049;
-        }
+                /* 추가 스타일 예시 */
+                .custom-button:hover {
+                    background-color: #45a049;
+                }
 
-        /* 로그인 폼 스타일 */
-        .cotn_principal {
-            background: rgba(255, 255, 255, 0.9);
-            border-radius: 5px;
-            padding: 20px;
-            max-width: 400px;
-            width: 100%;
-        }
+                /* 로그인 폼 스타일 */
+                .cotn_principal {
+                    background: rgba(255, 255, 255, 0.9);
+                    border-radius: 5px;
+                    padding: 20px;
+                    max-width: 400px;
+                    width: 100%;
+                }
     </style>
 </head>
 <body>
@@ -76,28 +83,28 @@
             <div class="flex-fill">
                 <ul class="nav navbar-nav d-flex justify-content-between mx-lg-auto">
                     <li class="nav-item">
-                        <a class="nav-link" href="/index">홈</a>
+                        <a class="nav-link" href="/index"><strong>홈</strong></a>
                     </li>
                     <li class="nav-item">
-                        <a class="nav-link" href="/about">회사 소개</a>
+                        <a class="nav-link" href="/about"><strong>회사 소개</strong></a>
                     </li>
                     <li class="nav-item">
-                        <a class="nav-link" href="/productbuy/list">상품</a>
+                        <a class="nav-link" href="/productbuy/list"><strong>상품</strong></a>
                     </li>
                     <li class="nav-item">
-                        <a class="nav-link" href="/qna/qnaList">문의</a>
+                        <a class="nav-link" href="/qna/qnaList"><strong>문의</strong></a>
                     </li>
                     <li class="nav-item">
-                        <a class="nav-link" href="/notice/list">공지사항</a>
+                        <a class="nav-link" href="/notice/list"><strong>공지사항</strong></a>
                     </li>
                     <li class="nav-item" sec:authorize="isAuthenticated()">
                         <div>
-                            <a th:href="@{/logout}" class="nav-link">로그아웃</a>
+                            <a th:href="@{/logout}" class="nav-link"><strong>로그아웃</strong></a>
                         </div>
                     </li>
                     <li class="nav-item" sec:authorize="!isAuthenticated()">
                         <div>
-                            <a th:href="@{/login}" class="nav-link">로그인</a>
+                            <a th:href="@{/login}" class="nav-link"><strong>로그인</strong></a>
                         </div>
                     </li>
 
@@ -225,96 +232,33 @@
     </div>
 </div>
 
+<!--로그인 → 로그아웃-->
 <script>
-    // 아이디 찾기 모달이 열릴 때 실행되는 스크립트
-    $('#findIdModal').on('show.bs.modal', function (event) {
-        // 여기에 모달이 열릴 때 실행할 동작 작성
-        console.log('아이디 찾기 모달이 열렸습니다.');
-    });
+    // 세션 상태 확인
+    var userId = sessionStorage.getItem("User_Id");
 
-    // 아이디 찾기 모달이 닫힐 때 실행되는 스크립트
-    $('#findIdModal').on('hidden.bs.modal', function (event) {
-        // 여기에 모달이 닫힐 때 실행할 동작 작성
-        // 입력된 데이터 초기화
-        $('#findIdForm')[0].reset();
-    });
+    // 로그인 및 로그아웃 메뉴 요소 가져오기
+    var loginItem = document.querySelector(".nav-item .nav-link[href='/login']");
+    var logoutItem = document.querySelector(".nav-item .nav-link[href='/logout']");
 
-    // 아이디 찾기 버튼 클릭 시 실행되는 함수
-    function findId() {
-        // 사용자로부터 입력받은 정보 가져오기
-        var name = $('#findIdName').val();
-        var phone = $('#findIdPhone').val();
-        var email = $('#findIdEmail').val();
-
-        // AJAX를 이용해 서버에 데이터 전송
-        $.ajax({
-            type: 'POST',
-            url: '/findId', // 서버의 처리 로직에 따라 경로를 수정하세요
-            data: {
-                name: name,
-                phone: phone,
-                email: email
-            },
-            success: function (response) {
-                // 서버로부터 받은 응답 처리
-                if (response.success) {
-                    // 찾은 아이디를 모달 내에 특정 위치에 표시 (예: id="foundId")
-                    $('#foundId').text(response.foundId);
-                } else {
-                    // 아이디를 찾지 못한 경우 메시지를 표시 (예: id="notFoundMessage")
-                    $('#notFoundMessage').text('일치하는 정보로 등록된 아이디가 없습니다.');
-                }
-            },
-            error: function (error) {
-                console.error('AJAX 오류:', error);
-            }
-        });
+    if (userId) {
+        // 세션이 있으면 로그인 메뉴 항목을 감추고 로그아웃 메뉴 항목을 표시합니다
+        loginItem.style.display = "none";
+        logoutItem.style.display = "block";
+    } else {
+        // 세션이 없으면 로그인 메뉴 항목을 표시하고 로그아웃 메뉴 항목을 감춥니다
+        loginItem.style.display = "block";
+        logoutItem.style.display = "none";
     }
 
-    // 비밀번호 찾기 모달이 열릴 때 실행되는 스크립트
-    $('#findPasswordModal').on('show.bs.modal', function (event) {
-        // 여기에 모달이 열릴 때 실행할 동작 작성
-        console.log('비밀번호 찾기 모달이 열렸습니다.');
+    // 로그아웃 메뉴 항목 클릭 시 세션 삭제
+    logoutItem.addEventListener("click", function() {
+        sessionStorage.removeItem("User_Id");
+        // 로그아웃 후 로그인 메뉴 항목을 표시하고 로그아웃 메뉴 항목을 감춥니다
+        loginItem.style.display = "block";
+        logoutItem.style.display = "none";
     });
 
-    // 비밀번호 찾기 모달이 닫힐 때 실행되는 스크립트
-    $('#findPasswordModal').on('hidden.bs.modal', function (event) {
-        // 여기에 모달이 닫힐 때 실행할 동작 작성
-        // 입력된 데이터 초기화
-        $('#findPasswordForm')[0].reset();
-    });
-
-    // 비밀번호 찾기 버튼 클릭 시 실행되는 함수
-    function findPassword() {
-        // 사용자로부터 입력받은 정보 가져오기
-        var id = $('#findPasswordId').val();
-        var phone = $('#findPasswordPhone').val();
-        var email = $('#findPasswordEmail').val();
-
-        // AJAX를 이용해 서버에 데이터 전송
-        $.ajax({
-            type: 'POST',
-            url: '/findPassword', // 서버의 처리 로직에 따라 경로를 수정하세요
-            data: {
-                id: id,
-                phone: phone,
-                email: email
-            },
-            success: function (response) {
-                // 서버로부터 받은 응답 처리
-                if (response.success) {
-                    // 찾은 비밀번호를 모달 내에 특정 위치에 표시 (예: id="foundPassword")
-                    $('#foundPassword').text(response.foundPassword);
-                } else {
-                    // 비밀번호를 찾지 못한 경우 메시지를 표시 (예: id="notFoundMessagePassword")
-                    $('#notFoundMessagePassword').text('일치하는 정보로 등록된 비밀번호가 없습니다.');
-                }
-            },
-            error: function (error) {
-                console.error('AJAX 오류:', error);
-            }
-        });
-    }
 </script>
 
 <footer class="bg-dark" id="tempaltemo_footer">

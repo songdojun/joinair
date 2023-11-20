@@ -13,6 +13,16 @@
     <link rel="stylesheet" href="/assets/css/fontawesome.min.css">
     <link rel="stylesheet" href="https://unpkg.com/leaflet@1.7.1/dist/leaflet.css"
           integrity="sha512-xodZBNTC5n17Xt2atTPuE1HxjVMSvLVW9ocqUKLsCC5CXdbqCmblAshOMAS6/keqq/sMZMZ19scR4PsZChSR7A==" crossorigin=""/>
+<style>
+    body {
+           font-family: 'Malgun Gothic', sans-serif;
+       }
+
+       .nav-link strong {
+           font-family: 'Malgun Gothic', sans-serif;
+           font-weight: bold;
+       }
+</style>
 </head>
 <body>
 <nav class="navbar navbar-expand-lg bg-dark navbar-light d-none d-lg-block" id="templatemo_nav_top">
@@ -44,22 +54,25 @@
             <div class="flex-fill">
                 <ul class="nav navbar-nav d-flex justify-content-between mx-lg-auto">
                     <li class="nav-item">
-                        <a class="nav-link" href="/index">홈</a>
+                        <a class="nav-link" href="/index"><strong>홈</strong></a>
                     </li>
                     <li class="nav-item">
-                        <a class="nav-link" href="/about">회사 소개</a>
+                        <a class="nav-link" href="/about"><strong style="">회사소개</strong></a>
                     </li>
                     <li class="nav-item">
-                        <a class="nav-link" href="/productbuy/list">상품</a>
+                        <a class="nav-link" href="/productbuy/list"><strong>상품</strong></a>
                     </li>
                     <li class="nav-item">
-                        <a class="nav-link" href="/qna/qnaList">문의</a>
+                        <a class="nav-link" href="/qna/qnaList"><strong>문의</strong></a>
                     </li>
                     <li class="nav-item">
-                        <a class="nav-link" href="/notice/list">공지사항</a>
+                        <a class="nav-link" href="/notice/list"><strong>공지사항</strong></a>
                     </li>
                     <li class="nav-item">
-
+                        <a class="nav-link" th:href="${session.User_Id != null} ? @{/logout} : @{/login}">
+                            <span th:if="${session.User_Id != null}"><strong>로그아웃</strong></span>
+                            <span th:unless="${session.User_Id != null}"><strong>로그인</strong></span>
+                        </a>
                     </li>
                 </ul>
             </div>

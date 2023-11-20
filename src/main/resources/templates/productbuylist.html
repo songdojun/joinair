@@ -15,21 +15,31 @@
           integrity="sha512-xodZBNTC5n17Xt2atTPuE1HxjVMSvLVW9ocqUKLsCC5CXdbqCmblAshOMAS6/keqq/sMZMZ19scR4PsZChSR7A==" crossorigin=""/>
     <script src="/js/searchProductbuy.js"></script>
     <style>
-        /* 카테고리 버튼과 간격 조절 및 버튼 크기 키우기 */
-        .card-body h5 {
-            margin-bottom: 15px;
-        }
 
-          .card-body .btn {
-            display: inline-block; /* 가로로 배치되도록 설정 */
-            margin-right: 10px; /* 버튼 간 간격 조절 */
-            margin-bottom: 10px;
-        }
 
-        /* 선택 사항: 카테고리 버튼과 카드 가장자리 사이에 더 많은 여백을 원하면 */
-        .card {
-            margin-bottom: 20px;
-        }
+        body {
+                   font-family: 'Malgun Gothic', sans-serif;
+               }
+
+               .nav-link strong {
+                   font-family: 'Malgun Gothic', sans-serif;
+                   font-weight: bold;
+               }
+                /* 카테고리 버튼과 간격 조절 및 버튼 크기 키우기 */
+                .card-body h5 {
+                    margin-bottom: 15px;
+                }
+
+                  .card-body .btn {
+                    display: inline-block; /* 가로로 배치되도록 설정 */
+                    margin-right: 10px; /* 버튼 간 간격 조절 */
+                    margin-bottom: 10px;
+                }
+
+                /* 선택 사항: 카테고리 버튼과 카드 가장자리 사이에 더 많은 여백을 원하면 */
+                .card {
+                    margin-bottom: 20px;
+                }
 
 
     </style>
@@ -89,32 +99,29 @@
             <div class="flex-fill">
                 <ul class="nav navbar-nav d-flex justify-content-between mx-lg-auto">
                     <li class="nav-item">
-                        <a class="nav-link" href="/index">홈</a>
+                        <a class="nav-link" href="/index"><strong>홈</strong></a>
                     </li>
                     <li class="nav-item">
-                        <a class="nav-link" href="/about">회사 소개</a>
+                        <a class="nav-link" href="/about"><strong style="">회사소개</strong></a>
                     </li>
                     <li class="nav-item">
-                        <a class="nav-link" href="/productbuy/list">상품</a>
+                        <a class="nav-link" href="/productbuy/list"><strong>상품</strong></a>
                     </li>
                     <li class="nav-item">
-                        <a class="nav-link" href="/qna/qnaList">문의</a>
+                        <a class="nav-link" href="/qna/qnaList"><strong>문의</strong></a>
                     </li>
                     <li class="nav-item">
-                        <a class="nav-link" href="/notice/list">공지사항</a>
+                        <a class="nav-link" href="/notice/list"><strong>공지사항</strong></a>
                     </li>
-                    <li class="nav-item" sec:authorize="isAuthenticated()">
-                        <div>
-                            <a th:href="@{/logout}" class="nav-link">로그아웃</a>
-                        </div>
-                    </li>
-                    <li class="nav-item" sec:authorize="!isAuthenticated()">
-                        <div>
-                            <a th:href="@{/login}" class="nav-link">로그인</a>
-                        </div>
+                    <li class="nav-item">
+                        <a class="nav-link" th:href="${session.User_Id != null} ? @{/logout} : @{/login}">
+                            <span th:if="${session.User_Id != null}"><strong>로그아웃</strong></span>
+                            <span th:unless="${session.User_Id != null}"><strong>로그인</strong></span>
+                        </a>
                     </li>
                 </ul>
             </div>
+
             <div class="navbar align-self-center d-flex">
                 <div class="d-lg-none flex-sm-fill mt-3 mb-4 col-7 col-sm-auto pr-3">
                     <div class="input-group">
@@ -291,13 +298,12 @@
         logoutItem.style.display = "none";
     });
 
-
-
-
-
-
-
 </script>
-
+<script src="/assets/js/jquery-1.11.0.min.js"></script>
+<script src="/assets/js/jquery-migrate-1.2.1.min.js"></script>
+<script src="/assets/js/bootstrap.bundle.min.js"></script>
+<script src="/assets/js/templatemo.js"></script>
+<script src="/assets/js/custom.js"></script>
+<script src="/assets/js/slick.min.js"></script>
 </body>
 </html>

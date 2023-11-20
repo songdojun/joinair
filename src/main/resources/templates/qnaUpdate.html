@@ -19,6 +19,15 @@
             margin-top: 50px;
             padding: 20px 0;
         }
+
+        body {
+           font-family: 'Malgun Gothic', sans-serif;
+       }
+
+       .nav-link strong {
+           font-family: 'Malgun Gothic', sans-serif;
+           font-weight: bold;
+       }
     </style>
 
     <meta charset="UTF-8">
@@ -57,28 +66,28 @@
             <div class="flex-fill">
                 <ul class="nav navbar-nav d-flex justify-content-between mx-lg-auto">
                     <li class="nav-item">
-                        <a class="nav-link" href="/index">홈</a>
+                        <a class="nav-link" href="/index"><strong>홈</strong></a>
                     </li>
                     <li class="nav-item">
-                        <a class="nav-link" href="/about">회사 소개</a>
+                        <a class="nav-link" href="/about"><strong style="">회사소개</strong></a>
                     </li>
                     <li class="nav-item">
-                        <a class="nav-link" href="/productbuy/list">상품</a>
+                        <a class="nav-link" href="/productbuy/list"><strong>상품</strong></a>
                     </li>
                     <li class="nav-item">
-                        <a class="nav-link" href="/qna/qnaList">문의</a>
+                        <a class="nav-link" href="/qna/qnaList"><strong>문의</strong></a>
                     </li>
                     <li class="nav-item">
-                        <a class="nav-link" href="/notice/list">공지사항</a>
+                        <a class="nav-link" href="/notice/list"><strong>공지사항</strong></a>
                     </li>
-                    <div>
-                        <a th:href="@{/logout}" class="nav-link">로그아웃</a>
-                    </div>
+                    <li class="nav-item">
+                        <a class="nav-link" th:href="${session.User_Id != null} ? @{/logout} : @{/login}">
+                            <span th:if="${session.User_Id != null}"><strong>로그아웃</strong></span>
+                            <span th:unless="${session.User_Id != null}"><strong>로그인</strong></span>
+                        </a>
                     </li>
-                    <li class="nav-item" sec:authorize="!isAuthenticated()">
-                        <div>
-                            <a th:href="@{/login}" class="nav-link">로그인</a>
-                        </div>
+                </ul>
+            </div>
                     </li>
 
                     <div class="navbar align-self-center d-flex">
@@ -157,11 +166,39 @@
 <script src="/assets/js/templatemo.js"></script>
 <script src="/assets/js/custom.js"></script>
 <script src="/assets/js/slick.min.js"></script>
-</body>
-</html>
-</title>
-</head>
-<body>
+<!--로그인 → 로그아웃-->
+<script>
+    // 세션 상태 확인
+    var userId = sessionStorage.getItem("User_Id");
+
+    // 로그인 및 로그아웃 메뉴 요소 가져오기
+    var loginItem = document.querySelector(".nav-item .nav-link[href='/login']");
+    var logoutItem = document.querySelector(".nav-item .nav-link[href='/logout']");
+
+    if (userId) {
+        // 세션이 있으면 로그인 메뉴 항목을 감추고 로그아웃 메뉴 항목을 표시합니다
+        loginItem.style.display = "none";
+        logoutItem.style.display = "block";
+    } else {
+        // 세션이 없으면 로그인 메뉴 항목을 표시하고 로그아웃 메뉴 항목을 감춥니다
+        loginItem.style.display = "block";
+        logoutItem.style.display = "none";
+    }
+
+    // 로그아웃 메뉴 항목 클릭 시 세션 삭제
+    logoutItem.addEventListener("click", function() {
+        sessionStorage.removeItem("User_Id");
+        // 로그아웃 후 로그인 메뉴 항목을 표시하고 로그아웃 메뉴 항목을 감춥니다
+        loginItem.style.display = "block";
+        logoutItem.style.display = "none";
+    });
+
+</script>
 
 </body>
 </html>
+
+
+
+
+
