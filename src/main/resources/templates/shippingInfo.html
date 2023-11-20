@@ -4,6 +4,7 @@
 
 <head>
 
+
     <meta charset="utf-8">
     <meta name="viewport" content="width=device-width, initial-scale=1">
     <link rel="apple-touch-icon" href="/assets/img/apple-icon.png">
@@ -24,7 +25,37 @@
     <script src="http://code.jquery.com/jquery-1.11.2.min.js"></script>
     <script src="http://code.jquery.com/jquery-migrate-1.2.1.min.js"></script>
 
+    <style>
 
+        body {
+               font-family: 'Malgun Gothic', sans-serif;
+           }
+
+           .nav-link strong {
+               font-family: 'Malgun Gothic', sans-serif;
+               font-weight: bold;
+           }
+
+
+          #tempaltemo_footer {
+              margin-bottom: 300px;
+          }
+              #tempaltemo_footer {
+      margin-bottom: 0.1px;
+      }
+
+                #map-container {
+             width: 70%; /* Set the desired width */
+             height: 500px; /* Set the desired height */
+             margin: 0 auto; /* Center the map horizontally */
+             margin-top: 20px; /* Add top margin for spacing */
+         }
+
+         #map {
+             width: 100%;
+             height: 100%;
+         }
+    </style>
 
 
 </head>
@@ -134,7 +165,9 @@
         </div>
     </div>
 </nav>
-<div id="map" style="width:100%; height:800px;"></div>
+<div id="map-container">
+    <div id="map"></div>
+</div>
 
 <script>
     var dronMarker;
@@ -268,6 +301,51 @@
 
 </script>
 
+<!-- 푸터 -->
+<footer class="bg-dark pt-1" id="tempaltemo_footer">
+    <div class="container">
+        <div class="row">
+            <div class="col-md-5 pt-3">
+                <h2 class="h2 text-success border-bottom pb-3 border-light logo">Join Air🪂</h2>
+                <ul class="list-unstyled text-light footer-link-list">
+                    <li>
+                        <i class="fas fa-map-marker-alt fa-fw"></i>
+                        한국직업전문학교 11층 강의실02 항공4기 2조
+                    </li>
+                    <li>
+                        <i class="fa fa-phone fa-fw"></i>
+                        <a class="text-decoration-none" href="tel:010-020-0340">010-1234-1234</a>
+                    </li>
+                    <li>
+                        <i class="fa fa-envelope fa-fw"></i>
+                        <a class="text-decoration-none" href="mailto:info@company.com">drone delivery
+                            @drone delivery
+                            .com</a>
+                    </li>
+                </ul>
+            </div>
+            <div class="col-md-4 pt-4 text-left">
+                <h2 class="h2 text-light border-bottom pb-3 border-light">정보</h2>
+                <ul class="list-unstyled text-light footer-link-list">
+                    <li><a class="text-decoration-none" href="/index">홈</a></li>
+                    <li><a class="text-decoration-none" href="/about">회사 소개</a></li>
+                    <li><a class="text-decoration-none" href="#">드론 정보</a></li>
+                </ul>
+            </div>
+        </div>
+    </div>
+    <div class="w-100 bg-black py-1 mt-0">
+        <div class="container">
+            <div class="row pt-1">
+                <div class="col-3">
+                    <p class="text-left text-light mb-0">
+                        저작권 © 2023 Join Air
+                    </p>
+                </div>
+            </div>
+        </div>
+    </div>
+</footer>
 
 </body>
 </html>
