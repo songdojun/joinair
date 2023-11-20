@@ -1,5 +1,5 @@
 <!DOCTYPE html>
-<html lang="ko" xmlns:th="http://www.thymeleaf.org">
+<html lang="ko" xmlns:th="http://www.thymeleaf.org" xmlns:sec="http://www.w3.org/1999/xhtml">
 <head>
     <meta charset="utf-8">
     <meta name="viewport" content="width=device-width, initial-scale=1">
@@ -14,91 +14,101 @@
     <link rel="stylesheet" href="https://unpkg.com/leaflet@1.7.1/dist/leaflet.css"
           integrity="sha512-xodZBNTC5n17Xt2atTPuE1HxjVMSvLVW9ocqUKLsCC5CXdbqCmblAshOMAS6/keqq/sMZMZ19scR4PsZChSR7A==" crossorigin=""/>
     <style>
-        .custom-button {
-            background-color: #4CAF50;
-            color: white;
-            padding: 10px 20px;
-            border: none;
-            border-radius: 5px;
-            cursor: pointer;
-        }
 
-        .custom-button:hover {
-            background-color: #45a049;
-        }
+        body {
+                   font-family: 'Malgun Gothic', sans-serif;
+               }
 
-        .cotn_principal {
-            background: rgba(255, 255, 255, 0.9);
-            border-radius: 5px;
-            padding: 20px;
-            max-width: 400px;
-            width: 100%;
-        }
+               .nav-link strong {
+                   font-family: 'Malgun Gothic', sans-serif;
+                   font-weight: bold;
+               }
 
-        /* Updated styles for the report form and table */
-        #salesReportContainer {
-            padding: 20px;
-            margin: 20px auto;
-            max-width: 800px;
-            background-color: #f8f9fa;
-            border-radius: 5px;
-        }
+                .custom-button {
+                    background-color: #4CAF50;
+                    color: white;
+                    padding: 10px 20px;
+                    border: none;
+                    border-radius: 5px;
+                    cursor: pointer;
+                }
 
-        #reportForm {
-            margin-bottom: 20px;
-        }
+                .custom-button:hover {
+                    background-color: #45a049;
+                }
 
-        #reportForm label {
-            font-weight: bold;
-        }
+                .cotn_principal {
+                    background: rgba(255, 255, 255, 0.9);
+                    border-radius: 5px;
+                    padding: 20px;
+                    max-width: 400px;
+                    width: 100%;
+                }
 
-        #reportForm select,
-        #reportForm input[type="number"] {
-            margin: 5px;
-            padding: 5px;
-            border: 1px solid #ced4da;
-            border-radius: 3px;
-        }
+                /* Updated styles for the report form and table */
+                #salesReportContainer {
+                    padding: 20px;
+                    margin: 20px auto;
+                    max-width: 800px;
+                    background-color: #f8f9fa;
+                    border-radius: 5px;
+                }
 
-        #reportForm button {
-            background-color: #4CAF50;
-            color: white;
-            padding: 10px 20px;
-            border: none;
-            border-radius: 5px;
-            cursor: pointer;
-        }
+                #reportForm {
+                    margin-bottom: 20px;
+                }
 
-        #reportForm button:hover {
-            background-color: #45a049;
-        }
+                #reportForm label {
+                    font-weight: bold;
+                }
 
-        table {
-            width: 100%;
-            border-collapse: collapse;
-        }
+                #reportForm select,
+                #reportForm input[type="number"] {
+                    margin: 5px;
+                    padding: 5px;
+                    border: 1px solid #ced4da;
+                    border-radius: 3px;
+                }
 
-        table, th, td {
-            border: 1px solid #ddd;
-        }
+                #reportForm button {
+                    background-color: #4CAF50;
+                    color: white;
+                    padding: 10px 20px;
+                    border: none;
+                    border-radius: 5px;
+                    cursor: pointer;
+                }
 
-        th, td {
-            padding: 8px;
-            text-align: left;
-        }
+                #reportForm button:hover {
+                    background-color: #45a049;
+                }
 
-        th {
-            background-color: #4CAF50;
-            color: white;
-        }
+                table {
+                    width: 100%;
+                    border-collapse: collapse;
+                }
 
-        tr:nth-child(even) {
-            background-color: #f2f2f2;
-        }
+                table, th, td {
+                    border: 1px solid #ddd;
+                }
 
-        tr:hover {
-            background-color: #ddd;
-        }
+                th, td {
+                    padding: 8px;
+                    text-align: left;
+                }
+
+                th {
+                    background-color: #4CAF50;
+                    color: white;
+                }
+
+                tr:nth-child(even) {
+                    background-color: #f2f2f2;
+                }
+
+                tr:hover {
+                    background-color: #ddd;
+                }
     </style>
 </head>
 <body>
@@ -113,33 +123,26 @@
             <div class="flex-fill">
                 <ul class="nav navbar-nav d-flex justify-content-between mx-lg-auto">
                     <li class="nav-item">
-                        <a class="nav-link" th:href="@{/index}">홈</a>
+                        <a class="nav-link" href="/index"><strong>홈</strong></a>
                     </li>
                     <li class="nav-item">
-                        <a class="nav-link" th:href="@{/about}">회사 소개</a>
+                        <a class="nav-link" href="/about"><strong style="">회사소개</strong></a>
                     </li>
                     <li class="nav-item">
-                        <a class="nav-link" th:href="@{/productbuy/list}">상품</a>
+                        <a class="nav-link" href="/productbuy/list"><strong>상품</strong></a>
                     </li>
                     <li class="nav-item">
-                        <a class="nav-link" th:href="@{/qna/qnaList}">문의</a>
+                        <a class="nav-link" href="/qna/qnaList"><strong>문의</strong></a>
                     </li>
                     <li class="nav-item">
-                        <a class="nav-link" th:href="@{/notice/list}">공지사항</a>
+                        <a class="nav-link" href="/notice/list"><strong>공지사항</strong></a>
                     </li>
-                    <li class="nav-item" sec:authorize="isAuthenticated()">
-                        <div>
-                            <a th:href="@{/logout}" class="nav-link">로그아웃</a>
-                        </div>
+                    <li class="nav-item">
+                        <a class="nav-link" th:href="${session.User_Id != null} ? @{/logout} : @{/login}">
+                            <span th:if="${session.User_Id != null}"><strong>로그아웃</strong></span>
+                            <span th:unless="${session.User_Id != null}"><strong>로그인</strong></span>
+                        </a>
                     </li>
-                    <li class="nav-item" sec:authorize="!isAuthenticated()">
-                        <div>
-                            <a th:href="@{/login}" class="nav-link">로그인</a>
-                        </div>
-                    </li>
-                    <span th:if="${userId != null and (userId != 'anonymousUser')}">💫 <span th:text="${userId}"></span> 님 환영합니다 💫</span>
-                    <span sec:authorize="hasAuthority('admin')">
-                    <a th:href="@{/adminWelcome}" class="nav-link" style="display: inline-block; margin-left: 10px;">관리자 페이지</a>
                 </ul>
             </div>
             <div class="navbar align-self-center d-flex">
@@ -383,5 +386,33 @@
 <script src="../static/assets/js/bootstrap.bundle.min.js"></script>
 <script src="../static/assets/js/templatemo.js"></script>
 <script src="../static/assets/js/custom.js"></script>
+<!--로그인 → 로그아웃-->
+<script>
+    // 세션 상태 확인
+    var userId = sessionStorage.getItem("User_Id");
+
+    // 로그인 및 로그아웃 메뉴 요소 가져오기
+    var loginItem = document.querySelector(".nav-item .nav-link[href='/login']");
+    var logoutItem = document.querySelector(".nav-item .nav-link[href='/logout']");
+
+    if (userId) {
+        // 세션이 있으면 로그인 메뉴 항목을 감추고 로그아웃 메뉴 항목을 표시합니다
+        loginItem.style.display = "none";
+        logoutItem.style.display = "block";
+    } else {
+        // 세션이 없으면 로그인 메뉴 항목을 표시하고 로그아웃 메뉴 항목을 감춥니다
+        loginItem.style.display = "block";
+        logoutItem.style.display = "none";
+    }
+
+    // 로그아웃 메뉴 항목 클릭 시 세션 삭제
+    logoutItem.addEventListener("click", function() {
+        sessionStorage.removeItem("User_Id");
+        // 로그아웃 후 로그인 메뉴 항목을 표시하고 로그아웃 메뉴 항목을 감춥니다
+        loginItem.style.display = "block";
+        logoutItem.style.display = "none";
+    });
+
+</script>
 </body>
 </html>

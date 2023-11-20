@@ -16,6 +16,14 @@
 
     <style>
         body {
+           font-family: 'Malgun Gothic', sans-serif;
+       }
+
+       .nav-link strong {
+           font-family: 'Malgun Gothic', sans-serif;
+           font-weight: bold;
+       }
+        body {
                background-color: #f8f9fa;
                font-family: 'Arial', sans-serif;
            }
@@ -105,27 +113,29 @@
                <div class="flex-fill">
                    <ul class="nav navbar-nav d-flex justify-content-between mx-lg-auto">
                        <li class="nav-item">
-                           <a class="nav-link" href="../templates/index.html">홈</a>
+                           <a class="nav-link" href="/index"><strong>홈</strong></a>
                        </li>
                        <li class="nav-item">
-                           <a class="nav-link" href="../templates/about.html">회사 소개</a>
+                           <a class="nav-link" href="/about"><strong style="">회사소개</strong></a>
                        </li>
                        <li class="nav-item">
-                           <a class="nav-link" href="../templates/shop.html">상품</a>
+                           <a class="nav-link" href="/productbuy/list"><strong>상품</strong></a>
                        </li>
                        <li class="nav-item">
-                           <a class="nav-link" href="../templates/contact.html">문의</a>
+                           <a class="nav-link" href="/qna/qnaList"><strong>문의</strong></a>
                        </li>
                        <li class="nav-item">
-                           <a class="nav-link" href="http://localhost:8080/notice/list">공지사항</a>
+                           <a class="nav-link" href="/notice/list"><strong>공지사항</strong></a>
                        </li>
-                       <!--                    사용에 따라 사용-->
-                       <!--                    <li class="nav-item">-->
-                       <!--                        <a class="nav-link" href="#">로그인</a>-->
-                       <!--                    </li>-->
-
+                       <li class="nav-item">
+                           <a class="nav-link" th:href="${session.User_Id != null} ? @{/logout} : @{/login}">
+                               <span th:if="${session.User_Id != null}"><strong>로그아웃</strong></span>
+                               <span th:unless="${session.User_Id != null}"><strong>로그인</strong></span>
+                           </a>
+                       </li>
                    </ul>
                </div>
+
                <div class="navbar align-self-center d-flex">
                    <div class="d-lg-none flex-sm-fill mt-3 mb-4 col-7 col-sm-auto pr-3">
                        <div class="input-group">

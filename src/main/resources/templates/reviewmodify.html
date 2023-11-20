@@ -14,92 +14,99 @@
     <link rel="stylesheet" href="https://unpkg.com/leaflet@1.7.1/dist/leaflet.css"
           integrity="sha512-xodZBNTC5n17Xt2atTPuE1HxjVMSvLVW9ocqUKLsCC5CXdbqCmblAshOMAS6/keqq/sMZMZ19scR4PsZChSR7A==" crossorigin=""/>
     <style>
+        body {
+                    font-family: 'Malgun Gothic', sans-serif;
+               }
 
-        .custom-button {
-                background-color: #4CAF50;
-                color: white;
-                padding: 10px 20px;
-                border: none;
-                border-radius: 5px;
-                cursor: pointer;
-            }
+               .nav-link strong {
+                   font-family: 'Malgun Gothic', sans-serif;
+                   font-weight: bold;
+               }
+                .custom-button {
+                        background-color: #4CAF50;
+                        color: white;
+                        padding: 10px 20px;
+                        border: none;
+                        border-radius: 5px;
+                        cursor: pointer;
+                    }
 
-            .custom-button:hover {
-                background-color: #45a049;
-            }
+                    .custom-button:hover {
+                        background-color: #45a049;
+                    }
 
-            .cotn_principal {
-                background: rgba(255, 255, 255, 0.9);
-                border-radius: 5px;
-                padding: 20px;
-                max-width: 400px;
-                width: 100%;
-            }
+                    .cotn_principal {
+                        background: rgba(255, 255, 255, 0.9);
+                        border-radius: 5px;
+                        padding: 20px;
+                        max-width: 400px;
+                        width: 100%;
+                    }
 
-            /* Updated styles for the report form and table */
-            #salesReportContainer {
-                padding: 20px;
-                margin: 20px auto;
-                max-width: 800px;
-                background-color: #f8f9fa;
-                border-radius: 5px;
-            }
+                    /* Updated styles for the report form and table */
+                    #salesReportContainer {
+                        padding: 20px;
+                        margin: 20px auto;
+                        max-width: 800px;
+                        background-color: #f8f9fa;
+                        border-radius: 5px;
+                    }
 
-            #reportForm {
-                margin-bottom: 20px;
-            }
+                    #reportForm {
+                        margin-bottom: 20px;
+                    }
 
-            #reportForm label {
-                font-weight: bold;
-            }
+                    #reportForm label {
+                        font-weight: bold;
+                    }
 
-            #reportForm select,
-            #reportForm input[type="number"] {
-                margin: 5px;
-                padding: 5px;
-                border: 1px solid #ced4da;
-                border-radius: 3px;
-            }
+                    #reportForm select,
+                    #reportForm input[type="number"] {
+                        margin: 5px;
+                        padding: 5px;
+                        border: 1px solid #ced4da;
+                        border-radius: 3px;
+                    }
 
-            #reportForm button {
-                background-color: #4CAF50;
-                color: white;
-                padding: 10px 20px;
-                border: none;
-                border-radius: 5px;
-                cursor: pointer;
-            }
+                    #reportForm button {
+                        background-color: #4CAF50;
+                        color: white;
+                        padding: 10px 20px;
+                        border: none;
+                        border-radius: 5px;
+                        cursor: pointer;
+                    }
 
-            #reportForm button:hover {
-                background-color: #45a049;
-            }
+                    #reportForm button:hover {
+                        background-color: #45a049;
+                    }
 
-            table {
-                width: 100%;
-                border-collapse: collapse;
-            }
+                    table {
+                        width: 100%;
+                        border-collapse: collapse;
+                    }
 
-            table, th, td {
-                border: 1px solid #ddd;
-            }
+                    table, th, td {
+                        border: 1px solid #ddd;
+                    }
 
-            th, td {
-                padding: 8px;
-                text-align: left;
-            }
+                    th, td {
+                        padding: 8px;
+                        text-align: left;
+                    }
 
-            th {
-                background-color: #4CAF50;
-                color: white;
-            }
+                    th {
+                        background-color: #4CAF50;
+                        color: white;
+                    }
 
-            tr:nth-child(even) {
-                background-color: #f2f2f2;
-            }
+                    tr:nth-child(even) {
+                        background-color: #f2f2f2;
+                    }
 
-            tr:hover {
-                background-color: #ddd;
-            }
+                    tr:hover {
+                        background-color: #ddd;
+                    }
     </style>
 </head>
 <body>
@@ -128,28 +135,30 @@
             <span class="navbar-toggler-icon"></span>
         </button>
         <div class="align-self-center collapse navbar-collapse flex-fill d-lg-flex justify-content-lg-between" id="templatemo_main_nav">
+
             <div class="flex-fill">
                 <ul class="nav navbar-nav d-flex justify-content-between mx-lg-auto">
                     <li class="nav-item">
-                        <a class="nav-link" href="../templates/index.html">홈</a>
+                        <a class="nav-link" href="/index"><strong>홈</strong></a>
                     </li>
                     <li class="nav-item">
-                        <a class="nav-link" href="../templates/about.html">회사 소개</a>
+                        <a class="nav-link" href="/about"><strong style="">회사소개</strong></a>
                     </li>
                     <li class="nav-item">
-                        <a class="nav-link" href="../templates/shop.html">상품</a>
+                        <a class="nav-link" href="/productbuy/list"><strong>상품</strong></a>
                     </li>
                     <li class="nav-item">
-                        <a class="nav-link" href="../templates/contact.html">문의</a>
+                        <a class="nav-link" href="/qna/qnaList"><strong>문의</strong></a>
                     </li>
                     <li class="nav-item">
-                        <a class="nav-link" href="http://localhost:8080/notice/list">공지사항</a>
+                        <a class="nav-link" href="/notice/list"><strong>공지사항</strong></a>
                     </li>
-                    <!--                    사용에 따라 사용-->
-                    <!--                    <li class="nav-item">-->
-                    <!--                        <a class="nav-link" href="#">로그인</a>-->
-                    <!--                    </li>-->
-
+                    <li class="nav-item">
+                        <a class="nav-link" th:href="${session.User_Id != null} ? @{/logout} : @{/login}">
+                            <span th:if="${session.User_Id != null}"><strong>로그아웃</strong></span>
+                            <span th:unless="${session.User_Id != null}"><strong>로그인</strong></span>
+                        </a>
+                    </li>
                 </ul>
             </div>
             <div class="navbar align-self-center d-flex">

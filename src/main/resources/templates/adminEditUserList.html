@@ -16,143 +16,98 @@
           integrity="sha512-xodZBNTC5n17Xt2atTPuE1HxjVMSvLVW9ocqUKLsCC5CXdbqCmblAshOMAS6/keqq/sMZMZ19scR4PsZChSR7A==" crossorigin=""/>
     <style>
         .custom-button {
-            background-color: #4CAF50;
-            color: white;
-            padding: 10px 20px;
-            border: none;
-            border-radius: 5px;
-            cursor: pointer;
-        }
+               background-color: #4CAF50;
+               color: white;
+               padding: 10px 20px;
+              border: 2px solid #000;
+               border-radius: 5px;
+               cursor: pointer;
+           }
 
-        .custom-button:hover {
-            background-color: #45a049;
-        }
+           .custom-button:hover {
+               background-color: #45a049;
+           }
 
-        .cotn_principal {
-            background: rgba(255, 255, 255, 0.9);
-            border-radius: 5px;
-            padding: 20px;
-            max-width: 400px;
-            width: 100%;
-        }
+           .cotn_principal {
+               background: rgba(255, 255, 255, 0.9);
+               border-radius: 5px;
+               padding: 20px;
+               max-width: 400px;
+               width: 100%;
+           }
 
+           /* Updated styles for the report form and table */
+           #salesReportContainer {
+               padding: 20px;
+               margin: 20px auto;
+               max-width: 800px;
+               background-color: #f8f9fa;
+               border-radius: 5px;
+           }
 
+           #reportForm {
+               margin-bottom: 20px;
+           }
 
-        #reportForm {
-            margin-bottom: 20px;
-            display: flex;
-            align-items: center;
-        }
+           #reportForm label {
+               font-weight: bold;
+           }
 
-        #reportForm label {
-            font-weight: bold;
-        }
+           #reportForm select,
+           #reportForm input[type="number"] {
+               margin: 5px;
+               padding: 5px;
+               border: 1px solid #ced4da;
+               border-radius: 3px;
+           }
 
-        #reportForm select,
-        #reportForm input[type="number"] {
-            margin: 5px;
-            padding: 5px;
-            border: 1px solid #ced4da;
-            border-radius: 3px;
-        }
+           #reportForm button {
+               background-color: #4CAF50;
+               color: white;
+               padding: 10px 20px;
+               border: none;
+               border-radius: 5px;
+               cursor: pointer;
+           }
 
-        #searchButton {
-            background-color: #4CAF50;
-            color: white;
-            border: none;
-            border-radius: 3px;
-            cursor: pointer;
-        }
+           #reportForm button:hover {
+               background-color: #45a049;
+           }
 
-        #searchButton:hover {
-            background-color: #45a049;
-        }
+           table {
+               width: 100%;
+               border-collapse: collapse;
+           }
 
-        table {
-            width: 100%;
-            border-collapse: collapse;
-        }
+           table, th, td {
+               border: 1px solid #ddd;
+           }
 
-        table, th, td {
-            border: 1px solid #ddd;
-        }
+           th, td {
+               padding: 8px;
+               text-align: left;
+           }
 
-        th, td {
-            padding: 8px;
-            text-align: left;
-        }
+               th {
+           background-color: black;
+           color: white;
+       }
 
-        th {
-            background-color: #4CAF50;
-            color: white;
-        }
+           tr:nth-child(even) {
+               background-color: #f2f2f2;
+           }
 
-        tr:nth-child(even) {
-            background-color: #f2f2f2;
-        }
-
-        tr:hover {
-            background-color: #ddd;
-        }
+           tr:hover {
+               background-color: #ddd;
+           }
            body {
-            font-family: 'Roboto', sans-serif;
-            background-color: #f8f9fa;
-        }
+                  font-family: 'Malgun Gothic', sans-serif;
+              }
 
-        .container {
-            max-width: 1200px;
-            margin: 0 auto;
-            padding: 20px;
-        }
-
-        h1 {
-            text-align: center;
-            margin: 20px 0;
-        }
-
-        .text-center {
-            text-align: center;
-        }
-
-        .btn {
-            display: inline-block;
-            padding: 10px 20px;
-            background-color: #4CAF50;
-            color: white;
-            border: none;
-            border-radius: 5px;
-            text-decoration: none;
-            margin-right: 20px;
-        }
-
-        .btn:hover {
-            background-color: #45a049;
-        }
-
-        table {
-            width: 100%;
-            border-collapse: collapse;
-            background-color: white;
-        }
-
-        th, td {
-            padding: 10px;
-            text-align: left;
-            border: 1px solid #ddd;
-        }
-
-        th {
-            background-color: #4CAF50;
-            color: white;
-        }
-
-        tr:nth-child(even) {
-            background-color: #f2f2f2;
-        }
-
-        tr:hover {
-            background-color: #ddd;
-        }
+              .nav-link strong {
+                  font-family: 'Malgun Gothic', sans-serif;
+                  font-weight: bold;
+              }
     </style>
     <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
     <script src="assets/js/bootstrap.bundle.min.js"></script>
@@ -173,32 +128,31 @@
             <div class="flex-fill">
                 <ul class="nav navbar-nav d-flex justify-content-between mx-lg-auto">
                     <li class="nav-item">
-                        <a class="nav-link" href="/index">홈</a>
+                        <a class="nav-link" href="/index"><strong>홈</strong></a>
                     </li>
                     <li class="nav-item">
-                        <a class="nav-link" href="/about">회사 소개</a>
+                        <a class="nav-link" href="/about"><strong style="">회사소개</strong></a>
                     </li>
                     <li class="nav-item">
-                        <a class="nav-link" href="/productbuy/list">상품</a>
+                        <a class="nav-link" href="/productbuy/list"><strong>상품</strong></a>
                     </li>
                     <li class="nav-item">
-                        <a class="nav-link" href="/qna/qnaList">문의</a>
+                        <a class="nav-link" href="/qna/qnaList"><strong>문의</strong></a>
                     </li>
                     <li class="nav-item">
-                        <a class="nav-link" href="/notice/list">공지사항</a>
-
+                        <a class="nav-link" href="/notice/list"><strong>공지사항</strong></a>
                     </li>
                     <li class="nav-item" sec:authorize="isAuthenticated()">
                         <div>
-                            <a th:href="@{/logout}" class="nav-link">로그아웃</a>
+                            <a th:href="@{/logout}" class="nav-link"><strong>로그아웃</strong></a>
                         </div>
                     </li>
                     <li class="nav-item" sec:authorize="!isAuthenticated()">
                         <div>
-                            <a th:href="@{/login}" class="nav-link">로그인</a>
+                            <a th:href="@{/login}" class="nav-link"><strong>로그인</strong></a>
                         </div>
                     </li>
-                    <a class="btn btn-info" th:href="@{/adminWelcome}">홈 페이지로 가기</a>
+                    <a class="btn btn-info" th:href="@{/adminWelcome}"><strong>홈 바로가기</strong></a>
                 </ul>
             </div>
             <div class="navbar align-self-center d-flex">
@@ -220,7 +174,7 @@
 
 <!-- isAdmin 변수가 true일 때만 아래의 코드를 표시합니다. -->
     <div class="container mt-5">
-        <h1 class="text-center font-weight-bold">고객 정보 수정</h1>
+
 
         <h2 class="text-center">User List</h2>
         <div class="text-center">

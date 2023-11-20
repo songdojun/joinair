@@ -14,50 +14,57 @@
     <link rel="stylesheet" href="https://unpkg.com/leaflet@1.7.1/dist/leaflet.css"
           integrity="sha512-xodZBNTC5n17Xt2atTPuE1HxjVMSvLVW9ocqUKLsCC5CXdbqCmblAshOMAS6/keqq/sMZMZ19scR4PsZChSR7A==" crossorigin=""/>
     <style>
+        body {
+                   font-family: 'Malgun Gothic', sans-serif;
+               }
 
-         body {
-             background-color: #f8f9fa;
-             font-family: 'Arial', sans-serif;
-         }
+               .nav-link strong {
+                   font-family: 'Malgun Gothic', sans-serif;
+                   font-weight: bold;
+               }
+                 body {
+                     background-color: #f8f9fa;
+                     font-family: 'Arial', sans-serif;
+                 }
 
-         .layout {
-             width: 50%;
-             margin: 50px auto;
-             padding: 20px;
-             border: 2px solid #000;
-             border-radius: 8px;
-             box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
-             background-color: #fff;
-         }
+                 .layout {
+                     width: 50%;
+                     margin: 50px auto;
+                     padding: 20px;
+                     border: 2px solid #000;
+                     border-radius: 8px;
+                     box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+                     background-color: #fff;
+                 }
 
-         form {
-             display: grid;
-             gap: 15px;
-         }
+                 form {
+                     display: grid;
+                     gap: 15px;
+                 }
 
-         label {
-             font-weight: bold;
-         }
+                 label {
+                     font-weight: bold;
+                 }
 
-         input, button {
-             padding: 10px;
-             border: 1px solid #000;
-             border-radius: 5px;
-             font-size: 14px;
-         }
+                 input, button {
+                     padding: 10px;
+                     border: 1px solid #000;
+                     border-radius: 5px;
+                     font-size: 14px;
+                 }
 
-         input[type="file"] {
-             padding: 5px;
-         }
+                 input[type="file"] {
+                     padding: 5px;
+                 }
 
-         button {
-             cursor: pointer;
-             transition: background-color 0.3s;
-         }
+                 button {
+                     cursor: pointer;
+                     transition: background-color 0.3s;
+                 }
 
-         button:hover {
-             background-color: #000;
-         }
+                 button:hover {
+                     background-color: #000;
+                 }
     </style>
 
 
@@ -92,25 +99,26 @@
             <div class="flex-fill">
                 <ul class="nav navbar-nav d-flex justify-content-between mx-lg-auto">
                     <li class="nav-item">
-                        <a class="nav-link" href="../templates/index.html">홈</a>
+                        <a class="nav-link" href="/index"><strong>홈</strong></a>
                     </li>
                     <li class="nav-item">
-                        <a class="nav-link" href="../templates/about.html">회사 소개</a>
+                        <a class="nav-link" href="/about"><strong style="">회사소개</strong></a>
                     </li>
                     <li class="nav-item">
-                        <a class="nav-link" href="../templates/shop.html">상품</a>
+                        <a class="nav-link" href="/productbuy/list"><strong>상품</strong></a>
                     </li>
                     <li class="nav-item">
-                        <a class="nav-link" href="../templates/contact.html">문의</a>
+                        <a class="nav-link" href="/qna/qnaList"><strong>문의</strong></a>
                     </li>
                     <li class="nav-item">
-                        <a class="nav-link" href="http://localhost:8080/notice/list">공지사항</a>
+                        <a class="nav-link" href="/notice/list"><strong>공지사항</strong></a>
                     </li>
-                    <!--                    사용에 따라 사용-->
-                    <!--                    <li class="nav-item">-->
-                    <!--                        <a class="nav-link" href="#">로그인</a>-->
-                    <!--                    </li>-->
-
+                    <li class="nav-item">
+                        <a class="nav-link" th:href="${session.User_Id != null} ? @{/logout} : @{/login}">
+                            <span th:if="${session.User_Id != null}"><strong>로그아웃</strong></span>
+                            <span th:unless="${session.User_Id != null}"><strong>로그인</strong></span>
+                        </a>
+                    </li>
                 </ul>
             </div>
             <div class="navbar align-self-center d-flex">
