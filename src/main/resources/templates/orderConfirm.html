@@ -65,6 +65,30 @@
             </ul>
         </div>
     </div>
+    <div class="modal-footer">
+        <button onclick="openPaymentModal()" class="btn btn-primary">완료</button>
+    </div>
+
+    <!-- 모달 추가 -->
+    <div class="modal fade" id="paymentCompleteModal" tabindex="-1" role="dialog" aria-labelledby="paymentCompleteModalLabel" aria-hidden="true">
+        <div class="modal-dialog" role="document">
+            <div class="modal-content">
+                <div class="modal-header">
+                    <h5 class="modal-title" id="paymentCompleteModalLabel">결제 완료</h5>
+                    <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                        <span aria-hidden="true">&times;</span>
+                    </button>
+                </div>
+                <div class="modal-body">
+                    결제가 완료되었습니다.
+                </div>
+                <div class="modal-footer">
+                    <button type="button" class="btn btn-primary" data-dismiss="modal">결제하기</button>
+                </div>
+            </div>
+        </div>
+    </div>
+
     <div class="text-center mt-4">
         <a href="/index" class="btn btn-primary">홈으로 돌아가기</a>
         <button onclick="requestCardPayment()" class="btn btn-primary">카드결제</button>
@@ -75,5 +99,18 @@
 <script src="https://code.jquery.com/jquery-3.2.1.slim.min.js"></script>
 <script src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.12.9/umd/popper.min.js"></script>
 <script src="https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0/js/bootstrap.min.js"></script>
+
+<script>
+    function openPaymentModal() {
+        // 여기에서 결제 모달을 띄우는 코드를 추가
+        $('#paymentCompleteModal').modal('show');
+    }
+    window.addEventListener("scroll", function () {
+        var scrollBox = document.querySelector("#payment-box");
+        if (scrollBox) {
+            scrollBox.style.transform = "translateX(0)"; // 항상 보이도록 변경
+        }
+    });
+</script>
 </body>
 </html>

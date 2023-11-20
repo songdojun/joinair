@@ -6,12 +6,11 @@ import lombok.Setter;
 @Getter
 @Setter
 public class PAYMENT {
+    private int PAY_NO;
+    private int orderId;
+    private int ORDERS_NUM;
+    private int PAY_PRICE;
+    private String PAY_METHOD;
+    private String PAY_STATUS;
 
-
-    private int Pay_No;
-    private int Orders_Num;
-    private int Pay_Price;
-    private String Pay_Method;
-    private String Pay_Status;
-    private String Pay_Refund;
 }

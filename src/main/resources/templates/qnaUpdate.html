@@ -158,11 +158,6 @@
             <input th:unless="${userId != null and (userId != 'anonymousUser')}" type="text" class="form-control" name="USER_ID" readonly disabled>
             <span th:unless="${userId != null and (userId != 'anonymousUser')}">로그인 후 작성 가능합니다.</span>
         </div>
-        <div class="form-group">
-            <label for="PRO_CODE">상품 코드:</label>
-            <input type="hidden" name="PRO_CODE" th:value="${qna.PRO_CODE}">
-            <input type="text" class="form-control" id="PRO_CODE" th:value="${qna.PRO_CODE}" readonly>
-        </div>
         <button type="submit" class="btn btn-primary">Q&A 수정</button>
     </form>
     <a href="/qna/qnaList" class="btn btn-secondary">뒤로 가기</a>

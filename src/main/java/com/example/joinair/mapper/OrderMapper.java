@@ -12,4 +12,5 @@ public interface OrderMapper {
     ORDERS getOrder(@Param("orderId") int orderId);
 
     List<ORDER_DETAIL> getOrderDetails(@Param("orderId") int orderId);
+
 }

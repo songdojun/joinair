@@ -24,8 +24,8 @@
         <selectKey keyProperty="QNA_NO" resultType="java.lang.Integer" order="BEFORE">
             SELECT QNA_SEQ.NEXTVAL AS QNA_NO FROM DUAL
         </selectKey>
-        INSERT INTO qna (QNA_NO, PRO_CODE, USER_ID, QNA_TITLE, QNA_CONTENT)
-        VALUES (#{QNA_NO}, #{PRO_CODE}, #{USER_ID}, #{QNA_TITLE}, #{QNA_CONTENT})
+        INSERT INTO qna (QNA_NO, USER_ID, QNA_TITLE, QNA_CONTENT)
+        VALUES (#{QNA_NO}, #{USER_ID}, #{QNA_TITLE}, #{QNA_CONTENT})
     </insert>
 
     <update id="qnaupdate">

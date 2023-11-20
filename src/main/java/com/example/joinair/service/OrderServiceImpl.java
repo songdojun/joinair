@@ -2,6 +2,8 @@ package com.example.joinair.service;
 
 import com.example.joinair.dto.ORDERS;
 import com.example.joinair.dto.ORDER_DETAIL;
+import com.example.joinair.dto.PAYMENT;
+import com.example.joinair.mapper.paymentMapper;
 import com.example.joinair.entity.Item;
 import com.example.joinair.mapper.OrderMapper;
 import jakarta.servlet.http.HttpSession;
@@ -17,6 +19,9 @@ import java.util.List;
 public class OrderServiceImpl implements OrderService {
 
     private final OrderMapper orderMapper;
+
+    @Autowired
+    private paymentMapper paymentMapper;
 
     @Autowired
     public OrderServiceImpl(OrderMapper orderMapper) {
@@ -151,4 +156,14 @@ public class OrderServiceImpl implements OrderService {
         return orderMapper.getOrderDetails(orderId);
     }
 
+    @Override
+    public void savePaymentInformation(int orderId, int totalPrice) {
+        PAYMENT payment = new PAYMENT();
+        payment.setOrderId(orderId);
+        payment.setPAY_PRICE(totalPrice);
+        payment.setPAY_METHOD("카드"); // 고정 값
+        payment.setPAY_STATUS("완료"); // 고정 값
+
+        paymentMapper.insertPayment(payment);
+    }
 }

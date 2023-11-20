@@ -14,5 +14,6 @@ public interface OrderService {
     ORDERS getOrder(@Param("orderId") int orderId);
 
     List<ORDER_DETAIL> getOrderDetails(@Param("orderId") int orderId);
-
+    void savePaymentInformation(int orderId, int totalPrice);
 }
+
