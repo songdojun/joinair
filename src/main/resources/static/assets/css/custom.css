@@ -1,3 +1,61 @@
-/*
-Custom Css
-*/
+@font-face{
+    font-family:'Pretendard-Regular';
+    src:url('../webfonts/Pretendard-Regular.woff2');
+    font-weight: normal;
+}
+@font-face{
+    font-family:'Pretendard-Bold';
+    src:url('..webfonts/Pretendard-Bold.woff2');
+    font-weight: bold;
+}
+@font-face{
+    font-family:'Montserrat-Regular';
+    src:url('../webfonts/Montserrat-Regular.woff2');
+    font-weight: normal;
+}
+@font-face{
+    font-family:'Montserrat-Bold';
+    src:url('../webfonts/Montserrat-Bold.woff2');
+    font-weight: bold;
+}
+
+html, body, ul, li, p, a, label, input, div, h1, h2, h3, span {
+    font-family: 'Pretendard-Regular', 'Montserrat-Regular' !important;
+}
+a { color: #000; text-decoration: none; outline: none; font-family: 'Pretendard-Regular', 'Montserrat-Regular' !important;}
+a:hover, a:active, a:visit {text-decoration: none; color: #fff; background-color: #f59000;}
+
+/* common */
+.tit-1 {font-family:'Pretendard-Bold' !important;font-weight: 600 !important;letter-spacing: -2px !important;}
+.tit-2 {font-family:'Pretendard-Bold' !important;font-weight: 600 !important;letter-spacing: -1.5px !important;font-size: 2rem;}
+.tit-1 + p {margin-top: 1.3rem;}
+.btn-primary {background-color: #59ab6e !important;border: 0 !important;}
+.page-item.active .page-link {background-color: #59ab6e !important;border-color: #59ab6e !important;}
+.page-link {color: #59ab6e;}
+.form-select {font-size: 15px;padding: 0 10px 0 10px;}
+#searchOption + #searchKeyword {font-size: 16px !important;}
+#searchButton {padding: 0 18px;}
+.btn-addCart {border-radius: 3px !important;}
+
+/* 메인 */
+.main .main-conts-wrap {padding: 60px 0 100px;}
+
+/* 상품 리스트 페이지 */
+#P-productBuyList {font-size: 16px;}
+#P-productBuyList .product-list-wrap .product-item .card-body .card-title {font-size: 19px !important;font-weight: 500;}
+#P-productBuyList .product-list-wrap .product-item .card-body .card-text {font-size: 18px !important;text-align: left;}
+#P-productBuyList .product-list-wrap .product-item .card-body .card-price {font-size: 18px;font-weight: 600;}
+#P-productBuyList .product-category {text-align: right;}
+#P-productBuyList .no-results {margin: 50px 0 100px;text-align: center;}
+
+/* 상품 상세 페이지 */
+#P-productBuyView  {padding-bottom: 100px;}
+#P-productBuyView .product-view-wrap {position: relative;}
+#P-productBuyView .product-view-wrap .card {border: 0;padding-top: 19px;position: sticky;top: 0;}
+#P-productBuyView .product-btn-wrap {display: flex;padding: 0;gap: 5px;margin-top: 25px;}
+#P-productBuyView .product-quanity-wrap {padding: 0; margin:0; justify-content: start !important;align-items: center;display: flex;border: 1px solid #c8c8c8;border-radius: 3px;}
+#P-productBuyView .btn-minus-wrap, #P-productBuyView .btn-plus-wrap {padding: 0 12px;}
+#P-productBuyView .btn-plus, #P-productBuyView .btn-minus {font-size: 20px;padding: 0;background-color: #fff !important;color: #000 !important;border-color: transparent !important; }
+#P-productBuyView .btn-cart-wrap {flex: 1;}
+#P-productBuyView .btn-cart-wrap > button {width: 100%;}
+#P-productBuyView .review-wrap {text-align: center}

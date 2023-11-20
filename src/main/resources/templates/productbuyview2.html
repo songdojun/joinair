@@ -124,99 +124,98 @@
 <!-- 검색 모달 끝 -->
 
 <!-- 콘텐츠 시작 -->
-<section class="bg-light">
-    <div th:if="${Product != null}" class="container">
-        <div class="row">
-            <div class="col-lg-5 mt-5">
-                <div class="card mb-3">
-                    <img class="card-img img-fluid" th:src="@{${Product?.Pro_Filepath}}" alt="Product Image">
+<div id="P-productBuyView">
+    <section>
+        <div th:if="${Product != null}" class="container">
+            <div class="row product-view-wrap">
+                <div class="col-lg-5 mt-5">
+                    <div class="card mb-3">
+                        <img class="card-img img-fluid" th:src="@{${Product?.Pro_Filepath}}" alt="Product Image">
+                    </div>
                 </div>
-            </div>
-            <div class="col-lg-7 mt-5">
-                <div class="card">
-                    <div class="card-body">
-                        <h1 class="h2" th:text="${Product.Pro_Name}">상품명입니다.</h1>
-                        <p class="h3 py-2" th:text="'가격: ' + ${Product.Pro_Price} + '원'"></p>
-                        <div class="meta-info">
-                            <p th:text="'카테고리: ' + ${Product.Category.Cate_Name}"></p>
-                            <p th:text="'상품 코드: ' + ${Product.Pro_Code}"></p>
-                            <p th:text="'상품 무게(g): ' + ${Product.Pro_Weight}"></p>
-                            <p th:text="'상품 설명: ' + ${Product.Pro_Des}"></p>
+                <div class="col-lg-7 mt-5">
+                    <div class="card">
+                        <div class="card-body">
+                            <h1 class="h2" th:text="${Product.Pro_Name}">상품명입니다.</h1>
+                            <p class="h3 py-2" th:text="'가격: ' + ${Product.Pro_Price} + '원'"></p>
+                            <div class="meta-info">
+                                <p th:text="'카테고리: ' + ${Product.Category.Cate_Name}"></p>
+                                <p th:text="'상품 코드: ' + ${Product.Pro_Code}"></p>
+                                <p th:text="'상품 무게(g): ' + ${Product.Pro_Weight}"></p>
+                                <p th:text="'상품 설명: ' + ${Product.Pro_Des}"></p>
+                            </div>
+                            <a class="download-link" th:href="@{${Product?.Pro_Filepath}}" download>다운로드</a>
+                            <form action="" method="GET">
+                                <input type="hidden" name="product-title" th:value="${Product.Pro_Name}">
+                                <div class="product-btn-wrap col-auto">
+                                    <ul class="product-quanity-wrap list-inline">
+                                        <!--<li class="list-inline-item text-right">
+                                            수량
+                                            <input type="hidden" name="product-quanity" id="product-quanity" value="1">
+                                        </li>-->
+                                        <li class="list-inline-item btn-minus-wrap"><span class="btn btn-success btn-minus" id="btn-minus">-</span></li>
+                                        <li class="list-inline-item"><span class="badge bg-secondary" id="var-value">1</span></li>
+                                        <li class="list-inline-item btn-plus-wrap"><span class="btn btn-success btn-plus" id="btn-plus">+</span></li>
+                                    </ul>
+
+                                    <div class="btn-cart-wrap" th:if="${userId != null and (userId != 'anonymousUser')}">
+                                        <button type="button" class="btn btn-success btn-lg btn-addCart" name="submit" onclick="addToCart()">
+                                            장바구니 담기
+                                        </button>
+                                    </div>
+                                    <div th:if="${userId == null or (userId == 'anonymousUser')}">
+                                        <!-- 사용자가 로그인하지 않은 경우에는 아무것도 표시하지 않음 -->
+                                    </div>
+                                </div>
+                            </form>
                         </div>
-                        <a class="download-link" th:href="@{${Product?.Pro_Filepath}}" download>다운로드</a>
-                        <form action="" method="GET">
-                            <input type="hidden" name="product-title" th:value="${Product.Pro_Name}">
-                            <div class="col-auto">
-                                <ul class="list-inline pb-3">
-                                    <li class="list-inline-item text-right">
-                                        수량
-                                        <input type="hidden" name="product-quanity" id="product-quanity" value="1">
-                                    </li>
-                                    <li class="list-inline-item"><span class="btn btn-success" id="btn-minus">-</span></li>
-                                    <li class="list-inline-item"><span class="badge bg-secondary" id="var-value">1</span></li>
-                                    <li class="list-inline-item"><span class="btn btn-success" id="btn-plus">+</span></li>
-                                </ul>
-                            </div>
-
-
-                            <div class="row pb-3">
-
-                                <div th:if="${userId != null and (userId != 'anonymousUser')}">
-                                    <button type="button" class="btn btn-success btn-lg" name="submit" onclick="addToCart()">
-                                        Add To Cart
-                                    </button>
-                                </div>
-                                <div th:if="${userId == null or (userId == 'anonymousUser')}">
-                                    <!-- 사용자가 로그인하지 않은 경우에는 아무것도 표시하지 않음 -->
-                                </div>
-                            </div>
-                        </form>
                     </div>
                 </div>
             </div>
         </div>
-    </div>
-</section>
+    </section>
 
-<section class="bg-light">
-    <div th:if="${Product != null}" class="container">
-        <div class="row">
-            <!-- Product 정보 출력 부분 (이전 내용 유지) -->
+    <section>
+        <div th:if="${Product != null}" class="container review-wrap">
+            <div class="row">
+                <!-- Product 정보 출력 부분 (이전 내용 유지) -->
 
-            <!-- Rev 정보 테이블 추가 -->
-            <div class="col-lg-12 mt-5">
-                <h2 class="h3">상품 리뷰</h2>
-                <a th:href="@{/review/list}" class="btn btn-primary float-right">리뷰 더 보기</a>
-                <table class="table table-striped">
-                    <thead>
-                    <tr>
-                        <th>리뷰 번호</th>
-                        <th>리뷰 제목</th>
-                        <th>이미지</th>
-                        <th>리뷰 내용</th>
-                        <th>작성자</th>
-                        <th>작성일</th>
-                    </tr>
-                    </thead>
-                    <tbody>
-                    <!-- Rev 정보 반복 출력 -->
-                    <tr th:each="review : ${Product.Reviews}">
-                        <td th:text="${review.Rev_No}">리뷰 번호</td>
-                        <td th:text="${review.Rev_Title}">리뷰 제목</td>
-                        <td>
-                            <img th:src="@{${review.Rev_Filepath}}" alt="Thumbnail" style="max-width: 100px; max-height: 100px;">
-                        </td>
-                        <td th:text="${review.Rev_Content}">리뷰 내용</td>
-                        <td th:text="${review.Rev_Writer}">리뷰 작성자</td>
-                        <td th:text="${#dates.format(review.Rev_Date, 'yyyy-MM-dd HH:mm:ss')}">작성일</td>
-                    </tr>
-                    </tbody>
-                </table>
+                <!-- Rev 정보 테이블 추가 -->
+                <div class="col-lg-12 mt-5">
+                    <h2 class="h3">상품 리뷰</h2>
+                    <table class="table table-striped">
+                        <thead>
+                        <tr>
+                            <th>리뷰 번호</th>
+                            <th>리뷰 제목</th>
+                            <th>이미지</th>
+                            <th>리뷰 내용</th>
+                            <th>작성자</th>
+                            <th>작성일</th>
+                        </tr>
+                        </thead>
+                        <tbody>
+                        <!-- Rev 정보 반복 출력 -->
+                        <tr th:each="review : ${Product.Reviews}">
+                            <td th:text="${review.Rev_No}">리뷰 번호</td>
+                            <td th:text="${review.Rev_Title}">리뷰 제목</td>
+                            <td>
+                                <img th:src="@{${review.Rev_Filepath}}" alt="Thumbnail" style="max-width: 100px; max-height: 100px;">
+                            </td>
+                            <td th:text="${review.Rev_Content}">리뷰 내용</td>
+                            <td th:text="${review.Rev_Writer}">리뷰 작성자</td>
+                            <td th:text="${#dates.format(review.Rev_Date, 'yyyy-MM-dd HH:mm:ss')}">작성일</td>
+                        </tr>
+                        </tbody>
+                    </table>
+                    <div class="btn-wrap">
+                        <a th:href="@{/review/list}" class="btn btn-primary">리뷰 더 보기</a>
+                    </div>
+                </div>
             </div>
         </div>
-    </div>
-</section>
-
+    </section>
+</div>
 
 <!-- 콘텐츠 끝 -->
 

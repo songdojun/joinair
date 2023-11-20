@@ -42,12 +42,13 @@
                         💫 <span th:text="${userId}"></span> 님 환영합니다 💫</span>
 
                     <!-- 사용자의 마일리지 표시 -->
-                    <span th:if="${userMileage != null}">&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
-                    <span th:text="${userMileage}"></span> 마일리지 </span>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
+                    <span th:if="${userMileage != null}">
+                    <span th:text="${userMileage}"></span> 마일리지 </span>
 
-
+                    <!-- admin일때만 '관리자페이지'바로가기 표시 -->
                     <span sec:authorize="hasAuthority('admin')">
-                        <a th:href="@{/adminWelcome}" class="nav-link" style="display: inline-block; margin-left: 10px;">관리자 페이지</a></span>
+                        <a th:href="@{/adminWelcome}" class="nav-link" style="display: inline-block;
+                        margin-left: 10px;">관리자 페이지</a></span>
 
             <!-- 사용자의 마일리지 표시 -->
 
@@ -150,178 +151,181 @@
         </form>
     </div>
 </div>
-
-<div id="template-mo-zay-hero-carousel" class="carousel slide" data-bs-ride="carousel">
-    <ol class="carousel-indicators">
-        <li data-bs-target="#template-mo-zay-hero-carousel" data-bs-slide-to="0" class="active"></li>
-        <li data-bs-target="#template-mo-zay-hero-carousel" data-bs-slide-to="1"></li>
-        <li data-bs-target="#template-mo-zay-hero-carousel" data-bs-slide-to="2"></li>
-    </ol>
-    <div class="carousel-inner">
-        <div class="carousel-item active" style="background: url('https://www.zerolap.com/theme/basic/img/main/banner1.png') center center; background-size: cover;">
-            <div class="container">
-                <div class="row p-5">
-                    <div class="col-lg-6 mb-0 d-flex align-items-center">
+<div class="main">
+    <div id="template-mo-zay-hero-carousel" class="carousel slide" data-bs-ride="carousel">
+        <ol class="carousel-indicators">
+            <li data-bs-target="#template-mo-zay-hero-carousel" data-bs-slide-to="0" class="active"></li>
+            <li data-bs-target="#template-mo-zay-hero-carousel" data-bs-slide-to="1"></li>
+            <li data-bs-target="#template-mo-zay-hero-carousel" data-bs-slide-to="2"></li>
+        </ol>
+        <div class="carousel-inner">
+            <div class="carousel-item active" style="background: url('https://www.zerolap.com/theme/basic/img/main/banner1.png') center center; background-size: cover;">
+                <div class="container">
+                    <div class="row p-5">
+                        <div class="col-lg-6 mb-0 d-flex align-items-center">
+                        </div>
                     </div>
                 </div>
             </div>
-        </div>
-        <div class="carousel-item" style="background: url('https://www.zerolap.com/theme/basic/img/main/banner6.svg') center center; background-size: cover;">
-            <div class="container">
-                <div class="row p-5">
-                    <div class="col-lg-6 mb-0 d-flex align-items-center">
-                        <div class="text-align-left align-self-center">
-                            <!--                            <h1 class="h1">추가도 가능함 추후 대화 이후 추가 예정</h1>-->
+            <div class="carousel-item" style="background: url('https://www.zerolap.com/theme/basic/img/main/banner6.svg') center center; background-size: cover;">
+                <div class="container">
+                    <div class="row p-5">
+                        <div class="col-lg-6 mb-0 d-flex align-items-center">
+                            <div class="text-align-left align-self-center">
+                                <!--                            <h1 class="h1">추가도 가능함 추후 대화 이후 추가 예정</h1>-->
+                                <!--                            <h3 class="h2">추가도 가능함 추후 대화 이후 추가 예정</h3>-->
+                                <!--                            <p>추가도 가능함 추후 대화 이후 추가 예정</p>-->
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+            <div class="carousel-item" style="background: url('https://ybuy.kr/SkinImg/DB_tab32_1/07.jpg') center center; background-size: cover;">
+                <div class="container">
+                    <div class="row p-5">
+                        <div class="col-lg-6 mb-0 d-flex align-items-center">
+                            <!--                        <div class="text-align-left align-self-center">-->
+                            <!--                            <h1 class="h1">추가도 가능함</h1>-->
                             <!--                            <h3 class="h2">추가도 가능함 추후 대화 이후 추가 예정</h3>-->
-                            <!--                            <p>추가도 가능함 추후 대화 이후 추가 예정</p>-->
+                            <!--                            <p>이 부분도 동일</p>-->
+                            <!--                        </div>-->
                         </div>
                     </div>
                 </div>
             </div>
         </div>
-        <div class="carousel-item" style="background: url('https://ybuy.kr/SkinImg/DB_tab32_1/07.jpg') center center; background-size: cover;">
-            <div class="container">
-                <div class="row p-5">
-                    <div class="col-lg-6 mb-0 d-flex align-items-center">
-                        <!--                        <div class="text-align-left align-self-center">-->
-                        <!--                            <h1 class="h1">추가도 가능함</h1>-->
-                        <!--                            <h3 class="h2">추가도 가능함 추후 대화 이후 추가 예정</h3>-->
-                        <!--                            <p>이 부분도 동일</p>-->
-                        <!--                        </div>-->
-                    </div>
-                </div>
-            </div>
-        </div>
     </div>
-</div>
 
-<!-- 핫이슈 컨텐츠 시작 편의점 음식 신상(CU편의점 기준) -->
-<div class="container">
-    <div class="row">
-        <div class="col-lg-12">
-            <h2 class="text-center" style="font-size: 32px; font-weight: bold; color:#2A0A0A; text-transform: uppercase;">핫이슈</h2>
-
-            <p class="text-center">지금 가장 핫한 편의점 음식을 만나보세요. 입맛을 돋우는 신제품이 등장했습니다.</p>
-
+    <!-- 핫이슈 컨텐츠 시작 편의점 음식 신상(CU편의점 기준) -->
+    <div class="main-conts-wrap">
+        <div class="container">
             <div class="row">
-                <div class="col-lg-4">
-                    <div class="card">
-                        <img src="https://tqklhszfkvzk6518638.cdn.ntruss.com/product/8809895798601.jpg" class="card-img-top" alt="편의점 음식 1" width="200" height="200">
-                        <div class="card-body">
-                            <h5 class="card-title">푸드)꽃카황치즈쿠키</h5>
-                            <p class="card-text">가격1,800원</p>
-                        </div>
-                    </div>
-                </div>
+                <div class="col-lg-12">
+                    <h2 class="text-center" style="font-size: 32px; font-weight: bold; color:#2A0A0A; text-transform: uppercase;">핫이슈</h2>
 
-                <div class="col-lg-4">
-                    <div class="card">
-                        <img src="https://tqklhszfkvzk6518638.cdn.ntruss.com/product/8809948342409.jpg" class="card-img-top" alt="편의점 음식 2" width="200" height="200">
-                        <div class="card-body">
-                            <h5 class="card-title">도)한가위돼지구이정식</h5>
-                            <p class="card-text">가격6,900원</p>
-                        </div>
-                    </div>
-                </div>
+                    <p class="text-center">지금 가장 핫한 편의점 음식을 만나보세요. 입맛을 돋우는 신제품이 등장했습니다.</p>
 
-                <div class="col-lg-4">
-                    <div class="card">
-                        <img src="https://tqklhszfkvzk6518638.cdn.ntruss.com/product/8809665560780.jpg" class="card-img-top" alt="편의점 음식 3" width="200" height="200">
-                        <div class="card-body">
-                            <h5 class="card-title">샐)탄두리치킨샐러드</h5>
-                            <p class="card-text">가격6,600원
-                            </p>
+                    <div class="row">
+                        <div class="col-lg-4">
+                            <div class="card">
+                                <img src="https://tqklhszfkvzk6518638.cdn.ntruss.com/product/8809895798601.jpg" class="card-img-top" alt="편의점 음식 1" width="200" height="200">
+                                <div class="card-body">
+                                    <h5 class="card-title">푸드)꽃카황치즈쿠키</h5>
+                                    <p class="card-text">가격1,800원</p>
+                                </div>
+                            </div>
+                        </div>
+
+                        <div class="col-lg-4">
+                            <div class="card">
+                                <img src="https://tqklhszfkvzk6518638.cdn.ntruss.com/product/8809948342409.jpg" class="card-img-top" alt="편의점 음식 2" width="200" height="200">
+                                <div class="card-body">
+                                    <h5 class="card-title">도)한가위돼지구이정식</h5>
+                                    <p class="card-text">가격6,900원</p>
+                                </div>
+                            </div>
+                        </div>
+
+                        <div class="col-lg-4">
+                            <div class="card">
+                                <img src="https://tqklhszfkvzk6518638.cdn.ntruss.com/product/8809665560780.jpg" class="card-img-top" alt="편의점 음식 3" width="200" height="200">
+                                <div class="card-body">
+                                    <h5 class="card-title">샐)탄두리치킨샐러드</h5>
+                                    <p class="card-text">가격6,600원
+                                    </p>
+                                </div>
+                            </div>
                         </div>
                     </div>
                 </div>
             </div>
         </div>
-    </div>
-</div>
-<div class="container">
-    <div class="row">
-        <div class="col-lg-12">
-
-            <br>
-
-
+        <div class="container">
             <div class="row">
-                <div class="col-lg-4">
-                    <div class="card">
-                        <img src="https://tqklhszfkvzk6518638.cdn.ntruss.com/product/8809948342034.jpg" class="card-img-top" alt="편의점 음식 1" width="200" height="300     ">
-                        <div class="card-body">
-                            <h5 class="card-title">자이언트)조청찍먹떡강정</h5>
-                            <p class="card-text">가격3,600원
-                            </p>
-                        </div>
-                    </div>
-                </div>
+                <div class="col-lg-12">
 
-                <div class="col-lg-4">
-                    <div class="card">
-                        <img src="https://tqklhszfkvzk6518638.cdn.ntruss.com/product/8994963002077.jpg" class="card-img-top" alt="편의점 음식 2" width="200" height="300">
-                        <div class="card-body">
-                            <h5 class="card-title">이맥스)미고랭라면봉지</h5>
-                            <p class="card-text">가격700원</p>
-                        </div>
-                    </div>
-                </div>
+                    <br>
 
-                <div class="col-lg-4">
-                    <div class="card">
-                        <img src="https://tqklhszfkvzk6518638.cdn.ntruss.com/product/8809948342362.jpg" class="card-img-top" alt="편의점 음식 3" width="200" height="300">
-                        <div class="card-body">
-                            <h5 class="card-title">김)쫀득키리모찌유부초밥</h5>
-                            <p class="card-text">가격4,000원</p>
+
+                    <div class="row">
+                        <div class="col-lg-4">
+                            <div class="card">
+                                <img src="https://tqklhszfkvzk6518638.cdn.ntruss.com/product/8809948342034.jpg" class="card-img-top" alt="편의점 음식 1" width="200" height="300     ">
+                                <div class="card-body">
+                                    <h5 class="card-title">자이언트)조청찍먹떡강정</h5>
+                                    <p class="card-text">가격3,600원
+                                    </p>
+                                </div>
+                            </div>
+                        </div>
+
+                        <div class="col-lg-4">
+                            <div class="card">
+                                <img src="https://tqklhszfkvzk6518638.cdn.ntruss.com/product/8994963002077.jpg" class="card-img-top" alt="편의점 음식 2" width="200" height="300">
+                                <div class="card-body">
+                                    <h5 class="card-title">이맥스)미고랭라면봉지</h5>
+                                    <p class="card-text">가격700원</p>
+                                </div>
+                            </div>
+                        </div>
+
+                        <div class="col-lg-4">
+                            <div class="card">
+                                <img src="https://tqklhszfkvzk6518638.cdn.ntruss.com/product/8809948342362.jpg" class="card-img-top" alt="편의점 음식 3" width="200" height="300">
+                                <div class="card-body">
+                                    <h5 class="card-title">김)쫀득키리모찌유부초밥</h5>
+                                    <p class="card-text">가격4,000원</p>
+                                </div>
+                            </div>
                         </div>
                     </div>
                 </div>
             </div>
         </div>
-    </div>
-</div>
-<div class="container">
-    <div class="row">
-        <div class="col-lg-12">
-            <br>
-
+        <div class="container">
             <div class="row">
-                <div class="col-lg-4">
-                    <div class="card">
-                        <img src="https://tqklhszfkvzk6518638.cdn.ntruss.com/product/8809411843679.jpg" class="card-img-top" alt="편의점 음식 1" width="200" height="300">
-                        <div class="card-body">
-                            <h5 class="card-title">이웃집)브라우니약과쿠키</h5>
-                            <p class="card-text">가격2,700원</p>
-                        </div>
-                    </div>
-                </div>
+                <div class="col-lg-12">
+                    <br>
 
-                <div class="col-lg-4">
-                    <div class="card">
-                        <img src="https://tqklhszfkvzk6518638.cdn.ntruss.com/product/8809860730650.jpg" class="card-img-top" alt="편의점 음식 2" width="200" height="300">
-                        <div class="card-body">
-                            <h5 class="card-title">귀멸)귀멸의칼날카레우동</h5>
-                            <p class="card-text">가격5,500원</p>
+                    <div class="row">
+                        <div class="col-lg-4">
+                            <div class="card">
+                                <img src="https://tqklhszfkvzk6518638.cdn.ntruss.com/product/8809411843679.jpg" class="card-img-top" alt="편의점 음식 1" width="200" height="300">
+                                <div class="card-body">
+                                    <h5 class="card-title">이웃집)브라우니약과쿠키</h5>
+                                    <p class="card-text">가격2,700원</p>
+                                </div>
+                            </div>
                         </div>
-                    </div>
-                </div>
 
-                <div class="col-lg-4">
-                    <div class="card">
-                        <img src="https://tqklhszfkvzk6518638.cdn.ntruss.com/product/8809383959019.jpg" class="card-img-top" alt="편의점 음식 3" width="200" height="300">
-                        <div class="card-body">
-                            <h5 class="card-title">주)게딱지장삼각</h5>
-                            <p class="card-text">가격1,400원</p>
+                        <div class="col-lg-4">
+                            <div class="card">
+                                <img src="https://tqklhszfkvzk6518638.cdn.ntruss.com/product/8809860730650.jpg" class="card-img-top" alt="편의점 음식 2" width="200" height="300">
+                                <div class="card-body">
+                                    <h5 class="card-title">귀멸)귀멸의칼날카레우동</h5>
+                                    <p class="card-text">가격5,500원</p>
+                                </div>
+                            </div>
+                        </div>
+
+                        <div class="col-lg-4">
+                            <div class="card">
+                                <img src="https://tqklhszfkvzk6518638.cdn.ntruss.com/product/8809383959019.jpg" class="card-img-top" alt="편의점 음식 3" width="200" height="300">
+                                <div class="card-body">
+                                    <h5 class="card-title">주)게딱지장삼각</h5>
+                                    <p class="card-text">가격1,400원</p>
+                                </div>
+                            </div>
                         </div>
                     </div>
                 </div>
             </div>
         </div>
+        <!-- 핫이슈 끝 -->
     </div>
+
 </div>
 
-
-<!-- 핫이슈 끝 -->
 
 
 <!-- 푸터 -->
