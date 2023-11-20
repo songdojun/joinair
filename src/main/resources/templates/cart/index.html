@@ -1,5 +1,6 @@
 <!DOCTYPE html>
-<html lang="ko" xmlns:th="http://www.thymeleaf.org">
+<html lang="ko" xmlns:th="http://www.thymeleaf.org"
+      xmlns:sec="http://www.thymeleaf.org/thymeleaf-extras-springsecurity">
 <head>
     <meta charset="UTF-8">
     <title>Cart and Order Information</title>
@@ -27,6 +28,17 @@
     <!-- Leaflet CSS - 인터랙티브 맵을 위한 Leaflet JavaScript 라이브러리의 스타일시트 -->
     <link rel="stylesheet" href="https://unpkg.com/leaflet@1.7.1/dist/leaflet.css"
           integrity="sha512-xodZBNTC5n17Xt2atTPuE1HxjVMSvLVW9ocqUKLsCC5CXdbqCmblAshOMAS6/keqq/sMZMZ19scR4PsZChSR7A==" crossorigin=""/>
+
+    <link rel="apple-touch-icon" href="/assets/img/apple-icon.png">
+    <link rel="shortcut icon" type="image/x-icon" href="/assets/img/favicon.ico">
+    <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/4.5.2/css/bootstrap.min.css">
+    <link rel="stylesheet" href="/assets/css/templatemo.css">
+    <link rel="stylesheet" href="/assets/css/custom.css">
+    <link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Roboto:wght@100;200;300;400;500;700;900&display=swap">
+    <link rel="stylesheet" href="/assets/css/fontawesome.min.css">
+    <link rel="stylesheet" href="https://unpkg.com/leaflet@1.7.1/dist/leaflet.css"
+          integrity="sha512-xodZBNTC5n17Xt2atTPuE1HxjVMSvLVW9ocqUKLsCC5CXdbqCmblAshOMAS6/keqq/sMZMZ19scR4PsZChSR7A==" crossorigin=""/>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.2.0/css/all.min.css">
 
 </head>
 <style>
@@ -78,6 +90,37 @@
 
 </style>
 <body>
+<!-- 상단 네비게이션 시작 -->
+<nav class="navbar navbar-expand-lg bg-dark navbar-light d-none d-lg-block" id="templatemo_nav_top">
+    <div class="container text-light">
+        <div class="w-100 d-flex justify-content-between">
+            <div>
+                <i class="fa fa-envelope mx-2"></i>
+                <a class="navbar-sm-brand text-light text-decoration-none" href="mailto:info@company.com"> Doron delivery@Doron delivery.com
+
+                </a>
+                <i class="fa fa-phone mx-2"></i>
+                <a class="navbar-sm-brand text-light text-decoration-none" href="tel:010-020-0340">010-1234-4567</a>
+            </div>
+            <div>
+                <span th:if="${userId != null and (userId != 'anonymousUser')}">💫 <span th:text="${userId}"></span> 님 환영합니다 💫</span>
+                <span sec:authorize="hasAuthority('admin')">
+                    <a th:href="@{/adminWelcome}" class="nav-link" style="display: inline-block; margin-left: 10px;">관리자 페이지</a></span>
+
+                <!-- 사용자의 마일리지 표시 -->
+                <span th:if="${userMileage != null}">&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
+                    <span th:text="${userMileage}"></span> 마일리지 </span>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
+
+                &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
+                <a class="text-light" href="https://fb.com/templatemo" target="_blank" rel="sponsored"><i class="fab fa-facebook-f fa-sm fa-fw me-2"></i></a>
+                <a class="text-light" href="https://www.instagram.com/" target="_blank"><i class="fab fa-instagram fa-sm fa-fw me-2"></i></a>
+                <a class="text-light" href="https://twitter.com/" target="_blank"><i class="fab fa-twitter fa-sm fa-fw me-2"></i></a>
+
+            </div>
+        </div>
+    </div>
+</nav>
+<!-- 상단 네비게이션 닫기 -->
 <!-- 장바구니 -->
 <div class="container mt-5">
     <h1 class="text-center mb-4">장바구니</h1>
@@ -106,19 +149,33 @@
                 <td class="price"
                     th:text="${item.product.Pro_Price != null ? item.product.Pro_Price : ''}"></td>
                 <td>
-                    <!-- 각 상품의 수량 입력 필드 이름을 고유하게 변경 -->
-                    <input type="text" name="quantity_${item.product.Pro_Code}" th:value="${item.quantity}" class="form-control" style="width:60px;" readonly />
+                    <input type="number" name="quantity_${item.product.Pro_Code}" th:value="${item.quantity}" class="form-control" style="width:60px;" readonly />
                 </td>
-
                 <td th:text="${item.product != null ? item.product.Pro_Weight : ''}"></td>
 
                 <td class="subtotal"
                     th:text="${item.product.Pro_Price != null && item.quantity != null ? item.product.Pro_Price * item.quantity : ''}"></td>
                 <td>
-                    <a th:if="${session.cart != null}" th:href="${'/cart/remove/' + item.product.Pro_Code}" class="text-danger">X</a>
+                    <a th:if="${session.cart != null}" th:attr="data-pro-code=${item.product.Pro_Code}" class="text-danger" onclick="removeItem(this)" href="/cart">X</a>
                 </td>
             </tr>
             </tbody>
+            <script>
+                function removeItem(link) {
+                    var productCode = link.getAttribute('data-pro-code');
+                    $.get('/cart/remove/' + productCode, function (response) {
+                        if (response === 'Success') {
+                            // 성공적으로 삭제되면 해당 행을 삭제
+                            var row = link.closest('tr');
+                            row.remove();
+                        } else {
+                            // 실패하면 원하는 처리를 수행 (예: 오류 메시지 표시)
+                            alert("삭제에 실패하였습니다.");
+                        }
+                    });
+                }
+            </script>
+
             <tfoot>
             <tr>
                 <td colspan="3"><strong>총 무게(g)</strong></td>
@@ -141,19 +198,15 @@
     <form method="post" action="/submit-customer-info-endpoint">
         <div class="form-group">
             <label for="customerName">주문자 이름:</label>
-            <!-- 주문자 이름 입력란에 사용자 아이디를 기본값으로 설정하고, 비활성화(disabled)시킴 -->
-            <input type="text" id="customerName" name="customerName" class="form-control" required
-                   th:value="${userId != null and userId != 'anonymousUser' ? userId : ''}"
-                   th:if="${userId != null and userId != 'anonymousUser'}"
-                   disabled>
+            <input type="text" id="customerName" name="customerName" class="form-control" th:value="${#authentication.principal.User_Name}" readonly>
         </div>
         <div class="form-group">
             <label for="customerEmail">이메일:</label>
-            <input type="email" id="customerEmail" name="customerEmail" class="form-control" required>
+            <input type="email" id="customerEmail" name="customerEmail" class="form-control" th:value="${#authentication.principal.User_Email}" readonly>
         </div>
         <div class="form-group">
             <label for="customerMobile">휴대 전화:</label>
-            <input type="tel" id="customerMobile" name="customerMobile" class="form-control" required>
+            <input type="tel" id="customerMobile" name="customerMobile" class="form-control" th:value="${#authentication.principal.User_Phone}" readonly>
         </div>
     </form>
 </div>
@@ -169,33 +222,29 @@
         </div>
         <div class="form-group">
             <label for="recipientName">받는 사람:</label>
-            <input type="text" id="recipientName" name="recipientName" class="form-control">
-        </div>
-        <!-- 주소 입력란 -->
-        <div class="form-group">
-            <label for="sample4_postcode">주소:</label>
-            <div class="input-group">
-                <input type="text" id="sample4_postcode" placeholder="우편번호" class="form-control">
-                <div class="input-group-append">
-                    <button type="button" class="btn btn-primary" onclick="sample4_execDaumPostcode()">우편번호 찾기</button>
-                </div>
-            </div>
+            <input type="text" id="recipientName" name="recipientName" class="form-control" >
         </div>
         <div class="form-group">
-            <input type="text" id="sample4_roadAddress" placeholder="도로명주소" class="form-control">
+            <label for="orderDest">목적지:</label>
+            <select class="form-control" id="orderDest" name="orderDest" onchange="selectPension(this.value)">
+                <option value="" selected>목적지를 선택해주세요.</option>
+                <option value="경포 그곳에 가면 펜션">경포 그곳에 가면 펜션</option>
+                <option value="산타 비치 펜션">산타 비치 펜션</option>
+                <option value="강릉 에스구 펜션">강릉 에스구 펜션</option>
+                <option value="블루스테이펜션">블루스테이펜션</option>
+                <option value="라미아까사">라미아까사</option>
+                <option value="리치문펜션">리치문펜션</option>
+                <option value="탑스파펜션">탑스파펜션</option>
+                <option value="경포오션힐펜션">경포오션힐펜션</option>
+                <option value="포시즌호텔엔펜션">포시즌호텔엔펜션</option>
+            </select>
         </div>
-        <div class="form-group">
-            <input type="text" id="sample4_jibunAddress" placeholder="지번주소" class="form-control">
-        </div>
-        <div class="form-group">
-            <span id="guide" style="color:#999;display:none"></span>
-        </div>
-        <div class="form-group">
-            <input type="text" id="sample4_detailAddress" placeholder="상세주소" class="form-control">
-        </div>
-        <div class="form-group">
-            <input type="text" id="sample4_extraAddress" placeholder="참고항목" class="form-control">
-        </div>
+        <script>
+            function selectPension(selectedValue) {
+                // 선택된 값을 인풋 창에 설정
+                document.getElementById('pensionDropdown').value = selectedValue;
+            }
+        </script>
 
         <div class="form-group">
             <label for="shippingMobile">휴대 전화:</label>
@@ -203,8 +252,54 @@
         </div>
     </form>
 </div>
+
 <!-- 결제 버튼 -->
-<button data-toggle="modal" data-target="#paymentModal" class="btn btn-primary" style="margin: auto; display: block;">결제</button><br>
+<!--<form method="post" action="/order/place" onsubmit="submitOrderForm(event)">-->
+<!--    <button type="submit" data-toggle="modal" data-target="#paymentModal" class="btn btn-primary" style="margin: auto; display: block;">결제</button><br>-->
+<!--</form>-->
+<button type="button" data-toggle="modal" data-target="#paymentModal" class="btn btn-primary" style="margin: auto; display: block;" onclick="openPaymentModal()">결제</button><br>
+
+
+<script>
+    function submitOrderForm(event) {
+           event.preventDefault(); // 기본 동작(페이지 전환)을 중지 리턴값 무시
+
+           // 여기에서 추가적인 작업을 수행
+
+
+           // 주문 폼 데이터
+           var formData = new FormData(event.target);
+
+           var finalAmount = parseFloat(document.getElementById('total1').textContent);
+
+           // 수정: 최종 결제 금액을 FormData에 추가
+           alert("최종 결제 금액 : " + finalAmount)
+           formData.append('finalAmount', finalAmount);
+
+           // 주문 요청 보내기
+           fetch('/order/place', {
+               method: 'POST',
+               body: formData,
+           })
+           .then(response => {
+               if (!response.ok) {
+                   throw new Error(`HTTP error! Status: ${response.status}`);
+               }
+               return response.text();  //추정원인 1 : 여기서 함수가 종료되서 다음께 실행이 안되지 않을까...?
+           })
+           .then(data => {
+               // 성공적으로 처리된 경우 모달 닫기 및 페이지 리로드
+               $('#paymentModal').hide(function() {
+                window.location.href = "/order/orderConfirm/" + data; // 여기서 data는 서버에서 반환한 주문 ID입니다.
+               });
+           })
+           .catch((error) => {
+               console.error('Error:', error);
+           });
+       }
+
+
+</script>
 
 
 <!-- 결제 모달 -->
@@ -229,24 +324,55 @@
                 <p>총 상품 주문금액: <span class="total" id="totalAmount"></span></p>
                 <p>할인 금액: <span id="discountAmount">0</span></p>
                 <p>총 적립 금액: <span class="reward" id="rewardAmount"></span></p>
+
+                <p>보유 마일리지: <span class="user-mileage" th:text="${userMileage}"></span> 마일리지</p>
+
+                <label for="mileageInput">사용할 마일리지 입력:</label>
+                <!-- 추가: 사용자가 마일리지 입력할 수 있는 입력란 -->
+                <input type="number" id="mileageInput" value="" onKeyup="this.value=this.value.replace(/[^0-9]/g,'');" name="mileageInput" class="form-control" placeholder="0" min="0" max="${userMileage}" />
+
+                <button onclick="applyMileage()" class="btn btn-primary">마일리지 적용</button>
+
+
+
+
                 <p>최종 결제 금액: <span class="final" id="total1"></span></p>
                 <!-- 기타 결제 관련 정보 및 양식 -->
                 <!-- 예를 들어, 신용카드 정보 입력 폼 등이 들어갈 수 있습니다. -->
+
+                <!-- 주문 완료 및 결제하기 버튼 -->
+                <form method="post" action="/order/place" onsubmit="submitOrderForm(event)">
+                    <input type="hidden" name="finalAmount" id="finalAmountInput" />
+                    <input type="hidden" id="orderPname"  name="orderPname"  value=""/>
+                    <input type="hidden" id="orderDest1"  name="orderDest1"  value=""/>
+                    <input type="hidden" id="orderPhone1"  name="orderPhone1"  value=""/>
+                    <input type="hidden" id="afuserMileage" name="afuserMileage" value="">
+                    <button type="submit" data-toggle="modal" data-target="#paymentModal" class="btn btn-primary" style="margin: auto; display: block;">주문완료 및 결제하기</button><br>
+                </form>
+                <!--                    <button onclick="submitOrderForm(event)" class="btn btn-success">주문완료 및 결제하기</button></form>-->
             </div>
+
             <div class="modal-footer">
+                <!-- 결제 버튼 -->
                 <button onclick="requestCardPayment()" class="btn btn-primary">카드결제</button>
+                <button onclick="redirectToBankTransferPage()" class="btn btn-primary">무통장입금</button>
             </div>
         </div>
     </div>
 </div>
 
 </div>
-<script>window.addEventListener("scroll", function () {
-    var scrollBox = document.querySelector("#payment-box");
-    if (scrollBox) {
-        scrollBox.style.transform = "translateX(0)"; // 항상 보이도록 변경
-    }
-});
+<script>
+
+    function openPaymentModal() {
+       // 여기에서 모달을 띄우는 코드를 추가
+       $('#paymentModal').show();
+       document.getElementById('orderPname').value = document.getElementById('recipientName').value;
+       document.getElementById('orderDest1').value = document.getElementById('orderDest').value;
+       document.getElementById('orderPhone1').value = document.getElementById('shippingMobile').value;
+
+   }
+
 </script>
 
 
@@ -256,69 +382,7 @@
 
 <script src="//t1.daumcdn.net/mapjsapi/bundle/postcode/prod/postcode.v2.js"></script>
 <script src="https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0/js/bootstrap.min.js"></script>
-<script>
-</script>
-<script src="//t1.daumcdn.net/mapjsapi/bundle/postcode/prod/postcode.v2.js"></script>
-<script>
-    //카카오 주소 api
-    //본 예제에서는 도로명 주소 표기 방식에 대한 법령에 따라, 내려오는 데이터를 조합하여 올바른 주소를 구성하는 방법을 설명합니다.
-    function sample4_execDaumPostcode() {
-        new daum.Postcode({
-            oncomplete: function(data) {
-                // 팝업에서 검색결과 항목을 클릭했을때 실행할 코드를 작성하는 부분.
 
-                // 도로명 주소의 노출 규칙에 따라 주소를 표시한다.
-                // 내려오는 변수가 값이 없는 경우엔 공백('')값을 가지므로, 이를 참고하여 분기 한다.
-                var roadAddr = data.roadAddress; // 도로명 주소 변수
-                var extraRoadAddr = ''; // 참고 항목 변수
-
-                // 법정동명이 있을 경우 추가한다. (법정리는 제외)
-                // 법정동의 경우 마지막 문자가 "동/로/가"로 끝난다.
-                if(data.bname !== '' && /[동|로|가]$/g.test(data.bname)){
-                    extraRoadAddr += data.bname;
-                }
-                // 건물명이 있고, 공동주택일 경우 추가한다.
-                if(data.buildingName !== '' && data.apartment === 'Y'){
-                   extraRoadAddr += (extraRoadAddr !== '' ? ', ' + data.buildingName : data.buildingName);
-                }
-                // 표시할 참고항목이 있을 경우, 괄호까지 추가한 최종 문자열을 만든다.
-                if(extraRoadAddr !== ''){
-                    extraRoadAddr = ' (' + extraRoadAddr + ')';
-                }
-
-                // 우편번호와 주소 정보를 해당 필드에 넣는다.
-                document.getElementById('sample4_postcode').value = data.zonecode;
-                document.getElementById("sample4_roadAddress").value = roadAddr;
-                document.getElementById("sample4_jibunAddress").value = data.jibunAddress;
-
-                // 참고항목 문자열이 있을 경우 해당 필드에 넣는다.
-                if(roadAddr !== ''){
-                    document.getElementById("sample4_extraAddress").value = extraRoadAddr;
-                } else {
-                    document.getElementById("sample4_extraAddress").value = '';
-                }
-
-                var guideTextBox = document.getElementById("guide");
-                // 사용자가 '선택 안함'을 클릭한 경우, 예상 주소라는 표시를 해준다.
-                if(data.autoRoadAddress) {
-                    var expRoadAddr = data.autoRoadAddress + extraRoadAddr;
-                    guideTextBox.innerHTML = '(예상 도로명 주소 : ' + expRoadAddr + ')';
-                    guideTextBox.style.display = 'block';
-
-                } else if(data.autoJibunAddress) {
-                    var expJibunAddr = data.autoJibunAddress;
-                    guideTextBox.innerHTML = '(예상 지번 주소 : ' + expJibunAddr + ')';
-                    guideTextBox.style.display = 'block';
-                } else {
-                    guideTextBox.innerHTML = '';
-                    guideTextBox.style.display = 'none';
-                }
-            }
-        }).open();
-    }
-</script>
-
-<script src="//t1.daumcdn.net/mapjsapi/bundle/postcode/prod/postcode.v2.js"></script>
 <script>
     // 주문자 정보와 배송 정보 동일 처리
     document.getElementById('sameAsBilling').addEventListener('change', function () {
@@ -333,15 +397,17 @@
 </script>
 <!-- 부트스트랩 링크 추가 -->
 <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0/css/bootstrap.min.css">
+
 <script>
     // 수량 증가, 감소 시 소계 및 무게 합계 업데이트
-function updateSubtotal(row, productCode) {
-    var priceCell = row.querySelector('.price');
-    var quantityInput = row.querySelector('[name="quantity_' + productCode + '"]');
-    var subtotalCell = row.querySelector('.subtotal');
-    var weightCell = row.querySelector('td:nth-child(4)'); // 무게를 나타내는 열
+    function updateSubtotal(row, productCode) {
+        var priceCell = row.querySelector('.price');
+        var quantityInput = row.querySelector('[name="quantity_' + productCode + '"]');
+        var subtotalCell = row.querySelector('.subtotal');
+        var weightCell = row.querySelector('td:nth-child(4)'); // 무게를 나타내는 열
 
-    if (priceCell && quantityInput && subtotalCell && weightCell) {
+        if (priceCell && quantityInput && subtotalCell && weightCell) {
+
         var price = parseFloat(priceCell.textContent);
         var quantity = parseInt(quantityInput.value);
         if (quantity <= 0) {
@@ -369,6 +435,59 @@ window.addEventListener('load', function () {
     });
     updateTotal();
 });
+// 추가: 마일리지 적용 함수
+    function applyMileage() {
+        // 입력된 마일리지
+        var mileageInput = document.getElementById('mileageInput').value;
+
+        // 보유 마일리지
+        var userMileage = parseFloat(document.querySelector('.user-mileage').textContent);
+        console.log('입력된 마일리지:' + mileageInput +', 보유 마일리지:'+ userMileage);
+
+        // 적용후 남은 마일리지
+        var sumMileage = userMileage - mileageInput;
+        document.getElementById('afuserMileage').value = sumMileage;
+
+        // 총 상품 주문금액
+        var totalAmount = parseFloat(document.querySelector('.total').textContent);
+
+        // 최종 결제 금액
+        var finalAmount = totalAmount;
+
+        // 입력된 마일리지가 보유 마일리지를 초과하지 않도록 제한
+        if (mileageInput > userMileage) {
+            alert("보유 마일리지를 초과하여 입력할 수 없습니다.");
+            return;
+        }
+        if (mileageInput == 0) {
+            document.getElementById('discountAmount').textContent = 0;
+        }
+
+        // 입력된 마일리지가 최대 총 결제 금액을 초과하지 않도록 제한
+        if (mileageInput > totalAmount) {
+        alert("최대 총 결제 금액을 초과하여 입력할 수 없습니다.");
+        return;
+        }
+
+        // 할인 금액은 입력된 마일리지만큼
+        var discountAmount = parseFloat(mileageInput);
+
+        // 추가: 총 적립 금액은 총 주문 금액의 일정 비율(예: 5%)로 설정
+        var rewardAmount = totalAmount * 0.05;
+
+        // 추가: 할인 금액과 적립 금액을 모달에 표시
+        document.getElementById('discountAmount').textContent = discountAmount;
+        document.getElementById('rewardAmount').textContent = rewardAmount;
+
+        // 최종 결제 금액은 총 주문 금액에서 할인 금액을 뺀 값
+        // 추가: 최종 결제 금액이 마이너스가 되지 않도록 제한
+        finalAmount = Math.max(totalAmount - discountAmount, 0);
+
+        // 모달 내부에 적용된 마일리지 정보를 적용
+        document.getElementById('totalAmount').textContent = totalAmount;
+        document.getElementById('total1').textContent = finalAmount;
+        console.log('최종 결제 금액:' + finalAmount);
+        }
 
    // 총 무게 및 할인, 적립 등 업데이트
    function updateTotal() {
@@ -414,12 +533,7 @@ window.addEventListener('load', function () {
            finalAmountCell.textContent = finalAmount;
        }
    }
-
-
 </script>
-
-
-
 <script>
     // 아임포트 초기화 및 카드결제 요청
     function requestCardPayment() {
@@ -442,7 +556,7 @@ window.addEventListener('load', function () {
             if (rsp.success) {
                 var msg = '결제가 완료되었습니다.';
                 alert(msg);
-                location.href = "결제 완료 후 이동할 페이지 URL";
+                location.href = "http://localhost:63342/joinair/src/main/resources/templates/ordercomplate.html?_ijt=qtqh28h3cb4drehrj62ju0b7ti&_ij_reload=RELOAD_ON_SAVE";
             } else {
                 var msg = '결제에 실패하였습니다.';
                 msg += '에러내용 : ' + rsp.error_msg;
@@ -455,6 +569,7 @@ window.addEventListener('load', function () {
     function redirectToBankTransferPage() {
         window.location.href = "/payment/Deposit";
     }
+
 </script>
 <script src="https://code.jquery.com/jquery-1.12.4.min.js"></script>
 <script src="https://cdn.iamport.kr/js/iamport.payment-1.1.5.js"></script>

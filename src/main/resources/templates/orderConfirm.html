@@ -83,7 +83,8 @@
                     결제가 완료되었습니다.
                 </div>
                 <div class="modal-footer">
-                    <button type="button" class="btn btn-primary" data-dismiss="modal">결제하기</button>
+                    <button type="button" class="btn btn-primary" data-dismiss="modal" onclick="redirectToShippingInfo()">배송 진행상태</button>
+
                 </div>
             </div>
         </div>
@@ -112,5 +113,11 @@
         }
     });
 </script>
+<script>
+    function redirectToShippingInfo() {
+        window.location.href = '/shipping/info';
+    }
+</script>
+
 </body>
 </html>
