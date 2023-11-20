@@ -1,63 +1,33 @@
 <!DOCTYPE html>
-<html>
+<html lang="ko" xmlns:th="http://www.thymeleaf.org"
+      xmlns:sec="http://www.thymeleaf.org/thymeleaf-extras-springsecurity">
+
 <head>
-    <meta charset="UTF-8">
+
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <link rel="apple-touch-icon" href="/assets/img/apple-icon.png">
+    <link rel="shortcut icon" type="image/x-icon" href="/assets/img/favicon.ico">
+    <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/4.5.2/css/bootstrap.min.css">
+    <link rel="stylesheet" href="/assets/css/templatemo.css">
+    <link rel="stylesheet" href="/assets/css/custom.css">
+    <link rel="stylesheet"
+          href="https://fonts.googleapis.com/css2?family=Roboto:wght@100;200;300;400;500;700;900&display=swap">
+    <link rel="stylesheet" href="/assets/css/fontawesome.min.css">
+    <link rel="stylesheet" href="https://unpkg.com/leaflet@1.7.1/dist/leaflet.css"
+          integrity="sha512-xodZBNTC5n17Xt2atTPuE1HxjVMSvLVW9ocqUKLsCC5CXdbqCmblAshOMAS6/keqq/sMZMZ19scR4PsZChSR7A=="
+          crossorigin=""/>
     <title>naverMaps</title>
     <script type="text/javascript"
             src="https://openapi.map.naver.com/openapi/v3/maps.js?ncpClientId=s9t5ppermu"></script>
 
     <script src="http://code.jquery.com/jquery-1.11.2.min.js"></script>
     <script src="http://code.jquery.com/jquery-migrate-1.2.1.min.js"></script>
-    <style>
-        body {
-      font-family: 'Malgun Gothic', sans-serif;
-  }
 
-  .nav-link strong {
-      font-family: 'Malgun Gothic', sans-serif;
-      font-weight: bold;
-  }
 
-  #tempaltemo_footer {
-      margin-bottom: 0.1px;
-  }
 
-  .card {
-      border: none;
-      background-color: #f8f9fa;
-      transition: transform 0.3s;
-      /* 헤더와 타이틀 부분에 사용할 폰트와 색상을 지정. */
-      font-family: 'Your Chosen Font', sans-serif;
-      color: #2A0A0A;
-  }
 
-  .card:hover {
-      transform: scale(1.05);
-  }
-
-  h5.card-title {
-      font-size: 18px;
-      font-weight: bold;
-      /* 각 카드의 타이틀에 대한 폰트 사이즈와 굵기를 지정. */
-  }
-
-                 #map-container {
-               width: 70%; /* Set the desired width */
-               height: 500px; /* Set the desired height */
-               margin: 0 auto; /* Center the map horizontally */
-               margin-top: 20px; /* Add top margin for spacing */
-           }
-
-           #map {
-               width: 100%;
-               height: 100%;
-           }
-
-    </style>
 </head>
-
-
-
 <body>
 <!-- 첫 번째 네브바 -->
 <nav class="navbar navbar-expand-lg bg-dark navbar-light d-none d-lg-block" id="templatemo_nav_top">
@@ -164,9 +134,7 @@
         </div>
     </div>
 </nav>
-<div id="map-container">
-    <div id="map"></div>
-</div>
+<div id="map" style="width:100%; height:800px;"></div>
 
 <script>
     var dronMarker;
@@ -299,65 +267,6 @@
 
 
 </script>
-
-
-<br>
-<!-- 핫이슈 끝 -->
-
-
-<!-- 푸터 -->
-<footer class="bg-dark pt-1" id="tempaltemo_footer">
-    <div class="container">
-        <div class="row">
-            <div class="col-md-5 pt-3">
-                <h2 class="h2 text-success border-bottom pb-3 border-light logo">Join Air🪂</h2>
-                <ul class="list-unstyled text-light footer-link-list">
-                    <li>
-                        <i class="fas fa-map-marker-alt fa-fw"></i>
-                        한국직업전문학교 11층 강의실02 항공4기 2조
-                    </li>
-                    <li>
-                        <i class="fa fa-phone fa-fw"></i>
-                        <a class="text-decoration-none" href="tel:010-020-0340">010-1234-1234</a>
-                    </li>
-                    <li>
-                        <i class="fa fa-envelope fa-fw"></i>
-                        <a class="text-decoration-none" href="mailto:info@company.com">drone delivery
-                            @drone delivery
-                            .com</a>
-                    </li>
-                </ul>
-            </div>
-            <div class="col-md-4 pt-4 text-left">
-                <h2 class="h2 text-light border-bottom pb-3 border-light">정보</h2>
-                <ul class="list-unstyled text-light footer-link-list">
-                    <li><a class="text-decoration-none" href="/index">홈</a></li>
-                    <li><a class="text-decoration-none" href="/about">회사 소개</a></li>
-                    <li><a class="text-decoration-none" href="#">드론 정보</a></li>
-                </ul>
-            </div>
-        </div>
-    </div>
-    <div class="w-100 bg-black py-1 mt-0">
-        <div class="container">
-            <div class="row pt-1">
-                <div class="col-3">
-                    <p class="text-left text-light mb-0">
-                        저작권 © 2023 Join Air
-                    </p>
-                </div>
-            </div>
-        </div>
-    </div>
-</footer>
-
-
-<script src="/assets/js/jquery-1.11.0.min.js"></script>
-<script src="/assets/js/jquery-migrate-1.2.1.min.js"></script>
-<script src="/assets/js/bootstrap.bundle.min.js"></script>
-<script src="/assets/js/templatemo.js"></script>
-<script src="/assets/js/custom.js"></script>
-<script src="/assets/js/slick.min.js"></script>
 
 
 </body>
