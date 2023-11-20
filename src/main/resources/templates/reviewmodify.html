@@ -19,50 +19,81 @@
 
 </head>
 <style>
-
     body {
-           font-family: 'Malgun Gothic', sans-serif;
-       }
+       font-family: 'Malgun Gothic', sans-serif;
+   }
 
-       .nav-link strong {
-           font-family: 'Malgun Gothic', sans-serif;
-           font-weight: bold;
-       }
+   .nav-link strong {
+       font-family: 'Malgun Gothic', sans-serif;
+       font-weight: bold;
+   }
+    body {
+        background-color: #f8f9fa;
+        font-family: 'Arial', sans-serif;
+    }
 
+    .layout {
+        width: 60%;
+        margin: 50px auto;
+        padding: 20px;
+        border: 2px solid #000;
+        border-radius: 8px;
+        box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+        background-color: #fff;
+    }
 
-      #tempaltemo_footer {
-          margin-bottom: 300px;
-      }
-          #tempaltemo_footer {
-  margin-bottom: 0.1px;
-  }
+    form {
+        display: grid;
+        gap: 15px;
+    }
 
-       .card {
-          border: none;
-          background-color: #f8f9fa;
-          transition: transform 0.3s;
-          /* 헤더와 타이틀 부분에 사용할 폰트와 색상을 지정. */
-          font-family: 'Your Chosen Font', sans-serif;
-          color: #2A0A0A;
-      }
+    label {
+        font-weight: bold;
+    }
 
-      .card:hover {
-          transform: scale(1.05);
-      }
+    input, button {
+        padding: 10px;
+        border: 1px solid #000;
+        border-radius: 5px;
+        font-size: 14px;
+    }
 
-      h5.card-title {
-          font-size: 18px;
-          font-weight: bold;
-          /* 각 카드의 타이틀에 대한 폰트 사이즈와 굵기를 지정. */
-      }
+    input[type="file"] {
+        padding: 5px;
+    }
 
-      p.card-text {
-          font-size: 16px;
-          color: #555;
-          /* 각 카드의 텍스트에 대한 폰트 사이즈와 색상을 지정. */
-      }
+    button {
+        cursor: pointer;
+        transition: background-color 0.3s;
+    }
+
+    button:hover {
+        background-color: #000;
+    }
+
+    .readonly {
+        background-color: #f8f9fa; /* 리딩온리 배경 색상 */
+        border: 1px solid #ced4da; /* 리딩온리 테두리 스타일 */
+        padding: 0.375rem 0.75rem; /* 리딩온리 안의 패딩 */
+    }
+
+    .edit-button, .delete-button {
+        margin-right: 10px; /* 버튼 간격 조정 */
+    }
+
+    .edit-link, .delete-link {
+        margin-right: 10px; /* 링크 간격 조정 */
+        text-decoration: none; /* 링크에 밑줄 제거 */
+        padding: 8px 16px; /* 링크 안의 패딩 */
+        border-radius: 5px; /* 링크 테두리 모양 */
+        color: #fff; /* 링크 텍스트 색상 */
+    }
+
+    .edit-link:hover, .delete-link:hover {
+
+        text-decoration: none; /* 호버 상태에서 밑줄 제거 */
+    }
 </style>
-
 <body>
 <!-- 첫 번째 네브바 -->
 <nav class="navbar navbar-expand-lg bg-dark navbar-light d-none d-lg-block" id="templatemo_nav_top">

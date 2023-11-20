@@ -20,49 +20,73 @@
 
 </head>
 <style>
+    .review-container {
+        text-align: center;
+        background-color: #ffffff;
+        border: 1px solid #e0e0e0;
+        border-radius: 5px;
+        padding: 20px;
+        margin-top: 30px;
+        box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+        width: 60%;
+        margin-left: auto;
+        margin-right: auto;
+    }
 
-    body {
-           font-family: 'Malgun Gothic', sans-serif;
-       }
 
-       .nav-link strong {
-           font-family: 'Malgun Gothic', sans-serif;
-           font-weight: bold;
-       }
+        .review-title {
+            color: #007bff;
+            font-size: 28px;
+            margin-bottom: 15px;
+        }
 
+        .review-thumbnail {
+            max-width: 40%;
+            height: auto;
+            border-radius: 10px;
+            border: 1px solid #e0e0e0;
+            margin-bottom: 20px;
+            box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
+        }
 
-      #tempaltemo_footer {
-          margin-bottom: 300px;
-      }
-          #tempaltemo_footer {
-  margin-bottom: 0.1px;
-  }
+        .user-info {
+            margin-top: 15px;
+            color: #555555;
+            font-size: 14px;
+        }
 
-       .card {
-          border: none;
-          background-color: #f8f9fa;
-          transition: transform 0.3s;
-          /* 헤더와 타이틀 부분에 사용할 폰트와 색상을 지정. */
-          font-family: 'Your Chosen Font', sans-serif;
-          color: #2A0A0A;
-      }
+        .review-content {
+            line-height: 1.8;
+            color: #333333;
+            font-size: 16px;
+            margin-top: 20px;
+        }
 
-      .card:hover {
-          transform: scale(1.05);
-      }
+        .action-links {
+            margin-top: 25px;
+        }
 
-      h5.card-title {
-          font-size: 18px;
-          font-weight: bold;
-          /* 각 카드의 타이틀에 대한 폰트 사이즈와 굵기를 지정. */
-      }
+        .modify-link,
+        .delete-link {
+            margin-right: 15px;
+            padding: 10px 20px;
+            font-size: 16px;
+            border-radius: 8px;
+        }
 
-      p.card-text {
-          font-size: 16px;
-          color: #555;
-          /* 각 카드의 텍스트에 대한 폰트 사이즈와 색상을 지정. */
-      }
+        .modify-link {
+            background-color: #28a745;
+            color: #ffffff;
+            border: 1px solid #28a745;
+        }
+
+        .delete-link {
+            background-color: #dc3545;
+            color: #ffffff;
+            border: 1px solid #dc3545;
+        }
 </style>
+
 
 <body>
 <!-- 첫 번째 네브바 -->
@@ -88,16 +112,7 @@
                     <span th:text="${userMileage}"></span> 마일리지 </span>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
 
 
-                    <!--                <span class="connected-id" th:if="${userId != null and userAuthorities == 'admin' }">💫 <span th:text="${userId}"></span> 님1 환영합니다 💫</span>-->
-                    <!--                <span sec:authorize="principal.authorities('admin', 'user') and isAuthenticated()">💫 <span sec:authentication="principal.username"></span> 님 환영합니다 💫</span>-->
 
-
-                    <!-- 사용자 권한에 따라 추가적인 정보 표시 (예: 관리자 여부) -->
-                    <!--                <span sec:authorize="hasRole('ADMIN')"> (관리자) </span>-->
-
-
-                    <!--                <span th:if="${userAuthorities.contains('admin')}"> (관리자) </span>-->
-                    <!--                <span class="connected-id" th:if="${session.User_Id != null}">💫 <span th:text="${session.User_Id}"></span> 님 환영합니다 💫</span>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;-->
                     <a class="text-light" href="https://fb.com/templatemo" target="_blank" rel="sponsored"><i class="fab fa-facebook-f fa-sm fa-fw me-2"></i></a>
                     <a class="text-light" href="https://www.instagram.com/" target="_blank"><i class="fab fa-instagram fa-sm fa-fw me-2"></i></a>
                     <a class="text-light" href="https://twitter.com/" target="_blank"><i class="fab fa-twitter fa-sm fa-fw me-2"></i></a></span>
@@ -171,74 +186,54 @@
     </div>
 </nav>
 
-<!DOCTYPE html>
-<html lang="ko" xmlns:th="http://www.thymeleaf.org"
-      xmlns:sec="http://www.thymeleaf.org/thymeleaf-extras-springsecurity">
-<head>
-    <!-- head 내용은 동일 -->
-</head>
-<body>
-<!-- 네브바 등은 동일 -->
 
-<!-- 이하 동일 -->
-<!-- 이하 동일 -->
-<!-- 이하 동일 -->
+
+
 <div class="container mt-5">
     <div th:if="${Review != null}" class="review-container">
-        <div class="row">
-            <!-- 이미지 카드 -->
-            <div class="col-md-3 mb-3 mb-md-0 mt-3">
-                <div class="text-center">
-                    <img th:if="${Review?.Rev_Filepath}" th:src="@{${Review?.Rev_Filepath}}" alt="미리보기 이미지" class="review-thumbnail" style="width: 300px; height: 300px;">
-                </div>
+        <h4 th:text="${Review.Rev_Title}" class="review-title">제목입니다.</h4>
+
+        <div>
+            <img th:if="${Review?.Rev_Filepath}" th:src="@{${Review?.Rev_Filepath}}" alt="미리보기 이미지" class="review-thumbnail img-fluid">
+        </div>
+
+        <div class="review-details">
+            <div class="user-info">
+                <p class="user-id" th:text="'작성자: ' + ${#authentication.principal.User_Id}"></p>
+                <p class="post-date" th:text="'작성일: ' + ${#dates.format(Review.Rev_Date, 'yyyy-MM-dd HH:mm:ss')}"></p>
             </div>
-            <!-- 리뷰 내용 -->
-            <div class="col-md-9 mt-3">
-                <div class="text-center">
-                    <h1 th:text="${Review.Rev_Title}">제목입니다.</h1>
-                    <!-- 상품명 추가 -->
-                    <h2 th:text="${Review.product?.Pro_Name} ?: '상품 없음'"></h2>
-                </div>
 
-                <div class="meta-info text-center mt-3">
-                    <p th:text="'작성자: ' + ${#authentication.principal.User_Id}"></p>
-                    <p th:text="'작성일: ' + ${#dates.format(Review.Rev_Date, 'yyyy-MM-dd HH:mm:ss')}"></p>
-                </div>
+            <p class="review-content mt-3" th:text="${Review.Rev_Content}">내용이 들어갈 부분입니다.</p>
 
-                <p th:text="${Review.Rev_Content}" class="review-content mt-3 text-center">내용이 들어갈 부분입니다.</p>
-
-                <div class="action-links text-center mt-3">
-                    <!-- 수정 및 삭제 버튼 -->
-                    <a th:href="@{/review/modify/{Rev_No}(Rev_No=${Review.Rev_No})}" class="modify-link btn btn-outline-primary">수정</a>
-                    <a th:href="@{/review/delete(Rev_No=${Review.Rev_No})}" class="delete-link btn btn-outline-danger">삭제</a>
-                </div>
+            <div class="action-links">
+                <a th:href="@{/review/modify/{Rev_No}(Rev_No=${Review.Rev_No})}" class="modify-link btn btn-outline-primary">수정</a>
+                <a th:href="@{/review/delete(Rev_No=${Review.Rev_No})}" class="delete-link btn btn-outline-danger">삭제</a>
             </div>
         </div>
+
     </div>
 </div>
-
-
-
-
 <!-- 이하 동일 -->
-</body>
-</html>
 
 
-<footer class="bg-dark" id="tempaltemo_footer">
+
+<!-- 푸터 시작 -->
+<footer class="bg-dark" id="tempaltemo_footer" style="padding: px 0;">
     <div class="container">
         <div class="row">
-            <div class="col-md-5 pt-4">
-                <h2 class="h2 text-success border-bottom pb-3 border-light logo">Join Air🪂</h2>
+            <div class="col-md-5  pt-1"><br>
+                <h2 class="h2 text-success border-bottom pb-1 border-light logo">Join Air🪂</h2>
                 <ul class="list-unstyled text-light footer-link-list">
                     <li><i class="fas fa-map-marker-alt fa-fw"></i>한국직업전문학교 11층 강의실02 항공4기 2조</li>
-                    <li><i class="fa fa-phone fa-fw"></i><a class="text-decoration-none" href="tel:010-1234-5678">010-1234-5678</a></li>
-                    <li><i class="fa fa-envelope fa-fw"></i><a class="text-decoration-none" href="mailto:info@dronefood.com">drone@dronedelivery.com</a></li>
+                    <li><i class="fa fa-phone fa-fw"></i><a class="text-decoration-none" href="tel:010-1234-5678">010-1234-5678</a>
+                    </li>
+                    <li><i class="fa fa-envelope fa-fw"></i><a class="text-decoration-none"
+                                                               href="mailto:info@dronefood.com">drone@dronedelivery.com</a>
+                    </li>
+                    <div class="col-10 text-center mt-4">
+                        <p class="text-center">저작권 © 2023 Join Air</p>
+                    </div>
                 </ul>
-            </div>
-            <div class="col-12 text-light mb-4">
-                <hr class="border-light">
-                <p class="text-center">저작권 © 2023 Join Air</p>
             </div>
         </div>
     </div>
@@ -251,5 +246,4 @@
 </div>
 </body>
 </html>
-</body>
-</html>
+
