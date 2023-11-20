@@ -131,32 +131,33 @@
                <div class="flex-fill">
                    <ul class="nav navbar-nav d-flex justify-content-between mx-lg-auto">
                        <li class="nav-item">
-                           <a class="nav-link" href="/index">홈</a>
+                           <a class="nav-link" href="/index"><strong>홈</strong></a>
                        </li>
                        <li class="nav-item">
-                           <a class="nav-link" href="/about">회사 소개</a>
+                           <a class="nav-link" href="/about"><strong style="">회사소개</strong></a>
                        </li>
                        <li class="nav-item">
-                           <a class="nav-link" href="/productbuy/list">상품</a>
+                           <a class="nav-link" href="/productbuy/list"><strong>상품</strong></a>
                        </li>
                        <li class="nav-item">
-                           <a class="nav-link" href="/qna/qnaList">문의</a>
+                           <a class="nav-link" href="/qna/qnaList"><strong>문의</strong></a>
                        </li>
                        <li class="nav-item">
-                           <a class="nav-link" href="/notice/list">공지사항</a>
+                           <a class="nav-link" href="/notice/list"><strong>공지사항</strong></a>
                        </li>
                        <li class="nav-item" sec:authorize="isAuthenticated()">
                            <div>
-                               <a th:href="@{/logout}" class="nav-link">로그아웃</a>
+                               <a th:href="@{/logout}" class="nav-link"><strong>로그아웃</strong></a>
                            </div>
                        </li>
                        <li class="nav-item" sec:authorize="!isAuthenticated()">
                            <div>
-                               <a th:href="@{/login}" class="nav-link">로그인</a>
+                               <a th:href="@{/login}" class="nav-link"><strong>로그인</strong></a>
                            </div>
                        </li>
                    </ul>
                </div>
+
                <div class="navbar align-self-center d-flex">
                    <div class="d-lg-none flex-sm-fill mt-3 mb-4 col-7 col-sm-auto pr-3">
                        <div class="input-group">
@@ -166,16 +167,16 @@
                            </div>
                        </div>
                    </div>
-                   <a class="nav-icon d-none d-lg-inline" href="#" data-bs-toggle="modal" data-bs-target="#templatemo_search">
+                   <a class="nav-icon d-none d-lg-inline" href="#" id="templatemo_search_icon">
                        <i class="fa fa-fw fa-search text-dark mr-2"></i>
                    </a>
-                   <a class="nav-icon position-relative text-decoration-none" href="#">
+                   <a class="nav-icon position-relative text-decoration-none" href="/cart">
                        <i class="fa fa-fw fa-cart-arrow-down text-dark mr-1"></i>
-                       <span class="position-absolute top-0 left-100 translate-middle badge rounded-pill bg-light text-dark">1</span>
+                       <span class="position-absolute top-0 left-100 translate-middle badge rounded-pill bg-light text-dark"></span>&nbsp&nbsp&nbsp
                    </a>
-                   <a class="nav-icon position-relative text-decoration-none" href="#">
+                   <a class="nav-icon position-relative text-decoration-none" href="/mypage">
                        <i class="fa fa-fw fa-user text-dark mr-3"></i>
-                       <span class="position-absolute top-0 left-100 translate-middle badge rounded-pill bg-light text-dark">+10</span>
+                       <span class="position-absolute top-0 left-100 translate-middle badge rounded-pill bg-light text-dark"></span>
                    </a>
                </div>
            </div>
