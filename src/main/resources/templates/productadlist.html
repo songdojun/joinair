@@ -288,10 +288,11 @@ body {
                     <span aria-hidden="true">&laquo; 이전</span>
                 </a>
             </li>
-            <!-- Add searchOption and searchKeyword to the page number links -->
-            <li th:each="i : ${#numbers.sequence(0, list.totalPages - 1)}" th:class="${i == list.number} ? 'page-item active' : 'page-item'">
-                <a class="page-link" th:href="@{|/productad/list?page=${i}&size=${list.size}&sort=${list.sort}&searchOption=${searchOption}&searchKeyword=${searchKeyword}|}" th:text="${i + 1}"></a>
-            </li>
+            <th:block th:each="i : ${#numbers.sequence(startPage, endPage)}">
+                <li th:classappend="${i == nowPage} ? 'page-item active' : 'page-item'">
+                    <a th:href="@{|/productad/list?page=${i - 1}&size=${list.size}&sort=${list.sort}&searchOption=${searchOption}&searchKeyword=${searchKeyword}|}" th:text="${i}" class="page-link"></a>
+                </li>
+            </th:block>
             <li class="page-item" th:if="${list.number < list.totalPages - 1}">
                 <a class="page-link" th:href="@{|/productad/list?page=${list.number + 1}&size=${list.size}&sort=${list.sort}&searchOption=${searchOption}&searchKeyword=${searchKeyword}|}" aria-label="Next">
                     <span aria-hidden="true">다음 &raquo;</span>
