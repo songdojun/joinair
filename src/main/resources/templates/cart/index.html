@@ -43,49 +43,86 @@
 </head>
 <style>
 
-    #payment-box {
-               position: fixed;
-               top: 1%;
-               right: 13px;
-               background-color: skyblue;
-               overflow-y: auto;
-               width: 180px;
-           }
-    .modal-dialog.modal-dialog-fixed-right {
-        position: fixed;
-        margin: 0;
-        top: 0;
-        right: 0;
-        bottom: 0;
-        z-index: 1050;
-        max-width: 100%;
-        width: 500px; /* 모달의 최대 너비 지정, 필요에 따라 조절 가능 */
-    }
-     .centered-button {
-        display: flex;
-        justify-content: center;
-        align-items: center;
-        height: 100vh; /* 버튼이 화면 중앙에 위치하도록 설정 */
-    }
+    body {
+       background: linear-gradient(135deg, #f8f9fa 0%, #ced4da 100%);
+       font-family: 'Arial', sans-serif;
+       color: #495057;
+   }
 
-    .modal-dialog.modal-dialog-fixed-right {
-        position: fixed;
-        margin: 0;
-        top: 0;
-        right: 0;
-        bottom: 0;
-        z-index: 1050;
-        max-width: 100%;
-        width: 500px; /* 모달의 최대 너비 지정, 필요에 따라 조절 가능 */
-    }
+   h1 {
+       color: #007bff;
+   }
 
-    .modal-footer {
-        text-align: center; /* 텍스트 중앙 정렬 */
-    }
 
-    .modal-footer .btn-primary {
-        margin-bottom: 10px; /* 결제 버튼 아래 여백 조절, 필요에 따라 조절 가능 */
-    }
+
+   table {
+       width: 100%;
+       border-collapse: collapse;
+       margin-top: 20px;
+   }
+
+   th,
+   td {
+       text-align: center;
+       padding: 12px;
+   }
+
+   th {
+       background-color: #007bff;
+       color: #fff;
+   }
+
+   td {
+       background-color: #fff;
+   }
+
+   .price,
+   .subtotal,
+   .total {
+       font-weight: bold;
+       font-size: 1.2em;
+   }
+
+   .form-group {
+       margin-bottom: 20px;
+   }
+
+   #paymentModal {
+       color: #007bff;
+   }
+
+   .modal-content {
+       border-radius: 10px;
+   }
+
+   .modal-header {
+       background: linear-gradient(135deg, #007bff 0%, #0056b3 100%);
+       color: white;
+       border-bottom: 0;
+       border-radius: 10px 10px 0 0;
+       padding: 15px;
+   }
+
+   .modal-footer {
+       background-color: #007bff;
+       border-top: 0;
+       border-radius: 0 0 10px 10px;
+       padding: 15px;
+   }
+
+   button[data-dismiss="modal"] {
+       color: white;
+   }
+
+   button.btn-primary {
+       background-color: #007bff;
+       border-color: #007bff;
+   }
+
+   button.btn-primary:hover {
+       background-color: #0056b3;
+       border-color: #0056b3;
+   }
 
 
 </style>
