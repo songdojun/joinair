@@ -374,10 +374,9 @@
 
 
                 <p>최종 결제 금액: <span class="final" id="total1"></span></p>
-                <!-- 기타 결제 관련 정보 및 양식 -->
-                <!-- 예를 들어, 신용카드 정보 입력 폼 등이 들어갈 수 있습니다. -->
+                 </div>
 
-                <!-- 주문 완료 및 결제하기 버튼 -->
+            <div class="modal-footer">
                 <form method="post" action="/order/place" onsubmit="submitOrderForm(event)">
                     <input type="hidden" name="finalAmount" id="finalAmountInput" />
                     <input type="hidden" id="orderPname"  name="orderPname"  value=""/>
@@ -386,13 +385,6 @@
                     <input type="hidden" id="afuserMileage" name="afuserMileage" value="">
                     <button type="submit" data-toggle="modal" data-target="#paymentModal" class="btn btn-primary" style="margin: auto; display: block;">주문완료 및 결제하기</button><br>
                 </form>
-                <!--                    <button onclick="submitOrderForm(event)" class="btn btn-success">주문완료 및 결제하기</button></form>-->
-            </div>
-
-            <div class="modal-footer">
-                <!-- 결제 버튼 -->
-                <button onclick="requestCardPayment()" class="btn btn-primary">카드결제</button>
-                <button onclick="redirectToBankTransferPage()" class="btn btn-primary">무통장입금</button>
             </div>
         </div>
     </div>
@@ -570,43 +562,6 @@ window.addEventListener('load', function () {
            finalAmountCell.textContent = finalAmount;
        }
    }
-</script>
-<script>
-    // 아임포트 초기화 및 카드결제 요청
-    function requestCardPayment() {
-        var finalPaymentAmount = parseFloat(document.querySelector('.final').textContent);
-        var merchant_uid = 'merchant_' + new Date().getTime();
-
-        IMP.init('iamport');
-        IMP.request_pay({
-            pg: "inicis",
-            pay_method: "card",
-            merchant_uid: merchant_uid,
-            name: 'joinair',
-            amount: finalPaymentAmount,
-            buyer_email: 'iamport@siot.do',
-            buyer_name: '구매자',
-            buyer_tel: '010-1234-5678',
-            buyer_addr: '서울특별시 강남구 삼성동',
-            buyer_postcode: '123-456'
-        }, function (rsp) {
-            if (rsp.success) {
-                var msg = '결제가 완료되었습니다.';
-                alert(msg);
-                location.href = "http://localhost:63342/joinair/src/main/resources/templates/ordercomplate.html?_ijt=qtqh28h3cb4drehrj62ju0b7ti&_ij_reload=RELOAD_ON_SAVE";
-            } else {
-                var msg = '결제에 실패하였습니다.';
-                msg += '에러내용 : ' + rsp.error_msg;
-                alert(msg);
-            }
-        });
-    }
-
-    // 무통장입금 버튼 클릭 시 페이지 이동
-    function redirectToBankTransferPage() {
-        window.location.href = "/payment/Deposit";
-    }
-
 </script>
 <script src="https://code.jquery.com/jquery-1.12.4.min.js"></script>
 <script src="https://cdn.iamport.kr/js/iamport.payment-1.1.5.js"></script>
