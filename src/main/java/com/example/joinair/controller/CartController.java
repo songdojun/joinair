@@ -74,7 +74,7 @@ public class CartController {
                     int newQuantity = item.getQuantity() + quantity;
                     item.setQuantity(newQuantity);
 
-                    // 무게 업데이트
+                    // 무게 업데이트..
                     updateWeightInItem(item, newQuantity);
                     found = true;
                     break;
