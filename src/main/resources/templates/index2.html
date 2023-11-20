@@ -16,7 +16,7 @@
     <link rel="stylesheet" href="https://unpkg.com/leaflet@1.7.1/dist/leaflet.css"
           integrity="sha512-xodZBNTC5n17Xt2atTPuE1HxjVMSvLVW9ocqUKLsCC5CXdbqCmblAshOMAS6/keqq/sMZMZ19scR4PsZChSR7A==" crossorigin=""/>
 
-<style>
+    <style>
 
     body {
            font-family: 'Malgun Gothic', sans-serif;
@@ -62,32 +62,54 @@
 </style>
 </head>
 <body>
-
+<!-- 첫 번째 네브바 -->
 <nav class="navbar navbar-expand-lg bg-dark navbar-light d-none d-lg-block" id="templatemo_nav_top">
     <div class="container text-light">
         <div class="w-100 d-flex justify-content-between">
             <div>
                 <i class="fa fa-envelope mx-2"></i>
-                <a class="navbar-sm-brand text-light text-decoration-none" href="mailto:info@company.com">Doron delivery@Doron delivery.com</a>
+                <a class="navbar-sm-brand text-light text-decoration-none" href="mailto:info@company.com"> Doron delivery@Doron delivery.com
+
+                </a>
                 <i class="fa fa-phone mx-2"></i>
-                <a class="navbar-sm-brand text-light text-decoration-none" href="tel:010-1234-5678">010-1234-5678</a>
+                <a class="navbar-sm-brand text-light text-decoration-none" href="tel:010-020-0340">010-1234-4567</a>
             </div>
             <div>
-                <span th:if="${userId != null and (userId != 'anonymousUser')}">💫 <span th:text="${userId}"></span> 님 환영합니다 💫</span>
-                <span sec:authorize="hasAuthority('admin')">
-                    <a th:href="@{/adminWelcome}" class="nav-link" style="display: inline-block; margin-left: 10px;">관리자 페이지</a></span>
-                <!--                <span class="connected-id" th:if="${session.User_Id != null}">💫 <span th:text="${session.User_Id}"></span> 님 환영합니다 💫</span>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;-->
-                <a class="text-light" href="https://fb.com/templatemo" target="_blank" rel="sponsored"><i class="fab fa-facebook-f fa-sm fa-fw me-2"></i></a>
-                <a class="text-light" href="https://www.instagram.com/" target="_blank"><i class="fab fa-instagram fa-sm fa-fw me-2"></i></a>
-                <a class="text-light" href="https://twitter.com/" target="_blank"><i class="fab fa-twitter fa-sm fa-fw me-2"></i></a>
+                <div>
+                    <span th:if="${userId != null and (userId != 'anonymousUser')}">💫 <span th:text="${userId}"></span> 님 환영합니다 💫</span>
+                    <span sec:authorize="hasAuthority('admin')">
+                        <a th:href="@{/adminWelcome}" class="nav-link" style="display: inline-block; margin-left: 10px;">관리자 페이지</a></span>
+
+                    <!-- 사용자의 마일리지 표시 -->
+                    <span th:if="${userMileage != null}">&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
+                    <span th:text="${userMileage}"></span> 마일리지 </span>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
+
+
+                    <!--                <span class="connected-id" th:if="${userId != null and userAuthorities == 'admin' }">💫 <span th:text="${userId}"></span> 님1 환영합니다 💫</span>-->
+                    <!--                <span sec:authorize="principal.authorities('admin', 'user') and isAuthenticated()">💫 <span sec:authentication="principal.username"></span> 님 환영합니다 💫</span>-->
+
+
+                    <!-- 사용자 권한에 따라 추가적인 정보 표시 (예: 관리자 여부) -->
+                    <!--                <span sec:authorize="hasRole('ADMIN')"> (관리자) </span>-->
+
+
+                    <!--                <span th:if="${userAuthorities.contains('admin')}"> (관리자) </span>-->
+                    <!--                <span class="connected-id" th:if="${session.User_Id != null}">💫 <span th:text="${session.User_Id}"></span> 님 환영합니다 💫</span>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;-->
+                    <a class="text-light" href="https://fb.com/templatemo" target="_blank" rel="sponsored"><i class="fab fa-facebook-f fa-sm fa-fw me-2"></i></a>
+                    <a class="text-light" href="https://www.instagram.com/" target="_blank"><i class="fab fa-instagram fa-sm fa-fw me-2"></i></a>
+                    <a class="text-light" href="https://twitter.com/" target="_blank"><i class="fab fa-twitter fa-sm fa-fw me-2"></i></a></span>
+                </div>
+
             </div>
         </div>
     </div>
 </nav>
-<nav class="navbar navbar-expand-lg navbar-light shadow">
-    <div class="container d-flex justify-content-between align-items-center">
+<!-- 두 번째 네브바 -->
+<nav class="navbar navbar-expand-lg navbar-light shadow" id="templatemo_main_na">
+    <div class="container d-flex justify-content between align-items-center">
         <a class="navbar-brand text-success logo h1 align-self-center" href="/index">Join Air🪂</a>
-        <button class="navbar-toggler border-0" type="button" data-bs-toggle="collapse" data-bs-target="#templatemo_main_nav" aria-controls="templatemo_main_nav" aria-expanded="false" aria-label="Toggle navigation">
+        <button class="navbar-toggler border-0" type="button" data-bs-toggle="collapse" data-bs-target="#templatemo_main_nav"
+                aria-controls="templatemo_main_nav" aria-expanded="false" aria-label="Toggle navigation">
             <span class="navbar-toggler-icon"></span>
         </button>
         <div class="align-self-center collapse navbar-collapse flex-fill d-lg-flex justify-content-lg-between" id="templatemo_main_nav">
@@ -108,11 +130,15 @@
                     <li class="nav-item">
                         <a class="nav-link" href="/notice/list"><strong>공지사항</strong></a>
                     </li>
-                    <li class="nav-item">
-                        <a class="nav-link" th:href="${session.User_Id != null} ? @{/logout} : @{/login}">
-                            <span th:if="${session.User_Id != null}"><strong>로그아웃</strong></span>
-                            <span th:unless="${session.User_Id != null}"><strong>로그인</strong></span>
-                        </a>
+                    <li class="nav-item" sec:authorize="isAuthenticated()">
+                        <div>
+                            <a th:href="@{/logout}" class="nav-link"><strong>로그아웃</strong></a>
+                        </div>
+                    </li>
+                    <li class="nav-item" sec:authorize="!isAuthenticated()">
+                        <div>
+                            <a th:href="@{/login}" class="nav-link"><strong>로그인</strong></a>
+                        </div>
                     </li>
                 </ul>
             </div>
@@ -215,19 +241,19 @@
         <div class="carousel-item" style="background: url('image/드론배달3.png') center center; background-size: cover;">
 
         </div>
-            <div class="container">
-                <div class="row p-5">
-                    <div class="col-lg-6 mb-0 d-flex align-items-center">
-                        <!--                        <div class="text-align-left align-self-center">-->
-                        <!--                            <h1 class="h1">추가도 가능함</h1>-->
-                        <!--                            <h3 class="h2">추가도 가능함 추후 대화 이후 추가 예정</h3>-->
-                        <!--                            <p>이 부분도 동일</p>-->
-                        <!--                        </div>-->
-                    </div>
+        <div class="container">
+            <div class="row p-5">
+                <div class="col-lg-6 mb-0 d-flex align-items-center">
+                    <!--                        <div class="text-align-left align-self-center">-->
+                    <!--                            <h1 class="h1">추가도 가능함</h1>-->
+                    <!--                            <h3 class="h2">추가도 가능함 추후 대화 이후 추가 예정</h3>-->
+                    <!--                            <p>이 부분도 동일</p>-->
+                    <!--                        </div>-->
                 </div>
             </div>
         </div>
     </div>
+</div>
 </div>
 
 <!-- 핫이슈 컨텐츠 시작 편의점 음식 신상(CU편의점 기준) -->
@@ -404,52 +430,52 @@
 </footer>
 
 
-    <script src="/assets/js/jquery-1.11.0.min.js"></script>
-    <script src="/assets/js/jquery-migrate-1.2.1.min.js"></script>
-    <script src="/assets/js/bootstrap.bundle.min.js"></script>
-    <script src="/assets/js/templatemo.js"></script>
-    <script src="/assets/js/custom.js"></script>
-    <script src="/assets/js/slick.min.js"></script>
-    <script>
-        $(document).ready(function () {
-    <!--      문서가 완전히 로드되면 이벤트 핸들러가 실행.-->
-    <!--      이를 통해 JavaScript 코드가 HTML 문서의 로딩을 기다리지 않고 실행함.-->
+<script src="/assets/js/jquery-1.11.0.min.js"></script>
+<script src="/assets/js/jquery-migrate-1.2.1.min.js"></script>
+<script src="/assets/js/bootstrap.bundle.min.js"></script>
+<script src="/assets/js/templatemo.js"></script>
+<script src="/assets/js/custom.js"></script>
+<script src="/assets/js/slick.min.js"></script>
+<script>
+    $(document).ready(function () {
+<!--      문서가 완전히 로드되면 이벤트 핸들러가 실행..-->
+<!--      이를 통해 JavaScript 코드가 HTML 문서의 로딩을 기다리지 않고 실행함.-->
 
-            //슬라이드 전환 함수
-              function nextSlide() {
-         <!-- -  2.현재 활성 슬라이드 찾기-->
-         <!-- -  3.다음 슬라이드 활성화-->
-
-
-                 var allSlides = $(".carousel-item");
-
-    <!--    extSlide라는 이름의 함수를 정의함. -->
-    <!--    이 함수는 현재 활성 슬라이드를 찾고 다음 슬라이드를 활성화하는 역할임.-->
+        //슬라이드 전환 함수
+          function nextSlide() {
+     <!-- -  2.현재 활성 슬라이드 찾기-->
+     <!-- -  3.다음 슬라이드 활성화-->
 
 
-                var currentIndex = allSlides.filter(".active").index();
+             var allSlides = $(".carousel-item");
 
-    <!--            현재 활성 슬라이드의 인덱스를 찾아서 currentIndex 변수에 저장-->
-    <!--            이를 위해 active 클래스를 가진 슬라이드를 찾는다-->
-    <!--            currentIndex 변수를 이용하여 해당 슬라이드의 인덱스를 참조-->
+<!--    extSlide라는 이름의 함수를 정의함. -->
+<!--    이 함수는 현재 활성 슬라이드를 찾고 다음 슬라이드를 활성화하는 역할임.-->
 
-                var nextIndex = (currentIndex + 1) % allSlides.length;
-    <!--            다음 슬라이드의 인덱스를 계산합니다. -->
-    <!--            만약 현재 슬라이드가 마지막 슬라이드인 경우, 첫 번째 슬라이드로 돌아갑니다-->
 
-                allSlides.removeClass("active");
-    <!--            모든 슬라이드에서 "active" 클래스를 제거하여 -->
-    <!--            현재 활성화된 슬라이드의 활성화 상태를 해제한다.-->
+            var currentIndex = allSlides.filter(".active").index();
 
-                allSlides.eq(nextIndex).addClass("active");
-    <!--            계산한 다음 슬라이드의 인덱스에 -->
-    <!--            해당하는 슬라이드에 "active" 클래스를 추가하여 다음 슬라이드를 활성화합니다.-->
-            }
+<!--            현재 활성 슬라이드의 인덱스를 찾아서 currentIndex 변수에 저장-->
+<!--            이를 위해 active 클래스를 가진 슬라이드를 찾는다-->
+<!--            currentIndex 변수를 이용하여 해당 슬라이드의 인덱스를 참조-->
 
-            // 1.5초마다 슬라이드 전환
-            setInterval(nextSlide, 2500);
-        });
-    </script>
+            var nextIndex = (currentIndex + 1) % allSlides.length;
+<!--            다음 슬라이드의 인덱스를 계산합니다. -->
+<!--            만약 현재 슬라이드가 마지막 슬라이드인 경우, 첫 번째 슬라이드로 돌아갑니다-->
+
+            allSlides.removeClass("active");
+<!--            모든 슬라이드에서 "active" 클래스를 제거하여 -->
+<!--            현재 활성화된 슬라이드의 활성화 상태를 해제한다.-->
+
+            allSlides.eq(nextIndex).addClass("active");
+<!--            계산한 다음 슬라이드의 인덱스에 -->
+<!--            해당하는 슬라이드에 "active" 클래스를 추가하여 다음 슬라이드를 활성화합니다.-->
+        }
+
+        // 1.5초마다 슬라이드 전환
+        setInterval(nextSlide, 2500);
+    });
+</script>
 
 <!--로그인 → 로그아웃-->
 <script>
@@ -479,54 +505,54 @@
     });
 
 </script>
-    <script>
-        $(document).ready(function () {
-            $("#templatemo_search_icon").on("click", function () {
-                $("#templatemo_search").toggle();
-                $("#inputModalSearch").focus();
-            });
-
-            $(document).on("click", function (event) {
-                if (!$(event.target).closest("#templatemo_search").length && !$(event.target).is("#templatemo_search_icon")) {
-                    $("#templatemo_search").hide();
-                }
-            });
+<script>
+    $(document).ready(function () {
+        $("#templatemo_search_icon").on("click", function () {
+            $("#templatemo_search").toggle();
+            $("#inputModalSearch").focus();
         });
-    </script>
+
+        $(document).on("click", function (event) {
+            if (!$(event.target).closest("#templatemo_search").length && !$(event.target).is("#templatemo_search_icon")) {
+                $("#templatemo_search").hide();
+            }
+        });
+    });
+</script>
 
 <!--    검색 아이콘 누르면 모달창 생성-->
-    <script>
-        $(document).ready(function () {
-            // 검색 아이콘 클릭 시 검색 모달 열기
-            $("#templatemo_search_icon").on("click", function () {
-                $("#templatemo_search_modal").modal("show");
-                $("#inputModalSearchModal").focus();
-            });
-
-            // 검색 버튼 클릭 시 검색 수행
-            $("#searchButtonModal").on("click", function () {
-                // 검색어 가져오기
-                var searchTerm = $("#inputModalSearchModal").val();
-
-                // 실제로는 이 부분에서 서버에 Ajax 요청을 보내고 검색 결과를 처리합니다.
-                // 여기서는 간단히 검색어를 콘솔에 출력하는 예제를 보여줍니다.
-                console.log("검색어: " + searchTerm);
-
-                // 검색이 완료되면 모달 닫기
-                $("#templatemo_search_modal").modal("hide");
-
-                // 검색 입력 필드의 내용 지우기
-                $("#inputModalSearchModal").val("");
-            });
-
-            // 모달이 닫힐 때 검색 입력 필드의 내용 지우기
-            $("#templatemo_search_modal").on("hidden.bs.modal", function () {
-                $("#inputModalSearchModal").val("");
-            });
+<script>
+    $(document).ready(function () {
+        // 검색 아이콘 클릭 시 검색 모달 열기
+        $("#templatemo_search_icon").on("click", function () {
+            $("#templatemo_search_modal").modal("show");
+            $("#inputModalSearchModal").focus();
         });
-    </script>
+
+        // 검색 버튼 클릭 시 검색 수행
+        $("#searchButtonModal").on("click", function () {
+            // 검색어 가져오기
+            var searchTerm = $("#inputModalSearchModal").val();
+
+            // 실제로는 이 부분에서 서버에 Ajax 요청을 보내고 검색 결과를 처리합니다.
+            // 여기서는 간단히 검색어를 콘솔에 출력하는 예제를 보여줍니다.
+            console.log("검색어: " + searchTerm);
+
+            // 검색이 완료되면 모달 닫기
+            $("#templatemo_search_modal").modal("hide");
+
+            // 검색 입력 필드의 내용 지우기
+            $("#inputModalSearchModal").val("");
+        });
+
+        // 모달이 닫힐 때 검색 입력 필드의 내용 지우기
+        $("#templatemo_search_modal").on("hidden.bs.modal", function () {
+            $("#inputModalSearchModal").val("");
+        });
+    });
+</script>
 
 
 </footer>
-    </body>
-    </html>
+</body>
+</html>

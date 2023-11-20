@@ -16,14 +16,6 @@
 
     <style>
         body {
-           font-family: 'Malgun Gothic', sans-serif;
-       }
-
-       .nav-link strong {
-           font-family: 'Malgun Gothic', sans-serif;
-           font-weight: bold;
-       }
-        body {
                background-color: #f8f9fa;
                font-family: 'Arial', sans-serif;
            }
@@ -85,26 +77,52 @@
 
    </head>
    <body>
+   <!-- 첫 번째 네브바 -->
    <nav class="navbar navbar-expand-lg bg-dark navbar-light d-none d-lg-block" id="templatemo_nav_top">
        <div class="container text-light">
            <div class="w-100 d-flex justify-content-between">
                <div>
                    <i class="fa fa-envelope mx-2"></i>
-                   <a class="navbar-sm-brand text-light text-decoration-none" href="mailto:info@company.com">Doron delivery@Doron delivery.com</a>
+                   <a class="navbar-sm-brand text-light text-decoration-none" href="mailto:info@company.com"> Doron delivery@Doron delivery.com
+
+                   </a>
                    <i class="fa fa-phone mx-2"></i>
-                   <a class="navbar-sm-brand text-light text-decoration-none" href="tel:010-1234-5678">010-1234-5678</a>
+                   <a class="navbar-sm-brand text-light text-decoration-none" href="tel:010-020-0340">010-1234-4567</a>
                </div>
                <div>
-                   <a class="text-light" href="https://fb.com/templatemo" target="_blank" rel="sponsored"><i class="fab fa-facebook-f fa-sm fa-fw me-2"></i></a>
-                   <a class="text-light" href="https://www.instagram.com/" target="_blank"><i class="fab fa-instagram fa-sm fa-fw me-2"></i></a>
-                   <a class="text-light" href="https://twitter.com/" target="_blank"><i class="fab fa-twitter fa-sm fa-fw me-2"></i></a>
+                   <div>
+                       <span th:if="${userId != null and (userId != 'anonymousUser')}">💫 <span th:text="${userId}"></span> 님 환영합니다 💫</span>
+                       <span sec:authorize="hasAuthority('admin')">
+                        <a th:href="@{/adminWelcome}" class="nav-link" style="display: inline-block; margin-left: 10px;">관리자 페이지</a></span>
+
+                       <!-- 사용자의 마일리지 표시 -->
+                       <span th:if="${userMileage != null}">&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
+                    <span th:text="${userMileage}"></span> 마일리지 </span>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
+
+
+                       <!--                <span class="connected-id" th:if="${userId != null and userAuthorities == 'admin' }">💫 <span th:text="${userId}"></span> 님1 환영합니다 💫</span>-->
+                       <!--                <span sec:authorize="principal.authorities('admin', 'user') and isAuthenticated()">💫 <span sec:authentication="principal.username"></span> 님 환영합니다 💫</span>-->
+
+
+                       <!-- 사용자 권한에 따라 추가적인 정보 표시 (예: 관리자 여부) -->
+                       <!--                <span sec:authorize="hasRole('ADMIN')"> (관리자) </span>-->
+
+
+                       <!--                <span th:if="${userAuthorities.contains('admin')}"> (관리자) </span>-->
+                       <!--                <span class="connected-id" th:if="${session.User_Id != null}">💫 <span th:text="${session.User_Id}"></span> 님 환영합니다 💫</span>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;-->
+                       <a class="text-light" href="https://fb.com/templatemo" target="_blank" rel="sponsored"><i class="fab fa-facebook-f fa-sm fa-fw me-2"></i></a>
+                       <a class="text-light" href="https://www.instagram.com/" target="_blank"><i class="fab fa-instagram fa-sm fa-fw me-2"></i></a>
+                       <a class="text-light" href="https://twitter.com/" target="_blank"><i class="fab fa-twitter fa-sm fa-fw me-2"></i></a></span>
+                   </div>
+
                </div>
            </div>
        </div>
    </nav>
-   <nav class="navbar navbar-expand-lg navbar-light shadow">
+   <!-- 두 번째 네브바 -->
+   <nav class="navbar navbar-expand-lg navbar-light shadow" id="templatemo_main_na">
        <div class="container d-flex justify-content between align-items-center">
-           <a class="navbar-brand text-success logo h1 align-self-center" href="../templates/index.html">Join Air🪂</a>
+           <a class="navbar-brand text-success logo h1 align-self-center" href="/index">Join Air🪂</a>
            <button class="navbar-toggler border-0" type="button" data-bs-toggle="collapse" data-bs-target="#templatemo_main_nav"
                    aria-controls="templatemo_main_nav" aria-expanded="false" aria-label="Toggle navigation">
                <span class="navbar-toggler-icon"></span>
@@ -127,11 +145,15 @@
                        <li class="nav-item">
                            <a class="nav-link" href="/notice/list"><strong>공지사항</strong></a>
                        </li>
-                       <li class="nav-item">
-                           <a class="nav-link" th:href="${session.User_Id != null} ? @{/logout} : @{/login}">
-                               <span th:if="${session.User_Id != null}"><strong>로그아웃</strong></span>
-                               <span th:unless="${session.User_Id != null}"><strong>로그인</strong></span>
-                           </a>
+                       <li class="nav-item" sec:authorize="isAuthenticated()">
+                           <div>
+                               <a th:href="@{/logout}" class="nav-link"><strong>로그아웃</strong></a>
+                           </div>
+                       </li>
+                       <li class="nav-item" sec:authorize="!isAuthenticated()">
+                           <div>
+                               <a th:href="@{/login}" class="nav-link"><strong>로그인</strong></a>
+                           </div>
                        </li>
                    </ul>
                </div>
@@ -145,10 +167,17 @@
                            </div>
                        </div>
                    </div>
-                   <a class="nav-icon d-none d-lg-inline" href="#" data-bs-toggle="modal" data-bs-target="#templatemo_search">
+                   <a class="nav-icon d-none d-lg-inline" href="#" id="templatemo_search_icon">
                        <i class="fa fa-fw fa-search text-dark mr-2"></i>
                    </a>
-
+                   <a class="nav-icon position-relative text-decoration-none" href="/cart">
+                       <i class="fa fa-fw fa-cart-arrow-down text-dark mr-1"></i>
+                       <span class="position-absolute top-0 left-100 translate-middle badge rounded-pill bg-light text-dark"></span>&nbsp&nbsp&nbsp
+                   </a>
+                   <a class="nav-icon position-relative text-decoration-none" href="/mypage">
+                       <i class="fa fa-fw fa-user text-dark mr-3"></i>
+                       <span class="position-absolute top-0 left-100 translate-middle badge rounded-pill bg-light text-dark"></span>
+                   </a>
                </div>
            </div>
        </div>

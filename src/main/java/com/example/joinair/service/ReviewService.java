@@ -1,6 +1,5 @@
 package com.example.joinair.service;
 
-import com.example.joinair.entity.Product;
 import com.example.joinair.entity.Review;
 import com.example.joinair.repository.ReviewRepository;
 import org.springframework.beans.factory.annotation.Autowired;

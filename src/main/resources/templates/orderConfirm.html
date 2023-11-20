@@ -1,0 +1,62 @@
+<!DOCTYPE html>
+<html lang="ko" xmlns:th="http://www.thymeleaf.org">
+<head>
+    <meta charset="UTF-8">
+    <title>Order Confirmation</title>
+    <!-- 부트스트랩 링크 추가 -->
+    <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0/css/bootstrap.min.css">
+</head>
+<body>
+<div class="container mt-5">
+    <h1 class="text-center mb-4">주문 확인</h1>
+    <div class="alert alert-success" role="alert">
+        주문이 완료되었습니다.
+    </div>
+    <h3 class="text-center mb-4">주문 내용</h3>
+    <div class="table-responsive">
+        <table class="table">
+            <thead>
+            <tr>
+                <th scope="col">상품명</th>
+                <th scope="col">가격</th>
+                <th scope="col">수량</th>
+                <th scope="col">무게(g)</th>
+                <th scope="col">소계</th>
+            </tr>
+            </thead>
+            <tbody th:each="detail : ${orderDetails}">
+            <tr>
+                <td th:text="${detail.oD_Pro_Name}"></td>
+                <td th:text="${detail.oD_Pro_Price}"></td>
+                <td th:text="${detail.oD_Qua}"></td>
+                <td th:text="${detail.oD_Totalweight}"></td>
+                <td th:text="${detail.oD_Total_Price}"></td>
+            </tr>
+            </tbody>
+        </table>
+    </div>
+    <h3 class="text-center mb-4">주문 정보</h3>
+    <div class="row">
+        <div class="col-md-6 offset-md-3">
+            <ul class="list-group">
+                <li class="list-group-item d-flex justify-content-between align-items-center">
+                    총 무게
+                    <span class="badge badge-primary badge-pill" th:text="${order.orders_Totalweight}"></span>
+                </li>
+                <li class="list-group-item d-flex justify-content-between align-items-center">
+                    TOTAL PRICE
+                    <span class="badge badge-primary badge-pill" th:text="${order.orders_Total_Price}"></span>
+                </li>
+            </ul>
+        </div>
+    </div>
+    <div class="text-center mt-4">
+        <a href="/" class="btn btn-primary">홈으로 돌아가기</a>
+    </div>
+</div>
+<!-- 부트스트랩 및 기타 스크립트 추가 -->
+<script src="https://code.jquery.com/jquery-3.2.1.slim.min.js"></script>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.12.9/umd/popper.min.js"></script>
+<script src="https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0/js/bootstrap.min.js"></script>
+</body>
+</html>

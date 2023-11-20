@@ -1,7 +1,6 @@
 package com.example.joinair.repository;
 
 
-import com.example.joinair.entity.Product;
 import com.example.joinair.entity.Review;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;

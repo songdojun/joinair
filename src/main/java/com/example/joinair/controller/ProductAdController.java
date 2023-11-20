@@ -1,6 +1,7 @@
 package com.example.joinair.controller;
 
 
+import com.example.joinair.dto.USERS;
 import com.example.joinair.entity.Product;
 import com.example.joinair.service.ProductAdService;
 import jakarta.servlet.http.HttpSession;
@@ -57,14 +58,14 @@ public class ProductAdController {
 
     @GetMapping("/productad/list")
     public String productadList(Model model,
-                                @PageableDefault(page = 0, size = 10, sort = "Pro_Code", direction = Sort.Direction.DESC) Pageable pageable,
+                                @PageableDefault(page = 0, size = 9, sort = "Pro_Code", direction = Sort.Direction.DESC) Pageable pageable,
                                 @RequestParam(name = "searchOption", required = false) String searchOption,
                                 @RequestParam(name = "searchKeyword", required = false) String searchKeyword) {
         Page<Product> list = productAdService.productadSearchList(searchOption, searchKeyword, pageable);
 
-        int nowPage = list.getPageable().getPageNumber() + 1;
-        int startPage = Math.max(nowPage - 4, 1);
-        int endPage = Math.min(nowPage + 5, list.getTotalPages());
+        int nowPage = list.getNumber() + 1; // 현재 페이지 번호
+        int startPage = Math.max(nowPage - 5, 1);
+        int endPage = Math.min(startPage + 9, list.getTotalPages());
 
         // Add search parameters to the model
         model.addAttribute("list", list);
@@ -77,9 +78,14 @@ public class ProductAdController {
         Authentication authentication = SecurityContextHolder.getContext().getAuthentication();
         String username = authentication.getName();
 
-        // 여기에서 필요한 사용자 정보를 모델에 추가합니다.
         model.addAttribute("userId", username);
         model.addAttribute("userAuthorities", authentication.getAuthorities());
+
+        // 마일리지 정보를 얻어와 모델에 추가
+        if (authentication.getPrincipal() instanceof USERS) {
+            USERS user = (USERS) authentication.getPrincipal();
+            model.addAttribute("userMileage", user.getUser_Mileage());
+        }
         return "productadlist";
     }
 

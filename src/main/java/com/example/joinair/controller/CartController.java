@@ -1,5 +1,6 @@
 package com.example.joinair.controller;
 
+import com.example.joinair.dto.USERS;
 import com.example.joinair.entity.Item;
 import com.example.joinair.entity.Product;
 import com.example.joinair.service.ProductService;
@@ -10,7 +11,10 @@ import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
+import org.springframework.security.core.Authentication;
+import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.stereotype.Controller;
+import org.springframework.ui.Model;
 import org.springframework.ui.ModelMap;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.RequestMapping;
@@ -31,8 +35,23 @@ public class CartController {
 
 
     @RequestMapping(method = RequestMethod.GET)
-    public String index(ModelMap modelMap, HttpSession session) {
+    public String index(ModelMap modelMap, Model model, HttpSession session) {
         modelMap.put("total", total(session));
+
+        Authentication authentication = SecurityContextHolder.getContext().getAuthentication();
+        String username = authentication.getName();
+
+        // 여기에서 필요한 사용자 정보를 모델에 추가합니다.
+        model.addAttribute("userId", username);
+        model.addAttribute("userAuthorities", authentication.getAuthorities());
+
+        // 마일리지 정보를 얻어와 모델에 추가
+        if (authentication.getPrincipal() instanceof USERS) {
+            USERS user = (USERS) authentication.getPrincipal();
+            model.addAttribute("userMileage", user.getUser_Mileage());
+        }
+
+
         return "cart/index";
     }
 

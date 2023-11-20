@@ -1,5 +1,6 @@
 package com.example.joinair.controller;
 
+import com.example.joinair.dto.USERS;
 import com.example.joinair.entity.Product;
 import com.example.joinair.service.ProductBuyService;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -39,14 +40,14 @@ public class productBuyController {
 
     @GetMapping("/productbuy/list")
     public String productbuyList(Model model,
-                                 @PageableDefault(page = 0, size = 10, sort = "Pro_Code", direction = Sort.Direction.DESC) Pageable pageable,
+                                 @PageableDefault(page = 0, size = 9, sort = "Pro_Code", direction = Sort.Direction.DESC) Pageable pageable,
                                  @RequestParam(name = "searchOption", required = false) String searchOption,
                                  @RequestParam(name = "searchKeyword", required = false) String searchKeyword) {
         Page<Product> list = productBuyService.productbuySearchList(searchOption, searchKeyword, pageable);
 
-        int nowPage = list.getPageable().getPageNumber() + 1;
-        int startPage = Math.max(nowPage - 4, 1);
-        int endPage = Math.min(nowPage + 5, list.getTotalPages());
+        int nowPage = list.getNumber() + 1; // 현재 페이지 번호
+        int startPage = Math.max(nowPage - 5, 1);
+        int endPage = Math.min(startPage + 9, list.getTotalPages());
 
         // Add search parameters to the model
         model.addAttribute("list", list);
@@ -54,7 +55,28 @@ public class productBuyController {
         model.addAttribute("startPage", startPage);
         model.addAttribute("endPage", endPage);
         model.addAttribute("searchOption", searchOption);
-        model.addAttribute("searchKeyword", searchKeyword); // Pass search keyword to the view
+        model.addAttribute("searchKeyword", searchKeyword);
+
+        Authentication authentication = SecurityContextHolder.getContext().getAuthentication();
+        String username = authentication.getName();
+
+        model.addAttribute("userId", username);
+        model.addAttribute("userAuthorities", authentication.getAuthorities());
+
+        // 마일리지 정보를 얻어와 모델에 추가
+        if (authentication.getPrincipal() instanceof USERS) {
+            USERS user = (USERS) authentication.getPrincipal();
+            model.addAttribute("userMileage", user.getUser_Mileage());
+        }
+
+        return "productbuylist";
+    }
+
+
+
+    @GetMapping("/productbuy/view")
+    public String productbuyView(Model model, Integer Pro_Code){
+        model.addAttribute("Product",productBuyService.productbuyView(Pro_Code).orElse(null));
 
         Authentication authentication = SecurityContextHolder.getContext().getAuthentication();
         String username = authentication.getName();
@@ -62,13 +84,13 @@ public class productBuyController {
         // 여기에서 필요한 사용자 정보를 모델에 추가합니다.
         model.addAttribute("userId", username);
         model.addAttribute("userAuthorities", authentication.getAuthorities());
-        return "productbuylist"; //페이징 및 검색기능 문제로 기존 productbuylist2였지만 productbuylist로 원복했습니다.
-    }
 
+        // 마일리지 정보를 얻어와 모델에 추가
+        if (authentication.getPrincipal() instanceof USERS) {
+            USERS user = (USERS) authentication.getPrincipal();
+            model.addAttribute("userMileage", user.getUser_Mileage());
+        }
 
-    @GetMapping("/productbuy/view")
-    public String productbuyView(Model model, Integer Pro_Code){
-        model.addAttribute("Product",productBuyService.productbuyView(Pro_Code).orElse(null));
         return "productbuyview2";
     }
 
