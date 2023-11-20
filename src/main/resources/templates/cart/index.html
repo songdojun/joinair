@@ -30,51 +30,88 @@
 
 </head>
 <style>
-
     body {
-             font-family: 'Roboto', sans-serif;
-             background-color: #f8f9fa; /* 배경색 변경 */
-         }
+        background: linear-gradient(135deg, #f8f9fa 0%, #ced4da 100%);
+        font-family: 'Arial', sans-serif;
+        color: #495057;
+    }
 
-         nav#templatemo_nav_top {
-             background-color: #343a40; /* 네비게이션 바 배경색 변경 */
-             box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
-         }
+    h1 {
+        color: #007bff;
+    }
 
-         nav#templatemo_nav_top a {
-             color: #fff !important; /* 네비게이션 바 텍스트 색상 변경 */
-         }
 
-         nav.navbar.shadow {
-             background-color: #fff; /* 상단 바 배경색 변경 */
-             box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
-         }
 
-         ul.nav.navbar-nav strong {
-             font-weight: bold;
-         }
+    table {
+        width: 100%;
+        border-collapse: collapse;
+        margin-top: 20px;
+    }
 
-         div.table-responsive {
-             box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
-             background-color: #fff; /* 테이블 배경색 변경 */
-         }
+    th,
+    td {
+        text-align: center;
+        padding: 12px;
+    }
 
-         div.bg-light.rounded-pill {
-             background-color: #f8f9fa;
-         }
+    th {
+        background-color: #007bff;
+        color: #fff;
+    }
 
-         a.btn.btn-dark.rounded-pill {
-             background-color: #343a40;
-             color: #fff;
-         }
+    td {
+        background-color: #fff;
+    }
 
-         footer.bg-dark {
-             background-color: #343a40;
-             color: #fff;
-             padding: 30px 0; /* 푸터 안쪽 여백 추가 */
-         }
+    .price,
+    .subtotal,
+    .total {
+        font-weight: bold;
+        font-size: 1.2em;
+    }
 
+    .form-group {
+        margin-bottom: 20px;
+    }
+
+    #paymentModal {
+        color: #007bff;
+    }
+
+    .modal-content {
+        border-radius: 10px;
+    }
+
+    .modal-header {
+        background: linear-gradient(135deg, #007bff 0%, #0056b3 100%);
+        color: white;
+        border-bottom: 0;
+        border-radius: 10px 10px 0 0;
+        padding: 15px;
+    }
+
+    .modal-footer {
+        background-color: #007bff;
+        border-top: 0;
+        border-radius: 0 0 10px 10px;
+        padding: 15px;
+    }
+
+    button[data-dismiss="modal"] {
+        color: white;
+    }
+
+    button.btn-primary {
+        background-color: #007bff;
+        border-color: #007bff;
+    }
+
+    button.btn-primary:hover {
+        background-color: #0056b3;
+        border-color: #0056b3;
+    }
 </style>
+
 
 </head>
 <body>
@@ -160,23 +197,20 @@
             <!-- 장바구니 내용 -->
             <tr th:each="item: ${session.cart}">
                 <td>
-                    <img th:src="${item.product != null ? item.product.Pro_Filepath : ''}" alt="Product Image"
-                         style="width: 60px;" />
-                    <a th:href="@{/productbuy/view(Pro_Code=${item.product.Pro_Code})}">
-                        <span th:text="${item.product.Pro_Name != null ? item.product.Pro_Name : ''}"></span>
-                    </a>
+                    <div class="d-flex align-items-center">
+                        <img th:src="${item.product != null ? item.product.Pro_Filepath : ''}" alt="Product Image" style="width: 60px;" />
+                        <a th:href="@{/productbuy/view(Pro_Code=${item.product.Pro_Code})}" class="ml-2">
+                            <span th:text="${item.product.Pro_Name != null ? item.product.Pro_Name : ''}"></span>
+                        </a>
+                    </div>
                 </td>
-                <td class="price"
-                    th:text="${item.product.Pro_Price != null ? item.product.Pro_Price : ''}"></td>
+                <td class="price" th:text="${item.product.Pro_Price != null ? item.product.Pro_Price : ''}"></td>
                 <td>
                     <!-- 각 상품의 수량 입력 필드 이름을 고유하게 변경 -->
                     <input type="text" name="quantity_${item.product.Pro_Code}" th:value="${item.quantity}" class="form-control" style="width:60px;" readonly />
                 </td>
-
                 <td th:text="${item.product != null ? item.product.Pro_Weight : ''}"></td>
-
-                <td class="subtotal"
-                    th:text="${item.product.Pro_Price != null && item.quantity != null ? item.product.Pro_Price * item.quantity : ''}"></td>
+                <td class="subtotal" th:text="${item.product.Pro_Price != null && item.quantity != null ? item.product.Pro_Price * item.quantity : ''}"></td>
                 <td>
                     <a th:if="${session.cart != null}" th:href="${'/cart/remove/' + item.product.Pro_Code}" class="text-danger">X</a>
                 </td>
@@ -184,14 +218,14 @@
             </tbody>
             <tfoot>
             <tr>
-                <td colspan="3"><strong>총 무게(g)</strong></td>
-                <td colspan="2" id="totalWeight"></td>
-                <td colspan="2"></td> <!-- 추가: 총 가격의 열을 비워둠 -->
+                <td colspan="3" class="text-center"><strong>총 무게(g)</strong></td>
+                <td colspan="2" class="text-center" id="totalWeight"></td>
+                <td colspan="2" class="text-center"></td> <!-- 추가: 총 가격의 열을 비워둠 -->
             </tr>
             <tr>
-                <td colspan="4"><strong>TOTAL PRICE</strong></td>
-                <td class="total" th:text="${session.total != null ? session.total : ''}"></td>
-                <td><a th:href="@{/productbuy/list}" class="btn btn-primary">계속 쇼핑 하기</a></td>
+                <td colspan="4" class="text-center"><strong>TOTAL PRICE</strong></td>
+                <td class="total text-center" th:text="${session.total != null ? session.total : ''}"></td>
+                <td class="text-center"><a th:href="@{/productbuy/list}" class="btn btn-primary">계속 쇼핑 하기</a></td>
             </tr>
             </tfoot>
         </table>
@@ -202,16 +236,18 @@
 <div class="container mt-5">
     <h1 class="text-center mb-4">주문자 정보</h1>
     <form method="post" action="/submit-customer-info-endpoint">
-        <div class="form-group">
-            <label for="customerName">주문자 이름:</label>
-            <input type="text" id="customerName" name="customerName" class="form-control" required>
+        <div class="form-row">
+            <div class="form-group col-md-6">
+                <label for="customerName">주문자 이름</label>
+                <input type="text" id="customerName" name="customerName" class="form-control" required>
+            </div>
+            <div class="form-group col-md-6">
+                <label for="customerEmail">이메일</label>
+                <input type="email" id="customerEmail" name="customerEmail" class="form-control" required>
+            </div>
         </div>
         <div class="form-group">
-            <label for="customerEmail">이메일:</label>
-            <input type="email" id="customerEmail" name="customerEmail" class="form-control" required>
-        </div>
-        <div class="form-group">
-            <label for="customerMobile">휴대 전화:</label>
+            <label for="customerMobile">휴대 전화<small>(- 없이)</small></label>
             <input type="tel" id="customerMobile" name="customerMobile" class="form-control" required>
         </div>
     </form>
@@ -226,26 +262,26 @@
             <input type="checkbox" id="sameAsBilling" name="sameAsBilling" value="1" class="form-check-input">
             <label for="sameAsBilling" class="form-check-label">주문자 정보와 동일</label>
         </div>
-        <div class="form-group">
-            <label for="recipientName">받는 사람:</label>
-            <input type="text" id="recipientName" name="recipientName" class="form-control">
-        </div>
-        <!-- 주소 입력란 -->
-        <div class="form-group">
-            <label for="sample4_postcode">주소:</label>
-            <div class="input-group">
-                <input type="text" id="sample4_postcode" placeholder="우편번호" class="form-control">
-                <div class="input-group-append">
-                    <button type="button" class="btn btn-primary" onclick="sample4_execDaumPostcode()">우편번호 찾기</button>
+        <div class="form-row">
+            <div class="form-group col-md-6">
+                <label for="recipientName">받는 사람</label>
+                <input type="text" id="recipientName" name="recipientName" class="form-control">
+            </div>
+            <!-- 주소 입력란 -->
+            <div class="form-group col-md-6">
+                <label for="sample4_postcode">주소</label>
+                <div class="input-group">
+                    <input type="text" id="sample4_postcode" placeholder="우편번호" class="form-control">
+                    <div class="input-group-append">
+                        <button type="button" class="btn btn-primary" onclick="sample4_execDaumPostcode()">우편번호 찾기</button>
+                    </div>
                 </div>
             </div>
         </div>
         <div class="form-group">
-            <input type="text" id="sample4_roadAddress" placeholder="도로명주소" class="form-control">
+            <input type="text" id="sample4_roadAddress" placeholder="캠핑장 및 해수욕장 주소" class="form-control">
         </div>
-        <div class="form-group">
-            <input type="text" id="sample4_jibunAddress" placeholder="지번주소" class="form-control">
-        </div>
+
         <div class="form-group">
             <span id="guide" style="color:#999;display:none"></span>
         </div>
@@ -253,54 +289,40 @@
             <input type="text" id="sample4_detailAddress" placeholder="상세주소" class="form-control">
         </div>
         <div class="form-group">
-            <input type="text" id="sample4_extraAddress" placeholder="참고항목" class="form-control">
+            <input type="text" id="sample4_extraAddress" placeholder="주소" class="form-control">
         </div>
-
         <div class="form-group">
-            <label for="shippingMobile">휴대 전화:</label>
+            <label for="shippingMobile">휴대 전화 </label>
             <input type="tel" id="shippingMobile" name="shippingMobile" class="form-control">
         </div>
     </form>
 </div>
-<!-- 결제 버튼 -->
-<button data-toggle="modal" data-target="#paymentModal" class="btn btn-primary" style="margin: auto; display: block;">결제</button><br>
 
+<!-- 결제 버튼 -->
+<button data-toggle="modal" data-target="#paymentModal" class="btn btn-primary d-block mx-auto mt-4">결제</button><br>
 
 <!-- 결제 모달 -->
 <div class="modal fade" id="paymentModal" tabindex="-1" role="dialog" aria-labelledby="paymentModalLabel" aria-hidden="true">
-    <!-- 모달 창의 다이얼로그 부분 설정 -->
     <div class="modal-dialog modal-dialog-fixed-right" role="document">
-        <!-- 모달 창의 내용을 감싸는 컨테이너 -->
         <div class="modal-content">
-            <!-- 모달 창 상단 부분 (헤더) -->
             <div class="modal-header">
-                <!-- 모달 창의 제목 -->
                 <h5 class="modal-title" id="paymentModalLabel">결제창</h5>
-                <!-- 모달 닫기 버튼 -->
                 <button type="button" class="close" data-dismiss="modal" aria-label="Close">
-                    <!-- 닫기 아이콘 -->
                     <span aria-hidden="true">&times;</span>
                 </button>
-                <!-- 추가 항목 아래 <div> 태그 추가해서 추가하기 -->
             </div>
             <div class="modal-body">
-                <!-- 결제 정보 -->
                 <p>총 상품 주문금액: <span class="total" id="totalAmount"></span></p>
                 <p>할인 금액: <span id="discountAmount">0</span></p>
                 <p>총 적립 금액: <span class="reward" id="rewardAmount"></span></p>
                 <p>최종 결제 금액: <span class="final" id="total1"></span></p>
-                <!-- 기타 결제 관련 정보 및 양식 -->
-                <!-- 예를 들어, 신용카드 정보 입력 폼 등이 들어갈 수 있습니다. -->
             </div>
             <div class="modal-footer">
-                <!-- 결제 버튼 -->
                 <button onclick="requestCardPayment()" class="btn btn-primary">카드결제</button>
                 <button onclick="redirectToBankTransferPage()" class="btn btn-primary">무통장입금</button>
             </div>
         </div>
     </div>
-</div>
-
 </div>
 
 <footer class="bg-dark pt-1" id="tempaltemo_footer">
