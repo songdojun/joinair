@@ -87,5 +87,8 @@ public class UserServiceImpl implements UserService {
 
             return users;
         }
+        public void updateUserMileage(String userId, double newMileage) {
+        userMapper.updateUserMileage(userId, newMileage);
+        }
     }
 

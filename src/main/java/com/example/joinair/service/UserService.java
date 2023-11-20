@@ -16,5 +16,9 @@ public interface UserService extends UserDetailsService {
     List<USERS> getAllUsers();
     UserDetails loadUserByUsername(String username) throws UsernameNotFoundException;
 
+    void updateUserMileage(String userId, double newMileage);
+
+
+
 
 }

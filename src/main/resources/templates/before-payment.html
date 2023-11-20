@@ -1,0 +1,44 @@
+<!DOCTYPE html>
+<html lang="ko" xmlns:th="http://www.thymeleaf.org">
+<head>
+    <!-- head 부분 생략 (기존의 내용 유지) -->
+</head>
+<body>
+<!-- 장바구니 내용 -->
+<div>
+    <h2>장바구니</h2>
+    <table>
+        <thead>
+        <tr>
+            <th>상품명</th>
+            <th>가격</th>
+            <th>수량</th>
+            <th>합계</th>
+        </tr>
+        </thead>
+        <tbody>
+        <!-- 장바구니에 담긴 상품들을 표시 -->
+        <tr th:each="item : ${cart.items}">
+            <td th:text="${item.product.name}"></td>
+            <td th:text="${item.product.price}"></td>
+            <td th:text="${item.quantity}"></td>
+            <td th:text="${item.totalPrice}"></td>
+        </tr>
+        </tbody>
+    </table>
+</div>
+
+<!-- 배송 정보 -->
+<div>
+    <h2>배송 정보</h2>
+    <p>받는 사람: <span th:text="${shippingInfo.recipientName}"></span></p>
+    <p>목적지: <span th:text="${shippingInfo.destination}"></span></p>
+    <p>휴대 전화: <span th:text="${shippingInfo.shippingMobile}"></span></p>
+</div>
+
+<!-- 결제 버튼 등의 UI 요소 추가 -->
+
+<!-- JavaScript 스크립트 및 다음 우편번호 서비스 스크립트 추가 -->
+<!-- ... -->
+</body>
+</html>

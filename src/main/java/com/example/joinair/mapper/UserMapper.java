@@ -3,6 +3,7 @@ package com.example.joinair.mapper;
 import com.example.joinair.dto.USERS;
 import org.apache.ibatis.annotations.Mapper;
 import org.apache.ibatis.annotations.Param;
+import org.apache.ibatis.annotations.Update;
 
 import java.util.List;
 
@@ -18,6 +19,7 @@ public interface UserMapper {
     // 회원가입
     void saveUser(USERS userVo);
     List<USERS> getAllUsers();
+    void updateUserMileage(@Param("userId") String userId, @Param("newMileage") double newMileage);
 
 
 }
