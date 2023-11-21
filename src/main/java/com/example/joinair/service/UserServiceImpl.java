@@ -4,15 +4,15 @@ package com.example.joinair.service;
 import com.example.joinair.dto.USERS;
 import com.example.joinair.mapper.UserMapper;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.security.authentication.UsernamePasswordAuthenticationToken;
+import org.springframework.security.core.Authentication;
+import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.security.core.userdetails.UserDetails;
-import org.springframework.security.core.userdetails.UserDetailsService;
 import org.springframework.security.core.userdetails.UsernameNotFoundException;
 import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
-import java.text.SimpleDateFormat;
-import java.util.Date;
 import java.util.List;
 
 @Service
@@ -89,6 +89,17 @@ public class UserServiceImpl implements UserService {
         }
         public void updateUserMileage(String userId, double newMileage) {
         userMapper.updateUserMileage(userId, newMileage);
+            // 현재 로그인한 사용자의 Authentication 객체를 가져옴
+            Authentication currentAuthentication = SecurityContextHolder.getContext().getAuthentication();
+
+            // 업데이트된 UserDetails로 새로운 AuthenticationToken을 생성
+            UserDetails updatedUserDetails = userMapper.getUserAccount(userId);
+            UsernamePasswordAuthenticationToken newAuthentication = new UsernamePasswordAuthenticationToken(
+                    updatedUserDetails, updatedUserDetails.getPassword(), updatedUserDetails.getAuthorities()
+            );
+
+            // 가져온 Authentication 객체를 업데이트된 Authentication으로 교체
+            SecurityContextHolder.getContext().setAuthentication(newAuthentication);
         }
     }
 

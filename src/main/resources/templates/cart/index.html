@@ -392,6 +392,7 @@
 
 <script>
     function submitOrderForm(event) {
+            applyMileage();
            event.preventDefault(); // 기본 동작(페이지 전환)을 중지 리턴값 무시
 
            // 여기에서 추가적인 작업을 수행
@@ -459,7 +460,7 @@
 
                 <label for="mileageInput">사용할 마일리지 입력:</label>
                 <!-- 추가: 사용자가 마일리지 입력할 수 있는 입력란 -->
-                <input type="number" id="mileageInput" value="" onKeyup="this.value=this.value.replace(/[^0-9]/g,'');" name="mileageInput" class="form-control" placeholder="0" min="0" max="${userMileage}" />
+                <input type="number" id="mileageInput" value="0" onKeyup="this.value=this.value.replace(/[^0-9]/g,'');" name="mileageInput" class="form-control" placeholder="0" min="0" max="${userMileage}" />
 
                 <button onclick="applyMileage()" class="btn btn-primary">마일리지 적용</button>
 
