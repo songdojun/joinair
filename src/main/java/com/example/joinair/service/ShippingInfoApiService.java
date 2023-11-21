@@ -36,7 +36,7 @@ public class ShippingInfoApiService {
             System.out.println(shipping.getAddress());
         });
 
-        double mfs = 9.0;
+        double mfs = 1.0;
 
         double bearing = getBearing(  reqDronLocation.getDronLat(), reqDronLocation.getDronLon(), reqDronLocation.getEndLat(), reqDronLocation.getEndLon()  );
 

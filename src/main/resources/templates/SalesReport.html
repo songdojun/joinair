@@ -164,10 +164,10 @@
 
 <!-- 매출 보고서 부분 -->
 <div id="salesReportContainer">
-    <h2 class="text-center font-weight-bold"> 보고서 작성</h2>
+    <h2 class="text-center font-weight-bold"> 매출 조회 </h2>
     <form action="/admin/sales/reportData" method="POST" id="reportForm">
         <div class="form-group">
-            <label for="reportType">보고서 유형 선택:</label>
+            <label for="reportType">유형 선택:</label>
             <select class="form-control" th:name="reportType" id="reportType">
                 <option value="select" disabled selected>선택</option>
                 <option value="daily">일일</option>
@@ -195,7 +195,7 @@
             <input type="text" class="form-control" name="searchInput" id="searchInput" th:disabled="${reportType != 'custom'}">
         </div>
 
-        <button type="submit" class="btn btn-success custom-button">보고서 생성</button>
+        <button type="submit" class="btn btn-success custom-button">조회</button>
     </form>
 
     <br>
