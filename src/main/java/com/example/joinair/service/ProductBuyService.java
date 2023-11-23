@@ -71,6 +71,12 @@ public class ProductBuyService {
         return list;
     }
 
+    public List<Product> getAllProducts() {
+        return productBuyRepository.findAllOrderedByProCode();
+    }
+
+
+
     public Optional<Product> productbuyView(Integer Pro_Code) {
         Optional<Product> optionalProduct = productBuyRepository.findById(Pro_Code);
         return optionalProduct;

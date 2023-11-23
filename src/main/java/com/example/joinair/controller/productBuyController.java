@@ -18,6 +18,8 @@ import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.multipart.MultipartFile;
 
+import java.util.List;
+
 import static com.example.joinair.service.ProductAdService.regist;
 
 
@@ -132,6 +134,33 @@ public class productBuyController {
         model.addAttribute("searchUrl", "/productbuy/list");
         return  "message";
     }
+
+
+
+//    @GetMapping("/index")
+//    public String productbuyList(Model model) {
+//        // 페이징 및 검색 기능 없이 전체 리스트를 가져옵니다.
+//        List<Product> list = productBuyService.getAllProducts();
+//
+//        // Add products to the model
+//        model.addAttribute("list", list);
+//
+//        Authentication authentication = SecurityContextHolder.getContext().getAuthentication();
+//        String username = authentication.getName();
+//
+//        model.addAttribute("userId", username);
+//        model.addAttribute("userAuthorities", authentication.getAuthorities());
+//
+//        // 마일리지 정보를 얻어와 모델에 추가
+//        if (authentication.getPrincipal() instanceof USERS) {
+//            USERS user = (USERS) authentication.getPrincipal();
+//            model.addAttribute("userMileage", user.getUser_Mileage());
+//        }
+//
+//        return "index2";
+//    }
+
+
 
 
 

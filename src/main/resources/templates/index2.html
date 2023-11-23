@@ -256,129 +256,33 @@
 </div>
 </div>
 
-<!-- 핫이슈 컨텐츠 시작 편의점 음식 신상(CU편의점 기준) -->
-<div class="container">
+<div class="container mt-5">
     <div class="row">
-        <div class="col-lg-12"><br>
-            <h2 class="text-center" style="font-size: 36px; font-weight: bold; color: #3498db; text-transform: uppercase; font-family: 'Your Chosen Font', sans-serif;">🔥 핫이슈 🔥</h2>
+        <!-- Thymeleaf 반복문 시작, 최대 9개까지만 반복 -->
+        <div class="col-md-4 mb-4" th:each="product, iterStat : ${list}" th:if="${iterStat.index < 9}">
+            <div class="card">
+                <a th:href="@{|/productbuy/view?Pro_Code=${product.Pro_Code}|}">
+                    <!-- 이미지 카드 -->
+                    <img class="card-img img-fluid" th:src="${product != null} ? ${product.Pro_Filepath} : ''" alt="상품 이미지">
 
-            <p class="text-center" style="font-size: 22px; color: #6c757d; font-family: 'Your Chosen Font', sans-serif; font-style: italic;">이제 가장 핫한 편의점 음식을 즐겨보세요! 입맛을 사로잡는 새로운 제품이 나왔답니다.</p>
+                    <!-- 카드 바디 -->
+                    <div class="card-body">
+                        <!-- 상품 제목 -->
+                        <h5 class="card-title" th:text="${product.Pro_Name}"></h5>
 
-
-
-            <div class="row">
-                <div class="col-lg-4">
-                    <div class="card">
-                        <img src="https://tqklhszfkvzk6518638.cdn.ntruss.com/product/8809895798601.jpg" class="card-img-top" alt="편의점 음식 1" width="200" height="200">
-                        <div class="card-body">
-                            <h5 class="card-title">푸드)꽃카황치즈쿠키</h5>
-                            <p class="card-text">가격1,800원</p>
-                        </div>
+                        <!-- 상품 가격 -->
+                        <p class="card-text" style="text-align: right; font-size: 1.2em; font-weight: bold;">
+                            가격: <span th:text="${product.Pro_Price != null ? #numbers.formatDecimal(product.Pro_Price, 3, 0) : '가격 없음'}"></span>
+                        </p>
                     </div>
-                </div>
-
-                <div class="col-lg-4">
-                    <div class="card">
-                        <img src="https://tqklhszfkvzk6518638.cdn.ntruss.com/product/8809948342409.jpg" class="card-img-top" alt="편의점 음식 2" width="200" height="200">
-                        <div class="card-body">
-                            <h5 class="card-title">도)한가위돼지구이정식</h5>
-                            <p class="card-text">가격6,900원</p>
-                        </div>
-                    </div>
-                </div>
-
-                <div class="col-lg-4">
-                    <div class="card">
-                        <img src="https://tqklhszfkvzk6518638.cdn.ntruss.com/product/8809665560780.jpg" class="card-img-top" alt="편의점 음식 3" width="200" height="200">
-                        <div class="card-body">
-                            <h5 class="card-title">샐)탄두리치킨샐러드</h5>
-                            <p class="card-text">가격6,600원
-                            </p>
-                        </div>
-                    </div>
-                </div>
+                </a>
             </div>
         </div>
-    </div>
-</div>
-<div class="container">
-    <div class="row">
-        <div class="col-lg-12">
-            <br>
-            <div class="row">
-                <div class="col-lg-4">
-                    <div class="card">
-                        <img src="https://tqklhszfkvzk6518638.cdn.ntruss.com/product/8809948342034.jpg" class="card-img-top" alt="편의점 음식 1" width="200" height="300     ">
-                        <div class="card-body">
-                            <h5 class="card-title">자이언트)조청찍먹떡강정</h5>
-                            <p class="card-text">가격3,600원
-                            </p>
-                        </div>
-                    </div>
-                </div>
-
-                <div class="col-lg-4">
-                    <div class="card">
-                        <img src="https://tqklhszfkvzk6518638.cdn.ntruss.com/product/8994963002077.jpg" class="card-img-top" alt="편의점 음식 2" width="200" height="300">
-                        <div class="card-body">
-                            <h5 class="card-title">이맥스)미고랭라면봉지</h5>
-                            <p class="card-text">가격700원</p>
-                        </div>
-                    </div>
-                </div>
-                <div class="col-lg-4">
-                    <div class="card">
-                        <img src="https://tqklhszfkvzk6518638.cdn.ntruss.com/product/8809948342362.jpg" class="card-img-top" alt="편의점 음식 3" width="200" height="300">
-                        <div class="card-body">
-                            <h5 class="card-title">김)쫀득키리모찌유부초밥</h5>
-                            <p class="card-text">가격4,000원</p>
-                        </div>
-                    </div>
-                </div>
-            </div>
-        </div>
-    </div>
-</div>
-<div class="container">
-    <div class="row">
-        <div class="col-lg-12">
-            <br>
-
-            <div class="row">
-                <div class="col-lg-4">
-                    <div class="card">
-                        <img src="https://tqklhszfkvzk6518638.cdn.ntruss.com/product/8809411843679.jpg" class="card-img-top" alt="편의점 음식 1" width="200" height="300">
-                        <div class="card-body">
-                            <h5 class="card-title">이웃집)브라우니약과쿠키</h5>
-                            <p class="card-text">가격2,700원</p>
-                        </div>
-                    </div>
-                </div>
-
-                <div class="col-lg-4">
-                    <div class="card">
-                        <img src="https://tqklhszfkvzk6518638.cdn.ntruss.com/product/8809860730650.jpg" class="card-img-top" alt="편의점 음식 2" width="200" height="300">
-                        <div class="card-body">
-                            <h5 class="card-title">귀멸)귀멸의칼날카레우동</h5>
-                            <p class="card-text">가격5,500원</p>
-                        </div>
-                    </div>
-                </div>
-
-                <div class="col-lg-4">
-                    <div class="card">
-                        <img src="https://tqklhszfkvzk6518638.cdn.ntruss.com/product/8809383959019.jpg" class="card-img-top" alt="편의점 음식 3" width="200" height="300">
-                        <div class="card-body">
-                            <h5 class="card-title">주)게딱지장삼각</h5>
-                            <p class="card-text">가격1,400원</p>
-                        </div>
-                    </div>
-                </div>
-            </div>
-        </div>
+        <!-- Thymeleaf 반복문 끝 -->
     </div>
 </div>
 
+<!-- 상품 목록 컨테이너 끝 -->
 <br>
 <!-- 핫이슈 끝 -->
 

@@ -1,20 +1,29 @@
 package com.example.joinair.controller;
 
 import com.example.joinair.dto.USERS;
+import com.example.joinair.entity.Product;
+import com.example.joinair.service.ProductBuyService;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import com.sun.security.auth.PrincipalComparator;
 import jakarta.servlet.http.HttpSession;
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.security.core.Authentication;
 import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.stereotype.Controller;
+import org.springframework.stereotype.Service;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.GetMapping;
 
 import java.security.Principal;
+import java.util.List;
 
 @Controller
 public class PageController {
+
+
+    @Autowired
+    private ProductBuyService productBuyService;
 
     @GetMapping("/about")
     public String aboutPage(Model model, HttpSession session, Principal principal) {
@@ -56,6 +65,12 @@ public class PageController {
             USERS user = (USERS) authentication.getPrincipal();
             model.addAttribute("userMileage", user.getUser_Mileage());
         }
+
+        List<Product> list = productBuyService.getAllProducts();
+
+        // Add products to the model
+        model.addAttribute("list", list);
+
 
         return "index2"; // index.html 템플릿 반환
     }
