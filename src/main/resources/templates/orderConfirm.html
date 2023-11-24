@@ -10,6 +10,12 @@
     <script src="https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0/js/bootstrap.min.js"></script>
     <script src="https://cdn.iamport.kr/js/iamport.payment-1.1.5.js"></script>
     <script>
+
+        function redirectToMyPage() {
+        // "/mypage" URL로 리디렉션
+        window.location.href = "/mypage";
+    }
+
         // 아임포트 초기화 및 카드결제 요청
         function requestCardPayment() {
             console.log('requestCardPayment 함수 호출됨');
@@ -28,18 +34,19 @@
                 buyer_tel: '010-1234-5678',
                 buyer_addr: '서울특별시 강남구 삼성동',
                 buyer_postcode: '123-456'
-            }, function (rsp) {
-                if (rsp.success) {
-                    var msg = '결제가 완료되었습니다.';
-                    alert(msg);
-                    location.href = "http://localhost:63342/joinair/src/main/resources/templates/ordercomplate.html?_ijt=qtqh28h3cb4drehrj62ju0b7ti&_ij_reload=RELOAD_ON_SAVE";
-                } else {
-                    var msg = '결제에 실패하였습니다.';
-                    msg += '에러내용 : ' + rsp.error_msg;
-                    alert(msg);
-                }
-            });
-        }
+            },function (rsp) {
+            if (rsp.success) {
+                var msg = '결제가 완료되었습니다.';
+                alert(msg);
+                // "/mypage" URL로 리디렉션하는 함수 호출
+                redirectToMyPage();
+            } else {
+                var msg = '결제에 실패하였습니다.';
+                msg += '에러내용 : ' + rsp.error_msg;
+                alert(msg);
+            }
+        });
+    }
 
         // 완료 버튼 클릭 시 모달 열기
         function openPaymentModal() {
