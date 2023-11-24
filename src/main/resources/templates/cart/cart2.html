@@ -1,0 +1,559 @@
+<!DOCTYPE html>
+<html lang="ko" xmlns:th="http://www.thymeleaf.org"
+      xmlns:sec="http://www.thymeleaf.org/thymeleaf-extras-springsecurity">
+<head>
+    <meta charset="UTF-8">
+    <title>Cart and Order Information</title>
+
+    <link rel="apple-touch-icon" href="/assets/img/apple-icon.png">
+
+    <!-- 다른 장치용 바로 가기 아이콘 -->
+    <link rel="shortcut icon" type="image/x-icon" href="/assets/img/favicon.ico">
+
+    <!-- Bootstrap CSS - 반응형 및 모바일 우선 웹사이트를 구축하기 위한 인기 있는 CSS 프레임워크 -->
+    <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/4.5.2/css/bootstrap.min.css">
+
+    <!-- Templatemo CSS - 템플릿을 위한 사용자 지정 CSS -->
+    <link rel="stylesheet" href="/assets/css/templatemo.css">
+
+    <!-- Custom CSS - 웹사이트를 위한 추가적인 사용자 지정 스타일 -->
+    <link rel="stylesheet" href="/assets/css/custom.css">
+
+    <!-- Google Fonts의 Roboto 폰트, 다양한 두께 포함 -->
+    <link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Roboto:wght@100;200;300;400;500;700;900&display=swap">
+
+    <!-- Font Awesome CSS - 아이콘 라이브러리 -->
+    <link rel="stylesheet" href="/assets/css/fontawesome.min.css">
+
+    <!-- Leaflet CSS - 인터랙티브 맵을 위한 Leaflet JavaScript 라이브러리의 스타일시트 -->
+    <link rel="stylesheet" href="https://unpkg.com/leaflet@1.7.1/dist/leaflet.css"
+          integrity="sha512-xodZBNTC5n17Xt2atTPuE1HxjVMSvLVW9ocqUKLsCC5CXdbqCmblAshOMAS6/keqq/sMZMZ19scR4PsZChSR7A==" crossorigin=""/>
+
+    <link rel="apple-touch-icon" href="/assets/img/apple-icon.png">
+    <link rel="shortcut icon" type="image/x-icon" href="/assets/img/favicon.ico">
+    <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/4.5.2/css/bootstrap.min.css">
+    <link rel="stylesheet" href="/assets/css/templatemo.css">
+    <link rel="stylesheet" href="/assets/css/custom.css">
+    <link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Roboto:wght@100;200;300;400;500;700;900&display=swap">
+    <link rel="stylesheet" href="/assets/css/fontawesome.min.css">
+    <link rel="stylesheet" href="https://unpkg.com/leaflet@1.7.1/dist/leaflet.css"
+          integrity="sha512-xodZBNTC5n17Xt2atTPuE1HxjVMSvLVW9ocqUKLsCC5CXdbqCmblAshOMAS6/keqq/sMZMZ19scR4PsZChSR7A==" crossorigin=""/>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.2.0/css/all.min.css">
+
+</head>
+<style>
+
+    body {
+       background: linear-gradient(135deg, #f8f9fa 0%, #ced4da 100%);
+       font-family: 'Arial', sans-serif;
+       color: #495057;
+   }
+
+   h1 {
+       color: #007bff;
+   }
+
+
+
+   table {
+       width: 100%;
+       border-collapse: collapse;
+       margin-top: 20px;
+   }
+
+   th,
+   td {
+       text-align: center;
+       padding: 12px;
+   }
+
+   th {
+       background-color: #007bff;
+       color: #fff;
+   }
+
+   td {
+       background-color: #fff;
+   }
+
+   .price,
+   .subtotal,
+   .total {
+       font-weight: bold;
+       font-size: 1.2em;
+   }
+
+   .form-group {
+       margin-bottom: 20px;
+   }
+
+   #paymentModal {
+       color: #007bff;
+   }
+
+   .modal-content {
+       border-radius: 10px;
+   }
+
+   .modal-header {
+       background: linear-gradient(135deg, #007bff 0%, #0056b3 100%);
+       color: white;
+       border-bottom: 0;
+       border-radius: 10px 10px 0 0;
+       padding: 15px;
+   }
+
+   .modal-footer {
+       background-color: #007bff;
+       border-top: 0;
+       border-radius: 0 0 10px 10px;
+       padding: 15px;
+   }
+
+   button[data-dismiss="modal"] {
+       color: white;
+   }
+
+   button.btn-primary {
+       background-color: #007bff;
+       border-color: #007bff;
+   }
+
+   button.btn-primary:hover {
+       background-color: #0056b3;
+       border-color: #0056b3;
+   }
+
+
+</style>
+<body>
+<!-- 상단 네비게이션 시작 -->
+<nav class="navbar navbar-expand-lg bg-dark navbar-light d-none d-lg-block" id="templatemo_nav_top">
+    <div class="container text-light">
+        <div class="w-100 d-flex justify-content-between">
+            <div>
+                <i class="fa fa-envelope mx-2"></i>
+                <a class="navbar-sm-brand text-light text-decoration-none" href="mailto:info@company.com"> Doron delivery@Doron delivery.com
+
+                </a>
+                <i class="fa fa-phone mx-2"></i>
+                <a class="navbar-sm-brand text-light text-decoration-none" href="tel:010-020-0340">010-1234-4567</a>
+            </div>
+            <div>
+                <span th:if="${userId != null and (userId != 'anonymousUser')}">💫 <span th:text="${userId}"></span> 님 환영합니다 💫</span>
+                <span sec:authorize="hasAuthority('admin')">
+                    <a th:href="@{/adminWelcome}" class="nav-link" style="display: inline-block; margin-left: 10px;">관리자 페이지</a></span>
+
+                <!-- 사용자의 마일리지 표시 -->
+                <span th:if="${userMileage != null}">&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
+                    <span th:text="${userMileage}"></span> 마일리지 </span>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
+
+                &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
+                <a class="text-light" href="https://fb.com/templatemo" target="_blank" rel="sponsored"><i class="fab fa-facebook-f fa-sm fa-fw me-2"></i></a>
+                <a class="text-light" href="https://www.instagram.com/" target="_blank"><i class="fab fa-instagram fa-sm fa-fw me-2"></i></a>
+                <a class="text-light" href="https://twitter.com/" target="_blank"><i class="fab fa-twitter fa-sm fa-fw me-2"></i></a>
+
+            </div>
+        </div>
+    </div>
+</nav>
+<!-- 상단 네비게이션 닫기 -->
+<!-- 장바구니 -->
+<div class="container mt-5">
+    <h1 class="text-center mb-4">장바구니</h1>
+    <form method="post" th:action="${'/cart/update'}">
+        <table class="table">
+            <thead>
+            <tr>
+                <th scope="col">상품명</th>
+                <th scope="col">가격</th>
+                <th scope="col">수량</th>
+                <th scope="col">무게(g)</th>
+                <th scope="col">소계</th>
+                <th scope="col">옵션</th>
+            </tr>
+            </thead>
+            <tbody>
+            <!-- 장바구니 내용 -->
+            <th:block th:if="${session.cart == null or session.cart.isEmpty()}">
+                <tr>
+                    <td colspan="6" class="text-center">장바구니가 비어 있습니다. 상품을 추가해주세요.</td>
+                </tr>
+                <script>
+                    // 장바구니가 비어 있을 때, 일정 시간(예: 5초 후)에 이 페이지로 리다이렉트
+                    setTimeout(function () {
+                        window.location.href = "/cart/cart2";  // 리다이렉트할 페이지 URL로 변경
+                    }, 5000);  // 5초(5000밀리초)로 설정, 필요에 따라 조절
+                </script>
+            </th:block>
+            <th:block th:if="${session.cart != null}">
+                <th:block th:each="item: ${session.cart}" th:remove="tag">
+                    <tr>
+                        <td th:text="${item.product.Pro_Name}"></td>
+                        <td class="price" th:text="${item.product.Pro_Price}"></td>
+                        <td>
+                            <input type="number" name="quantity_${item.product.Pro_Code}" min="1" value="${item.quantity}" onchange="updateSubtotal(this.closest('tr'), ${item.product.Pro_Code})">
+                        </td>
+                        <td th:text="${item.product.Pro_Weight}" data-initial-weight="${item.product.Pro_Weight}" style="display: none;"></td>
+                        <td class="subtotal" th:text="${item.product.Pro_Price * item.quantity}"></td>
+                        <td>
+                            <button type="button" onclick="removeItem(this)" data-pro-code="${item.product.Pro_Code}">Remove</button>
+                        </td>
+                    </tr>
+                </th:block>
+            </th:block>
+
+            <tfoot>
+            <tr>
+                <td colspan="3"><strong>총 무게(g)</strong></td>
+                <td colspan="2" id="totalWeight"></td>
+                <td colspan="2"></td> <!-- 추가: 총 가격의 열을 비워둠 -->
+            </tr>
+            <tr>
+                <td colspan="4"><strong>TOTAL PRICE</strong></td>
+                <td class="total" th:text="${session.total != null ? session.total : ''}"></td>
+                <td><a th:href="@{/productbuy/list}" class="btn btn-primary">계속 쇼핑 하기</a></td>
+            </tr>
+            </tfoot>
+        </table>
+    </form>
+</div>
+
+<!-- 주문자 정보 -->
+<div class="container mt-5">
+    <h1 class="text-center mb-4">주문자 정보</h1>
+    <form method="post" action="/submit-customer-info-endpoint">
+        <div class="form-group">
+            <label for="customerName">주문자 이름:</label>
+            <input type="text" id="customerName" name="customerName" class="form-control" th:value="${#authentication.principal.User_Name}" readonly>
+        </div>
+        <div class="form-group">
+            <label for="customerEmail">이메일:</label>
+            <input type="email" id="customerEmail" name="customerEmail" class="form-control" th:value="${#authentication.principal.User_Email}" readonly>
+        </div>
+        <div class="form-group">
+            <label for="customerMobile">휴대 전화:</label>
+            <input type="tel" id="customerMobile" name="customerMobile" class="form-control" th:value="${#authentication.principal.User_Phone}" readonly>
+        </div>
+    </form>
+</div>
+
+<!-- 배송 정보 -->
+<div class="container mt-5">
+    <h1 class="text-center mb-4">배송 정보</h1>
+    <form method="post" action="/submit-shipping-info-endpoint">
+        <!-- 배송지 정보 입력란 -->
+        <div class="form-check">
+            <input type="checkbox" id="sameAsBilling" name="sameAsBilling" value="1" class="form-check-input">
+            <label for="sameAsBilling" class="form-check-label">주문자 정보와 동일</label>
+        </div>
+        <div class="form-group">
+            <label for="recipientName">받는 사람:</label>
+            <input type="text" id="recipientName" name="recipientName" class="form-control" >
+        </div>
+        <div class="form-group">
+            <label for="orderDest">목적지:</label>
+            <select class="form-control" id="orderDest" name="orderDest" onchange="selectPension(this.value)">
+                <option value="" selected>목적지를 선택해주세요.</option>
+                <option value="경포 그곳에 가면 펜션">경포 그곳에 가면 펜션</option>
+                <option value="산타 비치 펜션">산타 비치 펜션</option>
+                <option value="강릉 에스구 펜션">강릉 에스구 펜션</option>
+                <option value="블루스테이펜션">블루스테이펜션</option>
+                <option value="라미아까사">라미아까사</option>
+                <option value="리치문펜션">리치문펜션</option>
+                <option value="탑스파펜션">탑스파펜션</option>
+                <option value="경포오션힐펜션">경포오션힐펜션</option>
+                <option value="포시즌호텔엔펜션">포시즌호텔엔펜션</option>
+            </select>
+        </div>
+        <script>
+            function selectPension(selectedValue) {
+                // 선택된 값을 인풋 창에 설정
+                document.getElementById('pensionDropdown').value = selectedValue;
+            }
+        </script>
+
+        <div class="form-group">
+            <label for="shippingMobile">휴대 전화:</label>
+            <input type="tel" id="shippingMobile" name="shippingMobile" class="form-control">
+        </div>
+    </form>
+</div>
+
+<!-- 결제 버튼 -->
+<!--<form method="post" action="/order/place" onsubmit="submitOrderForm(event)">-->
+<!--    <button type="submit" data-toggle="modal" data-target="#paymentModal" class="btn btn-primary" style="margin: auto; display: block;">결제</button><br>-->
+<!--</form>-->
+<button type="button" data-toggle="modal" data-target="#paymentModal" class="btn btn-primary" style="margin: auto; display: block;" onclick="openPaymentModal()">결제</button><br>
+
+
+<script>
+    function submitOrderForm(event) {
+           event.preventDefault(); // 기본 동작(페이지 전환)을 중지 리턴값 무시
+
+           // 여기에서 추가적인 작업을 수행
+
+
+           // 주문 폼 데이터
+           var formData = new FormData(event.target);
+
+           var finalAmount = parseFloat(document.getElementById('total1').textContent);
+
+           // 수정: 최종 결제 금액을 FormData에 추가
+           alert("최종 결제 금액 : " + finalAmount)
+           formData.append('finalAmount', finalAmount);
+
+           // 주문 요청 보내기
+           fetch('/order/place', {
+               method: 'POST',
+               body: formData,
+           })
+           .then(response => {
+               if (!response.ok) {
+                   throw new Error(`HTTP error! Status: ${response.status}`);
+               }
+               return response.text();  //추정원인 1 : 여기서 함수가 종료되서 다음께 실행이 안되지 않을까...?
+           })
+           .then(data => {
+               // 성공적으로 처리된 경우 모달 닫기 및 페이지 리로드
+               $('#paymentModal').hide(function() {
+                window.location.href = "/order/orderConfirm/" + data; // 여기서 data는 서버에서 반환한 주문 ID입니다.
+               });
+           })
+           .catch((error) => {
+               console.error('Error:', error);
+           });
+       }
+
+
+</script>
+
+
+<!-- 결제 모달 -->
+<div class="modal fade" id="paymentModal" tabindex="-1" role="dialog" aria-labelledby="paymentModalLabel" aria-hidden="true">
+    <!-- 모달 창의 다이얼로그 부분 설정 -->
+    <div class="modal-dialog modal-dialog-fixed-right" role="document">
+        <!-- 모달 창의 내용을 감싸는 컨테이너 -->
+        <div class="modal-content">
+            <!-- 모달 창 상단 부분 (헤더) -->
+            <div class="modal-header">
+                <!-- 모달 창의 제목 -->
+                <h5 class="modal-title" id="paymentModalLabel">결제창</h5>
+                <!-- 모달 닫기 버튼 -->
+                <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                    <!-- 닫기 아이콘 -->
+                    <span aria-hidden="true">&times;</span>
+                </button>
+                <!-- 추가 항목 아래 <div> 태그 추가해서 추가하기 -->
+            </div>
+            <div class="modal-body">
+                <!-- 결제 정보 -->
+                <p>총 상품 주문금액: <span class="total" id="totalAmount"></span></p>
+                <p>할인 금액: <span id="discountAmount">0</span></p>
+                <p>총 적립 금액: <span class="reward" id="rewardAmount"></span></p>
+
+                <p>보유 마일리지: <span class="user-mileage" th:text="${userMileage}"></span> 마일리지</p>
+
+                <label for="mileageInput">사용할 마일리지 입력:</label>
+                <!-- 추가: 사용자가 마일리지 입력할 수 있는 입력란 -->
+                <input type="number" id="mileageInput" value="" onKeyup="this.value=this.value.replace(/[^0-9]/g,'');" name="mileageInput" class="form-control" placeholder="0" min="0" max="${userMileage}" />
+
+                <button onclick="applyMileage()" class="btn btn-primary">마일리지 적용</button>
+
+
+
+
+                <p>최종 결제 금액: <span class="final" id="total1"></span></p>
+            </div>
+
+            <div class="modal-footer">
+                <form method="post" action="/order/place" onsubmit="submitOrderForm(event)">
+                    <input type="hidden" name="finalAmount" id="finalAmountInput" />
+                    <input type="hidden" id="orderPname"  name="orderPname"  value=""/>
+                    <input type="hidden" id="orderDest1"  name="orderDest1"  value=""/>
+                    <input type="hidden" id="orderPhone1"  name="orderPhone1"  value=""/>
+                    <input type="hidden" id="afuserMileage" name="afuserMileage" value="">
+                    <button type="submit" data-toggle="modal" data-target="#paymentModal" class="btn btn-primary" style="margin: auto; display: block;">주문완료 및 결제하기</button><br>
+                </form>
+            </div>
+        </div>
+    </div>
+</div>
+
+</div>
+<script>
+
+    function openPaymentModal() {
+       // 여기에서 모달을 띄우는 코드를 추가
+       $('#paymentModal').show();
+       document.getElementById('orderPname').value = document.getElementById('recipientName').value;
+       document.getElementById('orderDest1').value = document.getElementById('orderDest').value;
+       document.getElementById('orderPhone1').value = document.getElementById('shippingMobile').value;
+
+   }
+
+</script>
+
+
+<!-- JavaScript 스크립트 및 다음 우편번호 서비스 스크립트 추가 -->
+<script src="https://code.jquery.com/jquery-3.2.1.slim.min.js"></script>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.12.9/umd/popper.min.js"></script>
+
+<script src="//t1.daumcdn.net/mapjsapi/bundle/postcode/prod/postcode.v2.js"></script>
+<script src="https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0/js/bootstrap.min.js"></script>
+
+<script>
+    // 주문자 정보와 배송 정보 동일 처리
+    document.getElementById('sameAsBilling').addEventListener('change', function () {
+        if (this.checked) {
+            document.getElementById('recipientName').value = document.getElementById('customerName').value;
+            document.getElementById('shippingMobile').value = document.getElementById('customerMobile').value;
+        } else {
+            document.getElementById('recipientName').value = '';
+            document.getElementById('shippingMobile').value = '';
+        }
+    });
+</script>
+<!-- 부트스트랩 링크 추가 -->
+<link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0/css/bootstrap.min.css">
+
+<script>
+    // 수량 증가, 감소 시 소계 및 무게 합계 업데이트
+    function updateSubtotal(row, productCode) {
+        var priceCell = row.querySelector('.price');
+        var quantityInput = row.querySelector('[name="quantity_' + productCode + '"]');
+        var subtotalCell = row.querySelector('.subtotal');
+        var weightCell = row.querySelector('td:nth-child(4)'); // 무게를 나타내는 열
+
+        if (priceCell && quantityInput && subtotalCell && weightCell) {
+
+        var price = parseFloat(priceCell.textContent);
+        var quantity = parseInt(quantityInput.value);
+        if (quantity <= 0) {
+            quantityInput.value = 1;
+            quantity = 1;
+        }
+        var subtotal = price * quantity;
+        subtotalCell.textContent = subtotal;
+
+        // 무게 업데이트
+        var initialWeight = parseFloat(weightCell.getAttribute('data-initial-weight'));
+        var weight = initialWeight * quantity;
+        weightCell.textContent = weight;
+
+        updateTotal();
+    }
+}
+
+   // 페이지 로드 시 초기 무게 저장
+window.addEventListener('load', function () {
+    var weightCells = document.querySelectorAll('td:nth-child(4)');
+    weightCells.forEach(function (weightCell) {
+        var initialWeight = parseFloat(weightCell.textContent);
+        weightCell.setAttribute('data-initial-weight', initialWeight);
+    });
+    updateTotal();
+});
+// 추가: 마일리지 적용 함수
+    function applyMileage() {
+        // 입력된 마일리지
+        var mileageInput = document.getElementById('mileageInput').value;
+
+        // 보유 마일리지
+        var userMileage = parseFloat(document.querySelector('.user-mileage').textContent);
+        console.log('입력된 마일리지:' + mileageInput +', 보유 마일리지:'+ userMileage);
+
+        // 적용후 남은 마일리지
+        var sumMileage = userMileage - mileageInput;
+        document.getElementById('afuserMileage').value = sumMileage;
+
+        // 총 상품 주문금액
+        var totalAmount = parseFloat(document.querySelector('.total').textContent);
+
+        // 최종 결제 금액
+        var finalAmount = totalAmount;
+
+        // 입력된 마일리지가 보유 마일리지를 초과하지 않도록 제한
+        if (mileageInput > userMileage) {
+            alert("보유 마일리지를 초과하여 입력할 수 없습니다.");
+            return;
+        }
+        if (mileageInput == 0) {
+            document.getElementById('discountAmount').textContent = 0;
+        }
+
+        // 입력된 마일리지가 최대 총 결제 금액을 초과하지 않도록 제한
+        if (mileageInput > totalAmount) {
+        alert("최대 총 결제 금액을 초과하여 입력할 수 없습니다.");
+        return;
+        }
+
+        // 할인 금액은 입력된 마일리지만큼
+        var discountAmount = parseFloat(mileageInput);
+
+        // 추가: 총 적립 금액은 총 주문 금액의 일정 비율(예: 5%)로 설정
+        var rewardAmount = totalAmount * 0.05;
+
+        // 추가: 할인 금액과 적립 금액을 모달에 표시
+        document.getElementById('discountAmount').textContent = discountAmount;
+        document.getElementById('rewardAmount').textContent = rewardAmount;
+
+        // 최종 결제 금액은 총 주문 금액에서 할인 금액을 뺀 값
+        // 추가: 최종 결제 금액이 마이너스가 되지 않도록 제한
+        finalAmount = Math.max(totalAmount - discountAmount, 0);
+
+        // 모달 내부에 적용된 마일리지 정보를 적용
+        document.getElementById('totalAmount').textContent = totalAmount;
+        document.getElementById('total1').textContent = finalAmount;
+        console.log('최종 결제 금액:' + finalAmount);
+        }
+
+   // 총 무게 및 할인, 적립 등 업데이트
+   function updateTotal() {
+       var subtotalCells = document.querySelectorAll('.subtotal');
+       var totalCell = document.querySelector('.total');
+       var totalWeightCell = document.querySelector('#totalWeight'); // 추가: 총 무게 요소
+       var totalAmountCell = document.querySelector('#totalAmount');
+       var rewardAmountCell = document.getElementById('rewardAmount');
+       var finalAmountCell = document.getElementById('total1');
+       var discountAmount = 0;
+
+       var total = 0;
+       var totalWeight = 0; // 추가: 총 무게 초기화
+
+       subtotalCells.forEach(function(subtotalCell) {
+           var subtotal = parseFloat(subtotalCell.textContent);
+           total += subtotal;
+       });
+
+       // 총 무게 계산
+       var weightCells = document.querySelectorAll('td:nth-child(4)');
+       weightCells.forEach(function(weightCell) {
+           var weight = parseFloat(weightCell.textContent);
+           totalWeight += weight;
+       });
+
+       var rewardAmount = total * 0.05;
+       var finalAmount = total - discountAmount;
+
+       if (totalCell) {
+           totalCell.textContent = total;
+       }
+       if (totalWeightCell) {
+           totalWeightCell.textContent = totalWeight;
+       }
+       if (totalAmountCell) {
+           totalAmountCell.textContent = total;
+       }
+       if (rewardAmountCell) {
+           rewardAmountCell.textContent = rewardAmount;
+       }
+       if (finalAmountCell) {
+           finalAmountCell.textContent = finalAmount;
+       }
+   }
+</script>
+<script src="https://code.jquery.com/jquery-1.12.4.min.js"></script>
+<script src="https://cdn.iamport.kr/js/iamport.payment-1.1.5.js"></script>
+</body>
+</html>
