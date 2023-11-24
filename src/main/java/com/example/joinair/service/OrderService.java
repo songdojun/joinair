@@ -3,6 +3,7 @@ package com.example.joinair.service;
 
 import com.example.joinair.dto.ORDERS;
 import com.example.joinair.dto.ORDER_DETAIL;
+import com.example.joinair.entity.Product;
 import jakarta.servlet.http.HttpSession;
 import org.apache.ibatis.annotations.Param;
 
@@ -15,5 +16,8 @@ public interface OrderService {
 
     List<ORDER_DETAIL> getOrderDetails(@Param("orderId") int orderId);
     void savePaymentInformation(int orderId, int totalPrice);
+
+    public List<Product> getPurchasedProducts(String username);
+
 }
 

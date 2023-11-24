@@ -178,7 +178,7 @@
         <div class="mb-3">
             <label for="Pro_Code" class="form-label">상품 선택:</label>
             <select name="Pro_Code" id="Pro_Code" class="form-control">
-                <option th:each="product : ${productList}" th:value="${product.Pro_Code}" th:text="${product.Pro_Name}"></option>
+                <option th:each="product : ${purchasedProducts}" th:value="${product.Pro_Code}" th:text="${product.Pro_Name}"></option>
             </select>
         </div>
         <div class="mb-3">

@@ -41,4 +41,16 @@
         SELECT * FROM ORDER_DETAIL WHERE Orders_Num = #{orderId}
     </select>
 
+
+    <!-- 사용자가 결제한 상품 목록 가져오기 -->
+    <select id="getPurchasedProducts" resultType="com.example.joinair.entity.Product">
+        SELECT DISTINCT P.*
+        FROM PRODUCT P
+        JOIN ORDER_DETAIL OD ON P.PRO_NAME = OD.OD_PRO_NAME
+        JOIN ORDERS O ON OD.ORDERS_NUM = O.ORDERS_NUM
+        WHERE O.USER_ID = #{username}
+    </select>
+
+
+
 </mapper>

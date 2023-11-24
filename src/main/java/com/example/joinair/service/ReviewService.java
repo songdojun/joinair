@@ -20,6 +20,7 @@ public class ReviewService {
 
     private static ReviewRepository reviewRepository;
 
+
     @Autowired
     public ReviewService(ReviewRepository reviewRepository) {
         this.reviewRepository = reviewRepository;
@@ -96,4 +97,7 @@ public class ReviewService {
     public Page<Review> reviewListWithPagination(Pageable pageable) {
         return reviewRepository.findAllOrderedByRevNoWithPagination(pageable);
     }
+
+
+
 }

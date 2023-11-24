@@ -3,9 +3,10 @@ package com.example.joinair.service;
 import com.example.joinair.dto.ORDERS;
 import com.example.joinair.dto.ORDER_DETAIL;
 import com.example.joinair.dto.PAYMENT;
-import com.example.joinair.mapper.paymentMapper;
 import com.example.joinair.entity.Item;
+import com.example.joinair.entity.Product;
 import com.example.joinair.mapper.OrderMapper;
+import com.example.joinair.mapper.paymentMapper;
 import jakarta.servlet.http.HttpSession;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.security.core.Authentication;
@@ -166,4 +167,10 @@ public class OrderServiceImpl implements OrderService {
 
         paymentMapper.insertPayment(payment);
     }
+
+
+    public List<Product> getPurchasedProducts(String username) {
+        return orderMapper.getPurchasedProducts(username);
+    }
+
 }

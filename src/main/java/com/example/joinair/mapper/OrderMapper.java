@@ -2,6 +2,7 @@ package com.example.joinair.mapper;
 
 import com.example.joinair.dto.ORDERS;
 import com.example.joinair.dto.ORDER_DETAIL;
+import com.example.joinair.entity.Product;
 import org.apache.ibatis.annotations.Param;
 
 import java.util.List;
@@ -12,5 +13,9 @@ public interface OrderMapper {
     ORDERS getOrder(@Param("orderId") int orderId);
 
     List<ORDER_DETAIL> getOrderDetails(@Param("orderId") int orderId);
+
+
+    List<Product> getPurchasedProducts(String username);
+
 
 }

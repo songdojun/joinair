@@ -4,6 +4,7 @@ package com.example.joinair.controller;
 import com.example.joinair.dto.USERS;
 import com.example.joinair.entity.Product;
 import com.example.joinair.entity.Review;
+import com.example.joinair.service.OrderService;
 import com.example.joinair.service.ProductBuyService;
 import com.example.joinair.service.ReviewService;
 import jakarta.servlet.http.HttpSession;
@@ -32,15 +33,20 @@ public class ReviewController {
     @Autowired
     private ReviewService reviewService;
 
+    @Autowired
+    private OrderService orderService;
+
+    @Autowired
+    public ReviewController(OrderService orderService, ReviewService reviewService) {
+        this.orderService = orderService;
+        this.reviewService = reviewService;
+    }
 
     @Autowired
     private ProductBuyService productBuyService;
 
     @GetMapping("/review/write")
     public String showReviewForm(Model model, HttpSession session) {
-        List<Product> productList = productBuyService.productbuyList();
-        model.addAttribute("productList", productList);
-
         Authentication authentication = SecurityContextHolder.getContext().getAuthentication();
         String username = authentication.getName();
 
@@ -54,14 +60,16 @@ public class ReviewController {
             model.addAttribute("userMileage", user.getUser_Mileage());
         }
 
+        // 현재 사용자가 결제한 상품 목록 가져오기
+        List<Product> purchasedProducts = orderService.getPurchasedProducts(username);
 
-
-//        // 세션에서 User_Id를 가져와서 revWriter 설정
-//        String user_Id = (String) session.getAttribute("User_Id");
-//        model.addAttribute("revWriter", user_Id);
+        // 모델에 결제한 상품 목록 추가
+        model.addAttribute("purchasedProducts", purchasedProducts);
 
         return "reviewwrite";
     }
+
+
 
 
     @PostMapping("review/writepro")
