@@ -233,6 +233,7 @@
     </div>
 </nav>
 <!-- 상단 네비게이션 닫기 -->
+
 <!-- 장바구니 -->
 <div class="container mt-5">
     <h1 class="text-center mb-4">장바구니</h1>
@@ -258,17 +259,18 @@
                         <span th:text="${item.product.Pro_Name != null ? item.product.Pro_Name : ''}"></span>
                     </a>
                 </td>
-                <td class="price"
-                    th:text="${item.product.Pro_Price != null ? item.product.Pro_Price : ''}"></td>
+                <td class="price" th:text="${item.product.Pro_Price != null ? item.product.Pro_Price : ''}"></td>
                 <td>
-                    <input type="number" name="quantity_${item.product.Pro_Code}" th:value="${item.quantity}" class="form-control" style="width:60px;" readonly />
+                    <input type="number" name="quantity_${item.product.Pro_Code}" th:value="${item.quantity}"
+                           class="form-control" style="width:60px;" readonly />
                 </td>
                 <td th:text="${item.product != null ? item.product.Pro_Weight : ''}"></td>
 
                 <td class="subtotal"
                     th:text="${item.product.Pro_Price != null && item.quantity != null ? item.product.Pro_Price * item.quantity : ''}"></td>
                 <td>
-                    <a th:if="${session.cart != null}" th:attr="data-pro-code=${item.product.Pro_Code}" class="text-danger" onclick="removeItem(this)" href="/cart">X</a>
+                    <a th:if="${session.cart != null}" th:attr="data-pro-code=${item.product.Pro_Code}"
+                       class="text-danger" onclick="removeItem(this)" href="/cart">X</a>
                 </td>
             </tr>
             </tbody>
@@ -301,48 +303,54 @@
             </tr>
             </tfoot>
         </table>
+        <button type="button" class="btn btn-primary" style="margin: auto; display: block;" onclick="toggleOrderAndPayment()">주문하기</button><br>
 
     </form>
     <script>
-        function showOrderAndShippingInfo() {
+        function toggleOrderAndPayment() {
             var orderInfoSection = document.getElementById('orderInfo');
-            orderInfoSection.style.display = 'block';
-
             var shippingInfoSection = document.getElementById('shippingInfo');
-            shippingInfoSection.style.display = 'block';
-        }
+            var paymentButton = document.getElementById('paymentButton');
 
-        function removeItem(link) {
-            // 삭제 로직 추가
-        }
-
-        function openPaymentModal() {
-            // 결제 모달 열기 로직 추가
+            if (orderInfoSection.style.display === 'none') {
+                // 주문 정보 섹션과 배송 정보 섹션이 숨겨져 있을 때
+                orderInfoSection.style.display = 'block';
+                shippingInfoSection.style.display = 'block';
+                paymentButton.style.display = 'block'; // 결제 버튼 표시
+            } else {
+                // 주문 정보 섹션과 배송 정보 섹션이 표시되어 있을 때
+                orderInfoSection.style.display = 'none';
+                shippingInfoSection.style.display = 'none';
+                paymentButton.style.display = 'none'; // 결제 버튼 숨김
+            }
         }
     </script>
 </div>
 
 <!-- 주문자 정보 -->
-<div class="container mt-5">
+<div class="container mt-5" id="orderInfo" style="display: none;">
     <h1 class="text-center mb-4">주문자 정보</h1>
     <form method="post" action="/submit-customer-info-endpoint">
         <div class="form-group">
             <label for="customerName">주문자 이름:</label>
-            <input type="text" id="customerName" name="customerName" class="form-control" th:value="${#authentication.principal.User_Name}" readonly>
+            <input type="text" id="customerName" name="customerName" class="form-control"
+                   th:value="${#authentication.principal.User_Name}" readonly>
         </div>
         <div class="form-group">
             <label for="customerEmail">이메일:</label>
-            <input type="email" id="customerEmail" name="customerEmail" class="form-control" th:value="${#authentication.principal.User_Email}" readonly>
+            <input type="email" id="customerEmail" name="customerEmail" class="form-control"
+                   th:value="${#authentication.principal.User_Email}" readonly>
         </div>
         <div class="form-group">
             <label for="customerMobile">휴대 전화:</label>
-            <input type="tel" id="customerMobile" name="customerMobile" class="form-control" th:value="${#authentication.principal.User_Phone}" readonly>
+            <input type="tel" id="customerMobile" name="customerMobile" class="form-control"
+                   th:value="${#authentication.principal.User_Phone}" readonly>
         </div>
     </form>
 </div>
 
 <!-- 배송 정보 -->
-<div class="container mt-5">
+<div class="container mt-5" id="shippingInfo" style="display: none;">
     <h1 class="text-center mb-4">배송 정보</h1>
     <form method="post" action="/submit-shipping-info-endpoint">
         <!-- 배송지 정보 입력란 -->
@@ -352,7 +360,7 @@
         </div>
         <div class="form-group">
             <label for="recipientName">받는 사람:</label>
-            <input type="text" id="recipientName" name="recipientName" class="form-control" >
+            <input type="text" id="recipientName" name="recipientName" class="form-control">
         </div>
         <div class="form-group">
             <label for="orderDest">목적지:</label>
@@ -384,52 +392,45 @@
 </div>
 
 <!-- 결제 버튼 -->
-<!--<form method="post" action="/order/place" onsubmit="submitOrderForm(event)">-->
-<!--    <button type="submit" data-toggle="modal" data-target="#paymentModal" class="btn btn-primary" style="margin: auto; display: block;">결제</button><br>-->
-<!--</form>-->
-<button type="button" data-toggle="modal" data-target="#paymentModal" class="btn btn-primary" style="margin: auto; display: block;" onclick="openPaymentModal()">결제</button><br>
+<<button type="button" id="paymentButton" style="margin: auto; display: none;" data-toggle="modal" data-target="#paymentModal" class="btn btn-primary" onclick="openPaymentModal()">결제</button><br>
 
 
 <script>
     function submitOrderForm(event) {
-            applyMileage();
-           event.preventDefault(); // 기본 동작(페이지 전환)을 중지 리턴값 무시
+        event.preventDefault(); // 기본 동작(페이지 전환)을 중지 리턴값 무시
 
-           // 여기에서 추가적인 작업을 수행
+        // 여기에서 추가적인 작업을 수행
 
+        // 주문 폼 데이터
+        var formData = new FormData(event.target);
 
-           // 주문 폼 데이터
-           var formData = new FormData(event.target);
+        var finalAmount = parseFloat(document.getElementById('total1').textContent);
 
-           var finalAmount = parseFloat(document.getElementById('total1').textContent);
+        // 수정: 최종 결제 금액을 FormData에 추가
+        alert("최종 결제 금액 : " + finalAmount)
+        formData.append('finalAmount', finalAmount);
 
-           // 수정: 최종 결제 금액을 FormData에 추가
-           alert("최종 결제 금액 : " + finalAmount)
-           formData.append('finalAmount', finalAmount);
-
-           // 주문 요청 보내기
-           fetch('/order/place', {
-               method: 'POST',
-               body: formData,
-           })
-           .then(response => {
-               if (!response.ok) {
-                   throw new Error(`HTTP error! Status: ${response.status}`);
-               }
-               return response.text();  //추정원인 1 : 여기서 함수가 종료되서 다음께 실행이 안되지 않을까...?
-           })
-           .then(data => {
-               // 성공적으로 처리된 경우 모달 닫기 및 페이지 리로드
-               $('#paymentModal').hide(function() {
-                window.location.href = "/order/orderConfirm/" + data; // 여기서 data는 서버에서 반환한 주문 ID입니다.
-               });
-           })
-           .catch((error) => {
-               console.error('Error:', error);
-           });
-       }
-
-
+        // 주문 요청 보내기
+        fetch('/order/place', {
+                method: 'POST',
+                body: formData,
+            })
+            .then(response => {
+                if (!response.ok) {
+                    throw new Error(`HTTP error! Status: ${response.status}`);
+                }
+                return response.text(); //추정원인 1 : 여기서 함수가 종료되서 다음께 실행이 안되지 않을까...?
+            })
+            .then(data => {
+                // 성공적으로 처리된 경우 모달 닫기 및 페이지 리로드
+                $('#paymentModal').hide(function () {
+                    window.location.href = "/order/orderConfirm/" + data; // 여기서 data는 서버에서 반환한 주문 ID입니다.
+                });
+            })
+            .catch((error) => {
+                console.error('Error:', error);
+            });
+    }
 </script>
 
 
@@ -460,7 +461,7 @@
 
                 <label for="mileageInput">사용할 마일리지 입력:</label>
                 <!-- 추가: 사용자가 마일리지 입력할 수 있는 입력란 -->
-                <input type="number" id="mileageInput" value="0" onKeyup="this.value=this.value.replace(/[^0-9]/g,'');" name="mileageInput" class="form-control" placeholder="0" min="0" max="${userMileage}" />
+                <input type="number" id="mileageInput" value="" onKeyup="this.value=this.value.replace(/[^0-9]/g,'');" name="mileageInput" class="form-control" placeholder="0" min="0" max="${userMileage}" />
 
                 <button onclick="applyMileage()" class="btn btn-primary">마일리지 적용</button>
 
@@ -741,7 +742,9 @@ window.addEventListener('load', function () {
         window.location.href = "/payment/Deposit";
     }
 
+
 </script>
+
 <script src="https://code.jquery.com/jquery-1.12.4.min.js"></script>
 <script src="https://cdn.iamport.kr/js/iamport.payment-1.1.5.js"></script>
 </body>
