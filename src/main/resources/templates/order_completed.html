@@ -130,7 +130,7 @@
             <p class="text-center">
             <p class="text-center">
             <button class="btn btn-danger" id="confirmButton">확인</button>
-            <button class="btn btn-primary" id="additionalInfoButton">추가 정보</button>
+            <button class="btn btn-primary" id="additionalInfoButton">마이페이지</button>
         </p>
 
             <div id="additionalInfoBox">
@@ -145,15 +145,11 @@
                     window.location.href = 'index.html'; // 메인 페이지 URL로 변경 추후 수정
                 });
 
-                // 추가 정보 버튼 클릭 시 추가 정보 박스를 표시/숨김
+                // 확인 버튼 클릭 시 마이 페이지로 이동
                 document.getElementById('additionalInfoButton').addEventListener('click', function() {
-                    var infoBox = document.getElementById('additionalInfoBox');
-                    if (infoBox.style.display === 'none' || infoBox.style.display === '') {
-                        infoBox.style.display = 'block';
-                    } else {
-                        infoBox.style.display = 'none';
-                    }
+                    window.location.href = 'mypage.html'; // 메인 페이지 URL로 변경 추후 수정
                 });
+
             </script>
 
 

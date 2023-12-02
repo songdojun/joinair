@@ -12,8 +12,8 @@
     <script>
 
         function redirectToMyPage() {
-        // "/mypage" URL로 리디렉션
-        window.location.href = "/mypage";
+        // "/order_completed" URL로 리디렉션
+        window.location.href = "/order_completed";
     }
 
         // 아임포트 초기화 및 카드결제 요청
@@ -38,7 +38,7 @@
             if (rsp.success) {
                 var msg = '결제가 완료되었습니다.';
                 alert(msg);
-                // "/mypage" URL로 리디렉션하는 함수 호출
+                // "/order_completed" URL로 리디렉션하는 함수 호출
                 redirectToMyPage();
             } else {
                 var msg = '결제에 실패하였습니다.';
@@ -68,7 +68,7 @@
 <div class="container mt-5">
     <h1 class="text-center mb-4">주문 확인</h1>
     <div class="alert alert-success" role="alert">
-        주문이 완료되었습니다.
+        주문이 완료되었습니다. 결제를 완료해주세요.
     </div>
     <h3 class="text-center mb-4">주문 내용</h3>
     <div class="table-responsive">
