@@ -32,95 +32,38 @@
 
 </head>
 <style>
-      body {
-          background-image: url('your-background-image.jpg'); /* 배경 이미지 추가 */
-          background-size: cover;
-          color: #fff;
-      }
+    body {
+            background-color: #f8f9fa; /* Set a light background color */
+        }
 
-      .error-container {
-          text-align: center;
-          padding: 100px;
-          border-radius: 15px;
-          box-shadow: 0 4px 8px rgba(0, 0, 0, 0.3);
-          background-color: rgba(0, 0, 0, 0.7); /* 투명한 배경 색상 */
-          animation: fadeIn 1s; /* 페이드 인 애니메이션 */
-      }
+        .error-container {
+            text-align: center;
+            margin-top: 0px;
+        }
 
-      @keyframes fadeIn {
-          from {
-              opacity: 0;
-          }
-          to {
-              opacity: 1;
-          }
-      }
+        .error-title {
+            font-size: 2.5em;
+            margin-top: 100px;
+            color: #dc3545; /* Red color for the error title */
+        }
 
-      h1 {
-          font-family: 'Pacifico', cursive; /* 특별한 폰트 적용 */
-          font-size: 3em;
-          margin-bottom: 20px;
-      }
+        .error-message {
+            font-size: 1.2em;
+            margin-top: 50px;
+            color: #6c757d; /* Dark gray color for the error message */
+        }
 
-      .lead {
-          font-size: 1.5em;
-          margin-bottom: 30px;
-      }
-
-      .error-message {
-          font-size: 1.2em;
-          margin-bottom: 20px;
-      }
-
-      .btn {
-          font-size: 1.5em;
-          padding: 10px 20px;
-          margin-top: 10px;
-      }
-
-        body {
-           font-family: 'Malgun Gothic', sans-serif;
-       }
-
-       .nav-link strong {
-           font-family: 'Malgun Gothic', sans-serif;
-           font-weight: bold;
-       }
-
-
-
-
-      #tempaltemo_footer {
+        .home-button {
+            margin-top: 30px;
+        }
+        #tempaltemo_footer {
         position: fixed;
         bottom: 0;
         width: 100%;
         z-index: 1000; /* 다른 요소 위에 footer 표시 */
         }
 
-       .card {
-          border: none;
-          background-color: #f8f9fa;
-          transition: transform 0.3s;
-          /* 헤더와 타이틀 부분에 사용할 폰트와 색상을 지정. */
-          font-family: 'Your Chosen Font', sans-serif;
-          color: #2A0A0A;
-      }
 
-      .card:hover {
-          transform: scale(1.05);
-      }
-
-      h5.card-title {
-          font-size: 18px;
-          font-weight: bold;
-          /* 각 카드의 타이틀에 대한 폰트 사이즈와 굵기를 지정. */
-      }
-
-      p.card-text {
-          font-size: 16px;
-          color: #555;
-          /* 각 카드의 텍스트에 대한 폰트 사이즈와 색상을 지정. */
-      }
 </style>
 <body>
 <!-- 첫 번째 네브바 -->
@@ -257,49 +200,17 @@
     </div>
 </div>
 <!-- 에러 섹션을 위한 컨테이너 -->
-<div class="container mt-5">
-    <div class="row justify-content-center">
-        <div class="col-md-8 error-container">
-<!--            <h1 class="display-1 mb-4">앗! 뭔가 잘못되었습니다.</h1>-->
-            <p class="lead">
-                죄송합니다만, 오류가 발생한 것 같습니다. <br/>
+<div class="container error-container">
+    <div class="row justify-content-center align-items-center vh-120">
+        <div class="col-md-6 text-center">
+            <h1 class="display-10 error-title">로그인 실패</h1>
+            <p class="lead error-message">죄송합니다. 로그인에 실패했습니다. 아이디와 비밀번호를 확인하고 다시 시도하세요.</p>
+            <a th:href="@{/index}" class="btn btn-primary mt-3 home-button">홈으로</a>
+            <a th:href="@{/login}" class="btn btn-primary mt-3 home-button">로그인</a>
 
-            </p>
-            <!-- 에러 메시지 -->
-            <div th:if="${status == 401}" class="error-message">
-                <p class="text-danger">권한이 없습니다. 로그인이 필요합니다.<br/>
-                    나중에 다시 시도하거나 홈페이지로 돌아가세요.
-                </p>
-            </div>
-            <div th:if="${status == 403}" class="error-message">
-                <p class="text-danger">접근이 금지되었습니다.<br/>
-                    나중에 다시 시도하거나 홈페이지로 돌아가세요.
-                </p>
-            </div>
-            <div th:if="${status == 404}" class="error-message">
-                <p class="text-danger">페이지를 찾을 수 없습니다.<br/>
-                    나중에 다시 시도하거나 홈페이지로 돌아가세요.
-                </p>
-            </div>
-            <div th:if="${status == 500}" class="error-message">
-                <p class="text-danger">서버에서 오류가 발생했습니다.<br/>
-                    나중에 다시 시도하거나 홈페이지로 돌아가세요.
-                </p>
-            </div>
-            <div th:unless="${status == 401 or status == 403 or status == 404 or status == 500}" class="error-message">
-                <p class="text-danger">예기치 못 한 오류가 발생하였습니다. <br/>
-                    나중에 다시 시도하거나 홈페이지로 돌아가세요.
-                </p>
-            </div>
-            <!-- 홈 및 로그인 버튼 -->
-            <div class="mt-4">
-                <a th:href="@{/}" class="btn btn-danger btn-lg mx-2">홈페이지로 이동</a>
-                <a th:href="@{/login}" class="btn btn-secondary btn-lg mx-2">로그인</a>
-            </div>
         </div>
     </div>
 </div>
-
 <!-- 새로운 내용 끝 -->
 
 <!-- 새로운 내용 끝 -->

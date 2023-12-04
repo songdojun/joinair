@@ -327,4 +327,10 @@ public class UserController {
         return "redirect:/welcome"; // 업데이트 후 환영 페이지로 이동
     }
 
+    @GetMapping("/login-error")
+    public String showLoginErrorPage() {
+
+        return "login-error";
+    }
+
 }
