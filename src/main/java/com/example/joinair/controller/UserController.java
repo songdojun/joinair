@@ -270,8 +270,8 @@ public class UserController {
 
 
     @GetMapping("/welcome")
-    public String showWelcomePage(Model model, HttpSession session) {
-        String userId = (String) session.getAttribute("User_Id");
+    public String showWelcomePage(Model model, Principal principal) {
+        String userId = principal.getName(); // 현재 로그인한 사용자의 ID 가져오기
         if (userId == null) {
             return "redirect:/login"; // 사용자 ID가 없으면 로그인 페이지로 리디렉션
         }
@@ -298,33 +298,35 @@ public class UserController {
 
     @GetMapping("/profile")
     public String showProfilePage(Model model, HttpSession session) {
-        System.out.println("Personal Profile Update page Show!!");
-        String userId = (String) session.getAttribute("User_Id");
-        if (userId == null) {
-            return "redirect:/login"; // 사용자 ID가 없으면 로그인 페이지로 리디렉션
+        System.out.println("개인 프로필 업데이트 페이지 표시!!");
+        Authentication authentication = SecurityContextHolder.getContext().getAuthentication();
+
+        // 로그인 여부 확인 및 로그인되지 않은 경우 로그인 페이지로 리다이렉트
+        if (authentication == null || !authentication.isAuthenticated()) {
+            return "redirect:/login";
         }
 
-        // 사용자 정보를 가져와 모델에 추가
+        // Principal에서 직접 사용자 정보 가져오기
+        String userId = authentication.getName();
+
+        // 여기에서 필요한 사용자 정보를 모델에 추가
         USERS user = userService.getUserById(userId);
         model.addAttribute("user", user);
-        model.addAttribute("userId", userId);
+
         return "profile"; // profile.html 템플릿 반환
     }
     // ---------사용자 개인정보 변경 메소드 추가----------------------
     @PostMapping("/update-profile")
-    public String updateProfile(@ModelAttribute("user") USERS user, HttpSession session) {
-        System.out.println("Personal Profile Update Method Execute");
+    public String updateProfile(@ModelAttribute("user") USERS user, Principal principal, HttpSession session) {
+        System.out.println("개인 프로필 업데이트 메소드 실행");
 
-        String userId = (String) session.getAttribute("User_Id");
-        if (userId == null) {
-            return "redirect:/login"; // 사용자 ID가 없으면 로그인 페이지로 리디렉션
-        }
+        String userId = principal.getName(); // 현재 로그인한 사용자의 ID 가져오기
 
         // 사용자 정보 업데이트
         user.setUser_Id(userId);
         userService.updateUser(user);
 
-        return "redirect:/welcome"; // 업데이트 후 환영 페이지로 이동
+        return "redirect:/mypage"; // 업데이트 후 마이 페이지로 이동
     }
 
     @GetMapping("/login-error")
